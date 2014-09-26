@@ -1,0 +1,91 @@
+
+#carousel-111948{
+    width: 1000px;
+    
+}
+
+#carousel-144942 {
+    width: 545px;
+    margin-left: 420px;
+    
+}
+
+.row {
+    margin: auto;
+    width: 1000px;
+    
+}
+
+.row2 {
+    margin: auto;
+    width: 980px;
+    padding-left: 24px;
+    padding-top: 20px;
+}
+
+.twoyear {
+    margin-left: 24px;
+    
+}
+
+.year {
+    background-color: #E0D4CF;
+    padding: 3px;
+    height: 330;
+    margin-left: 5px;
+    margin-right: 3px;
+    float: left; 
+}
+
+.semester {
+    background-color: #ECE5E2;
+    width: 220px;
+    height: 300px;
+    margin: 3px;
+    float: left;
+    text-align: center;
+    
+    
+}
+
+.core {
+    background-color: #ECE5E2;
+    width: 390px;
+    height: 300px;
+    margin: 3px;
+    float: left;
+    
+}
+
+.classContainer {
+    background-color: #E0D4CF;
+    padding: 3px;
+    height: 330;
+    margin-left: 16px;
+    margin-right: 3px;
+    float: left; 
+}
+
+
+.classholder {
+    background-color: #ECE5E2;
+    width: 480px;
+    height: 300px;
+    margin: 3px;
+    float: left;
+    
+    
+}
+
+.carousel-inner > .item {
+    margin-left: 0px;
+    margin-right: 0px;
+    
+}
+
+.carousel-control{
+    width: 5%;
+
+}
+
+
