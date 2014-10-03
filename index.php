@@ -33,13 +33,15 @@
 </head>
 
 <body>
+ 
+ <div class="titlebanner">
+ </div>
+  
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
-			<div class="jumbotron">
-				<h1>
-					THIS IS YOUR CHECKLIST
-				</h1>
+			<div class="checklist_box">
+				<img src="img/checklist.png">
 				
 			</div>
 		</div>
@@ -124,7 +126,7 @@
         </div>
         
 	<div class="row clearfix">
-	  <div class="row2" >
+	  <div class="row3" >
 	  <div class="col-md-4 column">
 						<div class= "search"> Search </div>
 			  </div>

@@ -16,6 +16,29 @@ body{
     
 }
 
+
+.checklist_box{
+    background-image: url("../img/checklist_box.png");
+    width: 744px;
+    height: 473px;
+    margin: 24px;
+    padding: 20px;
+    
+}
+
+.checklist{
+    
+}
+
+.titlebanner{
+      background-image: url("../img/title_banner.png");
+      width: 827px;
+      height: 68px;
+      margin-top: 20px;
+      
+    
+}
+
 .row {
     margin: auto;
     width: 800px;
@@ -25,7 +48,14 @@ body{
 .row2 {
     margin: auto;
     width: 800px;
-    padding-left: 24px;
+    padding-left: 23px;
+    padding-top: 20px;
+}
+
+.row3 {
+    margin: auto;
+    width: 800px;
+    padding-left: 18px;
     padding-top: 20px;
 }
 
