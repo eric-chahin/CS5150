@@ -2283,10 +2283,20 @@ input[type="button"].btn-block {
 
 .glyphicon-chevron-left:before {
   content: "\e079";
+  /*customize the arrow*/
+  color: #000;
+  font-size: 2.2em;
+  position: relative;
+  right: 20px;
 }
 
 .glyphicon-chevron-right:before {
   content: "\e080";
+  /*customize the arrow*/
+  color: #000;
+  font-size: 2.2em;
+  position: relative;
+  right: 5px;
 }
 
 .glyphicon-plus-sign:before {
