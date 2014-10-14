@@ -12,7 +12,8 @@ $(document).ready(function() {
 				data: { query: query_value },
 				cache: false,
 				success: function(html){
-					$("ul#results").html(html);
+					$("div#results").html(html);
+					recreateExistingDivs();
 					applyrun();
 				}
 			});
@@ -27,10 +28,10 @@ $(document).ready(function() {
 
 		// Do Search
 		if (search_string == '') {
-			$("ul#results").fadeOut();
+			$("div#results").fadeOut();
 			$('h4#results-text').fadeOut();
 		}else{
-			$("ul#results").fadeIn();
+			$("div#results").fadeIn();
 			$('h4#results-text').fadeIn();
 			$(this).data('timer', setTimeout(search, 100));
 		};

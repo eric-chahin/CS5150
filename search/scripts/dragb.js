@@ -43,11 +43,6 @@ function handleDragStart(e) {
   
   window.console && console.log(e, e.dataTransfer);
   window.foo = e;
-  
-  var thereturn = e.dataTransfer.setData('DownloadURL',  "image/png:vivianbestmanagerever.png:http://example.com/example-download-data");
-  
-  console.log( thereturn );
-
   if (ENABLE_GHOST_COL) {
     draggingColumn = dragSrc.cloneNode(true);
     draggingColumn.style.display = 'none';
@@ -61,7 +56,6 @@ function handleDragOver(e) {
   if (e.preventDefault) {
     e.preventDefault(); // Allows us to drop.
   }
-
   if (ENABLE_GHOST_COL) {
     var mousePos = mouseCoords(e);
     draggingColumn.style.display = 'block';
@@ -78,24 +72,19 @@ function handleDragOver(e) {
 }
 
 function handleDragLeave(e) {
-  this.removeClassName('over');
+    this.removeClassName('over');
+  console.log("does this happen multiple times");
 }
 
 function handleDrop(e) {
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
-
   // Don't do anything if we're dropping on the same column we're dragging.
   if (dragSrc != this) {
+    console.log("we are suppose to be this");
     dragSrc.innerHTML = this.innerHTML;
     this.innerHTML = e.dataTransfer.getData('text/html');
-
-    // Set number of times the column has been moved.
-    // var count = this.querySelector('.count');
-    // var newCount = parseInt(count.getAttribute('data-col-moves')) + 1;
-    // count.setAttribute('data-col-moves', newCount);
-    // count.innerText = 'moves: ' + newCount;
   }
 
   return false;
@@ -133,25 +122,18 @@ var cols = document.querySelectorAll('.column');
 });
 
 
-// document.querySelector('#one').addEventListener('mousedown',function(e){ console.log('mousedown',e); })
-// document.querySelector('#one').addEventListener('mousemove',function(e){ console.log('mousemove',e); })
-
-function simulateClick() {
-  var evt = document.createEvent("MouseEvents");
-  evt.initMouseEvent("mousedown", true, true, window,
-    0, 75, 335, 75, 219, false, false, false, false, 0, null);
-  var cb = document.querySelector('#one'); 
-  var canceled = !cb.dispatchEvent(evt);
-  
-  var evt2 = document.createEvent("MouseEvents");
-  evt2.initMouseEvent("mousemove", true, true, window,
-    0, 87, 345, 87, 229, false, false, false, false, 0, null);
-  var cb2 = document.querySelector('#one'); 
-  var canceled2 = !cb2.dispatchEvent(evt2);
-}
-
 //end of applyrun()
 };
+
+function recreateExistingDivs() { 
+  var nodes = $( "#resultspar" ).children();
+  console.log(nodes);
+  $( "#resultspar" ).remove();
+  for(var i = 0; i< nodes.length;i++){
+    $("#permanent").append("<div id='resultspar'></div>");
+    $("#resultspar").append("<div class='column'" + "draggable='true'>" + nodes[i].innerHTML + "</div>");
+  }
+}
 
 
 //when page is finished loading, applyrun() is called
