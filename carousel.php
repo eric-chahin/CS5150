@@ -21,14 +21,14 @@
                                       
                                               echo ('<div class="semestertitle"><img src= "'.$img.'"></div>');
                                               echo ('
-                                                     <div class="hexagon">CS 2110</div>
-                                                     <div class="hexagon">CS 4410</div>
-                                                     <div class="hexagonLeft">CS 3110</div>
-                                                     <div class="hexagon">CS 3410</div>
-                                                     <div class="hexagon">CS 3410</div>
-                                                     <div class="hexagon">CS 3410</div>
-                                                     <div class="hexagonLeft">CS 3110</div>
-                                                     <div class="hexagon">CS 3410</div>
+                                                     <div class="hexagon dragcolumn">CS 1110</div>
+                                                     <div class="hexagon dragcolumn">MATH 1910</div>
+                                                     <div class="hexagonLeft dragcolumn">CHEM 2090</div>
+                                                     <div class="hexagon dragcolumn">ENGL 1210</div>
+                                                     <div class="hexagon dragcolumn">PSYCH 1101</div>
+                                                     <div class="hexagon dragcolumn"></div>
+                                                     <div class="hexagonLeft dragcolumn"></div>
+                                                     <div class="hexagon dragcolumn"></div>
                                                    </div>
                                                    ');
                                               if ($i % 2 == 0) {

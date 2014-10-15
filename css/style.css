@@ -18,7 +18,7 @@ body{
 
 
 .checklist_box{
-    background-image: url("../img/checklist_box.png");
+    background-image: url("../img/checklist_combined.png");
     width: 744px;
     height: 473px;
     margin: 24px;
@@ -146,9 +146,10 @@ body{
 .hexagonLeft{
     width: 67px;
     height: 48px;
-    padding-top: 27px;
-    margin-left: 39px;
+    padding-top: 21px;
+    padding-bottom: 6px;
     margin-bottom: -14px;
+    margin-left: 39px;
     float: left;
     background-image: url(../img/hexagon.png);
     background-size: contain;
@@ -160,7 +161,8 @@ body{
 .hexagon{
     width: 67px;
     height: 48px;
-    padding-top: 27px;
+    padding-top: 21px;
+    padding-bottom: 6px;
     margin-bottom: -14px;
     margin-left: 3px;
     float: left;
@@ -168,13 +170,15 @@ body{
     background-size: contain;
     text-align: center;
     color: #FFFFFF;
-    
+
 }
+
 
 .hexagonCore{
     width: 67px;
     height: 49px;
-    padding-top: 27px;
+    padding-top: 21px;
+    padding-bottom: 6px;
     margin-left: 3px;
     float: left;
     background-image: url(../img/hexagon.png);
@@ -203,6 +207,62 @@ body{
 .carousel-control{
     width: 5%;
 
+}
+.dragcolumn.over {
+  /*background-image: url(../img/hexagon_border.png);
+   outline: 2px dashed #86ccde;*/
+
+}
+
+.dragcolumnchecklist.over {
+    border: 1px dashed #86ccde;
+    margin-top: -1px;
+    /*background-image: url(../img/checklist_border_wide.png);*/
+}
+
+
+.classRow{
+    width: 200px;
+    height: 14px;
+    padding-left: 5px;
+    float: left;
+    color: #3c587e;
+    font-size: 11px;
+}
+
+.classRowLast{
+    width: 205px;
+    height: 14px;
+    margin-left: 5px;
+    margin-bottom: 43px;
+    float: left;
+    color: #3c587e;
+    font-size: 11px;
+}
+
+
+.classleftrow{
+    width: 205px;
+    height: 266px;
+    margin-top: 100px;
+    margin-left: 85px;
+    float: left;
+}
+
+.classrightrow{
+    width: 205px;
+    height: 365px;
+    margin-top: 100px;
+    margin-left: 170px;
+    float: left;
+}
+
+.classrightrow{
+    width: 205px;
+    height: 365px;
+    margin-top: 100px;
+    margin-left: 170px;
+    float: left;
 }
 
 
