@@ -26,6 +26,14 @@ body{
     
 }
 
+.login_box{
+    background-image: url("../img/login_box.png");
+    width: 502px;
+    height: 474px;
+    margin: 24px;
+    padding: 20px;
+}
+
 .checklist{
     
 }
@@ -264,5 +272,22 @@ body{
     margin-left: 170px;
     float: left;
 }
+
+.login_title{
+    width: 79px;
+    height: 20px;
+    margin-top: 14px;
+    margin-left: 220px;
+    background-image: url("../img/text_login.png")
+}
+
+.register_title{
+    width: 97px;
+    height: 20px;
+    margin-top: 14px;
+    margin-left: 213px;
+    background-image: url("../img/text_register.png")
+}
+
 
 

@@ -14,10 +14,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-    <link rel="stylesheet/less" href="less/bootstrap.less" type="text/css">
-    <link rel="stylesheet/less" href="less/responsive.less" type="text/css">
-    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
-    <script src="js/less-1.3.3.min.js"></script>
+  <link href="css/mybootstrap.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -38,38 +36,151 @@
 
 <body>
 
-<div class="container" style="margin-top:30px">
-<div class="col-md-4">
-<div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Sign In</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form name="login" action="login_exec.php" method="post" role="form">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Username" name="username" type="username" autofocus="">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <a href="index.php" class="btn btn-sm btn-success">Login</a>
-                                </div>
-                                <div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <a href="registration.php" class="btn btn-sm btn-success">Register</a>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
+<div class="titlebanner">
 </div>
+
+    <div class="container"> 
+     <div class="row clearfix">
+      <div class="col-md-12">
+        <div class="login_box">
+        <div id="loginbox" style="margin-top:40px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Sign In</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+                    </div>     
+
+                    <div style="padding-top:25px" class="panel-body" >
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                            
+                        <form id="loginform" class="form-horizontal" role="form">
+                                    
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="username or email">                                        
+                                    </div>
+                                
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
+                                    </div>
+                                    
+
+                                
+                            <div class="input-group">
+                                      <div class="checkbox">
+                                        <label>
+                                          <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                                        </label>
+                                      </div>
+                                    </div>
+
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <!-- Button -->
+
+                                    <div class="col-sm-12 controls">
+                                      <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12 control">
+                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                                            Don't have an account! 
+                                        <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+                                            Sign Up Here
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </form>     
+
+
+
+                        </div>                     
+                    </div>  
+        </div>
+        <div id="signupbox" style="display:none; margin-top:5px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign Up</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
+                        </div>  
+                        <div class="panel-body" >
+                            <form id="signupform" class="form-horizontal" role="form">
+                                
+                                <div id="signupalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+                                    
+                                
+                                  
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="username" class="col-md-3 control-label">Username</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="username" placeholder="Username">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="icode" class="col-md-3 control-label">Confirm Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <!-- Button -->                                        
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button> 
+                                    </div>
+                                </div>
+                                
+                            </form>
+                         </div>
+                    </div>
+
+               
+               </div>
+               </div> 
+         </div> 
+    </div>
+  </div>
+
+
+<!-- <div class="container"> 
+  <div class="row clearfix">
+    <div class="col-md-12">
+      <div class="login_box">
+        <div class='login_title'>
+        </div>
+        <form class='login_field' name= "login" action= "login_exec.php">
+          username: <input type="text" placeholder="username" 
+        </form>
+        <div class='register_title'>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
-</html>
+</html> -->
+

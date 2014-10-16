@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+f<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -30,13 +30,13 @@
 <script type="text/javascript">
 function validateForm()
 {
-var a=document.forms["reg"]["fname"].value;
-var b=document.forms["reg"]["lname"].value;
-var c=document.forms["reg"]["mname"].value;
-var d=document.forms["reg"]["address"].value;
-var e=document.forms["reg"]["contact"].value;
-var g=document.forms["reg"]["pic"].value;
-var h=document.forms["reg"]["pic"].value;
+var a=document.getElementById('fname').value;
+var b=document.getElementById('lname').value;
+var c=document.getElementById('mname').value;
+var d=document.getElementById('address').value;
+var e=document.getElementById('contact').value;
+var g=document.getElementById('username').value;
+var h=document.getElementById('password').value;
 if ((a==null || a=="") && (b==null || b=="") && (c==null || c=="") && (d==null || d=="") && (e==null || e==""))
   {
   alert("All Field must be filled out");
@@ -103,31 +103,31 @@ if (h==null || h=="")
   </tr>
   <tr>
     <td width="95"><div align="right">First Name:</div></td>
-    <td width="171"><input type="text" name="fname" /></td>
+    <td width="171"><input type="text" name="fname" id="fname"/></td>
   </tr>
   <tr>
     <td><div align="right">Last Name:</div></td>
-    <td><input type="text" name="lname" /></td>
+    <td><input type="text" name="lname" id="lname"/></td>
   </tr>
   <tr>
     <td><div align="right">Gender:</div></td>
-    <td><input type="text" name="mname" /></td>
+    <td><input type="text" name="mname" id="mname"/></td>
   </tr>
   <tr>
     <td><div align="right">Address:</div></td>
-    <td><input type="text" name="address" /></td>
+    <td><input type="text" name="address" id="address"/></td>
   </tr>
   <tr>
     <td><div align="right">Contact No.:</div></td>
-    <td><input type="text" name="contact" /></td>
+    <td><input type="text" name="contact" id="contact"/></td>
   </tr>
  <tr>
     <td><div align="right">Username:</div></td>
-    <td><input type="text" name="username" /></td>
+    <td><input type="text" name="username" id="username"/></td>
   </tr>
  <tr>
     <td><div align="right">Password:</div></td>
-    <td><input type="text" name="password" /></td>
+    <td><input type="text" name="password" id="password"/></td>
   </tr>
   <tr>
     <td><div align="right"></div></td>
