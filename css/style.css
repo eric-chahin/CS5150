@@ -65,6 +65,7 @@ body{
     width: 800px;
     padding-left: 18px;
     padding-top: 20px;
+    margin-bottom: 50px;
 }
 
 .twoyear {
@@ -88,6 +89,13 @@ body{
 
 .coursetitle{
     width: 340px;
+    margin: 10px;
+    margin-right: -13px;
+    text-align: center;
+}
+
+.searchtitle{
+    width: 300px;
     margin: 10px;
     margin-right: -13px;
     text-align: center;
@@ -118,15 +126,28 @@ body{
     
 }
 
+
 .search {
     width: 320px;
     height: 300px;
     margin-left: 5px;
     margin-right: 5px;
     padding: 15px;
-    float: left;
     background-image: url("../img/search_box.png");
+    z-index:300;
+    float: left;
     
+}
+
+.search input{
+background-color:black;
+color:white;
+border: 1px solid #ffffff;
+border-radius: 7px;
+display:block; height:28px; width:260px;
+
+
+clear:left;
 }
 
 .classContainer {

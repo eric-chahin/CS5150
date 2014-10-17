@@ -128,6 +128,7 @@ function attachColumnListener(col) {
   col.addEventListener('dragover', handleDragOver);
   col.addEventListener('dragleave', handleDragLeave);
   col.addEventListener('dragend', handleDragEnd);
+  
 }
 
 

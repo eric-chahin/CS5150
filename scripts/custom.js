@@ -13,8 +13,8 @@ $(document).ready(function() {
 				cache: false,
 				success: function(html){
 					$("div#results").html(html);
-					recreateExistingDivs();
-					applyrun();
+					//recreateExistingDivs();
+					//applyrun();
 				}
 			});
 		}return false;    

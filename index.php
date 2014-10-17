@@ -137,8 +137,24 @@
         
 	<div class="row clearfix">
 	  <div class="row3" >
-	  <div class="col-md-4 column">
-						<div class= "search"> Search </div>
+           
+	  <div class="col-md-4 column" style="z-index: 1;">
+
+						<div class= "search">
+                                                 <div class= "searchtitle">
+                                                 <img src= "img/text_search.png">
+                                                 <br><br>
+                                                 
+                                                  				<!-- Main Input -->
+		<input type="text" id="search" autocomplete="off">
+</div>
+		<!-- Show Results -->
+		<h4 id="results-text">Showing results for: <b id="search-string"></b></h4>
+<p>
+		<div id="results"></div>
+</p>
+<p>
+                 </div>        
 			  </div>
 		<div class="col-md-8 column">
 			<div class="carousel slide" id="carousel-144942" data-interval="false">
