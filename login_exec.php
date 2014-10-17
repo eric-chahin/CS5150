@@ -20,9 +20,9 @@
 		return mysql_real_escape_string($str);
 	}
  
-	//Sanitize the POST values
-	$username = clean($_POST['username']);
-	$password = clean($_POST['password']);
+	//Sanitize the POST values (temporariliy removed call to clean function)
+	$user = $_POST['login-username'];
+	$pass = $_POST['login-password'];
  
 	//Input Validations
 	if($username == '') {
@@ -35,27 +35,27 @@
 	}
  
 	//If there are input validations, redirect back to the login form
-	if($errflag) {
-		$_SESSION['ERRMSG_ARR'] = $errmsg_arr;
-		session_write_close();
-		header("location: login.php");
-		exit();
-	}
+//	if($errflag) {
+//		$_SESSION['ERRMSG_ARR'] = $errmsg_arr;
+//		session_write_close();
+//		header("location: login.php");
+//		exit();
+//	}
  
 	//Create query
-	$qry="SELECT * FROM member WHERE username='$username' AND password='$password'";
+	$qry="SELECT COUNT(username) FROM member WHERE username='$user' AND password='$pass'";
 	$result=mysql_query($qry);
- 
+    $rows = mysql_fetch_array($result);
 	//Check whether the query was successful or not
 	if($result) {
-		if(mysql_num_rows($result) > 0) {
+		if($rows[0]==1) {
 			//Login Successful
-			session_regenerate_id();
-			$member = mysql_fetch_assoc($result);
-			$_SESSION['SESS_MEMBER_ID'] = $member['mem_id'];
-			$_SESSION['SESS_FIRST_NAME'] = $member['username'];
-			$_SESSION['SESS_LAST_NAME'] = $member['password'];
-			session_write_close();
+		//	session_regenerate_id();
+		//	$member = mysql_fetch_assoc($result);
+		//	$_SESSION['SESS_MEMBER_ID'] = $member['mem_id'];
+		//	$_SESSION['SESS_FIRST_NAME'] = $member['username'];
+		//	$_SESSION['SESS_LAST_NAME'] = $member['password'];
+		//	session_write_close();
 			header("location: index.php");
 			exit();
 		}else {

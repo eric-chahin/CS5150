@@ -32,6 +32,65 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript">
+    function validateSignupForm()
+    {
+    var a=document.getElementById('signup-email').value;
+    var b=document.getElementById('signup-username').value;
+    var c=document.getElementById('signup-password').value;
+    var d=document.getElementById('signup-password2').value;
+    
+    if ((a==null || a=="") && (b==null || b=="") && (c==null || c=="") && (d==null || d==""))
+    {
+        alert("All Field must be filled out");
+        return false;
+    }
+    if (a==null || a=="")
+    {
+        alert("Email must be filled out");
+        return false;
+    }
+    if (b==null || b=="")
+    {
+        alert("Username must be filled out");
+        return false;
+    }
+    if (c==null || c=="")
+    {
+        alert("Password must be filled out");
+        return false;
+    }
+    if (d==null || d=="")
+    {
+        alert("Must confirm password");
+        return false;
+    }
+    if (c!=d) {
+        alert("Passwords do not match");
+        return false;
+    }
+}
+</script>
+
+<script type="text/javascript">
+function validateLoginForm()
+{
+    var a=document.getElementById('login-username').value;
+    var b=document.getElementById('login-password').value;
+
+    if (a==null || a=="")
+    {
+        alert("Username must be filled out");
+        return false;
+    }
+    if (b==null || b=="")
+    {
+        alert("Password must be filled out");
+        return false;
+    }
+}
+</script>
+
 </head>
 
 <body>
@@ -39,11 +98,11 @@
 <div class="titlebanner">
 </div>
 
-    <div class="container"> 
+    <div class="container">
      <div class="row clearfix">
       <div class="col-md-12">
         <div class="login_box">
-        <div id="loginbox" style="margin-top:40px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+        <div id="loginbox" style="margin-top:40px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info" >
                     <div class="panel-heading">
                         <div class="panel-title">Sign In</div>
@@ -54,16 +113,16 @@
 
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                             
-                        <form id="loginform" class="form-horizontal" role="form">
+                        <form id="loginform" class="form-horizontal" role="form" action="login_exec.php" method="post" onsubmit="return validateLoginForm()">
                                     
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="username or email">                                        
+                                        <input id="login-username" type="text" class="form-control" name="login-username" value="" placeholder="username">
                                     </div>
                                 
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
+                                        <input id="login-password" type="password" class="form-control" name="login-password" placeholder="password">
                                     </div>
                                     
 
@@ -71,7 +130,7 @@
                             <div class="input-group">
                                       <div class="checkbox">
                                         <label>
-                                          <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                                          <input id="login-remember" type="checkbox" name="login-remember" value="1"> Remember me
                                         </label>
                                       </div>
                                     </div>
@@ -81,7 +140,7 @@
                                     <!-- Button -->
 
                                     <div class="col-sm-12 controls">
-                                      <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+                                       <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Login</button>
 
                                     </div>
                                 </div>
@@ -111,7 +170,7 @@
                             <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
                         </div>  
                         <div class="panel-body" >
-                            <form id="signupform" class="form-horizontal" role="form">
+                            <form id="signupform" class="form-horizontal" role="form" action="code_exec.php" method="post" onsubmit="return validateSignupForm()">
                                 
                                 <div id="signupalert" style="display:none" class="alert alert-danger">
                                     <p>Error:</p>
@@ -123,34 +182,34 @@
                                 <div class="form-group">
                                     <label for="email" class="col-md-3 control-label">Email</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control" name="signup-email" id="signup-email"placeholder="Email Address">
                                     </div>
                                 </div>
                                     
                                 <div class="form-group">
                                     <label for="username" class="col-md-3 control-label">Username</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="username" placeholder="Username">
+                                        <input type="text" class="form-control" name="signup-username" id="signup-username" placeholder="Username">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="col-md-3 control-label">Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                        <input type="password" class="form-control" name="signup-password" id="signup-password" placeholder="Password">
                                     </div>
                                 </div>
                                     
                                 <div class="form-group">
                                     <label for="icode" class="col-md-3 control-label">Confirm Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                        <input type="password" class="form-control" name="signup-password2" id="signup-password2" placeholder="Password">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <!-- Button -->                                        
                                     <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button> 
+                                        <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
                                     </div>
                                 </div>
                                 
