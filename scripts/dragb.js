@@ -46,6 +46,7 @@ function applyrun() {
     dragSrc = this;
     $dragSrcNode = $("#" + this.id);
 
+
     window.console && console.log(e, e.dataTransfer);
     window.foo = e;
     if (ENABLE_GHOST_COL) {
@@ -77,8 +78,8 @@ function applyrun() {
   }
 
   function handleDragLeave(e) {
-      this.removeClassName('over');
-    console.log("does this happen multiple times");
+    this.removeClassName('over');
+    // console.log("does this happen multiple times");
   }
 
   function handleDrop(e) {
@@ -93,13 +94,13 @@ function applyrun() {
       var dragCourse = $dragSrcNode.data("course");
       if (dragCourse == undefined) dragCourse = null;
 
-      if (dragCourse != undefined && dragCourse != null) {
+      if (dragCourse != null) {
         var dragListing = $dragSrcNode.data("course").listing;
       } else {
         var dragListing = "empty";
       }
 
-      if (thisCourse != undefined && thisCourse != null) {
+      if (thisCourse != null) {
         var thisListing = $thisNode.data("course").listing;
       } else {
         var thisListing = "empty";
@@ -111,6 +112,15 @@ function applyrun() {
       this.innerHTML = e.dataTransfer.getData('text/html');
       $dragSrcNode.data("course",thisCourse);
       $thisNode.data("course",dragCourse);
+
+      //gets their locations based on id course_12
+      var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
+      var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
+      var thisSemester = parseInt(this.id.substring(7,8))-1;
+      var thisIndex    = parseInt(this.id.substring(8,9))-1;
+
+      user.schedule.moveCourse(thisCourse,dragSemester,dragIndex);
+      user.schedule.moveCourse(dragCourse,thisSemester,thisIndex);
     }
 
     return false;

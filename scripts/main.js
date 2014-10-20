@@ -53,12 +53,18 @@ var Schedule = function() {
   this.init_new_schedule = function() {
     //TODO read the CSV file
     //below is a test
-    this.semesters[1][0] = new Course("CS1110",1,0);
-    this.semesters[1][1] = new Course("CS2800",1,1);
-    this.semesters[2][0] = new Course("CS2110",2,0);
-    this.semesters[3][0] = new Course("CS3110",3,0);
+    this.semesters[1][0] = new Course("CS1110",1);
+    this.semesters[1][1] = new Course("CS2800",1);
+    this.semesters[2][0] = new Course("CS2110",2);
+    this.semesters[3][0] = new Course("CS3110",3);
   }
 
+  /* Pushes Course object into the semesters array at semester,index. */
+  this.moveCourse = function(obj,semester,index) {
+    this.semesters[semester][index] = obj;
+  }
+
+  //Constructor code
   //If new:
     this.init_new_schedule();
   //else:
