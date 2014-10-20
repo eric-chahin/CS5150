@@ -20,17 +20,15 @@
     }
 
     echo ('<div class="semestertitle"><img src= "'.$img.'"></div>');
-    echo ('
-           <div class="hexagon dragcolumn"></div>
-           <div class="hexagon dragcolumn"></div>
-           <div class="hexagonLeft dragcolumn"></div>
-           <div class="hexagon dragcolumn"></div>
-           <div class="hexagon dragcolumn"></div>
-           <div class="hexagon dragcolumn"></div>
-           <div class="hexagonLeft dragcolumn"></div>
-           <div class="hexagon dragcolumn"></div>
-         </div>
-         ');
+    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
+    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,2));
+    echo (sprintf('<div id="course_%d%d" class="hexagonLeft dragcolumn"></div>',$i,3));
+    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,4));
+    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,5));
+    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,6));
+    echo (sprintf('<div id="course_%d%d" class="hexagonLeft dragcolumn"></div>',$i,7));
+    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,8));
+    echo('</div>');
     if ($i % 2 == 0) {
       echo ('</div>');
     }

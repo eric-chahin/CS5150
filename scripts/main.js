@@ -33,6 +33,7 @@ var Loader = function() {
       for (var j = 1; j <= 8; j++) {
         if (user_semester[j-1] && user_semester[j-1].listing) {
           $courses[j].innerHTML = user_semester[j-1].listing;
+          $("#course_"+(i+1)+j).data("course",user_semester[j-1]);
         }
       }
     }

@@ -33,6 +33,7 @@
         
   <!-- Load search js -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <!-- // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script> -->
 	<!-- <script type="text/javascript" src="scripts/jquery-ui.js"></script> -->
 	<script type="text/javascript" src="scripts/custom.js"></script>
 	<!-- There is draga, dragb,dragc js files -->
@@ -40,14 +41,23 @@
   <script type="text/javascript" src="scripts/course.js"></script>
   <script type="text/javascript" src="scripts/user.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
+  <!-- Angular Scripts
+  <script type="text/javascript" src="app/app.js"></script>
+  <script type="text/javascript" src="app/controllers/courseController.js"></script>
+  <script type="text/javascript" src="app/controllers/userController.js"></script>
+  <script type="text/javascript" src="app/services/courseService.js"></script>
+  <script type="text/javascript" src="app/services/userService.js"></script>
+  <script type="text/javascript" src="app/angular_drag/lvl-drag-drop.js"></script>
+  <script type="text/javascript" src="app/angular_drag/lvl-uuid.js"></script>-->
+
 </head>
 
-<body>
+<body data-ng-app="checklistApp" data-ng-controller="courseController">
  
  <div class="titlebanner">
  </div>
   
-<div class="container">
+<div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
 			<div class="checklist_box">
