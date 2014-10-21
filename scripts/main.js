@@ -77,6 +77,6 @@ $(document).ready(function(){
   //(course_id -> Course_information object)
   COURSE_INFORMATION = loader.initializeCourseInfo();
 
-  alert(COURSE_INFORMATION["CS2110"]["prerequisites"]);
+  // alert(COURSE_INFORMATION["CS2110"]["prerequisites"]);
   fillEmptySpots();
 });
