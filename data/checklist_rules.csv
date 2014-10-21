@@ -1,0 +1,48 @@
+#  checklist_rules.csv
+#  
+#  This document attempts to define the individual slots on the checklist.
+#  NOTE: Any lines that begin with a '#' are treated as comments and are not parsed.
+#  
+#  The first value in the CSV format is how many checkboxes does this rule take
+#  The second value is the official name for the checklist slot.
+#  The third value is the list of classes that are acceptable.
+#      There are special tags in place of classes that will require additional logic
+#      These tags all start with '$' and their logic is defined below:
+#         $FWS                 will count all classes that have the first four characters in their title as "FWS:"
+#         $LiberalStudies      will count all classes that have liberal studies tags
+#         $CSElective          defined in checklist_tags.csv
+#         $Technical           defined in checklist_tags.csv
+#         $Specialization      defined in checklist_tags.csv
+#         $MajorElective       defined in checklist_tags.csv
+#         $AdvisorElec         defined in checklist_tags.csv
+#
+#   An asterisk (*) after any department listing will gather all those courses in the department.
+#   A sole asterisk allows for any classes to be put in!
+#   
+#   TODO: perhaps we need to also put in the XSLX cell locations that these belong to.
+#
+2,Freshman Writing Seminar,$FWS
+6,Liberal Studies,$LiberalStudies
+1,MATH 1910,MATH1910
+1,MATH 1920,MATH1920
+1,MATH 2940,MATH2940
+1,PHYS 1112,PHYS1112
+1,PHYS 2213,PHYS2213
+1,CHEM 2080 or PHYS 2214,CHEM2080,PHYS2214
+1,CHEM 2090,CHEM2090
+1,Introductory Programming,CS1110,CS1112,CS1114,CS1115
+1,Data Structures,CS2110,ENGRD2110
+1,Engineering Distribution,ENGRD*
+1,Intro to Engineering,ENGRI*
+1,Discrete Structures,CS2800
+1,Functional Programming,CS3110
+1,Digital Systems,CS3410,CS3420
+1,Operating Systems,CS4410
+1,Algorithms,CS4820
+3,CS Electives,$CSElective
+1,CS Project,CS4121,CS4321,CS4411,CS4621,CS4701,CS4758,CS5150,CS5152,CS5412,CS5414,CS6670
+3,Technical Electives,$Technical
+3,External Specialization,$Specialization
+1,Major Approved Elective,$MajorElective
+1,Advisor Approved Electives,$AdvisorElec
+

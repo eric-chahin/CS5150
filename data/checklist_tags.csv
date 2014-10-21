@@ -1,0 +1,15 @@
+# File for defining the tagged logic
+# 
+# First:  The tag you are defining
+# Second: The number of credits it must be
+# Third   Course number it needs to be above
+# Fourth:  The list of forbidden classes
+#
+# For the forbidden classes, a whole group of dept. classes can be forbidden with an asterisk 
+# after the dept name. (e.g. CS* means that all CS courses are forbidden)
+#
+$CSElective,3,4000,CS4999
+$Technical,3,3000
+$Specialization,3,3000,CS*,LING4474,INFO3330,INFO4302,INFO4300,INFO5300
+$MajorElective,3,1100,PE*,ROTC1*,ROTC2*
+$AdvisorElec,1,1100,PE*,ROTC1*,ROTC2*
