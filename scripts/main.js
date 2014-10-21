@@ -11,7 +11,7 @@ var Loader = function() {
 
     //If cannot find user profile, create new one!:
       var schedule = new Schedule();
-      var user = new User("Eric Chahin", 1.0, schedule);
+      var user = new User("Eric Chahin", 2012, schedule);
     //else:
       //TODO pass in AJAX User data from table into Schedule object
     return user;
@@ -38,6 +38,25 @@ var Loader = function() {
       }
     }
   }
+
+  //TODO: initialize COURSE_INFORMATION (course_id -> Course_information object)
+  this.initializeCourseInfo = function() {
+    var rtn = {};
+    $.ajax({
+      type:     "GET",
+      url:      "courses.php",
+      async:    false,
+      dataType: "json",
+      cache: false,
+      success: function(data){
+        for (var x = 0; x < data.length; x++) {
+          var entry = data[x];
+          rtn[entry["course_listing"]] = entry;
+        }
+      }
+    });
+    return rtn;    
+  }
 }
 
 function fillEmptySpots() {
@@ -55,5 +74,9 @@ $(document).ready(function(){
   user = loader.fetchUser();
   loader.applyUser(user);
 
+  //(course_id -> Course_information object)
+  COURSE_INFORMATION = loader.initializeCourseInfo();
+
+  alert(COURSE_INFORMATION["CS2110"]["prerequisites"]);
   fillEmptySpots();
 });

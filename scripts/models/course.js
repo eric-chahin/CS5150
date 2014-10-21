@@ -1,11 +1,9 @@
 /**
 * Class: An object that represents a course taken at cornell on the checklist.
 * @param listing      
-* @param semester
 */
-var Course = function(listing, semester) {
+var Course = function(listing) {
   this.listing = listing;
-  this.semester = semester; //From semester 0..7
   this.requirement_filled = determineRequirement(); //TODO replace with enum
 
   /* Returns the requirement that it should fulfills, 
@@ -16,4 +14,6 @@ var Course = function(listing, semester) {
   function determineRequirement() {
     
   }
+
+  
 };

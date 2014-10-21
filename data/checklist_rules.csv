@@ -3,9 +3,10 @@
 #  This document attempts to define the individual slots on the checklist.
 #  NOTE: Any lines that begin with a '#' are treated as comments and are not parsed.
 #  
-#  The first value in the CSV format is how many checkboxes does this rule take
-#  The second value is the official name for the checklist slot.
-#  The third value is the list of classes that are acceptable.
+#  The first value in the CSV format is the version id
+#  The second value in the CSV format is how many checkboxes does this rule take
+#  The third value is the official name for the checklist slot.
+#  The fourth value is the list of classes that are acceptable (separated with ';'):
 #      There are special tags in place of classes that will require additional logic
 #      These tags all start with '$' and their logic is defined below:
 #         $FWS                 will count all classes that have the first four characters in their title as "FWS:"
@@ -21,28 +22,28 @@
 #   
 #   TODO: perhaps we need to also put in the XSLX cell locations that these belong to.
 #
-2,Freshman Writing Seminar,$FWS
-6,Liberal Studies,$LiberalStudies
-1,MATH 1910,MATH1910
-1,MATH 1920,MATH1920
-1,MATH 2940,MATH2940
-1,PHYS 1112,PHYS1112
-1,PHYS 2213,PHYS2213
-1,CHEM 2080 or PHYS 2214,CHEM2080,PHYS2214
-1,CHEM 2090,CHEM2090
-1,Introductory Programming,CS1110,CS1112,CS1114,CS1115
-1,Data Structures,CS2110,ENGRD2110
-1,Engineering Distribution,ENGRD*
-1,Intro to Engineering,ENGRI*
-1,Discrete Structures,CS2800
-1,Functional Programming,CS3110
-1,Digital Systems,CS3410,CS3420
-1,Operating Systems,CS4410
-1,Algorithms,CS4820
-3,CS Electives,$CSElective
-1,CS Project,CS4121,CS4321,CS4411,CS4621,CS4701,CS4758,CS5150,CS5152,CS5412,CS5414,CS6670
-3,Technical Electives,$Technical
-3,External Specialization,$Specialization
-1,Major Approved Elective,$MajorElective
-1,Advisor Approved Electives,$AdvisorElec
+2012,2,Freshman Writing Seminar,$FWS
+2012,6,Liberal Studies,$LiberalStudies
+2012,1,MATH 1910,MATH1910
+2012,1,MATH 1920,MATH1920
+2012,1,MATH 2940,MATH2940
+2012,1,PHYS 1112,PHYS1112
+2012,1,PHYS 2213,PHYS2213
+2012,1,CHEM 2080 or PHYS 2214,CHEM2080;PHYS2214
+2012,1,CHEM 2090,CHEM2090
+2012,1,Introductory Programming,CS1110;CS1112;CS1114;CS1115
+2012,1,Data Structures,CS2110;ENGRD2110
+2012,1,Engineering Distribution,ENGRD*
+2012,1,Intro to Engineering,ENGRI*
+2012,1,Discrete Structures,CS2800
+2012,1,Functional Programming,CS3110
+2012,1,Digital Systems,CS3410;CS3420
+2012,1,Operating Systems,CS4410
+2012,1,Algorithms,CS4820
+2012,3,CS Electives,$CSElective
+2012,1,CS Project,CS4121;CS4321;CS4411;CS4621;CS4701;CS4758;CS5150;CS5152;CS5412;CS5414;CS6670
+2012,3,Technical Electives,$Technical
+2012,3,External Specialization,$Specialization
+2012,1,Major Approved Elective,$MajorElective
+2012,1,Advisor Approved Electives,$AdvisorElec
 

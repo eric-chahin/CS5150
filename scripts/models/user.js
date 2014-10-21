@@ -6,8 +6,9 @@
 */
 var User = function(name, version, schedule) {
   this.full_name = name;
-  this.checklist_version = version;
+  this.checklist = new Checklist(version);
   this.schedule = schedule; //Schedule object
 
   //TODO save user function
+  
 };

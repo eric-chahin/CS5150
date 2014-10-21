@@ -1,15 +1,20 @@
 # File for defining the tagged logic
 # 
-# First:  The tag you are defining
-# Second: The number of credits it must be
-# Third   Course number it needs to be above
-# Fourth:  The list of forbidden classes
+# First:   Version
+# Second:  The tag you are defining
+# Third:   The number of credits it must be
+# Fourth:  Course number it needs to be above
+# Fifth:   The list of forbidden classes (separated with ';')
 #
-# For the forbidden classes, a whole group of dept. classes can be forbidden with an asterisk 
-# after the dept name. (e.g. CS* means that all CS courses are forbidden)
+#   For the forbidden classes, a whole group of dept. classes can be forbidden 
+#   with an asterisk after the dept name. (e.g. CS* means that all CS courses 
+#   are forbidden)
 #
-$CSElective,3,4000,CS4999
-$Technical,3,3000
-$Specialization,3,3000,CS*,LING4474,INFO3330,INFO4302,INFO4300,INFO5300
-$MajorElective,3,1100,PE*,ROTC1*,ROTC2*
-$AdvisorElec,1,1100,PE*,ROTC1*,ROTC2*
+#   Before listing checklist slots, start the version with "--" and a name for the version.
+#   
+#
+2012,$CSElective,3,4000,CS4999
+2012,$Technical,3,3000,
+2012,$Specialization,3,3000,CS*;LING4474;INFO3330;INFO4302;INFO4300;INFO5300
+2012,$MajorElective,3,1100,PE*;ROTC1*;ROTC2*
+2012,$AdvisorElec,1,1100,PE*;ROTC1*;ROTC2*

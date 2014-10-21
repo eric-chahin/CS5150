@@ -38,9 +38,10 @@
 	<script type="text/javascript" src="scripts/custom.js"></script>
 	<!-- There is draga, dragb,dragc js files -->
 	<script type="text/javascript" src="scripts/dragb.js"></script>
-  <script type="text/javascript" src="scripts/course.js"></script>
-  <script type="text/javascript" src="scripts/user.js"></script>
-  <script type="text/javascript" src="scripts/schedule.js"></script>
+  <script type="text/javascript" src="scripts/models/course.js"></script>
+  <script type="text/javascript" src="scripts/models/user.js"></script>
+  <script type="text/javascript" src="scripts/models/schedule.js"></script>
+  <script type="text/javascript" src="scripts/models/checklist.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
   <!-- Angular Scripts
   <script type="text/javascript" src="app/app.js"></script>
