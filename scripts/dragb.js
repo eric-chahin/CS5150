@@ -119,10 +119,16 @@ function applyrun() {
           user.schedule.deleteCourse(dragSemester, dragIndex);
           $dragSrcNode.data("course",null);
         }
-      } else if (!dragIsScheduleCourse && thisIsScheduleCourse && !user.schedule.contains(this.textContent)) {
+      } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
         //add a new course from the hexagon that you've just dragged over
-        var newCourse = user.schedule.addCourse(this.textContent, thisSemester,thisIndex); 
-        $thisNode.data("course", newCourse);
+        if (!user.schedule.contains(this.textContent)){
+          var newCourse = user.schedule.addCourse(this.textContent, thisSemester,thisIndex); 
+          $thisNode.data("course", newCourse);
+        } else {
+          this.innerHTML = dragSrc.innerHTML;
+          dragSrc.innerHTML = e.dataTransfer.getData('text/html');
+          alert(dragSrc.textContent + " is already in your schedule! :(");
+        }
       } else {
         //just swapping divs elsewhere, don't care
       }

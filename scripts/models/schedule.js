@@ -11,10 +11,10 @@ var Schedule = function() {
   this.init_new_schedule = function() {
     //TODO read the CSV file
     //below is a test
-    this.semesters[1][0] = new Course("CS1110");
-    this.semesters[1][1] = new Course("CS2800");
-    this.semesters[2][0] = new Course("CS2110");
-    this.semesters[3][0] = new Course("CS3110");
+    this.semesters[1][0] = new Course("CS1110",null);
+    this.semesters[1][1] = new Course("CS2800",null);
+    this.semesters[2][0] = new Course("CS2110",null);
+    this.semesters[3][0] = new Course("CS3110",null);
   }
 
   /* Pushes Course object into the semesters array at semester,index. */
@@ -23,11 +23,15 @@ var Schedule = function() {
   }
 
   /* Adds a new course with listing at [semester][index]. 
-   * Overwrites anything that is there and returns the newly generated course. */
+   * Overwrites anything that is there and returns the newly generated course. 
+   * 
+   * NOTE: You should not use this method to load in User from the User DB because it
+   * is not given a requirement_filled for the course.
+   */
   this.addCourse = function(listing,semester,index) {
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
-    var newCourse = new Course(listing);
+    var newCourse = new Course(listing, null);
     this.semesters[semester][index] = newCourse;
     return newCourse;
   }
