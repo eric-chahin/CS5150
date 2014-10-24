@@ -42,6 +42,7 @@
   <script type="text/javascript" src="scripts/models/user.js"></script>
   <script type="text/javascript" src="scripts/models/schedule.js"></script>
   <script type="text/javascript" src="scripts/models/checklist.js"></script>
+  <script type="text/javascript" src="scripts/models/rule.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
   <!-- Angular Scripts
   <script type="text/javascript" src="app/app.js"></script>

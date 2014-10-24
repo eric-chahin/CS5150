@@ -12,8 +12,16 @@ var Course = function(listing) {
    * TODO: Figure out what happens when requirements change. 
    * We may need to make it more data-driven. */
   function determineRequirement() {
-    
+    // debugger;
+    for (var key in checklist_rules) {
+      if (checklist_rules.hasOwnProperty(key)) {
+        // alert(key);
+        var rule = checklist_rules[key];
+        if (rule.isAccepted(listing) == FilterValue.PERFECT) {
+          return key;
+        }
+      }
+    }
+    return null;
   }
-
-  
 };

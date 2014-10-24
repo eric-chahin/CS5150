@@ -94,33 +94,42 @@ function applyrun() {
       var dragCourse = $dragSrcNode.data("course");
       if (dragCourse == undefined) dragCourse = null;
 
-      if (dragCourse != null) {
-        var dragListing = $dragSrcNode.data("course").listing;
-      } else {
-        var dragListing = "empty";
-      }
-
-      if (thisCourse != null) {
-        var thisListing = $thisNode.data("course").listing;
-      } else {
-        var thisListing = "empty";
-      }
-
-      console.log("dropping "+ dragListing + " on " + thisListing);
-      //Swapping the contents in this div and the dragSrc div
-      dragSrc.innerHTML = this.innerHTML;
+      //Swapping the contents in this div and the dragSrc div, no object switching
+      dragSrc.innerHTML = this.textContent;
       this.innerHTML = e.dataTransfer.getData('text/html');
-      $dragSrcNode.data("course",thisCourse);
-      $thisNode.data("course",dragCourse);
 
       //gets their locations based on id course_12
+      var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
+      var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
       var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
       var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
       var thisSemester = parseInt(this.id.substring(7,8))-1;
       var thisIndex    = parseInt(this.id.substring(8,9))-1;
 
-      user.schedule.moveCourse(thisCourse,dragSemester,dragIndex);
-      user.schedule.moveCourse(dragCourse,thisSemester,thisIndex);
+      if (dragIsScheduleCourse && thisIsScheduleCourse) {
+        $dragSrcNode.data("course",thisCourse);
+        $thisNode.data("course",dragCourse); 
+        user.schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
+      } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
+        if (dragSrc.textContent !== "" && !user.schedule.contains(dragSrc.textContent)) {
+          var newCourse = user.schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
+          $dragSrcNode.data("course", newCourse);
+        } else {
+          console.log("deleting " + this.textContent);
+          user.schedule.deleteCourse(dragSemester, dragIndex);
+          $dragSrcNode.data("course",null);
+        }
+      } else if (!dragIsScheduleCourse && thisIsScheduleCourse && !user.schedule.contains(this.textContent)) {
+        //add a new course from the hexagon that you've just dragged over
+        var newCourse = user.schedule.addCourse(this.textContent, thisSemester,thisIndex); 
+        $thisNode.data("course", newCourse);
+      } else {
+        //just swapping divs elsewhere, don't care
+      }
+
+      console.log(user.schedule.toString());
+
+
     }
 
     return false;

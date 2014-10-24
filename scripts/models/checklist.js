@@ -3,13 +3,10 @@
 * @param version 
 */
 var Checklist = function(version) {
-  this.checklist_version = version;
-  this.checklist_tags = ""; // TODO: the tag (String) -> filter function (string->boolean)
-  this.checklist_rules = "";// TODO: put the tags with the rules
-  //Hosts a list of tags (Strings) -> classes it fulfills (String List)
+  this.version = version;
+  checklist_rules = null; // dictionary of Rules (title) -> Rule
 
-  function get_tags_from_server(v) {
-    var rtn = [];
+  function get_rules_from_server(v) {
     if(v !== ''){
       $.ajax({
         type:     "GET",
@@ -21,12 +18,35 @@ var Checklist = function(version) {
         cache: false,
         success: function(data){
           for (var x = 0; x < data.length; x++) {
-            rtn.push(data[x]["title"]);
+            var e = data[x]
+            var r = new Rule(e["title"],e["slot_count"],generate_filter_f(e["tag"]));
+            tmp_rules[e["title"]] = r;
           }
         }
       });
     }
-    return rtn;    
+    return false;    
+  }
+
+  function get_tags_from_server(v) {
+    if(v !== ''){
+      $.ajax({
+        type:     "GET",
+        url:      "checklist.php",
+        async:    false,
+        dataType: "json",
+        data:     { version: v,
+                    table:   "checklist_tags"},
+        cache: false,
+        success: function(data){
+          for (var x = 0; x < data.length; x++) {
+            var e = data[x]
+            tagsDict[e["tag"]] = create_tag_f(e["credits"],e["course_num"],e["forbidden"]);
+          }
+        }
+      });
+    }
+    return false;    
   }
 
   /* Given a course listing and forbidden list, return true if this course is
@@ -49,23 +69,71 @@ var Checklist = function(version) {
     return false;
   }
 
-  /* Creates a filter function for this rule. */
-  function create_tag_f(credits,course_num,forbidden_lst) {
+  /* Creates a tag function for this rule. 
+   * Returns true if accepted by tag. */
+  function create_tag_f(credits,course_num,forbidden_str) {
     return function(course_listing) {
       var course = COURSE_INFORMATION[course_listing];
+      if (!course) debugger;
       var c_str  = course["credits"];
       if (c_str.indexOf("-") !== -1) {
         var this_credits = parseInt(c_str.substring(c_str.indexOf("-")+1)); //Taking the max credits
       } else {
         var this_credits = parseInt(c_str);
       }
-      var cn = parseInt(course_listing(course_listing.length-4,course_listing.length)); 
-      var forbidden = is_forbidden(course_listing, course["forbidden"]); 
+      var cn = parseInt(course_listing.substring(course_listing.length-4,course_listing.length)); 
+      var forbidden = is_forbidden(course_listing, forbidden_str); 
       return this_credits >= credits && cn >= course_num && !forbidden;
     };
   }
 
-  items = get_tags_from_server(version);
-  // alert(items[1]); // Should be liberal studies
+  /* The filter function gives the go-ahead on whether the passed in class is
+   * acceptable to take by the rule. 
+   * There are three values the return function can return:
+   *    1. FORBIDDEN - the class does not obey the requirements
+   *    2. ALLOWED   - the class fits some broad category of classes (e.g CS4780 can be a tech elective)
+   *    3. PERFECT   - the class is a perfect match for this rule. 
+   *                  (e.g. CHEM2090 is perfect for the CHEM 2090 slot.) 
+   * The filter function is different from the tag function because the tag function is based off of
+   *   a different set of requirements. The tag function can be used in place of the list of accepted courses
+   *
+   * @param tag           General set of restrictions 
+   *  OR    allowed_lst   Allowed list of classes to take from the Rule
+   * NOTE: one of these parameters must be null
+   * 
+   */
+  function generate_filter_f(tag_allowed_lst) {
+    if (tag_allowed_lst.charAt(0) === "$") {
+      //tag
+      var rtn_f = function(listing) {
+        var f = tagsDict[tag_allowed_lst];
+        if (!f) {
+          //TODO: Take care of FWS and Liberal Studies tags
+          return FilterValue.FORBIDDEN;
+        }
+        if (f(listing)) {
+          return FilterValue.ALLOWED;
+        } else {
+          return FilterValue.FORBIDDEN;
+        }
+      };
+    } else {
+      //allowed_lst
+      var rtn_f = function(listing) {
+        var lst = tag_allowed_lst.split(";");
+        return (lst.indexOf(listing) > -1) ? FilterValue.PERFECT : FilterValue.FORBIDDEN;
+      };
+    }
+
+    return rtn_f;
+  }
+
+
+  
+  var tagsDict = {}; // Holds tag_name (String) -> tag function (function)
+  var tmp_rules = {};
+  get_tags_from_server(version);
+  get_rules_from_server(version);
+  checklist_rules = tmp_rules;
 };
 

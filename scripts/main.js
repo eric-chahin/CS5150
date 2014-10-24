@@ -10,8 +10,12 @@ var Loader = function() {
     //Builds schedule if new or old user
 
     //If cannot find user profile, create new one!:
+      var user = new User("Eric Chahin", 2012);
       var schedule = new Schedule();
-      var user = new User("Eric Chahin", 2012, schedule);
+      /* This needed to be set after the fact because checklist_rules are defined when
+       * creating a checklist object and creating a schedule depends on knowing the 
+       * checklist rules in order to add classes. */
+      user.schedule = schedule; 
     //else:
       //TODO pass in AJAX User data from table into Schedule object
     return user;
@@ -70,12 +74,16 @@ function fillEmptySpots() {
 
 //when page is finished loading, the main methods are called
 $(document).ready(function(){
+  //global enum
+  FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
+  //(course_id -> Course_information object)
   var loader = new Loader();
+  COURSE_INFORMATION = loader.initializeCourseInfo();
   user = loader.fetchUser();
   loader.applyUser(user);
 
-  //(course_id -> Course_information object)
-  COURSE_INFORMATION = loader.initializeCourseInfo();
+
+
 
   // alert(COURSE_INFORMATION["CS2110"]["prerequisites"]);
   fillEmptySpots();
