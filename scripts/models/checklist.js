@@ -73,6 +73,7 @@ var Checklist = function(version) {
    * Returns true if accepted by tag. */
   function create_tag_f(credits,course_num,forbidden_str) {
     return function(course_listing) {
+      course_listing = course_listing.replace(" ","");
       var course = COURSE_INFORMATION[course_listing];
       if (!course) debugger;
       var c_str  = course["credits"];

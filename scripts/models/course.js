@@ -3,7 +3,7 @@
 * @param listing      
 */
 var Course = function(listing, requirement_filled) {
-  this.listing = listing;
+  this.listing = listing.replace(" ","");
   this.requirement_filled = requirement_filled ? requirement_filled : determineRequirement(); //TODO replace with enum
 
   /* Returns the requirement that it should fulfills, 
@@ -17,7 +17,7 @@ var Course = function(listing, requirement_filled) {
       if (checklist_rules.hasOwnProperty(key)) {
         // alert(key);
         var rule = checklist_rules[key];
-        if (rule.isAccepted(listing) == FilterValue.PERFECT) {
+        if (rule.isAccepted(listing) === FilterValue.PERFECT) {
           return key;
         }
         //TODO: Rethink this. Problem cases 4780, 4410
@@ -25,4 +25,8 @@ var Course = function(listing, requirement_filled) {
     }
     return null;
   }
+
+  this.toString = function() {
+    return COURSE_INFORMATION[this.listing]["title"] + " is a great course. You should really take it.";
+  };
 };

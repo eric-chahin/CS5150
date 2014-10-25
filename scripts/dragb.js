@@ -40,6 +40,26 @@ function applyrun() {
     };
   }
 
+  function handleClick(e) {
+    if (this.textContent !== "") {
+      var $thisNode = $("#" + this.id);
+      var thisCourse = $thisNode.data("course");
+      if (thisCourse) {
+        // console.log(thisCourse.toString());
+        replacePopupText(thisCourse.toString());
+      } else {
+        // console.log(new Course(this.textContent,"").toString());
+        replacePopupText(new Course(this.textContent,"").toString())
+      }
+    }
+  }
+
+  /* Replaces the current popup text with str. */
+  function replacePopupText(str) {
+    $("#popup").text(str);
+  }
+
+
   function handleDragStart(e) {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', this.innerHTML);
@@ -158,15 +178,15 @@ function applyrun() {
       document.body.removeChild(draggingColumn);
     }
 
-  var cols = document.querySelectorAll('.dragcolumn');
-  [].forEach.call(cols, function (col) {
-    if (col.innerHTML == "") {
-      $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
-      //col.addClassName('over');
-    } else {
-      $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
-    }
-  }); 
+    var cols = document.querySelectorAll('.dragcolumn');
+    [].forEach.call(cols, function (col) {
+      if (col.innerHTML == "") {
+        $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
+        //col.addClassName('over');
+      } else {
+        $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+      }
+    }); 
   }
 
   function attachColumnListener(col) {
@@ -174,6 +194,8 @@ function applyrun() {
     col.setAttribute('draggable', 'true');
     col.addEventListener('dragstart', handleDragStart);
 
+    // Enable columns to be clickable
+    col.addEventListener('click', handleClick);
     // Make each column itself a drop target.
     col.addEventListener('drop', handleDrop);
     col.addEventListener('dragover', handleDragOver);
