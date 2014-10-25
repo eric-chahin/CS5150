@@ -62,7 +62,6 @@
   disappointed.
 </div>
 
-<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link">Show inline popup</a>
 <div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
