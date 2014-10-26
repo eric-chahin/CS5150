@@ -380,4 +380,11 @@ clear:left;
   margin: 20px auto;
 }
 
+/* Search bar needs styling*/
+#results{
+  overflow:scroll;
+  height: 180px;
+  width: 310px;
+}
+
 
