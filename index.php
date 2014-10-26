@@ -14,6 +14,9 @@
 	
 	<link href="css/mybootstrap.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+  <!-- Magnific Popup core CSS file -->
+  <link href="css/magnific-popup.css" rel="stylesheet"> 
+
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -44,22 +47,21 @@
   <script type="text/javascript" src="scripts/models/checklist.js"></script>
   <script type="text/javascript" src="scripts/models/rule.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
-  <!-- Angular Scripts
-  <script type="text/javascript" src="app/app.js"></script>
-  <script type="text/javascript" src="app/controllers/courseController.js"></script>
-  <script type="text/javascript" src="app/controllers/userController.js"></script>
-  <script type="text/javascript" src="app/services/courseService.js"></script>
-  <script type="text/javascript" src="app/services/userService.js"></script>
-  <script type="text/javascript" src="app/angular_drag/lvl-drag-drop.js"></script>
-  <script type="text/javascript" src="app/angular_drag/lvl-uuid.js"></script>-->
+  <script type="text/javascript" src="scripts/magnific-popup.js"></script>
 
 </head>
 
-<body data-ng-app="checklistApp" data-ng-controller="courseController">
+<body>
  
  <div class="titlebanner">
  </div>
-  
+<div id="popup" class="white-popup mfp-with-anim mfp-hide">
+  You may put any HTML here. This is dummy copy. It is not meant to be read. 
+  It has been placed here solely to demonstrate the look and feel of finished, 
+  typeset text. Only for show. He who searches for meaning here will be sorely 
+  disappointed.
+</div>
+
 <div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -134,7 +136,7 @@
 		</div>
 	</div>
 	  </div>
-        <div class="row clearfix">
+<!--         <div class="row clearfix">
             <div class="row2" >
                <div class="col-md-12 column">
                    <div class= "core">
@@ -152,7 +154,7 @@
                    </div>
                </div>
             </div>
-        </div>
+        </div> -->
 	<div class="row clearfix">
 	  <div class="row3" >
            
