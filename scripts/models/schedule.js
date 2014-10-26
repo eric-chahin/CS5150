@@ -69,7 +69,7 @@ var Schedule = function() {
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
-          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].requirement_filled + "\n";
+          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].requirement_filled + COURSE_INFORMATION["CS1110"]["credits"] + checklist_rules["CS Electives"].slots + "\n";
         }
       }
     }

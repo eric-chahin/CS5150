@@ -65,7 +65,13 @@
 		<div class="col-md-12 column">
 			<div class="checklist_box">
         <div class="classleftrow">
-                <div class="classRow dragcolumnchecklist"></div>
+                <div class="classRow">
+                 <div class="requirement">CS 1110</div>
+                 <div class="course-name dragcolumnchecklist">CS 1110</div>
+                 <div class="course-credit">4</div>
+                 <div class="course-semester">F12</div>
+                 
+                </div>
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
@@ -85,12 +91,11 @@
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
          </div>
-         <div class="classrightrow">
+         <div class="classleftrow">
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRowLast dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
                 <div class="classRow dragcolumnchecklist"></div>
