@@ -1,6 +1,6 @@
 /* JS File */
 
-// Start Ready
+// Search
 $(document).ready(function() {  
 	function search() {
 		var query_value = $('input#search').val();
@@ -13,8 +13,8 @@ $(document).ready(function() {
 				cache: false,
 				success: function(html){
 					$("div#results").html(html);
-					//recreateExistingDivs();
-					//applyrun();
+					copySections();
+					applyrun();
 				}
 			});
 		}return false;    
@@ -29,10 +29,8 @@ $(document).ready(function() {
 		// Do Search
 		if (search_string == '') {
 			$("div#results").fadeOut();
-			$('h4#results-text').fadeOut();
 		}else{
 			$("div#results").fadeIn();
-			$('h4#results-text').fadeIn();
 			$(this).data('timer', setTimeout(search, 100));
 		};
 	});

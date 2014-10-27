@@ -1,4 +1,6 @@
 //http://www.html5rocks.com/en/tutorials/dnd/basics/
+//when search occurs, this first_time restricts replacing search classes and another class
+first_time = 0;
 function applyrun() { 
   var dragSrc = null;
   var $dragSrcNode = null; //jQuery node
@@ -115,7 +117,10 @@ function applyrun() {
       if (dragCourse == undefined) dragCourse = null;
 
       //Swapping the contents in this div and the dragSrc div, no object switching
-      dragSrc.innerHTML = this.textContent;
+        dragSrc.innerHTML = this.textContent;
+        
+      //   console.log("does it come to replace the data");
+      // }
       this.innerHTML = e.dataTransfer.getData('text/html');
 
       //gets their locations based on id course_12
@@ -213,16 +218,28 @@ function applyrun() {
   [].forEach.call(cols2, function (col) {
     attachColumnListener(col);
   });
+
+  first_time = 1;
 };
 
 function recreateExistingDivs() { 
+  console.log("recreate is being called");
   var nodes = $( "#resultspar" ).children();
-  console.log(nodes);
   $( "#resultspar" ).remove();
   for(var i = 0; i< nodes.length;i++){
     $("#permanent").append("<div id='resultspar'></div>");
-    $("#resultspar").append("<div class='dragcolumn'" + "draggable='true'>" + nodes[i].innerHTML + "</div>");
+    $("#resultspar").append("<div class='hexagon dragcolumn searchdiv'" + "draggable='true'>" + nodes[i].innerHTML + "</div>");
   }
+}
+
+function copySections(){
+  // console.log("copy the sections");
+  var classContainerChildren =  $(".classContainerChildren").clone();
+  var yearChildren = $(".carousel_container").clone();
+  $(".classContainerChildren").remove();
+  $(".carousel_container").remove();
+  $(".refresh_holder_classContainer").append(classContainerChildren);
+  $(".carousel_holder").append(yearChildren);
 }
 
 

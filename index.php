@@ -38,7 +38,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <!-- // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script> -->
 	<!-- <script type="text/javascript" src="scripts/jquery-ui.js"></script> -->
-	<script type="text/javascript" src="scripts/custom.js"></script>
+	<script type="text/javascript" src="scripts/search.js"></script>
 	<!-- There is draga, dragb,dragc js files -->
 	<script type="text/javascript" src="scripts/dragb.js"></script>
   <script type="text/javascript" src="scripts/models/course.js"></script>
@@ -123,9 +123,12 @@
 	<div class="row clearfix">
 	  <div class="row" >
 		<div class="col-md-12 column">
+      <div class="carousel_holder">
+      <div class="carousel_container">
 			<div class="carousel slide" id="carousel-111948" data-interval="false">
 				
 				<div class="carousel-inner">
+
           <?php
           include 'carousel.php';
           ?>
@@ -133,6 +136,8 @@
         </div><a class="left carousel-control" href="#carousel-111948" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
 				<a class="right carousel-control" href="#carousel-111948" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
+        </div>
+        </div>
 		</div>
 	</div>
 	  </div>
@@ -166,22 +171,27 @@
           <input type="text" id="search" autocomplete="off">
         </div>
         <!-- Show Results -->
-        <h4 id="results-text">Showing results for: <b id="search-string"></b></h4>
+        <!-- <h4 id="results-text">Showing results for: <b id="search-string"></b></h4> -->
         <p>
   		    <div id="results"></div>
         </p>
       </div>        
 			  </div>
 		<div class="col-md-8 column">
+      <div class = "refresh_holder_classContainer">
+        <div class="classContainerChildren">
 			<div class="carousel slide" id="carousel-144942" data-interval="false">
 
 				<div class="carousel-inner">
+          
                                  <?php 
+                                 //keep this immediate place holder
+                               
                                    $classnumber = 54;
                                    for ($i = 0; $i <= ($classnumber); $i+=18) {
                                     if ($i == 0) echo ('<div class="item active">');
                                     else echo ('<div class="item">');
-                                    
+                                   
                                           echo ('
 					    <div class= "classContainer"> 
                                                 <div class= "coursetitle"><img src= "img/text_courses.png"></div>
@@ -211,6 +221,8 @@
                                </div> <a class="left carousel-control" href="#carousel-144942" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
 				<a class="right carousel-control" href="#carousel-144942" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
+    </div>
+    </div>
 		    </div>
 		</div>
 	</div>
