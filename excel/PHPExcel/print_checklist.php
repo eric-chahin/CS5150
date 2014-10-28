@@ -43,8 +43,9 @@ $DIRECTORY_OF_CHECKLIST_TEMPLATES = '../checklist_templates/';
 /** Include PHPExcel */
 require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 require_once dirname(__FILE__) . '/Classes/PHPExcel/IOFactory.php';
+require_once('../PHPMailer/class.phpmailer.php');
 
-
+$admin_name  = $_POST['name'];//TODO: Get the Admin's name!
 $admin_netid = $_POST['netid'];//TODO: Get the Admin's netid!
 $users_name = $_POST['name']; 
 $netid = $_POST['netid']; 
@@ -115,11 +116,25 @@ would like you to check their checklist. Please, see the attached file.
 Thank you,
 The Checklist Interactive Staff
 ';
-echo $to;
-echo $subject;
-echo $headers;
-echo $msg;
-echo mail($to,$subject,$msg,$headers);
+// echo $to;
+// echo $subject;
+// echo $headers;
+// echo $msg;
+// echo mail($to,$subject,$msg,$headers);
 
+$email = new PHPMailer();
+$email->From       = $from_email_addr;
+$email->FromName   = $users_name;
+$email->Subject    = $subject;
+$email->Body       = $msg;
+$email->AddAddress($to_email_addr, $admin_name);
+$email->AddAddress($from_email_addr, $users_name);
+$file_to_attach = '../user_checklists/'.$netid.'.xls';
 
+$email->AddAttachment( $file_to_attach );
+if (!$email->Send()) {
+  echo "Problem occurred with PHPMailer";
+} else {
+  echo 'Mail was sent!';
+}
 ?>
