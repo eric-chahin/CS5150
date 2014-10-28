@@ -43,7 +43,6 @@ var Loader = function() {
     }
   }
 
-  //TODO: initialize COURSE_INFORMATION (course_id -> Course_information object)
   this.initializeCourseInfo = function() {
     var rtn = {};
     $.ajax({
@@ -72,22 +71,8 @@ function fillEmptySpots() {
   }); 
 }
 
-//when page is finished loading, the main methods are called
-$(document).ready(function(){
-  //global enum
-  FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
-  //(course_id -> Course_information object)
-  var loader = new Loader();
-  COURSE_INFORMATION = loader.initializeCourseInfo();
-  user = loader.fetchUser();
-  loader.applyUser(user);
-
-  // $('.open-popup-link').magnificPopup({
-  //   type:'inline',
-  //   midClick: true 
-  // });
-
-
+//Not sure if we should use this.
+function setupMagnificPopup() {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
   $('.hexagonLeft').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
   $('.open-popup-link').magnificPopup({
@@ -100,6 +85,20 @@ $(document).ready(function(){
     },
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
+}
+
+//when page is finished loading, the main methods are called
+$(document).ready(function(){
+  //global enum
+  FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
+  //(course_id -> Course_information object)
+  var loader = new Loader();
+  COURSE_INFORMATION = loader.initializeCourseInfo();
+  user = loader.fetchUser();
+  loader.applyUser(user);
+  setupMagnificPopup();
+  var panel = new Panel();
+
 
   // alert(COURSE_INFORMATION["CS2110"]["prerequisites"]);
   fillEmptySpots();
