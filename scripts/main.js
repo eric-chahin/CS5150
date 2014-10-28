@@ -44,21 +44,18 @@ var Loader = function() {
   }
 
   this.initializeCourseInfo = function() {
-    var rtn = {};
     $.ajax({
       type:     "GET",
       url:      "courses.php",
-      async:    false,
       dataType: "json",
       cache: false,
       success: function(data){
         for (var x = 0; x < data.length; x++) {
           var entry = data[x];
-          rtn[entry["course_listing"]] = entry;
+          COURSE_INFORMATION[entry["course_listing"]] = entry;
         }
       }
     });
-    return rtn;    
   }
 }
 
@@ -93,7 +90,8 @@ $(document).ready(function(){
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
   var loader = new Loader();
-  COURSE_INFORMATION = loader.initializeCourseInfo();
+  COURSE_INFORMATION = {};
+  loader.initializeCourseInfo();
   user = loader.fetchUser();
   loader.applyUser(user);
   setupMagnificPopup();
