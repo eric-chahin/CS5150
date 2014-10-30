@@ -117,7 +117,8 @@ function applyrun() {
       if (dragCourse == undefined) dragCourse = null;
 
       //Swapping the contents in this div and the dragSrc div, no object switching
-        dragSrc.innerHTML = this.textContent;
+        dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
+        //NOTE: changed from this.textContent to this.innerHTML
         
       //   console.log("does it come to replace the data");
       // }
@@ -219,7 +220,6 @@ function applyrun() {
     attachColumnListener(col);
   });
 
-  first_time = 1;
 };
 
 function recreateExistingDivs() { 
@@ -243,8 +243,4 @@ function copySections(){
 }
 
 
-//when page is finished loading, applyrun() is called
-$(document).ready(function(){
-  applyrun();
-});
 

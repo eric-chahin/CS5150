@@ -51,6 +51,7 @@ var Schedule = function() {
     return oldCourse;
   }
 
+  
   /* Returns whether this listing is already in the schedule */
   this.contains = function(listing) {
     listing = listing.replace(" ",""); // Removes spaces from input just in case
@@ -63,6 +64,33 @@ var Schedule = function() {
     }
     return false;
   }
+  
+  this.createChecklist = function() {
+    var leftChecklistRows = 12;
+    var count = 0;
+    for (var rule in checklist_rules) {
+      for (var i = 0; i < checklist_rules[rule].slots; i++) {
+        
+        var checklistclass = ".classleftrow";
+        if (count > leftChecklistRows) {
+           checklistclass = ".classrightrow";
+        }
+        
+        $(checklistclass).append("<div class='classRow'>" +
+                  " <div class='requirement'>" + checklist_rules[rule].title +
+                  "</div><div class='drag-course dragcolumnchecklist'>" +
+                  " <div class='course-name'>" + "" +
+                 "  </div><div class='course-credit'></div>" +
+                 "<div class='course-semester'></div> " +
+                 " </div></div>");
+      }
+      if (count == leftChecklistRows) {
+         $(".classleftrow").append("<div class ='unassigned-box'></div>");
+      }
+      
+      count++;
+    }
+   }
 
   this.toString = function() {
     var rtnStr = "";

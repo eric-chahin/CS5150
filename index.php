@@ -67,55 +67,10 @@
 		<div class="col-md-12 column">
 			<div class="checklist_box">
         <div class="classleftrow">
-                <div class="classRow">
-                 <div class="requirement">CS 1110</div>
-                 <div class="course-name dragcolumnchecklist">CS 1110</div>
-                 <div class="course-credit">4</div>
-                 <div class="course-semester">F12</div>
-                 
-                </div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
+
          </div>
-         <div class="classleftrow">
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
-                <div class="classRow dragcolumnchecklist"></div>
+         <div class="classrightrow">
+                
          </div>
 			</div>
 		</div>
@@ -141,25 +96,7 @@
 		</div>
 	</div>
 	  </div>
-<!--         <div class="row clearfix">
-            <div class="row2" >
-               <div class="col-md-12 column">
-                   <div class= "core">
-                    <div class= "coretitle"><img src= "img/text_core.png"></div>
-                      <div class="hexagonCore dragcolumn" >CS 1110</div>
-                      <div class="hexagonCore dragcolumn" >CS 2110</div>
-                      <div class="hexagonCore dragcolumn" >CS 2800</div>
-                      <div class="hexagonCore dragcolumn" >CS 3110</div>
-                      <div class="hexagonCore dragcolumn" >CS 3410</div>
-                      <div class="hexagonCore dragcolumn" >CS 3420</div>
-                      <div class="hexagonCore dragcolumn" >CS 4410</div>
-                      <div class="hexagonCore dragcolumn" >CS 4820</div>
-                      <div class="hexagonCore dragcolumn" ></div>
-                      <div class="hexagonCore dragcolumn" ></div>
-                   </div>
-               </div>
-            </div>
-        </div> -->
+        
 	<div class="row clearfix">
 	  <div class="row3" >
            
