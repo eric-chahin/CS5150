@@ -97,9 +97,7 @@ $(document).ready(function(){
   var panel = new Panel();
 
 
-  // alert(COURSE_INFORMATION["CS2110"]["prerequisites"]);
   fillEmptySpots();
-  user.schedule.createChecklist();
   applyrun(); //This starts the dragging and dropping
 
 });

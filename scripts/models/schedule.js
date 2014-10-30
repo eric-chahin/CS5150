@@ -64,41 +64,6 @@ var Schedule = function() {
     }
     return false;
   }
-  
-  this.createChecklist = function() {
-    var leftChecklistRows = 12;
-    var count = 0;
-    var header = "";
-    for (var rule in checklist_rules) {
-      for (var i = 0; i < checklist_rules[rule].slots; i++) {
-        
-        var checklistclass = ".classleftrow";
-        if (count > leftChecklistRows) {
-           checklistclass = ".classrightrow";
-        }
-        
-        if (header != checklist_rules[rule].header) {
-           $(checklistclass).append("<div class='classRow'>" +
-                  checklist_rules[rule].header +
-                  " </div>");
-          header = checklist_rules[rule].header
-        }
-        
-        $(checklistclass).append("<div class='classRow'>" +
-                  " <div class='requirement'>" + checklist_rules[rule].title +
-                  "</div><div class='drag-course dragcolumnchecklist'>" +
-                  " <div class='course-name'>" + "" +
-                 "  </div><div class='course-credit'></div>" +
-                 "<div class='course-semester'></div> " +
-                 " </div></div>");
-      }
-      if (count == leftChecklistRows) {
-         $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div></div>");
-      }
-      
-      count++;
-    }
-   }
 
   this.toString = function() {
     var rtnStr = "";
