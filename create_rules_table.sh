@@ -2,6 +2,8 @@
 ../../bin/mysql -e 'DROP TABLE IF EXISTS test.checklist_rules'
 ../../bin/mysql -e 'CREATE TABLE checklist_rules(
   version VARCHAR(30) NOT NULL,
+  header VARCHAR(128) NOT NULL,
+  excel_cell VARCHAR(10) NOT NULL,
   slot_count VARCHAR(30) NOT NULL,
   title VARCHAR(127) NOT NULL,
   tag VARCHAR(255) NOT NULL

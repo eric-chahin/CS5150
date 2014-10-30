@@ -46,6 +46,7 @@
   <script type="text/javascript" src="scripts/models/schedule.js"></script>
   <script type="text/javascript" src="scripts/models/checklist.js"></script>
   <script type="text/javascript" src="scripts/models/rule.js"></script>
+  <script type="text/javascript" src="scripts/models/panel.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
   <script type="text/javascript" src="scripts/magnific-popup.js"></script>
 
@@ -165,5 +166,9 @@
 	</div>
 
 </div>
+<div style="text-align:center;"><button id="email_nicole">Email Nicole All Your Problems</button></div>
+<br />
+<br />
+<br />
 </body>
 </html>
