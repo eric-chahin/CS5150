@@ -129,9 +129,15 @@ var Checklist = function(version) {
     return rtn_f;
   }
 
+  /* Returns JSON object of title of Rule -> Course obj. 
+   *  Strictly reads from the schedule object. Does not save state anywhere
+   *  in order to avoid maintaining multiple states. */
+  this.readSchedule = function() {
+    //TODO Ben
+  }
+
   /* Loads the HTML for the checklist. Essential when creating a new Checklist object. */
   this.createChecklistHTML = function() {
-    debugger;
     var leftChecklistRows = 12;
     var count = 0;
     var header = "";

@@ -7,10 +7,12 @@
 * @param version 
 */
 var View = function(version) {
+  //TODO Ben
   this.checklist = new Checklist(version);
   //Make sure to set this when finding a valid schedule!
   this.schedule = null; //Schedule object
 
   //TODO save view function
+
   
 };

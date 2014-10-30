@@ -13,6 +13,6 @@ var User = function(name, version) {
   this.current_view_id = -1; //Need to save the current view id for when user visits again
   this.views = []; //Should be an array of views
 
-  //TODO save user function
+  //TODO Ben : save user function
   
 };
