@@ -4,7 +4,6 @@ var Loader = function() {
   /* Retrieves User information. Creates dummy Guest User object if not logged in
      Returns: User object */
   this.fetchUser = function() {
-    //TODO 
 
     //TODO Get AJAX call and pull data from User table
     //Builds schedule if new or old user

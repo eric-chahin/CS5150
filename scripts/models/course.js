@@ -1,21 +1,18 @@
 /**
 * Class: An object that represents a course taken at cornell on the checklist.
+* Note: You cannot create a Course object without creating a checklist object first
 * @param listing      
 */
 var Course = function(listing, requirement_filled) {
   this.listing = listing.replace(" ","");
-  this.requirement_filled = requirement_filled ? requirement_filled : determineRequirement(); //TODO replace with enum
+  this.requirement_filled = requirement_filled ? requirement_filled : determineRequirement();
 
   /* Returns the requirement that it should fulfills, 
    * returns null if cannot make decision. (TODO: perhaps it should return a list of possibilites)
-   * 
-   * TODO: Figure out what happens when requirements change. 
-   * We may need to make it more data-driven. */
+   */
   function determineRequirement() {
-    // debugger;
     for (var key in checklist_rules) {
       if (checklist_rules.hasOwnProperty(key)) {
-        // alert(key);
         var rule = checklist_rules[key];
         if (rule.isAccepted(listing) === FilterValue.PERFECT) {
           return key;
