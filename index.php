@@ -56,6 +56,13 @@
  
  <div class="titlebanner">
  </div>
+ <nav id="sidebar">
+    <a id ="new" href=""></a>
+    <a id="load" href=""></a>
+    <a href="save"></a>
+    <a href="print"></a>
+    <a href="remove"></a>
+  </nav>
 <div id="popup" class="white-popup mfp-with-anim mfp-hide">
   You may put any HTML here. This is dummy copy. It is not meant to be read. 
   It has been placed here solely to demonstrate the look and feel of finished, 

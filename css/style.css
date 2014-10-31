@@ -47,6 +47,18 @@ body{
     
 }
 
+#sidebar{
+  margin-left: 50px;
+  margin-top: 20px;
+  background-image: url("../img/sidebar/sidebar_box.png");
+  background-repeat:no-repeat;
+  width: 160px;
+  height: 300px;
+  float:left;
+}
+
+
+
 .row {
     margin: auto;
     width: 800px;
