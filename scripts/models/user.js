@@ -1,4 +1,4 @@
-r/**
+/**
 * Class: An object that represents a User
 * @param name
 * @param version
