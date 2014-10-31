@@ -1,18 +1,19 @@
 /**
 * Class: An object that represents a User
 * @param name
+* @param netid
 * @param version
 */
-var User = function(name, version) {
+var User = function(name, netid, version) {
   this.full_name = name;
-
+  this.netid = netid;
   this.next_schedule_num = 0;
 
   this.current_schedule = -1; //Need to save the current view id for when user visits again
   this.schedules = []; //Should be an array of views
 
   this.add_new_schedule = function(schedule_name, version) {
-  	var new_schedule_id = this.net_id + "_" + this.next_schedule_num;
+  	var new_schedule_id = this.netid + "_" + this.next_schedule_num;
   	this.next_schedule_num += 1;
   	this.schedules[this.schedules.length] = new Schedule(schedule_name, version, new_schedule_id);
   	this.current_schedule=this.schedules.length;

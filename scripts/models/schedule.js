@@ -88,6 +88,7 @@ var Schedule = function(schedule_name, version, id) {
   * semester = -1 if course is not yet on schedule (course i want to take)
    *  Strictly reads from the schedule object. Does not save state anywhere
    *  in order to avoid maintaining multiple states. */
+
   this.toArray = function(){
     var output = []
     for (var s = 0; s < this.semesters.length; s++) {
@@ -100,7 +101,7 @@ var Schedule = function(schedule_name, version, id) {
       output[output.length]= [-1,this.courses_I_want[i]];
     }
     return output;
-  }
+
 
   //Constructor code
   //If new:

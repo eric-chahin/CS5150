@@ -9,7 +9,7 @@ var Loader = function() {
     //Builds schedule if new or old user
 
     //If cannot find user profile, create new one!:
-      var user = new User("Eric Chahin", 2012);
+      var user = new User("Eric Chahin", "erc73", 2012);
       var schedule = new Schedule();
       /* This needed to be set after the fact because checklist_rules are defined when
        * creating a checklist object and creating a schedule depends on knowing the 
