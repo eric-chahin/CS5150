@@ -87,12 +87,25 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   }
 
   /*written by Ben
-  * Returns JSON object of title of Rule -> Course obj.
+  * Returns array containing (Course, semester it's being taken in)
+  * return type is [(int,Course),...]
+  * semester = -1 if course is not yet on schedule (course i want to take)
    *  Strictly reads from the schedule object. Does not save state anywhere
    *  in order to avoid maintaining multiple states. */
-  this.toJSON = function(){
-    var output = null;
-  }
+
+  this.toArray = function(){
+    var output = []
+    for (var s = 0; s < this.semesters.length; s++) {
+      for (var i = 0; i < this.semesters[s].length; i++) {
+        if (this.semesters[s][i]) {
+          output[output.length]= [s,this.semesters[s][i]];
+      }
+    }
+    for (var i = 0; i<this.courses_I_want.length; i++){
+      output[output.length]= [-1,this.courses_I_want[i]];
+    }
+    return output;
+
 
   //Constructor code
   //If new:
