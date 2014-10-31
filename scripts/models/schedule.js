@@ -87,7 +87,7 @@ var Schedule = function(schedule_name, version, id) {
    *  Strictly reads from the schedule object. Does not save state anywhere
    *  in order to avoid maintaining multiple states. */
   this.toJSON = function(){
-    var output =
+    var output = null;
   }
 
   //Constructor code
