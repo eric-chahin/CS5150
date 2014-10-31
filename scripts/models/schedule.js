@@ -1,5 +1,10 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
-var Schedule = function() {
+var Schedule = function(schedule_name, version, id) {
+  this.checklist = new Checklist(version);
+  this.id = id;
+  this.name = schedule_name;
+  this.courses_I_want = []
+
   //Semester 2D Array that contain Course objects
   this.semesters = new Array(8);
   for (var i = 0; i < this.semesters.length; i++) {
@@ -22,9 +27,9 @@ var Schedule = function() {
     this.semesters[semester][index] = obj;
   }
 
-  /* Adds a new course with listing at [semester][index]. 
-   * Overwrites anything that is there and returns the newly generated course. 
-   * 
+  /* Adds a new course with listing at [semester][index].
+   * Overwrites anything that is there and returns the newly generated course.
+   *
    * NOTE: You should not use this method to load in User from the User DB because it
    * is not given a requirement_filled for the course.
    */
@@ -51,7 +56,7 @@ var Schedule = function() {
     return oldCourse;
   }
 
-  
+
   /* Returns whether this listing is already in the schedule */
   this.contains = function(listing) {
     listing = listing.replace(" ",""); // Removes spaces from input just in case
@@ -75,6 +80,14 @@ var Schedule = function() {
       }
     }
     return rtnStr;
+  }
+
+  /*written by Ben
+  * Returns JSON object of title of Rule -> Course obj.
+   *  Strictly reads from the schedule object. Does not save state anywhere
+   *  in order to avoid maintaining multiple states. */
+  this.toJSON = function(){
+    var output =
   }
 
   //Constructor code

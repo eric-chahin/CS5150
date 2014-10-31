@@ -1,18 +1,26 @@
-/**
-* Class: An object that represents a User 
-* @param name     
-* @param version 
+r/**
+* Class: An object that represents a User
+* @param name
+* @param version
 */
 var User = function(name, version) {
   this.full_name = name;
-  this.checklist = new Checklist(version);
-  //Make sure to set this when finding a valid schedule!
-  this.schedule = null; //Schedule object
-  // TODO decouple checklist and schedule in favor of "View" object
 
-  this.current_view_id = -1; //Need to save the current view id for when user visits again
-  this.views = []; //Should be an array of views
+  this.next_schedule_num = 0;
 
-  //TODO Ben : save user function
-  
+  this.current_schedule = -1; //Need to save the current view id for when user visits again
+  this.schedules = []; //Should be an array of views
+
+  this.add_new_schedule = function(schedule_name, version) {
+  	var new_schedule_id = this.net_id + "_" + this.next_schedule_num;
+  	this.next_schedule_num += 1;
+  	this.schedules[this.schedules.length] = new Schedule(schedule_name, version, new_schedule_id);
+  	this.current_schedule=this.schedules.length;
+  	//should we make the new schedule the currently viewed one?
+  }
+
+  //TODO Alex/Chris : save user function
+  // saves the schedule in this.schedules corresponding to this.current_schedule
+
+  this.add_new_schedule("My First Schedule", version);
 };
