@@ -9,12 +9,7 @@ var Loader = function() {
     //Builds schedule if new or old user
 
     //If cannot find user profile, create new one!:
-      var user = new User("Eric Chahin", "erc73", 2012);
-      var schedule = new Schedule();
-      /* This needed to be set after the fact because checklist_rules are defined when
-       * creating a checklist object and creating a schedule depends on knowing the 
-       * checklist rules in order to add classes. */
-      user.schedule = schedule; 
+    var user = new User("Eric Chahin", "erc73", 2012, null, null, null);
     //else:
       //TODO pass in AJAX User data from table into Schedule object
     return user;
@@ -26,9 +21,7 @@ var Loader = function() {
     //TODO: Put user's name somewhere on site
     //TODO: Change revision?
     //Apply schedule
-    // $(".dragcolumn").html("CS1110");
-    // var $carousel = $("#carousel-111948").children[0];
-    var user_semesters = user.schedule.semesters;
+    var user_semesters = user.current_schedule.semesters;
     for (var i = 0; i < user_semesters.length; i++) {
       var user_semester = user_semesters[i];
       var $semester = $("#semester"+(i+1));

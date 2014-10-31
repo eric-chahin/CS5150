@@ -1,7 +1,7 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
-var Schedule = function(schedule_name, version, id) {
+var Schedule = function(schedule_name, version, id, courses_lst) {
   this.checklist = new Checklist(version);
-  this.id = id;
+  this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
   this.courses_I_want = []
 
@@ -12,10 +12,14 @@ var Schedule = function(schedule_name, version, id) {
   }
 
   /* If there is a new user, the method initializes the Schedule to the default
-   * schedule which is defined in data/guest_data.csv */
-  this.init_new_schedule = function() {
-    //TODO read the CSV file
-    //below is a test
+   * schedule which is defined in data/guest_data.csv 
+   *
+   * @param courses_lst   Takes in the courses list from the DB and parses
+   */
+  this.init_schedule = function(courses_lst) {
+    //TODO read from courses_lst
+    //TODO store the Courses in the semester
+    //TODO
     this.semesters[1][0] = new Course("CS1110",null);
     this.semesters[1][1] = new Course("CS2800",null);
     this.semesters[2][0] = new Course("CS2110",null);
@@ -75,7 +79,7 @@ var Schedule = function(schedule_name, version, id) {
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
-          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].requirement_filled + COURSE_INFORMATION["CS1110"]["credits"] + checklist_rules["CS Electives"].slots + "\n";
+          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].requirement_filled + "\n";
         }
       }
     }
@@ -94,7 +98,7 @@ var Schedule = function(schedule_name, version, id) {
   //If new:
     //TODO put disclaimer splash page up
     //TODO put different view up?
-    this.init_new_schedule();
+    this.init_schedule(courses_lst);
   //else:
     //TODO
 }

@@ -1,6 +1,5 @@
 //http://www.html5rocks.com/en/tutorials/dnd/basics/
-//when search occurs, this first_time restricts replacing search classes and another class
-first_time = 0;
+
 function applyrun() { 
   var dragSrc = null;
   var $dragSrcNode = null; //jQuery node
@@ -135,20 +134,20 @@ function applyrun() {
       if (dragIsScheduleCourse && thisIsScheduleCourse) {
         $dragSrcNode.data("course",thisCourse);
         $thisNode.data("course",dragCourse); 
-        user.schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
+        user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
       } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
-        if (dragSrc.textContent !== "" && !user.schedule.contains(dragSrc.textContent)) {
-          var newCourse = user.schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
+        if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
+          var newCourse = user.current_schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
           $dragSrcNode.data("course", newCourse);
         } else {
           console.log("deleting " + this.textContent);
-          user.schedule.deleteCourse(dragSemester, dragIndex);
+          user.current_schedule.deleteCourse(dragSemester, dragIndex);
           $dragSrcNode.data("course",null);
         }
       } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
         //add a new course from the hexagon that you've just dragged over
-        if (!user.schedule.contains(this.textContent)){
-          var newCourse = user.schedule.addCourse(this.textContent, thisSemester,thisIndex); 
+        if (!user.current_schedule.contains(this.textContent)){
+          var newCourse = user.current_schedule.addCourse(this.textContent, thisSemester,thisIndex); 
           $thisNode.data("course", newCourse);
         } else {
           this.innerHTML = dragSrc.innerHTML;
@@ -159,7 +158,7 @@ function applyrun() {
         //just swapping divs elsewhere, don't care
       }
 
-      console.log(user.schedule.toString());
+      console.log(user.current_schedule.toString());
 
 
     }
