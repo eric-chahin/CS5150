@@ -48,13 +48,99 @@ body{
 }
 
 #sidebar{
+  top: 120px;
+  position: absolute;
   margin-left: 50px;
-  margin-top: 20px;
+ /* margin-top: 60px;*/
   background-image: url("../img/sidebar/sidebar_box.png");
   background-repeat:no-repeat;
   width: 160px;
   height: 300px;
   float:left;
+}
+
+#new{
+  background-image: url("../img/sidebar/icon_new.png");
+  width:60px;
+  height:70px;
+  margin-left: 10px;
+  margin-top: 20px;
+  float:left;
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#load{
+  float:left;
+  width:60px;
+  height:70px;
+  /*margin-left: 10px;*/
+  margin-top: 20px;
+  background-image: url("../img/sidebar/icon_load.png");
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#save{
+  float:left;
+  width:60px;
+  height:70px;
+  margin-left: 10px;
+  background-image: url("../img/sidebar/icon_save.png");
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#print{
+  float:left;
+  width:60px;
+  height:70px;
+  background-image: url("../img/sidebar/icon_print.png");
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#remove{
+  float:left;
+  width:120px;
+  height:120px;
+  background-image: url("../img/sidebar/icon_remove_grayed.png");
+  background-position: center;
+  background-repeat:no-repeat;
+  border-color: black;
+  padding-left: 25px;
+}
+
+.scrollclick:hover{
+    cursor: hand;
+    cursor: pointer;
+    opacity: .9;
+}
+
+.scrollclick:active{
+    cursor: hand;
+    cursor: pointer;
+    opacity: .5;
+}
+
+/*#new:active{
+  background-image: url("../img/sidebar/icon_new_selected.png");
+}
+#load:active{
+  background-image: url("../img/sidebar/icon_load_selected.png");
+}
+#save:active{
+  background-image: url("../img/sidebar/icon_save_selected.png");
+}
+#print:active{
+  background-image: url("../img/sidebar/icon_print_selected.png");
+}*/
+
+#sidebarContainer{
+  position: center;
+  height: 300px;
+  width: 160px;
+  padding-left: 10px;
 }
 
 

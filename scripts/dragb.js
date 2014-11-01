@@ -77,6 +77,16 @@ function applyrun() {
     }
 
     dragSrc.style.opacity = '0.4';
+
+    //changing the trashbin to being selected
+    setTimeout(function(){
+      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_selected.png)");
+      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_grayed.png)");
+      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
+      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
+      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
+    }, 300)
+
   }
 
   function handleDragOver(e) {
@@ -192,6 +202,14 @@ function applyrun() {
         $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
       }
     }); 
+    //handling the scrollbar buttons
+    setTimeout(function(){
+      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
+      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
+      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
+      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
+    }, 300)
   }
 
   function attachColumnListener(col) {
