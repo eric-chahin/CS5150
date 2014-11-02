@@ -47,6 +47,104 @@ body{
     
 }
 
+#sidebar{
+  top: 120px;
+  position: absolute;
+  margin-left: 50px;
+ /* margin-top: 60px;*/
+  background-image: url("../img/sidebar/sidebar_box.png");
+  background-repeat:no-repeat;
+  width: 160px;
+  height: 300px;
+  float:left;
+}
+
+#new{
+  background-image: url("../img/sidebar/icon_new.png");
+  width:60px;
+  height:70px;
+  margin-left: 10px;
+  margin-top: 20px;
+  float:left;
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#load{
+  float:left;
+  width:60px;
+  height:70px;
+  /*margin-left: 10px;*/
+  margin-top: 20px;
+  background-image: url("../img/sidebar/icon_load.png");
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#save{
+  float:left;
+  width:60px;
+  height:70px;
+  margin-left: 10px;
+  background-image: url("../img/sidebar/icon_save.png");
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#print{
+  float:left;
+  width:60px;
+  height:70px;
+  background-image: url("../img/sidebar/icon_print.png");
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#remove{
+  float:left;
+  width:120px;
+  height:120px;
+  background-image: url("../img/sidebar/icon_remove_grayed.png");
+  background-position: center;
+  background-repeat:no-repeat;
+  border-color: black;
+  padding-left: 25px;
+}
+
+.scrollclick:hover{
+    cursor: hand;
+    cursor: pointer;
+    opacity: .9;
+}
+
+.scrollclick:active{
+    cursor: hand;
+    cursor: pointer;
+    opacity: .5;
+}
+
+/*#new:active{
+  background-image: url("../img/sidebar/icon_new_selected.png");
+}
+#load:active{
+  background-image: url("../img/sidebar/icon_load_selected.png");
+}
+#save:active{
+  background-image: url("../img/sidebar/icon_save_selected.png");
+}
+#print:active{
+  background-image: url("../img/sidebar/icon_print_selected.png");
+}*/
+
+#sidebarContainer{
+  position: center;
+  height: 300px;
+  width: 160px;
+  padding-left: 10px;
+}
+
+
+
 .row {
     margin: auto;
     width: 800px;
@@ -99,6 +197,7 @@ body{
     margin: 10px;
     margin-right: -13px;
     text-align: center;
+    padding-bottom: 0px;
 }
 
 
@@ -437,9 +536,81 @@ clear:left;
 
 /* Search bar needs styling*/
 #results{
-  overflow:scroll;
-  height: 180px;
-  width: 310px;
+  overflow: scroll;
+  height: 194px;
+  width: 260px;
+  padding-left: 15px;
+  text-decoration: none;
 }
+
+#results div{
+  padding-top: 0px;
+  text-decoration: none;
+}
+
+#results div div{
+  padding-left: 20px;
+  border-style: solid;
+  border-width: 2px;
+  color: black;
+}
+
+#results div:hover{
+  cursor: pointer;
+  background-color: #F7F7F7;
+}
+
+#results div:active{
+  cursor: hand;
+  cursor: pointer;
+}
+
+#results div div span{
+  color: black;
+  display:none;
+}
+
+#results div div span:after{
+  content: '';
+  position:absolute;
+  bottom:-10px;
+  width:10px;
+  height:10px;
+  border-bottom:5px solid #dfdfdf;
+  border-right:5px solid #dfdfdf;
+  background:#f8f8f8;
+  left:50%;
+  margin-left:-5px;
+  -moz-transform:rotate(45deg);
+  -webkit-transform:rotate(45deg);
+  transform:rotate(45deg);
+}
+
+#results div:hover div span{
+  display: block;
+}
+
+/* For shaking the trashcan when accepting a hexagon */
+@-webkit-keyframes spaceboots {
+  0%   { -webkit-transform:  rotate( 0deg); }
+  10%  { -webkit-transform:  rotate(-3deg); }
+  20%  { -webkit-transform:  rotate( 3deg); }
+  30%  { -webkit-transform:  rotate( 0deg); }
+  40%  { -webkit-transform:  rotate( 3deg); }
+  50%  { -webkit-transform:  rotate(-3deg); }
+  60%  { -webkit-transform:  rotate( 0deg); }
+  70%  { -webkit-transform:  rotate(-3deg); }
+  80%  { -webkit-transform:  rotate( 3deg); }
+  90%  { -webkit-transform:  rotate( 0deg); }
+  100% { -webkit-transform:  rotate(-3deg); }
+}
+#remove.shaking {
+  -webkit-animation-name: spaceboots;
+  -webkit-animation-duration: 0.8s;
+  -webkit-transform-origin:50% 50%;
+  -webkit-animation-iteration-count: 2;
+  -webkit-animation-timing-function: linear;
+}
+
 
 

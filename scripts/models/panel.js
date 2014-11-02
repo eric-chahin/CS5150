@@ -2,17 +2,16 @@
 var Panel = function() {
   //Initialize all listeners for the panel
 
-  //TODO: change "Email Nicole All Your Problems" button to print button!
-  $("#email_nicole").click(
+  $("#print").click(
     function() {
-      // window.location="auth.php";
       alert("Printing your checklist...");
       //TODO fill user information below
       var cellsToFill = {'B4':'Name: ','B5':'Email: ', 'G5':'Cornell ID: '}; //Dictionary of cell name to value
+      user.current_schedule.getExcelLocations(cellsToFill);
       var dataDict = {};
       dataDict['name']    = 'Eric Chahin';
       dataDict['netid']   = 'erc73';
-      dataDict['version'] = user.checklist.version;
+      dataDict['version'] = us;//user.current_schedule.checklist.version;
       dataDict['cells']   = cellsToFill;
       $.ajax({
         type:     "POST",
@@ -25,6 +24,8 @@ var Panel = function() {
       });
     }
   );
+
+
 
   //TODO handle the logic for turning this on and off
   var confirmOnPageExit = function(e) {

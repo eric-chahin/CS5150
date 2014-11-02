@@ -1,6 +1,5 @@
 //http://www.html5rocks.com/en/tutorials/dnd/basics/
-//when search occurs, this first_time restricts replacing search classes and another class
-first_time = 0;
+
 function applyrun() { 
   var dragSrc = null;
   var $dragSrcNode = null; //jQuery node
@@ -78,6 +77,21 @@ function applyrun() {
     }
 
     dragSrc.style.opacity = '0.4';
+
+    //changing the trashbin to being selected
+    setTimeout(function(){
+      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_selected.png)");
+      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_grayed.png)");
+      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
+      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
+      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
+    }, 100);
+    // Make the garbage can a drop target
+    var trashcan = document.getElementById("remove");
+    trashcan.addEventListener('drop',handleDrop);
+    trashcan.addEventListener('dragover', handleDragOver);
+    trashcan.addEventListener('dragleave', handleDragLeave);
+    trashcan.addEventListener('dragend', handleDragEnd);
   }
 
   function handleDragOver(e) {
@@ -108,6 +122,8 @@ function applyrun() {
     if (e.stopPropagation) {
       e.stopPropagation(); // stops the browser from redirecting.
     }
+
+
     // Don't do anything if we're dropping on the same column we're dragging.
     if (dragSrc != this) {
       var $thisNode = $("#" + this.id);
@@ -123,6 +139,13 @@ function applyrun() {
       //   console.log("does it come to replace the data");
       // }
       this.innerHTML = e.dataTransfer.getData('text/html');
+      
+      if (document.getElementById("remove") == this) {
+        //send hexagon into the abyss
+        dragSrc.innerHTML = "";
+        this.innerHTML = "";
+        shakeGarbageCan();
+      }
 
       //gets their locations based on id course_12
       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
@@ -135,20 +158,20 @@ function applyrun() {
       if (dragIsScheduleCourse && thisIsScheduleCourse) {
         $dragSrcNode.data("course",thisCourse);
         $thisNode.data("course",dragCourse); 
-        user.schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
+        user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
       } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
-        if (dragSrc.textContent !== "" && !user.schedule.contains(dragSrc.textContent)) {
-          var newCourse = user.schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
+        if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
+          var newCourse = user.current_schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
           $dragSrcNode.data("course", newCourse);
         } else {
           console.log("deleting " + this.textContent);
-          user.schedule.deleteCourse(dragSemester, dragIndex);
+          user.current_schedule.deleteCourse(dragSemester, dragIndex);
           $dragSrcNode.data("course",null);
         }
       } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
         //add a new course from the hexagon that you've just dragged over
-        if (!user.schedule.contains(this.textContent)){
-          var newCourse = user.schedule.addCourse(this.textContent, thisSemester,thisIndex); 
+        if (!user.current_schedule.contains(this.textContent)){
+          var newCourse = user.current_schedule.addCourse(this.textContent, thisSemester,thisIndex); 
           $thisNode.data("course", newCourse);
         } else {
           this.innerHTML = dragSrc.innerHTML;
@@ -159,7 +182,7 @@ function applyrun() {
         //just swapping divs elsewhere, don't care
       }
 
-      console.log(user.schedule.toString());
+      console.log(user.current_schedule.toString());
 
 
     }
@@ -193,6 +216,23 @@ function applyrun() {
         $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
       }
     }); 
+    //handling the scrollbar buttons
+    setTimeout(function(){
+      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
+      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
+      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
+      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
+    }, 100);
+  }
+
+  function shakeGarbageCan() {
+    setTimeout(function() {
+     $("#remove").addClass("shaking");
+    }, 100);
+    setTimeout(function() {
+     $("#remove").removeClass("shaking");
+    }, 1000);
   }
 
   function attachColumnListener(col) {

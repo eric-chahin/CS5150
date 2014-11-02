@@ -9,12 +9,7 @@ var Loader = function() {
     //Builds schedule if new or old user
 
     //If cannot find user profile, create new one!:
-      var user = new User("Eric Chahin", 2012);
-      var schedule = new Schedule();
-      /* This needed to be set after the fact because checklist_rules are defined when
-       * creating a checklist object and creating a schedule depends on knowing the 
-       * checklist rules in order to add classes. */
-      user.schedule = schedule; 
+    var user = new User("Eric Chahin", "erc73", 2012, null, null, null);
     //else:
       //TODO pass in AJAX User data from table into Schedule object
     return user;
@@ -26,9 +21,7 @@ var Loader = function() {
     //TODO: Put user's name somewhere on site
     //TODO: Change revision?
     //Apply schedule
-    // $(".dragcolumn").html("CS1110");
-    // var $carousel = $("#carousel-111948").children[0];
-    var user_semesters = user.schedule.semesters;
+    var user_semesters = user.current_schedule.semesters;
     for (var i = 0; i < user_semesters.length; i++) {
       var user_semester = user_semesters[i];
       var $semester = $("#semester"+(i+1));
@@ -81,6 +74,48 @@ function setupMagnificPopup() {
     },
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
+  $('#new').magnificPopup({
+    type: 'inline',
+    removalDelay: 500, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+         this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    items: {
+        src: '<div class="white-popup">New Page</div>',
+        type: 'inline'
+    },
+    closeBtnInside: true
+  });
+  $('#load').magnificPopup({
+    type: 'inline',
+    removalDelay: 500, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+         this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    items: {
+        src: '<div class="white-popup">Load Page</div>',
+        type: 'inline'
+    },
+    closeBtnInside: true
+  });
+  $('#print').magnificPopup({
+    type: 'inline',
+    removalDelay: 500, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+         this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    items: {
+        src: '<div class="white-popup">Enter message to Nicole:<br /><textarea /></div>',
+        type: 'inline'
+    },
+    closeBtnInside: true
+  });
 }
 
 //when page is finished loading, the main methods are called
@@ -97,9 +132,7 @@ $(document).ready(function(){
   var panel = new Panel();
 
 
-  // alert(COURSE_INFORMATION["CS2110"]["prerequisites"]);
   fillEmptySpots();
-  user.schedule.createChecklist();
   applyrun(); //This starts the dragging and dropping
 
 });

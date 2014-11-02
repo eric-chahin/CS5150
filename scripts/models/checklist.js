@@ -5,6 +5,7 @@
 var Checklist = function(version) {
   this.version = version;
   checklist_rules = null; // dictionary of Rules (title) -> Rule
+  vectors = null;
 
   function get_rules_from_server(v) {
     if(v !== ''){
@@ -19,7 +20,7 @@ var Checklist = function(version) {
         success: function(data){
           for (var x = 0; x < data.length; x++) {
             var e = data[x]
-            var r = new Rule(e["title"],e["slot_count"],generate_filter_f(e["tag"]),e["header"]);
+            var r = new Rule(e["title"],e["slot_count"],generate_filter_f(e["tag"]),e["header"],e["excel_cell"]);
             tmp_rules[e["title"]] = r;
           }
         }
@@ -47,6 +48,31 @@ var Checklist = function(version) {
       });
     }
     return false;    
+  }
+
+  function get_vectors_from_server(ver) {
+    if(ver !== ''){
+      $.ajax({
+        type:     "GET",
+        url:      "checklist.php",
+        async:    false,
+        dataType: "json",
+        data:     { version: ver,
+                    table:   "checklist_vectors"},
+        cache: false,
+        success: function(data){
+          for (var x = 0; x < data.length; x++) {
+            var e = data[x]
+            if (!vectorDict[e["title"]]) {
+              vectorDict[e['title']] = new Vector(e['title']);
+            }
+            // add the  component
+            vectorDict[e["title"]].addComponent(e['slot_count'], create_vector_f(e['allowed'],e['forbidden']));
+          }
+        }
+      });
+    }
+    return false;
   }
 
   /* Given a course listing and forbidden list, return true if this course is
@@ -129,12 +155,102 @@ var Checklist = function(version) {
     return rtn_f;
   }
 
+  /* Loads the HTML for the checklist. Essential when creating a new Checklist object. */
+  this.createChecklistHTML = function() {
+    var leftChecklistRows = 12;
+    var count = 0;
+    var header = "";
+    for (var rule in checklist_rules) {
+      for (var i = 0; i < checklist_rules[rule].slots; i++) {
+        
+        var checklistclass = ".classleftrow";
+        if (count > leftChecklistRows) {
+           checklistclass = ".classrightrow";
+        }
+        
+        if (header != checklist_rules[rule].header) {
+           $(checklistclass).append("<div class='classRow'>" +
+                  checklist_rules[rule].header +
+                  " </div>");
+          header = checklist_rules[rule].header
+        }
+        
+        $(checklistclass).append("<div class='classRow'>" +
+                  " <div class='requirement'>" + checklist_rules[rule].title +
+                  "</div><div class='drag-course dragcolumnchecklist'>" +
+                  " <div class='course-name'>" + "" +
+                 "  </div><div class='course-credit'></div>" +
+                 "<div class='course-semester'></div> " +
+                 " </div></div>");
+      }
+      if (count == leftChecklistRows) {
+         $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div></div>");
+      }
+      count++;
+    }
+  }
 
-  
+  /* 
+   * Takes in a list and returns true if the course matches a rule in the lst
+   * 'x' can match with any digit
+   * 'f' can match with 4, 5, or 6
+   */
+  var course_match = function(lst,course) {
+    for (var i = 0; i < lst.length; i++) {
+      var other_course = lst[i];
+      var equal_words = true;
+      for (var j = 0; j < other_course.length; j++) {
+        var current_char = other_course.charAt(j);
+        if (current_char === 'x') {
+          if (isNaN(course.charAt(j))) {
+            equal_words = false;
+            break;
+          }
+        } else if (current_char === 'f') {
+          var c = course.charAt(j);
+          if (c !== '4' && c !== '5' && c !== '6') {
+            equal_words = false;
+            break;
+          }
+        } else if (current_char !== course.charAt(j)) {
+          equal_words = false;
+          break;
+        }
+      }
+      if (equal_words) 
+        return true;
+    }
+    return false;
+  }
+
+  /*
+   * Takes in an allowed_str and forbidden_str from the vector database and 
+   * returns a function that tells whether a course_listing fulfills the vector 
+   *
+   * The two parameters are strings in encoded list form "item1;item2;item3;etc"
+   */
+  var create_vector_f = function(allowed_str, forbidden_str) {
+    return function(course_listing) {
+      var allowed_lst = allowed_str.split(";");
+      if (forbidden_str.length === 0) {
+        var forbidden_lst = [];
+      } else {
+        var forbidden_lst = forbidden_str.split(";");
+      }
+      return course_match(allowed_lst,course_listing) && !course_match(forbidden_lst, course_listing);
+    };
+  }
+
   var tagsDict = {}; // Holds tag_name (String) -> tag function (function)
   var tmp_rules = {};
+  var vectorDict = {}; // Holds vector name (function) -> vector object (Vector)
   get_tags_from_server(version);
   get_rules_from_server(version);
+  get_vectors_from_server(version);
   checklist_rules = tmp_rules;
+  vectors = vectorDict;
+  //TEST
+  //TODO TODO tell when checklist slot or vector slot is satisfied
+  this.createChecklistHTML();
 };
 

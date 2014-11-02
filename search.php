@@ -42,26 +42,35 @@ $search_string = $tutorial_db->real_escape_string($search_string);
 
 // Check Length More Than One Character
 if (strlen($search_string) >= 1 && $search_string !== ' ') {	
-	$query = 'SELECT * FROM courses WHERE course_listing or title LIKE "%'.$search_string.'%"';
+	$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR title LIKE "%'. $search_string.'%" LIMIT 10';
 
 	// Do Search
 	$result = $tutorial_db->query($query);
 	
 	while($results = $result->fetch_array()) {
-
 		$result_array[] = $results;
 	}
 	$counter = 0;
 	if (isset($result_array) && empty($result_array) == false) {
 
 		foreach ($result_array as $result) {
-		    if (($counter -4 ) %7== 0 && $counter!=0) {
-		    	//.wrap("<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"></a>");
-		        echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagonLeft dragcolumn searchdiv" new="true" draggable="true">');
-		    }else {
-			echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagon dragcolumn searchdiv" new="true" draggable="true">');
-		    }
-			echo($result_array[$counter][0]."".'</div></a>');
+	    if (($counter -4 ) %7== 0 && $counter!=0) {
+	       //echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagonLeft dragcolumn searchdiv" new="true" draggable="true">');
+	    	//on click needs function that adds to the course box on the right of search
+	    	echo ('<div onclick="return addToDesiredCourses()"><div><span>');
+	    }else {
+				//echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagon dragcolumn searchdiv" new="true" draggable="true">');
+	    	echo ('<div onclick="return addToDesiredCourses()"><div><span>');
+	    }
+	    $elem = $result_array[$counter][0];
+	    //name of the course
+	    echo($result_array[$counter][1]);
+	    //find first number
+	    preg_match('/^\D*(?=\d)/',$elem,$m);
+	    $index_of_first_number = isset($m[0]) ? strlen($m[0]) : strlen($elem);
+	    $num = substr($elem,$index_of_first_number);
+	    $dept = substr($elem,0,$index_of_first_number);
+			echo('</span>'.$dept." ".$num."".'</div></div>');
 			$counter = $counter + 1;
 		}
 	}

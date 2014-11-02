@@ -5,6 +5,7 @@
   <title>Checklist Interactive</title>
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
 	<!--link rel="stylesheet/less" href="less/bootstrap.less" type="text/css" /-->
 	<!--link rel="stylesheet/less" href="less/responsive.less" type="text/css" /-->
@@ -46,16 +47,28 @@
   <script type="text/javascript" src="scripts/models/schedule.js"></script>
   <script type="text/javascript" src="scripts/models/checklist.js"></script>
   <script type="text/javascript" src="scripts/models/rule.js"></script>
+  <script type="text/javascript" src="scripts/models/vector.js"></script>
   <script type="text/javascript" src="scripts/models/panel.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
   <script type="text/javascript" src="scripts/magnific-popup.js"></script>
+  <script type="text/javascript" src="scripts/scrolling.js"></script>
+  <script type="text/javascript" src="scripts/desiredcourses.js"></script>
 
 </head>
 
 <body>
  
- <div class="titlebanner">
- </div>
+<div class="titlebanner">
+</div>
+<div id="sidebar">
+  <div id="sidebarContainer">
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="new"></div>
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="load"></div>
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="save"></div>
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="print"></div>
+    <div id="remove"></div>
+  </div>
+</div>
 <div id="popup" class="white-popup mfp-with-anim mfp-hide">
   You may put any HTML here. This is dummy copy. It is not meant to be read. 
   It has been placed here solely to demonstrate the look and feel of finished, 
@@ -164,9 +177,9 @@
 		    </div>
 		</div>
 	</div>
+<div style="text-align:center;"><button data-effect='mfp-zoom-out' id="email_nicole">button</button></div>
 
 </div>
-<div style="text-align:center;"><button id="email_nicole">Email Nicole All Your Problems</button></div>
 <br />
 <br />
 <br />
