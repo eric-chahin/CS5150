@@ -5,6 +5,7 @@
   <title>Checklist Interactive</title>
   <meta name="description" content="">
   <meta name="author" content="">
+  <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
 	<!--link rel="stylesheet/less" href="less/bootstrap.less" type="text/css" /-->
 	<!--link rel="stylesheet/less" href="less/responsive.less" type="text/css" /-->

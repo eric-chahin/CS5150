@@ -85,8 +85,13 @@ function applyrun() {
       $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
       $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
-    }, 300)
-
+    }, 300);
+    // Make the garbage can a drop target
+    var trashcan = document.getElementById("remove");
+    trashcan.addEventListener('drop',handleDrop);
+    trashcan.addEventListener('dragover', handleDragOver);
+    trashcan.addEventListener('dragleave', handleDragLeave);
+    trashcan.addEventListener('dragend', handleDragEnd);
   }
 
   function handleDragOver(e) {
@@ -117,6 +122,8 @@ function applyrun() {
     if (e.stopPropagation) {
       e.stopPropagation(); // stops the browser from redirecting.
     }
+
+
     // Don't do anything if we're dropping on the same column we're dragging.
     if (dragSrc != this) {
       var $thisNode = $("#" + this.id);
@@ -132,6 +139,12 @@ function applyrun() {
       //   console.log("does it come to replace the data");
       // }
       this.innerHTML = e.dataTransfer.getData('text/html');
+      
+      if (document.getElementById("remove") == this) {
+        //send hexagon into the abyss
+        dragSrc.innerHTML = "";
+        this.innerHTML = "";
+      }
 
       //gets their locations based on id course_12
       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
@@ -209,7 +222,8 @@ function applyrun() {
       $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
       $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
-    }, 300)
+    }, 300);
+
   }
 
   function attachColumnListener(col) {
