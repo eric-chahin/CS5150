@@ -66,7 +66,7 @@ var Schedule = function() {
   }
   
   this.createChecklist = function() {
-    var leftChecklistRows = 12;
+    var leftChecklistRows = 18;
     var count = 0;
     var header = "";
     for (var rule in checklist_rules) {
@@ -91,12 +91,13 @@ var Schedule = function() {
                  "  </div><div class='course-credit'></div>" +
                  "<div class='course-semester'></div> " +
                  " </div></div>");
-      }
+      
       if (count == leftChecklistRows) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div></div>");
       }
       
       count++;
+      }
     }
    }
 
