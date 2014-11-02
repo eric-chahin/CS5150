@@ -178,7 +178,6 @@
 	</div>
 
 </div>
-<div style="text-align:center;"><button id="email_nicole">Email Nicole All Your Problems</button></div>
 <br />
 <br />
 <br />

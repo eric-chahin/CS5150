@@ -3,7 +3,7 @@ var Panel = function() {
   //Initialize all listeners for the panel
 
   //TODO: change "Email Nicole All Your Problems" button to print button!
-  $("#email_nicole").click(
+  $("#print").click(
     function() {
       // window.location="auth.php";
       alert("Printing your checklist...");
@@ -25,6 +25,8 @@ var Panel = function() {
       });
     }
   );
+
+  
 
   //TODO handle the logic for turning this on and off
   var confirmOnPageExit = function(e) {
