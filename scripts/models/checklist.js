@@ -20,7 +20,7 @@ var Checklist = function(version) {
         success: function(data){
           for (var x = 0; x < data.length; x++) {
             var e = data[x]
-            var r = new Rule(e["title"],e["slot_count"],generate_filter_f(e["tag"]),e["header"]);
+            var r = new Rule(e["title"],e["slot_count"],generate_filter_f(e["tag"]),e["header"],e["excel_cell"]);
             tmp_rules[e["title"]] = r;
           }
         }

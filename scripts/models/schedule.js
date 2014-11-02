@@ -107,6 +107,43 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     return output;
   }
 
+  /* Returns JSON object of title of Rule -> Course array 
+   *  Strictly reads from the schedule object. Does not save state anywhere
+   *  in order to avoid maintaining multiple states. 
+   *  Unassigned courses will be under the key "null" */
+  this.ruleToCourses = function() {
+    var courses = this.toArray();
+    var ruleToCourse = {};
+    for (var i = 0; i < courses.length; i++) {
+      var c = courses[i][1];
+      if (!ruleToCourse[c.requirement_filled]) {
+        ruleToCourse[c.requirement_filled] = [c];
+      } else {
+        ruleToCourse[c.requirement_filled].push(c);
+      }
+    }
+    return ruleToCourse;
+  }
+
+  /* Pass in a dictionary of excel cell locations -> value (String).
+   * The method modifies the dictionary passed in. */
+  this.getExcelLocations = function(dict) {
+    var courses = this.ruleToCourses();
+    for (var rule in courses) {
+      if (courses.hasOwnProperty(rule)) {
+        var coursesForThisRule = courses[rule];
+        if (rule !== "null") {
+          var excelLocForRule = checklist_rules[rule].excel_cell;
+          var excelNum = parseInt(excelLocForRule.match(/\d+/)[0]);
+          var column = excelLocForRule.substring(0,excelLocForRule.indexOf("" + excelNum));
+          for (var i = 0; i < checklist_rules[rule].slots && i < coursesForThisRule.length; i++) {
+            dict[column + (excelNum+i)] = coursesForThisRule[i].listing // check with matlab! Shouldn't get 2!
+          }
+        }
+      }
+    }
+  }
+
   //Constructor code
   //If new:
     //TODO put disclaimer splash page up
