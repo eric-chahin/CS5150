@@ -540,4 +540,27 @@ clear:left;
   width: 310px;
 }
 
+/* For shaking the trashcan when accepting a hexagon */
+@-webkit-keyframes spaceboots {
+  0%   { -webkit-transform:  rotate( 0deg); }
+  10%  { -webkit-transform:  rotate(-3deg); }
+  20%  { -webkit-transform:  rotate( 3deg); }
+  30%  { -webkit-transform:  rotate( 0deg); }
+  40%  { -webkit-transform:  rotate( 3deg); }
+  50%  { -webkit-transform:  rotate(-3deg); }
+  60%  { -webkit-transform:  rotate( 0deg); }
+  70%  { -webkit-transform:  rotate(-3deg); }
+  80%  { -webkit-transform:  rotate( 3deg); }
+  90%  { -webkit-transform:  rotate( 0deg); }
+  100% { -webkit-transform:  rotate(-3deg); }
+}
+#remove.shaking {
+  -webkit-animation-name: spaceboots;
+  -webkit-animation-duration: 0.8s;
+  -webkit-transform-origin:50% 50%;
+  -webkit-animation-iteration-count: 2;
+  -webkit-animation-timing-function: linear;
+}
+
+
 

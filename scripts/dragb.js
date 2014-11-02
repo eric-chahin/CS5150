@@ -85,7 +85,7 @@ function applyrun() {
       $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
       $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
-    }, 300);
+    }, 100);
     // Make the garbage can a drop target
     var trashcan = document.getElementById("remove");
     trashcan.addEventListener('drop',handleDrop);
@@ -144,6 +144,7 @@ function applyrun() {
         //send hexagon into the abyss
         dragSrc.innerHTML = "";
         this.innerHTML = "";
+        shakeGarbageCan();
       }
 
       //gets their locations based on id course_12
@@ -222,8 +223,16 @@ function applyrun() {
       $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
       $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
-    }, 300);
+    }, 100);
+  }
 
+  function shakeGarbageCan() {
+    setTimeout(function() {
+     $("#remove").addClass("shaking");
+    }, 100);
+    setTimeout(function() {
+     $("#remove").removeClass("shaking");
+    }, 1000);
   }
 
   function attachColumnListener(col) {
