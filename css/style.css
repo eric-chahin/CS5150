@@ -1,3 +1,6 @@
+.container{
+  margin-left: 160px;
+}
 
 #carousel-111948{
     width: 850px;
@@ -57,6 +60,7 @@ body{
   width: 160px;
   height: 300px;
   float:left;
+
 }
 
 #new{
