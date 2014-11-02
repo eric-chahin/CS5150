@@ -74,6 +74,48 @@ function setupMagnificPopup() {
     },
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
+  $('#new').magnificPopup({
+    type: 'inline',
+    removalDelay: 500, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+         this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    items: {
+        src: '<div class="white-popup">New Page</div>',
+        type: 'inline'
+    },
+    closeBtnInside: true
+  });
+  $('#load').magnificPopup({
+    type: 'inline',
+    removalDelay: 500, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+         this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    items: {
+        src: '<div class="white-popup">Load Page</div>',
+        type: 'inline'
+    },
+    closeBtnInside: true
+  });
+  $('#print').magnificPopup({
+    type: 'inline',
+    removalDelay: 500, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+         this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    items: {
+        src: '<div class="white-popup">Enter message to Nicole:<br /><textarea /></div>',
+        type: 'inline'
+    },
+    closeBtnInside: true
+  });
 }
 
 //when page is finished loading, the main methods are called

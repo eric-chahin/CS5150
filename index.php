@@ -61,10 +61,10 @@
 </div>
 <div id="sidebar">
   <div id="sidebarContainer">
-    <div  class="scrollclick" id ="new"></div>
-    <div class="scrollclick" id="load"></div>
-    <div  class="scrollclick" id="save"></div>
-    <div class="scrollclick" id="print"></div>
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="new"></div>
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="load"></div>
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="save"></div>
+    <div data-effect='mfp-zoom-out' class="scrollclick" id="print"></div>
     <div id="remove"></div>
   </div>
 </div>
@@ -176,6 +176,7 @@
 		    </div>
 		</div>
 	</div>
+<div style="text-align:center;"><button data-effect='mfp-zoom-out' id="email_nicole">button</button></div>
 
 </div>
 <br />
