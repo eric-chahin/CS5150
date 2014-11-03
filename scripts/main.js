@@ -60,7 +60,94 @@ function fillEmptySpots() {
   }); 
 }
 
-//Not sure if we should use this.
+/* The method sets up a popup at the selector with the html.
+ * Uses the white-popup class for CSS. 
+ * If you have event listeners for the html that you pass in, then you can pass
+ *   in a zero argument function into open_f that can access all the selectors in 
+ *   your html arg.
+ * There automatically is a button added to dismiss the popup.
+ *   If you would like to turn that off, set dismiss_off to true. */
+function makePopup(selector,html,open_f,dismiss_off) {
+  var dismiss_button = "<br/><button class='dismiss'>Dismiss</button>";
+  if (dismiss_off)
+    dismiss_button = "";
+  $(selector).attr('data-effect','mfp-zoom-out');
+  $(selector).magnificPopup({
+    type: 'inline',
+    removalDelay: 500, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+        this.st.mainClass = this.st.el.attr('data-effect');
+      },
+      open: function() {
+        $('.dismiss').on('click',function(e) {
+          $.magnificPopup.close();
+        });
+        //Set up other functions
+        if (open_f)
+          open_f();
+      }
+    },
+    items: {
+        src: "<div class='white-popup'>" + html + dismiss_button + "</div>",
+        type: 'inline'
+    },
+    midClick: true,
+    modal: true
+  });
+}
+
+/* Separates the splash page HTML so that it can be used as a popup. */
+function getSplashPageHTML() {
+  var select_html = '<option selected disabled>Entering year</option>';
+  var current_year = new Date().getFullYear();
+  for (var i = 0; i < 6; i++) {
+    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + "</option>";
+  }
+  select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
+
+  var splash_html = "<div id='splashPage'>                                      \
+  <p>Welcome to Checklist Interactive! This tool is intended for Cornell\
+    University Computer Science students in the College of Engineering to plan\
+    out their four years at Cornell in a smart and efficient manner. We want\
+    students to be able to take all of the courses that they want to, while\
+    fulfilling all of the requirements that they need to graduate.\
+                                                                                \
+    Please note that this page is NOT official, and once you have planned out\
+    your courses on the checklist, you should set up an appointment and get your\
+    checklist checked by Nicole Roy (or the current assistant director of\
+    undergraduate advising). We are not guaranteeing that placing your courses\
+    on the checklist will allow you to graduate. </p>";
+  //TODO add button and checkbox
+  splash_html += '<div class="splash_check">\
+                    <input type="checkbox" value="confirm" id="splash_check" name="splash_check" style="display: none;"/>\
+                    <label for="splash_check"></label>\
+                    <p>Yes, agreed.</p>\
+                  </div>';
+  splash_html += select_html;
+  splash_html += '<input type="image" src="img/Splash Assets/continue.png" name="confirmSplash" id="confirmSplash" />';
+  splash_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div>';
+  
+  //Add closing div
+  splash_html += "</div>";
+  return splash_html;
+}
+
+function getSplashPageFunctions() {
+  $("#confirmSplash").on('click', function() {
+    var checkedValue = $('#splash_check:checked').val();
+    var enteringYear = $('#splashPageSelect').val();
+    if (checkedValue !== "confirm") {
+      $("#splash_warning").text("You need to agree to the terms and conditions to use Checklist Interactive.");
+    } else if (isNaN(enteringYear)) {
+      $("#splash_warning").text("Please, select your first year at Cornell.");
+    } else {
+      $.magnificPopup.close();
+    }
+    return false;
+  });
+}
+
 function setupMagnificPopup() {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
   $('.hexagonLeft').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
@@ -69,53 +156,15 @@ function setupMagnificPopup() {
     removalDelay: 500, //delay removal by X to allow out-animation
     callbacks: {
       beforeOpen: function() {
-         this.st.mainClass = this.st.el.attr('data-effect');
+        this.st.mainClass = this.st.el.attr('data-effect');
       }
     },
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
-  $('#new').magnificPopup({
-    type: 'inline',
-    removalDelay: 500, //delay removal by X to allow out-animation
-    callbacks: {
-      beforeOpen: function() {
-         this.st.mainClass = this.st.el.attr('data-effect');
-      }
-    },
-    items: {
-        src: '<div class="white-popup">New Page</div>',
-        type: 'inline'
-    },
-    closeBtnInside: true
-  });
-  $('#load').magnificPopup({
-    type: 'inline',
-    removalDelay: 500, //delay removal by X to allow out-animation
-    callbacks: {
-      beforeOpen: function() {
-         this.st.mainClass = this.st.el.attr('data-effect');
-      }
-    },
-    items: {
-        src: '<div class="white-popup">Load Page</div>',
-        type: 'inline'
-    },
-    closeBtnInside: true
-  });
-  $('#print').magnificPopup({
-    type: 'inline',
-    removalDelay: 500, //delay removal by X to allow out-animation
-    callbacks: {
-      beforeOpen: function() {
-         this.st.mainClass = this.st.el.attr('data-effect');
-      }
-    },
-    items: {
-        src: '<div class="white-popup">Enter message to Nicole:<br /><textarea /></div>',
-        type: 'inline'
-    },
-    closeBtnInside: true
-  });
+  makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true);
+  makePopup("#new",'New Page');
+  makePopup("#load",'Load Page');
+  makePopup("#print",'Enter message to Nicole:<br /><textarea />')
 }
 
 //when page is finished loading, the main methods are called
@@ -134,5 +183,8 @@ $(document).ready(function(){
 
   fillEmptySpots();
   applyrun(); //This starts the dragging and dropping
+
+  //TODO see if user is a new user, if so:
+    $("#start_splash_page").click();
 
 });
