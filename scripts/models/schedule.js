@@ -12,7 +12,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   }
 
   /* If there is a new user, the method initializes the Schedule to the default
-   * schedule which is defined in data/guest_data.csv 
+   * schedule which is defined in data/guest_data.csv
    *
    * @param courses_lst   Takes in the courses list from the DB and parses
    */
@@ -73,26 +73,26 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return false;
   }
-  
+
   this.createChecklist = function() {
     var leftChecklistRows = 18;
     var count = 0;
     var header = "";
     for (var rule in checklist_rules) {
       for (var i = 0; i < checklist_rules[rule].slots; i++) {
-        
+
         var checklistclass = ".classleftrow";
         if (count > leftChecklistRows) {
            checklistclass = ".classrightrow";
         }
-        
+
         if (header != checklist_rules[rule].header) {
            $(checklistclass).append("<div class='classRow'>" +
                   checklist_rules[rule].header +
                   " </div>");
           header = checklist_rules[rule].header
         }
-        
+
         $(checklistclass).append("<div class='classRow'>" +
                   " <div class='requirement'>" + checklist_rules[rule].title +
                   "</div><div class='drag-course dragcolumnchecklist'>" +
@@ -100,11 +100,11 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
                  "  </div><div class='course-credit'></div>" +
                  "<div class='course-semester'></div> " +
                  " </div></div>");
-      
+
       if (count == leftChecklistRows) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div></div>");
       }
-      
+
       count++;
       }
     }
@@ -142,10 +142,11 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return output;
   }
+<<<<<<< Updated upstream
 
-  /* Returns JSON object of title of Rule -> Course array 
+  /* Returns JSON object of title of Rule -> Course array
    *  Strictly reads from the schedule object. Does not save state anywhere
-   *  in order to avoid maintaining multiple states. 
+   *  in order to avoid maintaining multiple states.
    *  Unassigned courses will be under the key "null" */
   this.ruleToCourses = function() {
     var courses = this.toArray();
@@ -160,6 +161,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return ruleToCourse;
   }
+
 
   /* Pass in a dictionary of excel cell locations -> value (String).
    * The method modifies the dictionary passed in. */
