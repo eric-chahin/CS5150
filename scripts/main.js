@@ -99,6 +99,13 @@ function makePopup(selector,html,open_f,dismiss_off) {
 
 /* Separates the splash page HTML so that it can be used as a popup. */
 function getSplashPageHTML() {
+  var select_html = '<option selected disabled>Entering year</option>';
+  var current_year = new Date().getFullYear();
+  for (var i = 0; i < 6; i++) {
+    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + "</option>";
+  }
+  select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
+
   var splash_html = "<div id='splashPage'>                                      \
   <p>Welcome to Checklist Interactive! This tool is intended for Cornell\
     University Computer Science students in the College of Engineering to plan\
@@ -117,6 +124,7 @@ function getSplashPageHTML() {
                     <label for="splash_check"></label>\
                     <p>Yes, agreed.</p>\
                   </div>';
+  splash_html += select_html;
   splash_html += '<input type="image" src="img/Splash Assets/continue.png" name="confirmSplash" id="confirmSplash" />';
   splash_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div>';
   
@@ -128,10 +136,13 @@ function getSplashPageHTML() {
 function getSplashPageFunctions() {
   $("#confirmSplash").on('click', function() {
     var checkedValue = $('#splash_check:checked').val();
-    if (checkedValue === "confirm") {
-      $.magnificPopup.close();
-    } else {
+    var enteringYear = $('#splashPageSelect').val();
+    if (checkedValue !== "confirm") {
       $("#splash_warning").text("You need to agree to the terms and conditions to use Checklist Interactive.");
+    } else if (isNaN(enteringYear)) {
+      $("#splash_warning").text("Please, select your first year at Cornell.");
+    } else {
+      $.magnificPopup.close();
     }
     return false;
   });

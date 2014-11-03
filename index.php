@@ -77,6 +77,7 @@
 </div>
 
 
+
 <div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -84,6 +85,12 @@
         <div class="classleftrow">
 
          </div>
+          <!-- For people who have JS turned off for some reason. -->
+          <noscript>
+            For full functionality of this page it is necessary to enable JavaScript. 
+            Here are the <a href="http://www.enable-javascript.com" target="_blank"> 
+            instructions how to enable JavaScript in your web browser</a>
+          </noscript>
          <div class="classrightrow">
                 
          </div>
