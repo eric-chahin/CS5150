@@ -62,10 +62,10 @@
 </div>
 <div id="sidebar">
   <div id="sidebarContainer">
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="new"></div>
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="load"></div>
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="save"></div>
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="print"></div>
+    <div class="scrollclick" id="new"></div>
+    <div class="scrollclick" id="load"></div>
+    <div class="scrollclick" id="save"></div>
+    <div class="scrollclick" id="print"></div>
     <div id="remove"></div>
   </div>
 </div>
@@ -75,6 +75,7 @@
   typeset text. Only for show. He who searches for meaning here will be sorely 
   disappointed.
 </div>
+
 
 <div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
@@ -177,7 +178,9 @@
 		    </div>
 		</div>
 	</div>
-<div style="text-align:center;"><button data-effect='mfp-zoom-out' id="email_nicole">button</button></div>
+<!-- DO NOT DELETE THIS BUTTON BELOW HERE, IT IS CRUCIAL FOR DISPLAYING THE SPLASH PAGE -->
+<div style="display:none;"><button id="start_splash_page"></button></div>
+
 
 </div>
 <br />
