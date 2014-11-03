@@ -74,6 +74,10 @@ body{
   background-repeat:no-repeat;
 }
 
+#new:hover{
+  background-image: url("../img/sidebar/icon_new_selected.png");
+}
+
 #load{
   float:left;
   width:60px;
@@ -83,6 +87,10 @@ body{
   background-image: url("../img/sidebar/icon_load.png");
   background-position: center;
   background-repeat:no-repeat;
+}
+
+#load:hover{
+  background-image: url("../img/sidebar/icon_load_selected.png");
 }
 
 #save{
@@ -95,6 +103,10 @@ body{
   background-repeat:no-repeat;
 }
 
+#save:hover{
+  background-image: url("../img/sidebar/icon_save_selected.png");
+}
+
 #print{
   float:left;
   width:60px;
@@ -102,6 +114,10 @@ body{
   background-image: url("../img/sidebar/icon_print.png");
   background-position: center;
   background-repeat:no-repeat;
+}
+
+#print:hover{
+  background-image: url("../img/sidebar/icon_print_selected.png");
 }
 
 #remove{
@@ -114,6 +130,8 @@ body{
   border-color: black;
   padding-left: 25px;
 }
+
+
 
 .scrollclick:hover{
     cursor: hand;
