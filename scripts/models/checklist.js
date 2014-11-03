@@ -157,14 +157,15 @@ var Checklist = function(version) {
 
   /* Loads the HTML for the checklist. Essential when creating a new Checklist object. */
   this.createChecklistHTML = function() {
-    var leftChecklistRows = 12;
+    var leftChecklistRows = 19;
     var count = 0;
     var header = "";
+     var checklistclass = ".classleftrow";
     for (var rule in checklist_rules) {
       for (var i = 0; i < checklist_rules[rule].slots; i++) {
         
-        var checklistclass = ".classleftrow";
-        if (count > leftChecklistRows) {
+       
+        if (count == leftChecklistRows) {
            checklistclass = ".classrightrow";
         }
         
@@ -173,6 +174,10 @@ var Checklist = function(version) {
                   checklist_rules[rule].header +
                   " </div>");
           header = checklist_rules[rule].header
+                              $(checklistclass).append("<div class='classRow'><div class='requirement'>Requirement</div>" +
+                                    "<div class='drag-course'><div class='course-name'>Course Name</div><div class='course-credit'>Cr</div>" +
+                                    "<div class='course-semester'>Sem</div></div>" +
+                  " </div>");
         }
         
         $(checklistclass).append("<div class='classRow'>" +
@@ -182,14 +187,24 @@ var Checklist = function(version) {
                  "  </div><div class='course-credit'></div>" +
                  "<div class='course-semester'></div> " +
                  " </div></div>");
-      }
+    
       if (count == leftChecklistRows) {
-         $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div></div>");
+         $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
+                                    "<div class ='unassigned-classes'></div></div>");
       }
       count++;
     }
   }
+}
 
+ /* this.addclasstoChecklistHTML = function() {
+                  <div class='classRow'><div class='requirement'>Requirement</div>" +
+                  "<div class='drag-course'><div class='course-name'>Course Name</div><div class='course-credit'>Cr</div>" +
+                  "<div class='course-semester'>Sem</div></div>" +
+                  " </div>");
+                  
+  }
+*/
   /* 
    * Takes in a list and returns true if the course matches a rule in the lst
    * 'x' can match with any digit

@@ -3,7 +3,8 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
-  this.courses_I_want = [] //TODO load/save this properly
+  this.courses_I_want = []; //TODO load/save this properly
+  this.startYear = 11; //TODO let the user enter this for their schedule or generate based on version
 
   //Semester 2D Array that contain Course objects
   this.semesters = new Array(8);
@@ -31,6 +32,19 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.semesters[semester][index] = obj;
   }
 
+  /*Creates the string name for a semester number*/
+  this.convertSemesterName = function(semesterNum){
+    var name = "";
+    if (semesterNum % 2 == 0) {
+      name = "FA";
+    }else{
+      name = "SP";
+      semesterNum+=1;
+    }
+    name+= this.startYear + Math.floor(semesterNum/2);
+    return name;
+  }
+  
   /* Adds a new course with listing at [semester][index].
    * Overwrites anything that is there and returns the newly generated course.
    *
@@ -42,6 +56,16 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     console.log("adding " + listing + " at " + semester+index);
     var newCourse = new Course(listing, null);
     this.semesters[semester][index] = newCourse;
+    
+    //assign a course to the unassigned box
+      $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist' data-name='" + listing  +
+                  "' ><div class='course-name'>" + listing +
+                  "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                  "<div class='course-semester'>" + this.convertSemesterName(semester) + "</div>" +
+                  " </div>");
+    copySections();
+    applyrun();
+    
     return newCourse;
   }
 
@@ -49,14 +73,64 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   this.swapCourses = function(semester1,index1,semester2,index2) {
     console.log("switch " + semester1+index1 + " with " + semester2+index2);
     var tmp = this.semesters[semester1][index1];
+    var tmp2 = this.semesters[semester2][index2];
     this.semesters[semester1][index1] = this.semesters[semester2][index2];
     this.semesters[semester2][index2] = tmp;
+    
+    //Swap the test in the checklist for each semester 
+    semester2 = this.convertSemesterName(semester2);
+    semester1 = this.convertSemesterName(semester1);
+     $(".unassigned-classRow").each(function(){
+        if(tmp != null && $(this).attr('data-name') == tmp.listing){
+          for (var i = 0; i < this.childNodes.length; i++) {
+            if (this.childNodes[i] != null) {
+               if (this.childNodes[i].innerHTML == semester1) this.childNodes[i].innerHTML =  semester2;
+            }
+          }
+        }
+         if(tmp2 != null && $(this).attr('data-name') == tmp2.listing){
+          for (var i = 0; i < this.childNodes.length; i++) {
+            if (this.childNodes[i] != null) {
+               if (this.childNodes[i].innerHTML == semester2) this.childNodes[i].innerHTML =  semester1;
+            }
+          }
+         }
+      });
+      $(".drag-course").each(function(){
+        if(tmp != null && $(this).attr('data-name') == tmp.listing){
+          for (var i = 0; i < this.childNodes.length; i++) {
+            if (this.childNodes[i] != null) {
+               if (this.childNodes[i].innerHTML == semester1) this.childNodes[i].innerHTML =  semester2;
+            }
+          }
+        }
+         if(tmp2 != null && $(this).attr('data-name') == tmp2.listing){
+          for (var i = 0; i < this.childNodes.length; i++) {
+            if (this.childNodes[i] != null) {
+               if (this.childNodes[i].innerHTML == semester2) this.childNodes[i].innerHTML =  semester1;
+            }
+          }
+        }
+      
+      });
   }
 
   /* Returns the old course and sets the spot in the semester to null. */
   this.deleteCourse = function(semester,index) {
     var oldCourse = this.semesters[semester][index];
     this.semesters[semester][index] = null;
+    
+    $(".unassigned-classRow").each(function(){
+        if($(this).attr('data-name') == oldCourse.listing){
+         $(this).remove();
+        }
+      });
+    $(".classRow").each(function(){
+        if($(this).attr('data-name') == oldCourse.listing){
+         $(this).remove();
+        }
+      });
+    
     return oldCourse;
   }
 
@@ -73,42 +147,6 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return false;
   }
-  
-  this.createChecklist = function() {
-    var leftChecklistRows = 18;
-    var count = 0;
-    var header = "";
-    for (var rule in checklist_rules) {
-      for (var i = 0; i < checklist_rules[rule].slots; i++) {
-        
-        var checklistclass = ".classleftrow";
-        if (count > leftChecklistRows) {
-           checklistclass = ".classrightrow";
-        }
-        
-        if (header != checklist_rules[rule].header) {
-           $(checklistclass).append("<div class='classRow'>" +
-                  checklist_rules[rule].header +
-                  " </div>");
-          header = checklist_rules[rule].header
-        }
-        
-        $(checklistclass).append("<div class='classRow'>" +
-                  " <div class='requirement'>" + checklist_rules[rule].title +
-                  "</div><div class='drag-course dragcolumnchecklist'>" +
-                  " <div class='course-name'>" + "" +
-                 "  </div><div class='course-credit'></div>" +
-                 "<div class='course-semester'></div> " +
-                 " </div></div>");
-      
-      if (count == leftChecklistRows) {
-         $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div></div>");
-      }
-      
-      count++;
-      }
-    }
-   }
 
   this.toString = function() {
     var rtnStr = "";
