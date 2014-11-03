@@ -183,6 +183,7 @@ $(document).ready(function(){
 
   fillEmptySpots();
   applyrun(); //This starts the dragging and dropping
+  checklistDrag();
 
   //TODO see if user is a new user, if so:
     $("#start_splash_page").click();

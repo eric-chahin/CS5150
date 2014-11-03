@@ -42,6 +42,7 @@
 	<script type="text/javascript" src="scripts/search.js"></script>
 	<!-- There is draga, dragb,dragc js files -->
 	<script type="text/javascript" src="scripts/dragb.js"></script>
+        <script type="text/javascript" src="scripts/checklistdragb.js"></script>
   <script type="text/javascript" src="scripts/models/course.js"></script>
   <script type="text/javascript" src="scripts/models/user.js"></script>
   <script type="text/javascript" src="scripts/models/schedule.js"></script>

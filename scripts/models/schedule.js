@@ -63,8 +63,8 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
                   "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
                   "<div class='course-semester'>" + this.convertSemesterName(semester) + "</div>" +
                   " </div>");
-    copySections();
-    applyrun();
+   // copySections();
+    checklistDrag();
     
     return newCourse;
   }

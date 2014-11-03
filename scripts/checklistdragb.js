@@ -1,58 +1,14 @@
 //http://www.html5rocks.com/en/tutorials/dnd/basics/
 
-function applyrun() { 
+function checklistDrag() { 
   var dragSrc = null;
   var $dragSrcNode = null; //jQuery node
   var draggingColumn = null;
   var ENABLE_GHOST_COL = false;
 
-  /* Checks to see if element's class property has <name> in it. */
-  Element.prototype.hasClassName = function(name) {
-    return new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)").test(this.className);
-  };
-
-  /* Adds <name> to this tag's class property. */
-  Element.prototype.addClassName = function(name) {
-    if (!this.hasClassName(name)) {
-      if (this.className) {
-        this.className = [this.className, name].join(' ');
-      } else {
-        this.className = name;
-      }
-    }
-  };
-
-  /* Removes <name> from this tag's class property. */
-  Element.prototype.removeClassName = function(name) {
-    if (this.hasClassName(name)) {
-      var c = this.className;
-      this.className = c.replace(new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)", "g"), "");
-    }
-  };
-
-
-  function mouseCoords(ev) {
-    if (ev.pageX || ev.pageY) {
-      return {x: ev.pageX, y: ev.pageY};
-    }
-    return {
-      x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-      y: ev.clientY + document.body.scrollTop  - document.body.clientTop
-    };
-  }
-
-  function handleClick(e) {
-    if (this.textContent !== "") {
-      var $thisNode = $("#" + this.id);
-      var thisCourse = $thisNode.data("course");
-      if (thisCourse) {
-        // console.log(thisCourse.toString());
-        replacePopupText(thisCourse.toString());
-      } else {
-        // console.log(new Course(this.textContent,"").toString());
-        replacePopupText(new Course(this.textContent,"").toString())
-      }
-    }
+  function checklisthandleClick(e) {
+    console.log("Clicking");
+   
   }
 
   /* Replaces the current popup text with str. */
@@ -61,12 +17,12 @@ function applyrun() {
   }
 
 
-  function handleDragStart(e) {
+  function checklisthandleDragStart(e) {
+    console.log("dragstart");
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', this.innerHTML);
     dragSrc = this;
     $dragSrcNode = $("#" + this.id);
-
 
     window.console && console.log(e, e.dataTransfer);
     window.foo = e;
@@ -78,23 +34,9 @@ function applyrun() {
 
     dragSrc.style.opacity = '0.4';
 
-    //changing the trashbin to being selected
-    setTimeout(function(){
-      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_selected.png)");
-      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_grayed.png)");
-      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
-      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
-      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
-    }, 100);
-    // Make the garbage can a drop target
-    var trashcan = document.getElementById("remove");
-    trashcan.addEventListener('drop',handleDrop);
-    trashcan.addEventListener('dragover', handleDragOver);
-    trashcan.addEventListener('dragleave', handleDragLeave);
-    trashcan.addEventListener('dragend', handleDragEnd);
   }
 
-  function handleDragOver(e) {
+  function checklisthandleDragOver(e) {
     if (e.preventDefault) {
       e.preventDefault(); // Allows us to drop.
     }
@@ -113,12 +55,12 @@ function applyrun() {
     return false;
   }
 
-  function handleDragLeave(e) {
+  function checklisthandleDragLeave(e) {
     this.removeClassName('over');
     // console.log("does this happen multiple times");
   }
 
-  function handleDrop(e) {
+  function checklisthandleDrop(e) {
     if (e.stopPropagation) {
       e.stopPropagation(); // stops the browser from redirecting.
     }
@@ -134,11 +76,16 @@ function applyrun() {
 
       //Swapping the contents in this div and the dragSrc div, no object switching
         dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
+      //  var name2 = dragSrc.attr('data-name');
+       // var name1 = this.attr('data-name');
+        
+       // dragSrc.attr('data-name', name1);
+       // this.attr('data-name', name2);
+        
         //NOTE: changed from this.textContent to this.innerHTML
         
-      //   console.log("does it come to replace the data");
-      // }
       this.innerHTML = e.dataTransfer.getData('text/html');
+     
       
       if (document.getElementById("remove") == this) {
         //send hexagon into the abyss
@@ -190,11 +137,7 @@ function applyrun() {
     return false;
   }
 
-  function handleDragEnd(e) {
-    var cols = document.querySelectorAll('.dragcolumn');
-    [].forEach.call(cols, function (col) {
-      col.removeClassName('over');
-    });
+  function checklisthandleDragEnd(e) {
     
     var cols = document.querySelectorAll('.dragcolumnchecklist');
     [].forEach.call(cols, function (col) {
@@ -207,58 +150,32 @@ function applyrun() {
       document.body.removeChild(draggingColumn);
     }
 
-    var cols = document.querySelectorAll('.dragcolumn');
-    [].forEach.call(cols, function (col) {
-      if (col.innerHTML == "") {
-        $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
-        //col.addClassName('over');
-      } else {
-        $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
-      }
-    }); 
-    //handling the scrollbar buttons
-    setTimeout(function(){
-      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
-      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
-      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
-      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
-      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
-    }, 100);
   }
 
-  function shakeGarbageCan() {
-    setTimeout(function() {
-     $("#remove").addClass("shaking");
-    }, 100);
-    setTimeout(function() {
-     $("#remove").removeClass("shaking");
-    }, 1000);
-  }
 
-  function attachColumnListener(col) {
+  function checklistattachColumnListener(col) {
     // Enable columns to be draggable.
     col.setAttribute('draggable', 'true');
-    col.addEventListener('dragstart', handleDragStart);
+    
+    col.addEventListener('dragstart', checklisthandleDragStart);
 
     // Enable columns to be clickable
-    col.addEventListener('click', handleClick);
+    col.addEventListener('click', checklisthandleClick);
     // Make each column itself a drop target.
-    col.addEventListener('drop', handleDrop);
-    col.addEventListener('dragover', handleDragOver);
-    col.addEventListener('dragleave', handleDragLeave);
-    col.addEventListener('dragend', handleDragEnd);
+    col.addEventListener('drop', checklisthandleDrop);
+    col.addEventListener('dragover', checklisthandleDragOver);
+    col.addEventListener('dragleave', checklisthandleDragLeave);
+    col.addEventListener('dragend', checklisthandleDragEnd);
   }
 
-
-  var cols = document.querySelectorAll('.dragcolumn');
-  [].forEach.call(cols, function (col) {
-    attachColumnListener(col);
+  var cols2 = document.querySelectorAll('.dragcolumnchecklist');
+  [].forEach.call(cols2, function (col) {
+    checklistattachColumnListener(col);
   });
-
 
 };
 
-function recreateExistingDivs() { 
+function checklistrecreateExistingDivs() { 
   console.log("recreate is being called");
   var nodes = $( "#resultspar" ).children();
   $( "#resultspar" ).remove();
@@ -268,7 +185,7 @@ function recreateExistingDivs() {
   }
 }
 
-function copySections(){
+function checklistcopySections(){
   // console.log("copy the sections");
   var classContainerChildren =  $(".classContainerChildren").clone();
   var yearChildren = $(".carousel_container").clone();

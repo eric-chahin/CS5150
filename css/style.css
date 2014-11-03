@@ -558,7 +558,7 @@ clear:left;
 
 .white-popup {
   position: relative;
-  background: #FFF;
+  background-image: url("../img/splashpage/splash_box.png");
   padding: 20px;
   width: auto;
   max-width: 500px;
