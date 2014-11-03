@@ -142,7 +142,29 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return output;
   }
-<<<<<<< Updated upstream
+
+  /*written by Ben
+   *  repopulates schedule from saved user schedule
+   *  input format is assumed to be same as output format of this.toArray */
+  this.fromArray = function(savedSchedule){
+    var countInArrays = new Array(9)
+    for (var k = 0; k < countInArrays.length; k++) {
+      countInArrays[k] = 0;
+    }
+    for (var i = 0; i < savedSchedule.length; i++) {
+      if (savedSchedule[i][0] == -1){
+        this.courses_I_want[countInArrays[8]] = savedSchedule[i][1];
+        countInArrays[8] = countInArrays[8] + 1;
+      }
+      else {
+        this.courses_I_want[countInArrays[i]] = savedSchedule[i][1];
+        countInArrays[i] = countInArrays[i] + 1;
+      }
+    }
+  }
+
+
+
 
   /* Returns JSON object of title of Rule -> Course array
    *  Strictly reads from the schedule object. Does not save state anywhere
