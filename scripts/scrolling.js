@@ -40,6 +40,12 @@ $("#new").mouseup(function(){
   $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
 })
 
+$("#new").hover(function(){
+  $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_selected.png)");
+}, function(){
+  $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
+});
+
 $("#load").mousedown(function(){
   $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_selected.png)");
 })
@@ -47,6 +53,12 @@ $("#load").mousedown(function(){
 $("#load").mouseup(function(){
   $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
 })
+
+$("#load").hover(function(){
+  $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_selected.png)");
+}, function(){
+  $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
+});
 
 $("#save").mousedown(function(){
   $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_selected.png)");
@@ -56,6 +68,12 @@ $("#save").mouseup(function(){
   $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
 })
 
+$("#save").hover(function(){
+  $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_selected.png)");
+}, function(){
+  $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+});
+
 $("#print").mousedown(function(){
   $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_selected.png)");
 })
@@ -63,6 +81,12 @@ $("#print").mousedown(function(){
 $("#print").mouseup(function(){
   $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
 })
+
+$("#print").hover(function(){
+  $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_selected.png)");
+}, function(){
+  $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
+});
 
 };
 

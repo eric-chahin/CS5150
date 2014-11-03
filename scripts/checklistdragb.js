@@ -76,8 +76,8 @@ function checklistDrag() {
 
       //Swapping the contents in this div and the dragSrc div, no object switching
         dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
-      //  var name2 = dragSrc.attr('data-name');
-       // var name1 = this.attr('data-name');
+       // var name2 = dragSrc.attr('data-name');
+        //var name1 = this.attr('data-name'); 
         
        // dragSrc.attr('data-name', name1);
        // this.attr('data-name', name2);

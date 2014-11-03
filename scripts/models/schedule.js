@@ -13,7 +13,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   }
 
   /* If there is a new user, the method initializes the Schedule to the default
-   * schedule which is defined in data/guest_data.csv 
+   * schedule which is defined in data/guest_data.csv
    *
    * @param courses_lst   Takes in the courses list from the DB and parses
    */
@@ -181,9 +181,32 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     return output;
   }
 
-  /* Returns JSON object of title of Rule -> Course array 
+  /*written by Ben
+   *  repopulates schedule from saved user schedule
+   *  input format is assumed to be same as output format of this.toArray */
+  this.fromArray = function(savedSchedule){
+    var countInArrays = new Array(9)
+    for (var k = 0; k < countInArrays.length; k++) {
+      countInArrays[k] = 0;
+    }
+    for (var i = 0; i < savedSchedule.length; i++) {
+      if (savedSchedule[i][0] == -1){
+        this.courses_I_want[countInArrays[8]] = savedSchedule[i][1];
+        countInArrays[8] = countInArrays[8] + 1;
+      }
+      else {
+        this.courses_I_want[countInArrays[i]] = savedSchedule[i][1];
+        countInArrays[i] = countInArrays[i] + 1;
+      }
+    }
+  }
+
+
+
+
+  /* Returns JSON object of title of Rule -> Course array
    *  Strictly reads from the schedule object. Does not save state anywhere
-   *  in order to avoid maintaining multiple states. 
+   *  in order to avoid maintaining multiple states.
    *  Unassigned courses will be under the key "null" */
   this.ruleToCourses = function() {
     var courses = this.toArray();
@@ -198,6 +221,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return ruleToCourse;
   }
+
 
   /* Pass in a dictionary of excel cell locations -> value (String).
    * The method modifies the dictionary passed in. */
