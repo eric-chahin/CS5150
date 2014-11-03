@@ -4,7 +4,6 @@ var Panel = function() {
 
   $("#print").click(
     function() {
-      alert("Printing your checklist...");
       //TODO fill user information below
       var cellsToFill = {'B4':'Name: ','B5':'Email: ', 'G5':'Cornell ID: '}; //Dictionary of cell name to value
       user.current_schedule.getExcelLocations(cellsToFill);

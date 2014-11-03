@@ -54,22 +54,25 @@ if (strlen($search_string) >= 1 && $search_string !== ' ') {
 	if (isset($result_array) && empty($result_array) == false) {
 
 		foreach ($result_array as $result) {
-	    if (($counter -4 ) %7== 0 && $counter!=0) {
+	    //if (($counter -4 ) %7== 0 && $counter!=0) {
 	       //echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagonLeft dragcolumn searchdiv" new="true" draggable="true">');
 	    	//on click needs function that adds to the course box on the right of search
-	    	echo ('<div onclick="return addToDesiredCourses()"><div><span>');
-	    }else {
+	    	
+	    //}else {
 				//echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagon dragcolumn searchdiv" new="true" draggable="true">');
-	    	echo ('<div onclick="return addToDesiredCourses()"><div><span>');
-	    }
+	    	//echo ('<div onclick="return addToDesiredCourses(this)"><div><span>');
+	    //	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div><span>');
+	    //}
 	    $elem = $result_array[$counter][0];
-	    //name of the course
-	    echo($result_array[$counter][1]);
+	    $courseName = $result_array[$counter][1];
 	    //find first number
 	    preg_match('/^\D*(?=\d)/',$elem,$m);
 	    $index_of_first_number = isset($m[0]) ? strlen($m[0]) : strlen($elem);
 	    $num = substr($elem,$index_of_first_number);
 	    $dept = substr($elem,0,$index_of_first_number);
+	   	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div><span>');
+	    //name of the course
+	    echo($courseName);
 			echo('</span>'.$dept." ".$num."".'</div></div>');
 			$counter = $counter + 1;
 		}

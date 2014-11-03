@@ -62,10 +62,10 @@
 </div>
 <div id="sidebar">
   <div id="sidebarContainer">
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="new"></div>
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="load"></div>
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="save"></div>
-    <div data-effect='mfp-zoom-out' class="scrollclick" id="print"></div>
+    <div class="scrollclick" id="new"></div>
+    <div class="scrollclick" id="load"></div>
+    <div class="scrollclick" id="save"></div>
+    <div class="scrollclick" id="print"></div>
     <div id="remove"></div>
   </div>
 </div>
@@ -76,6 +76,8 @@
   disappointed.
 </div>
 
+
+
 <div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -83,6 +85,12 @@
         <div class="classleftrow">
 
          </div>
+          <!-- For people who have JS turned off for some reason. -->
+          <noscript>
+            For full functionality of this page it is necessary to enable JavaScript. 
+            Here are the <a href="http://www.enable-javascript.com" target="_blank"> 
+            instructions how to enable JavaScript in your web browser</a>
+          </noscript>
          <div class="classrightrow">
                 
          </div>
@@ -177,7 +185,9 @@
 		    </div>
 		</div>
 	</div>
-<div style="text-align:center;"><button data-effect='mfp-zoom-out' id="email_nicole">button</button></div>
+<!-- DO NOT DELETE THIS BUTTON BELOW HERE, IT IS CRUCIAL FOR DISPLAYING THE SPLASH PAGE -->
+<div style="display:none;"><button id="start_splash_page"></button></div>
+
 
 </div>
 <br />
