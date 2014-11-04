@@ -33,7 +33,6 @@ function checklistDrag() {
     }
 
     dragSrc.style.opacity = '0.4';
-
   }
 
   function checklisthandleDragOver(e) {
@@ -63,6 +62,8 @@ function checklistDrag() {
   function checklisthandleDrop(e) {
     if (e.stopPropagation) {
       e.stopPropagation(); // stops the browser from redirecting.
+      //checklistcopySections();
+      console.log("dropped");
     }
 
 
@@ -149,7 +150,6 @@ function checklistDrag() {
     if (ENABLE_GHOST_COL) {
       document.body.removeChild(draggingColumn);
     }
-
   }
 
 
@@ -176,23 +176,22 @@ function checklistDrag() {
 };
 
 function checklistrecreateExistingDivs() { 
+
+  //checklist_box_container
   console.log("recreate is being called");
-  var nodes = $( "#resultspar" ).children();
-  $( "#resultspar" ).remove();
+  var nodes = $( ".checklist_box" ).children();
+  $( ".checklist_box" ).remove();
   for(var i = 0; i< nodes.length;i++){
-    $("#permanent").append("<div id='resultspar'></div>");
-    $("#resultspar").append("<div class='hexagon dragcolumn searchdiv'" + "draggable='true'>" + nodes[i].innerHTML + "</div>");
+    $(".checklist_box_container").append("<div class='checklist_box'></div>");
+    $(".checklist_box").append("<div class='hexagon dragcolumn searchdiv'" + "draggable='true'>" + nodes[i].innerHTML + "</div>");
   }
 }
 
 function checklistcopySections(){
-  // console.log("copy the sections");
-  var classContainerChildren =  $(".classContainerChildren").clone();
-  var yearChildren = $(".carousel_container").clone();
-  $(".classContainerChildren").remove();
-  $(".carousel_container").remove();
-  $(".refresh_holder_classContainer").append(classContainerChildren);
-  $(".carousel_holder").append(yearChildren);
+  console.log("deep cloning son");
+  var checklistclone = $(".checklist_box").clone();
+  $(".checklist_box").remove();
+  $(".checklist_box_container").append(checklistclone);
 }
 
 

@@ -186,11 +186,11 @@ function applyrun() {
 
 
     }
-
     return false;
   }
 
   function handleDragEnd(e) {
+    console.log("dragb dropped");
     var cols = document.querySelectorAll('.dragcolumn');
     [].forEach.call(cols, function (col) {
       col.removeClassName('over');

@@ -82,6 +82,7 @@
 <div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
+    <div class="checklist_box_container">
 			<div class="checklist_box">
         <div class="classleftrow">
 
@@ -96,6 +97,8 @@
                 
          </div>
 			</div>
+    </div>
+
 		</div>
 	</div>
 	<div class="row clearfix">
