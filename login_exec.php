@@ -43,7 +43,7 @@
 //	}
  
 	//Create query
-	$qry="SELECT COUNT(username) FROM member WHERE username='$user' AND password='$pass'";
+	$qry="SELECT COUNT(netid) FROM member WHERE netid='$user' AND password='$pass'";
 	$result=mysql_query($qry);
     $rows = mysql_fetch_array($result);
 	//Check whether the query was successful or not
