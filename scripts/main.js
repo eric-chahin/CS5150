@@ -60,6 +60,20 @@ function fillEmptySpots() {
   }); 
 }
 
+/* Scans through the schedule and saves all elements on the site into
+   * the current schedule. */
+function saveUser (user) {
+  var user_semesters = user.current_schedule.semesters;
+  for (var i = 0; i < user_semesters.length; i++){
+    var user_semester = user_semesters[i];
+    var $semester = $("#semester"+(i+1));
+    var $courses = $semester.children();
+    for (var j = 1; j <= 8; j++){
+      user_semester[j-1].listing = $courses[j].innerHTML;
+    }
+  }
+}
+
 /* The method sets up a popup at the selector with the html.
  * Uses the white-popup class for CSS. 
  * If you have event listeners for the html that you pass in, then you can pass
@@ -67,7 +81,7 @@ function fillEmptySpots() {
  *   your html arg.
  * There automatically is a button added to dismiss the popup.
  *   If you would like to turn that off, set dismiss_off to true. */
-function makePopup(selector,html,open_f,dismiss_off) {
+function makePopup(selector,html,open_f,dismiss_off, user) {
   var dismiss_button = "<br/><button class='dismiss'>Dismiss</button>";
   if (dismiss_off)
     dismiss_button = "";
@@ -148,12 +162,16 @@ function getSplashPageFunctions() {
   });
 }
 
-function setupMagnificPopup() {
+function saveUserFunction() {
+  user.save_schedule(); 
+}
+
+function setupMagnificPopup(user) {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
   $('.hexagonLeft').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
   $('.open-popup-link').magnificPopup({
     type:'inline',
-    removalDelay: 500, //delay removal by X to allow out-animation
+    removalDelay: 50, //delay removal by X to allow out-animation
     callbacks: {
       beforeOpen: function() {
         this.st.mainClass = this.st.el.attr('data-effect');
@@ -161,10 +179,11 @@ function setupMagnificPopup() {
     },
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
-  makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true);
-  makePopup("#new",'New Page');
-  makePopup("#load",'Load Page');
-  makePopup("#print",'Enter message to Nicole:<br /><textarea />')
+  makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
+  makePopup("#new",'New Page', false, false, null);
+  makePopup("#load",'Load Page', false, false, null);
+  makePopup("#save", 'Saved!', saveUserFunction, false, user); 
+  makePopup("#print",'Enter message to Nicole:<br /><textarea />', false, false, null)
 }
 
 //when page is finished loading, the main methods are called
@@ -177,9 +196,8 @@ $(document).ready(function(){
   loader.initializeCourseInfo();
   user = loader.fetchUser();
   loader.applyUser(user);
-  setupMagnificPopup();
+  setupMagnificPopup(user);
   var panel = new Panel();
-
 
   fillEmptySpots();
   applyrun(); //This starts the dragging and dropping
@@ -187,5 +205,7 @@ $(document).ready(function(){
 
   //TODO see if user is a new user, if so:
     $("#start_splash_page").click();
+
+    //TODO: saving while someone is actually on a schedule
 
 });
