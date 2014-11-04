@@ -98,7 +98,7 @@
          </div>
 			</div>
     </div>
-
+    <div id= "swapmssg"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 		</div>
 	</div>
 	<div class="row clearfix">
@@ -122,7 +122,7 @@
 		</div>
 	</div>
 	  </div>
-        
+  <div id= "tutorialaddmessg"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
 	<div class="row clearfix">
 	  <div class="row3" >
            

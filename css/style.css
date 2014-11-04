@@ -726,4 +726,14 @@ clear:left;
   opacity: 1;
 }
 
+#swapmssg{
+  position: absolute;
+  left: -100px;
+  top:370px;
+}
 
+#tutorialaddmessg{
+  position: absolute;
+  left: 1100px;
+  bottom: -400px;
+}
