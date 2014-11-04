@@ -130,6 +130,12 @@ function checklistDrag() {
         //just swapping divs elsewhere, don't care
       }
 
+            $(".unassigned-classes").children().each(function(){
+        console.log("trim");
+        if($.trim($(this).text()) == ""){
+         $(this).remove();
+        }
+      });
       console.log(user.current_schedule.toString());
 
 
