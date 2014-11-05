@@ -26,7 +26,6 @@
         copySections();
         applyrun();
         setTimeout(function() {
-
           $(".fadeinfadeout").removeClass('fadeinfadeout');
         },3000);
         return false;

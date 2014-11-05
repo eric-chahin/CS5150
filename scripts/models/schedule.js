@@ -5,6 +5,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   this.name = schedule_name;
   this.courses_I_want = []; //TODO load/save this properly
   this.startYear = 11; //TODO let the user enter this for their schedule or generate based on version
+  this._saved = true; //Private variable. Please don't touch outside of class
 
   //Semester 2D Array that contain Course objects
   this.semesters = new Array(8);
@@ -21,14 +22,33 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     //TODO read from courses_lst
     //TODO store the Courses in the semester
     //TODO
-    this.semesters[1][0] = new Course("CS1110",null);
-    this.semesters[1][1] = new Course("CS2800",null);
-    this.semesters[2][0] = new Course("CS2110",null);
-    this.semesters[3][0] = new Course("CS3110",null);
+    this.semesters[1][0] = new Course("CS 1110",null);
+    this.semesters[1][1] = new Course("CS 2800",null);
+    this.semesters[2][0] = new Course("CS 2110",null);
+    this.semesters[3][0] = new Course("CS 3110",null);
+  }
+
+  //TODO: Make sure that the this._saved flag is false when switching requirements around AND CIWTT
+  var confirmOnPageExit = function(e) {
+    e = e || window.event;
+    var message = 'Are you sure you have saved your checklist?';
+    if (e) {
+      e.returnValue = message;
+    }
+    return message;
+  };
+  this.setSaved = function(bool) {
+    this._saved = bool;
+    if (bool) {
+      window.onbeforeunload = null;
+    } else {
+      window.onbeforeunload = confirmOnPageExit; 
+    }
   }
 
   /* Pushes Course object into the semesters array at semester,index. */
   this.moveCourse = function(obj,semester,index) {
+    this.setSaved(false);
     this.semesters[semester][index] = obj;
   }
 
@@ -52,6 +72,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
    * is not given a requirement_filled for the course.
    */
   this.addCourse = function(listing,semester,index) {
+    this.setSaved(false);
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
     var newCourse = new Course(listing, null);
@@ -72,6 +93,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
 
   /* Swaps the object at [semester1][index1] with [semester2][index2] */
   this.swapCourses = function(semester1,index1,semester2,index2) {
+    this.setSaved(false);
     console.log("switch " + semester1+index1 + " with " + semester2+index2);
     var tmp = this.semesters[semester1][index1];
     var tmp2 = this.semesters[semester2][index2];
@@ -101,6 +123,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
 
   /* Returns the old course and sets the spot in the semester to null. */
   this.deleteCourse = function(semester,index) {
+    this.setSaved(false);
     var oldCourse = this.semesters[semester][index];
     this.semesters[semester][index] = null;
     
