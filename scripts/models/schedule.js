@@ -180,11 +180,12 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
       countInArrays[k] = 0;
     }
     for (var i = 0; i < savedSchedule.length; i=i+2) {
-      if (savedSchedule[i][0] == -1){
-        this.courses_I_want[countInArrays[8]] = savedSchedule[i][1];
+      if (savedSchedule[i] == -1){
+        this.courses_I_want[countInArrays[8]] = new Course(savedSchedule[i+1],null);
         countInArrays[8] = countInArrays[8] + 1;
       }
       else {
+        alert("here");
         this.semesters[savedSchedule[i]][countInArrays[i]] = new Course(savedSchedule[i+1],null);
         countInArrays[i] = countInArrays[i] + 1;
       }

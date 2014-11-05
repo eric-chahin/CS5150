@@ -28,7 +28,11 @@ var Loader = function() {
 
         //var user = new User(name, netid, 2012, null, null, null);
         
-      //  var arr = str_schedule.split(",");
+        var arr = str_schedule.split(",");
+        var s = new Schedule("first", 2012, current_schedule_id);
+        s.fromArray(arr);
+        var user = new User(name, netid, 2012, current_schedule_id, next_schedule_num, [s]);
+       // return user;
       //    user.schedules[0].fromArray(arr);
         //  user.current_schedule = user.schedules[0];
 
