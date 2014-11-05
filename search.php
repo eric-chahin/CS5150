@@ -42,7 +42,14 @@ $search_string = $tutorial_db->real_escape_string($search_string);
 
 // Check Length More Than One Character
 if (strlen($search_string) >= 1 && $search_string !== ' ') {	
-	$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR title LIKE "%'. $search_string.'%" LIMIT 10';
+	//TODO searching for '  ' (two spaces) brings up results when it shouldn't really.
+	$pos = strpos($search_string," ");
+	if ($pos === false) {
+		$search_space_deleted = $search_string;
+	} else {
+		$search_space_deleted = substr($search_string,0,$pos).substr($search_string,$pos+1);
+	}
+	$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR course_listing LIKE "%'.$search_space_deleted.'%" OR title LIKE "%'. $search_string.'%" LIMIT 10';
 
 	// Do Search
 	$result = $tutorial_db->query($query);

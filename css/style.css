@@ -640,7 +640,7 @@ clear:left;
 }
 
 /* For shaking the trashcan when accepting a hexagon */
-@-webkit-keyframes spaceboots {
+@-webkit-keyframes trashcan_shake {
   0%   { -webkit-transform:  rotate( 0deg); }
   10%  { -webkit-transform:  rotate(-3deg); }
   20%  { -webkit-transform:  rotate( 3deg); }
@@ -654,10 +654,24 @@ clear:left;
   100% { -webkit-transform:  rotate(-3deg); }
 }
 #remove.shaking {
-  -webkit-animation-name: spaceboots;
+  -webkit-animation-name: trashcan_shake;
   -webkit-animation-duration: 0.8s;
   -webkit-transform-origin:50% 50%;
   -webkit-animation-iteration-count: 2;
+  -webkit-animation-timing-function: linear;
+}
+
+/* For fading the hexagon in and out when newly added. */
+@-webkit-keyframes hexagon_fade {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+.fadeinfadeout {
+  -webkit-animation-name: hexagon_fade;
+  -webkit-animation-duration: 1s;
+  -webkit-transform-origin:50% 50%;
+  -webkit-animation-iteration-count: 3;
   -webkit-animation-timing-function: linear;
 }
 
