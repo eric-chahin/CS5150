@@ -139,7 +139,7 @@ function getSplashPageHTML() {
                     <p>Yes, agreed.</p>\
                   </div>';
   splash_html += select_html;
-  splash_html += '<input type="image" src="img/Splash Assets/continue.png" name="confirmSplash" id="confirmSplash" />';
+  splash_html += '<input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
   splash_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div>';
   
   //Add closing div
