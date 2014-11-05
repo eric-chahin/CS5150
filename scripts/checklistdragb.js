@@ -130,8 +130,7 @@ function checklistDrag() {
         //just swapping divs elsewhere, don't care
       }
 
-            $(".unassigned-classes").children().each(function(){
-        console.log("trim");
+      $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
          $(this).remove();
         }

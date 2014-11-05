@@ -21,10 +21,8 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     //TODO read from courses_lst
     //TODO store the Courses in the semester
     //TODO
-    this.semesters[1][0] = new Course("CS1110",null);
-    this.semesters[1][1] = new Course("CS2800",null);
-    this.semesters[2][0] = new Course("CS2110",null);
-    this.semesters[3][0] = new Course("CS3110",null);
+
+
   }
 
   /* Pushes Course object into the semesters array at semester,index. */
