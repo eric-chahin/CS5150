@@ -42,6 +42,7 @@
 	<script type="text/javascript" src="scripts/search.js"></script>
 	<!-- There is draga, dragb,dragc js files -->
 	<script type="text/javascript" src="scripts/dragb.js"></script>
+        <script type="text/javascript" src="scripts/checklistdragb.js"></script>
   <script type="text/javascript" src="scripts/models/course.js"></script>
   <script type="text/javascript" src="scripts/models/user.js"></script>
   <script type="text/javascript" src="scripts/models/schedule.js"></script>
@@ -81,6 +82,7 @@
 <div class="container" data-ng-controller="userController">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
+    <div class="checklist_box_container">
 			<div class="checklist_box">
         <div class="classleftrow">
 
@@ -95,6 +97,8 @@
                 
          </div>
 			</div>
+    </div>
+    <div id= "swapmssg"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 		</div>
 	</div>
 	<div class="row clearfix">
@@ -118,7 +122,7 @@
 		</div>
 	</div>
 	  </div>
-        
+  <div id= "tutorialaddmessg"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
 	<div class="row clearfix">
 	  <div class="row3" >
            

@@ -244,7 +244,6 @@ body{
     float: left;
     text-align: center;
     
-    
 }
 
 
@@ -370,6 +369,11 @@ clear:left;
     /*background-image: url(../img/checklist_border_wide.png);*/
 }
 
+.dragcolumnchecklist:hover{
+    cursor: pointer;
+    cursor: hand;
+}
+
 
 .classRow{
     width: 100%;
@@ -381,6 +385,17 @@ clear:left;
     border-color: #000000;
     /*opacity: 0.5;*/
     background-color: #FFFFFF;
+    text-align: center;
+}
+
+.unassigned-classRow{
+    width: 100%;
+    height: 18px;
+    float: left;
+    color: #000000;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
     text-align: center;
 }
 
@@ -443,12 +458,24 @@ clear:left;
 }
 
 .unassigned-box{
-    width: 100%;
-    height: 120px;
+    width: 50%;
+    height: 140px;
     float: left;
     margin-top: 18px;
     background-color:  #FFFFFF;
     border: 1px solid #000000;
+
+}
+
+.unassigned-classes{
+    width: 100%;
+    height: 120px;
+    float: left;
+    background-color:  #FFFFFF;
+    border: 1px solid #000000;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
 }
 
 .classleftrow{
@@ -549,7 +576,7 @@ clear:left;
 
 .white-popup {
   position: relative;
-  background: #FFF;
+  background-image: url("../img/splashpage/splash_box.png");
   padding: 20px;
   width: auto;
   max-width: 500px;
@@ -613,7 +640,7 @@ clear:left;
 }
 
 /* For shaking the trashcan when accepting a hexagon */
-@-webkit-keyframes spaceboots {
+@-webkit-keyframes trashcan_shake {
   0%   { -webkit-transform:  rotate( 0deg); }
   10%  { -webkit-transform:  rotate(-3deg); }
   20%  { -webkit-transform:  rotate( 3deg); }
@@ -627,10 +654,24 @@ clear:left;
   100% { -webkit-transform:  rotate(-3deg); }
 }
 #remove.shaking {
-  -webkit-animation-name: spaceboots;
+  -webkit-animation-name: trashcan_shake;
   -webkit-animation-duration: 0.8s;
   -webkit-transform-origin:50% 50%;
   -webkit-animation-iteration-count: 2;
+  -webkit-animation-timing-function: linear;
+}
+
+/* For fading the hexagon in and out when newly added. */
+@-webkit-keyframes hexagon_fade {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+.fadeinfadeout {
+  -webkit-animation-name: hexagon_fade;
+  -webkit-animation-duration: 1s;
+  -webkit-transform-origin:50% 50%;
+  -webkit-animation-iteration-count: 3;
   -webkit-animation-timing-function: linear;
 }
 
@@ -699,4 +740,14 @@ clear:left;
   opacity: 1;
 }
 
+#swapmssg{
+  position: absolute;
+  left: -100px;
+  top:370px;
+}
 
+#tutorialaddmessg{
+  position: absolute;
+  left: 1100px;
+  bottom: -400px;
+}

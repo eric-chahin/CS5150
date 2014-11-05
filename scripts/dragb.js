@@ -186,11 +186,11 @@ function applyrun() {
 
 
     }
-
     return false;
   }
 
   function handleDragEnd(e) {
+    console.log("dragb dropped");
     var cols = document.querySelectorAll('.dragcolumn');
     [].forEach.call(cols, function (col) {
       col.removeClassName('over');
@@ -255,10 +255,6 @@ function applyrun() {
     attachColumnListener(col);
   });
 
-  var cols2 = document.querySelectorAll('.dragcolumnchecklist');
-  [].forEach.call(cols2, function (col) {
-    attachColumnListener(col);
-  });
 
 };
 

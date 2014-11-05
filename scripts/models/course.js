@@ -24,7 +24,8 @@ var Course = function(listing, requirement_filled) {
   }
 
   this.toString = function() {
-    return COURSE_INFORMATION[this.listing]["title"] + " is a great course. You should really take it.";
+    //return COURSE_INFORMATION[this.listing]["title"] + " is a great course. You should really take it.";
+    return this.listing; 
   };
 
 };
