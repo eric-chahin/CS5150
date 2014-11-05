@@ -58,11 +58,11 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.semesters[semester][index] = newCourse;
     
     //assign a course to the unassigned box
-      $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist' data-name='" + listing  +
+      $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
                   "' ><div class='course-name'>" + listing +
                   "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
                   "<div class='course-semester'>" + this.convertSemesterName(semester) + "</div>" +
-                  " </div>");
+                  " </span></div>");
    // copySections();
     checklistcopySections();
     checklistDrag();
@@ -81,7 +81,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     //Swap the test in the checklist for each semester 
     semester2 = this.convertSemesterName(semester2);
     semester1 = this.convertSemesterName(semester1);
-     $(".unassigned-classRow").each(function(){
+     $(".data").each(function(){
         if(tmp != null && $(this).attr('data-name') == tmp.listing){
           for (var i = 0; i < this.childNodes.length; i++) {
             if (this.childNodes[i] != null) {
@@ -96,24 +96,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
             }
           }
          }
-      });
-      $(".drag-course").each(function(){
-        if(tmp != null && $(this).attr('data-name') == tmp.listing){
-          for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] != null) {
-               if (this.childNodes[i].innerHTML == semester1) this.childNodes[i].innerHTML =  semester2;
-            }
-          }
-        }
-         if(tmp2 != null && $(this).attr('data-name') == tmp2.listing){
-          for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] != null) {
-               if (this.childNodes[i].innerHTML == semester2) this.childNodes[i].innerHTML =  semester1;
-            }
-          }
-        }
-      
-      });
+    });
   }
 
   /* Returns the old course and sets the spot in the semester to null. */
@@ -121,13 +104,18 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     var oldCourse = this.semesters[semester][index];
     this.semesters[semester][index] = null;
     
-    $(".unassigned-classRow").each(function(){
+    $(".data").each(function(){
         if($(this).attr('data-name') == oldCourse.listing){
+          $(this).parent().append(
+                  " <div class='course-name'>" + "" +
+                 "  </div><div class='course-credit'></div>" +
+                 "<div class='course-semester'> ");
          $(this).remove();
         }
       });
-    $(".classRow").each(function(){
-        if($(this).attr('data-name') == oldCourse.listing){
+    
+      $(".unassigned-classes").children().each(function(){
+        if($.trim($(this).text()) == ""){
          $(this).remove();
         }
       });
@@ -167,20 +155,18 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
    *  semester = -1 if course is not yet on schedule (course i want to take)
    *  Strictly reads from the schedule object. Does not save state anywhere
    *  in order to avoid maintaining multiple states. 
-   *  
-   *  Rewritten by Alex and Chris to work with database saving (change in course.toString())
    */
   this.toArray = function(){
     var output = []
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
-          output[output.length]= [s,this.semesters[s][i].toString()];
+          output[output.length]= [s,this.semesters[s][i]];
         }
       }
     }
     for (var i = 0; i<this.courses_I_want.length; i++){
-      output[output.length]= [-1,this.courses_I_want[i].toString()];
+      output[output.length]= [-1,this.courses_I_want[i]];
     }
     return output;
   }
