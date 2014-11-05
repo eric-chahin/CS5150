@@ -23,18 +23,4 @@ var Panel = function() {
       });
     }
   );
-
-
-
-  //TODO handle the logic for turning this on and off
-  var confirmOnPageExit = function(e) {
-    e = e || window.event;
-    var message = 'Are you sure you have saved your checklist? ARE YOU SURE?!';
-    if (e) {
-      e.returnValue = message;
-    }
-    return message;
-  };
-  window.onbeforeunload = confirmOnPageExit; //Turns the dialog box on
-  // window.onbeforeunload = null; //Turns the dialog box off
 }
