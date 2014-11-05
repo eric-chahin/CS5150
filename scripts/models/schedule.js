@@ -123,7 +123,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   }
 
   /*written by Ben
-   *  Returns array containing (Course, semester it's being taken in)
+   *  Returns array containing (semester it's being taken in,Course)
    *  return type is [(int,Course),...]
    *  semester = -1 if course is not yet on schedule (course i want to take)
    *  Strictly reads from the schedule object. Does not save state anywhere
@@ -145,6 +145,9 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
 
   /*written by Ben
    *  repopulates schedule from saved user schedule
+   *  takes array containing (semester it's being taken in, Course)
+   *   is [(int,Course),...]
+   *  semester = -1 if course is not yet on schedule (course i want to take)
    *  input format is assumed to be same as output format of this.toArray */
   this.fromArray = function(savedSchedule){
     var countInArrays = new Array(9)
@@ -157,10 +160,11 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
         countInArrays[8] = countInArrays[8] + 1;
       }
       else {
-        this.courses_I_want[countInArrays[i]] = savedSchedule[i][1];
+        this.semesters[countInArrays[i]] = savedSchedule[i][1];
         countInArrays[i] = countInArrays[i] + 1;
       }
     }
+    //add a function call to update the checklist
   }
 
 
