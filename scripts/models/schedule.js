@@ -38,7 +38,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     if (bool) {
       window.onbeforeunload = null;
     } else {
-      window.onbeforeunload = confirmOnPageExit; 
+      window.onbeforeunload = confirmOnPageExit;
     }
   }
 
@@ -60,7 +60,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     name+= this.startYear + Math.floor(semesterNum/2);
     return name;
   }
-  
+
   /* Adds a new course with listing at [semester][index].
    * Overwrites anything that is there and returns the newly generated course.
    *
@@ -72,18 +72,23 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
     var newCourse = new Course(listing, null);
-    this.semesters[semester][index] = newCourse;
-    
-    //assign a course to the unassigned box
-      $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
-                  "' ><div class='course-name'>" + listing +
-                  "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
-                  "<div class='course-semester'>" + this.convertSemesterName(semester) + "</div>" +
-                  " </span></div>");
-   // copySections();
-    checklistcopySections();
-    checklistDrag();
-    
+    if (semester == -1){
+      this.courses_I_want[index] = newCourse;
+    }
+    else{
+      this.semesters[semester][index] = newCourse;
+
+      //assign a course to the unassigned box
+        $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
+                    "' ><div class='course-name'>" + listing +
+                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                    "<div class='course-semester'>" + this.convertSemesterName(semester) + "</div>" +
+                    " </span></div>");
+     // copySections();
+      checklistcopySections();
+      checklistDrag();
+    }
+
     return newCourse;
   }
 
@@ -95,8 +100,8 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     var tmp2 = this.semesters[semester2][index2];
     this.semesters[semester1][index1] = this.semesters[semester2][index2];
     this.semesters[semester2][index2] = tmp;
-    
-    //Swap the test in the checklist for each semester 
+
+    //Swap the test in the checklist for each semester
     semester2 = this.convertSemesterName(semester2);
     semester1 = this.convertSemesterName(semester1);
      $(".data").each(function(){
@@ -122,7 +127,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.setSaved(false);
     var oldCourse = this.semesters[semester][index];
     this.semesters[semester][index] = null;
-    
+
     $(".data").each(function(){
         if($(this).attr('data-name') == oldCourse.listing){
           $(this).parent().append(
@@ -132,13 +137,13 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
          $(this).remove();
         }
       });
-    
+
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
          $(this).remove();
         }
       });
-    
+
     return oldCourse;
   }
 
@@ -173,7 +178,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
    *  return type is [(int,Course),...]
    *  semester = -1 if course is not yet on schedule (course i want to take)
    *  Strictly reads from the schedule object. Does not save state anywhere
-   *  in order to avoid maintaining multiple states. 
+   *  in order to avoid maintaining multiple states.
    */
   this.toArray = function(){
     var output = []
