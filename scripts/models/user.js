@@ -22,10 +22,9 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   //NOTE: Need to save the current view id for when user visits again
 
   this.save_schedule = function() {
-    //user data ON PAGE has been updated in main.js, the rest must be updated here
     schedArray = [];
     for (var i =0; i < this.schedules.length; i++){
-      schedArray[schedArray.length] = this.schedules[i].toString(); 
+        schedArray[schedArray.length] = this.schedules[i].toArray().toString(); 
     }
     $.ajax({
       type:  "POST",
@@ -33,9 +32,10 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       async: false,
       dataType: "json",
       data:   {'netid': this.netid, 
+               'full_name': this.full_name,
                'next_schedule_num': this.next_schedule_num, 
-               'current_schedule': this.current_schedule.toArray().toString()},
-              // 'schedules': schedArray}, 
+               'current_schedule_id': this.current_schedule.id,
+               'schedules': this.current_schedule.toArray().toString()}, 
       success: function(data){
         if (data == "error"){
           //TODO: couldn't connect to database on saving

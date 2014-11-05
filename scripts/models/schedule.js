@@ -179,13 +179,13 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     for (var k = 0; k < countInArrays.length; k++) {
       countInArrays[k] = 0;
     }
-    for (var i = 0; i < savedSchedule.length; i++) {
+    for (var i = 0; i < savedSchedule.length; i=i+2) {
       if (savedSchedule[i][0] == -1){
         this.courses_I_want[countInArrays[8]] = savedSchedule[i][1];
         countInArrays[8] = countInArrays[8] + 1;
       }
       else {
-        this.courses_I_want[countInArrays[i]] = savedSchedule[i][1];
+        this.semesters[savedSchedule[i]][countInArrays[i]] = new Course(savedSchedule[i+1],null);
         countInArrays[i] = countInArrays[i] + 1;
       }
     }

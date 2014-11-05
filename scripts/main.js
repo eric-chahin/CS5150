@@ -1,18 +1,54 @@
 /* Class: Loader is a singleton that contains methods to load the data into the website */
+
+//TODO: pass netid from weblogin into loader, must be used in Ajax call to user database
 var Loader = function() {
 
   /* Retrieves User information. Creates dummy Guest User object if not logged in
      Returns: User object */
-  this.fetchUser = function() {
+  //TODO: fetchUser should take in a netid?
+  this.fetchUser = function(netid) {
 
     //TODO Get AJAX call and pull data from User table
-    //Builds schedule if new or old user
+    if (netid !== ''){
+      $.ajax({
+        type: "GET",
+        url: "user.php", //TODO, wait on Merrill
+        async: false,
+        dataType: "json",
+        data:   {'netid': netid },
+        success: function(data){
+          var name = data['Name'];
+          var next_schedule_num = data['next_schedule_num'];
+          var current_schedule_id = data['current_schedule_id'];
+          var schedules = data['schedules'];
+          str_schedule = "";
+          for (var j=0; j<schedules.length; j++) {
+            str_schedule += schedules[j];
+          }
 
-    //If cannot find user profile, create new one!:
-    var user = new User("Eric Chahin", "erc73", 2012, null, null, null);
-    //else:
+        //var user = new User(name, netid, 2012, null, null, null);
+        
+      //  var arr = str_schedule.split(",");
+      //    user.schedules[0].fromArray(arr);
+        //  user.current_schedule = user.schedules[0];
+
+
+        } 
+      }); 
+
+        var user = new User(name, netid, 2012, null, null, null);
+        return user;
+    } 
+      //Builds schedule if new or old user
+    else { 
+      //If cannot find user profile, create new one!:
+      var user = new User("Eric Chahin", "erc73", 2012, null, null, null);
+      //else:
       //TODO pass in AJAX User data from table into Schedule object
-    return user;
+      return user;
+    }
+    
+    //create dummy user for Guest Mode
   }
 
   /* Scans through the user object and loads all elements on the schedule and 
@@ -191,10 +227,10 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
-  var loader = new Loader();
+  var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
-  user = loader.fetchUser();
+  user = loader.fetchUser("erc73");
   loader.applyUser(user);
   setupMagnificPopup(user);
   var panel = new Panel();
