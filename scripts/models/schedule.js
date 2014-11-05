@@ -22,10 +22,6 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     //TODO read from courses_lst
     //TODO store the Courses in the semester
     //TODO
-    this.semesters[1][0] = new Course("CS 1110",null);
-    this.semesters[1][1] = new Course("CS 2800",null);
-    this.semesters[2][0] = new Course("CS 2110",null);
-    this.semesters[3][0] = new Course("CS 3110",null);
   }
 
   //TODO: Make sure that the this._saved flag is false when switching requirements around AND CIWTT
