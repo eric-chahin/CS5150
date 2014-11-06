@@ -84,6 +84,7 @@
 		<div class="col-md-12 column">
     <div class="checklist_box_container">
 			<div class="checklist_box">
+                <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
         <div class="classleftrow">
 
          </div>

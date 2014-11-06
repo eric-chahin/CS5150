@@ -193,6 +193,12 @@ body{
     
 }
 
+.checklisttitle{
+    width: 784px;
+    margin: 20px;
+    text-align: center;
+}
+
 .semestertitle{
     width: 160px;
     margin: 10px;
@@ -213,6 +219,7 @@ body{
     margin-right: -13px;
     text-align: center;
 }
+
 
 .searchtitle{
     width: 300px;
@@ -481,7 +488,6 @@ clear:left;
 .classleftrow{
     width: 47%;
     height: 87%;
-    margin-top: 55px;
     margin-left: 15px;
     float: left;
    /* opacity: 0.2;
@@ -491,7 +497,6 @@ clear:left;
 .classrightrow{
     width: 47%;
     height: 87%;
-    margin-top: 55px;
     margin-left: 15px;
     float: left;
 }
