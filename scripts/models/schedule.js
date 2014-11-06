@@ -194,8 +194,6 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return output;
   }
-
-<<<<<<< HEAD
   /*written by Ben
    *  repopulates schedule from saved user schedule
    *  takes array containing (semester it's being taken in, Course)
