@@ -23,7 +23,7 @@ body{
 .checklist_box{
     background-image: url("../img/checklist_box.png");
     width: 764px;
-    height: 600px;
+    height: 720px;
     margin: 24px;
     padding: 10px;
     
@@ -224,7 +224,6 @@ body{
 .searchtitle{
     width: 300px;
     margin: 10px;
-    margin-right: -13px;
     text-align: center;
     padding-bottom: 0px;
 }
@@ -271,9 +270,10 @@ background-color:black;
 color:white;
 border: 1px solid #ffffff;
 border-radius: 7px;
-display:block; height:28px; width:260px;
-
-
+padding-left: 10px;
+padding-right: 10px;
+height:28px;
+width:220px;
 clear:left;
 }
 
@@ -595,15 +595,20 @@ clear:left;
 
 /* Search bar needs styling*/
 #results{
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   height: 194px;
-  width: 260px;
+  width: 294px;
   padding-left: 15px;
+  padding-top: 5px;
+  margin-bottom: 20px;
+  text-align: left;
   text-decoration: none;
 }
 
 #results div{
   padding-top: 0px;
+  padding-left: 15px;
   text-decoration: none;
 }
 
