@@ -1,4 +1,7 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
+
+
+
 var Schedule = function(schedule_name, version, id, courses_lst) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
@@ -74,8 +77,10 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.semesters[semester][index] = obj;
   }
 
+ var startYear = 11;
   /*Creates the string name for a semester number*/
-  this.convertSemesterName = function(semesterNum){
+function convertSemesterName(semesterNum){
+  console.log(semesterNum);
     var name = "";
     if (semesterNum % 2 == 0) {
       name = "FA";
@@ -83,7 +88,8 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
       name = "SP";
       semesterNum+=1;
     }
-    name+= this.startYear + Math.floor(semesterNum/2);
+   
+    name+= startYear + Math.floor(semesterNum/2);
     return name;
   }
 
@@ -98,23 +104,48 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
     var newCourse = new Course(listing, null);
+
     if (semester == -1){
       this.courses_I_want[index] = newCourse;
     }
     else{
       this.semesters[semester][index] = newCourse;
-
-      //assign a course to the unassigned box
-        $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
-                    "' ><div class='course-name'>" + listing +
-                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
-                    "<div class='course-semester'>" + this.convertSemesterName(semester) + "</div>" +
-                    " </span></div>");
-     // copySections();
-      checklistcopySections();
-      checklistDrag();
+    
+    if (newCourse.requirement_filled == null) {
+    //assign a course to the unassigned box
+      $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
+                  "' ><div class='course-name'>" + listing +
+                  "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                  "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
+                  " </span></div>");
+    } else {
+     $(".classRow").each(function(){
+       var found = false;
+       for (var i = 0; i < this.childNodes.length; i++) {
+            if (this.childNodes[i] != null) {
+               if (this.childNodes[i].innerHTML == newCourse.requirement_filled){
+                console.log(newCourse.requirement_filled);
+               // if (this.childNodes[i].childnodes[0].innerHTML == "") {
+               //   //code
+              // }
+                
+                this.innerHTML = "<div class='requirement'>"+ newCourse.requirement_filled +
+                  "</div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
+                  "' ><div class='course-name'>" + listing +
+                  "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                  "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
+                  " </span></div>";
+                //$(this).remove();
+               } 
+            }
+       }
+     });
     }
 
+   // copySections();
+    checklistcopySections();
+    checklistDrag();
+    }
     return newCourse;
   }
 
@@ -126,10 +157,11 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     var tmp2 = this.semesters[semester2][index2];
     this.semesters[semester1][index1] = this.semesters[semester2][index2];
     this.semesters[semester2][index2] = tmp;
+    
+    //Swap the test in the checklist for each semester 
+    semester2 = convertSemesterName(semester2);
+    semester1 = convertSemesterName(semester1);
 
-    //Swap the test in the checklist for each semester
-    semester2 = this.convertSemesterName(semester2);
-    semester1 = this.convertSemesterName(semester1);
      $(".data").each(function(){
         if(tmp != null && $(this).attr('data-name') == tmp.listing){
           for (var i = 0; i < this.childNodes.length; i++) {
