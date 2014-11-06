@@ -24,18 +24,17 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.save_schedule = function() {
     schedArray = [];
     for (var i =0; i < this.schedules.length; i++){
-        schedArray[schedArray.length] = this.schedules[i].toArray().toString(); 
+        schedArray[schedArray.length] = this.schedules[i].toArray().toString();
     }
     $.ajax({
       type:  "POST",
-      url: "user.php", //TODO, wait on Merrill
+      url: "user.php",
       async: false,
       dataType: "json",
-      data:   {'netid': this.netid, 
-               'full_name': this.full_name,
+      data:   {'netid': this.netid,
                'next_schedule_num': this.next_schedule_num, 
                'current_schedule_id': this.current_schedule.id,
-               'schedules': this.current_schedule.toArray().toString()}, 
+               'schedules': this.current_schedule.toArray().toString()},
       success: function(data){
         if (data == "error"){
           //TODO: couldn't connect to database on saving
@@ -48,6 +47,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   //Initializing fields
   this.full_name = name;
   this.netid = netid;
+  this.schedules = schedules; //Should be an array of Schdule objects
   if (!this.schedules || this.schedules.length == 0) {
     //New user
     this.next_schedule_num = 0;
@@ -57,7 +57,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   } else {
     //Loading old user
     this.next_schedule_num = next_schedule_num;
-    this.schedules = schedules; //Should be an array of Schedule objects
     this.current_schedule = null; //Of type Schedule object
     for (var i = 0; i < schedules.length; i++) {
       if (this.schedules[i].id == current_schedule_id) {

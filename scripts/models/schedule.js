@@ -171,27 +171,65 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     return output;
   }
 
-  /*written by Ben
-   *  repopulates schedule from saved user schedule
-   *  input format is assumed to be same as output format of this.toArray */
-  this.fromArray = function(savedSchedule){
-    var countInArrays = new Array(9)
-    for (var k = 0; k < countInArrays.length; k++) {
-      countInArrays[k] = 0;
+    
+    /*written by Ben
+     *  repopulates schedule from saved user schedule
+     *  takes array containing (semester it's being taken in, Course)
+     *   is [(int,Course),...]
+     *  semester = -1 if course is not yet on schedule (course i want to take)
+     *  input format is assumed to be same as output format of this.toArray */
+    this.fromArray = function(savedSchedule){
+        var countInArrays = new Array(9)
+        for (var k = 0; k < countInArrays.length; k++) {
+            countInArrays[k] = 0;
+        }
+        for (var i = 0; i < savedSchedule.length; i++) {
+            if (savedSchedule[i][0] == -1){
+                this.courses_I_want[countInArrays[8]] = savedSchedule[i][1];
+                countInArrays[8] = countInArrays[8] + 1;
+            }
+            else {
+                this.semesters[countInArrays[i]] = savedSchedule[i][1];
+                countInArrays[i] = countInArrays[i] + 1;
+            }
+        }
+        //add a function call to update the checklist
     }
-    for (var i = 0; i < savedSchedule.length; i=i+2) {
-      if (savedSchedule[i] == -1){
-        this.courses_I_want[countInArrays[8]] = new Course(savedSchedule[i+1],null);
-        countInArrays[8] = countInArrays[8] + 1;
-      }
-      else {
-        alert("here");
-        this.semesters[savedSchedule[i]][countInArrays[i]] = new Course(savedSchedule[i+1],null);
-        countInArrays[i] = countInArrays[i] + 1;
-      }
+    
+    
+    
+    /*adaptation of fromArray to comply with the db serialization of a schedule.
+      */
+  this.fromDBArray = function(savedSchedule){
+        var countInArrays = new Array(9)
+        for (var k = 0; k < countInArrays.length; k++) {
+            countInArrays[k] = 0;
+        }
+        for (var i = 0; i < savedSchedule.length; i=i+2) {
+            if (savedSchedule[i] == -1){
+                str = savedSchedule[i+1];
+                var arr = str.split("#");
+                var name = arr[0];
+                var req = arr[1];
+                if (arr[1]=="") {
+                    req = null;
+                }
+                this.courses_I_want[countInArrays[8]] = new Course(name, req);                countInArrays[8] = countInArrays[8] + 1;
+            }
+            else {
+                var sem = savedSchedule[i];
+                str = savedSchedule[i+1];
+                var arr = str.split("#");
+                var name = arr[0];
+                var req = arr[1];
+                if (arr[1]=="") {
+                    req = null;
+                }
+                this.semesters[sem][countInArrays[sem]] = new Course(name, req);
+                countInArrays[sem] = countInArrays[sem] + 1;
+            }
+        }
     }
-  }
-
 
 
 
@@ -237,7 +275,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   //If new:
     //TODO put disclaimer splash page up
     //TODO put different view up?
-    this.init_schedule(courses_lst);
+  //  this.init_schedule(courses_lst);
   //else:
     //TODO
 }

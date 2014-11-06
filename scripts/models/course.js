@@ -23,8 +23,15 @@ var Course = function(listing, requirement_filled) {
     return null;
   }
 
+   
+    
   this.toString = function() {
-    //return COURSE_INFORMATION[this.listing]["title"] + " is a great course. You should really take it.";
-    return this.listing; 
+    //in the user db, a course object is represented as <listing>#<requirement_filled>
+    if (this.requirement_filled !== null) {
+        return this.listing + "#" + this.requirement_filled;
+    }
+    else {
+        return this.listing + "#";
+    }
   };
 };

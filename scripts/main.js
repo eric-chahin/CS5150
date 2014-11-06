@@ -2,58 +2,57 @@
 
 //TODO: pass netid from weblogin into loader, must be used in Ajax call to user database
 var Loader = function() {
-
-  /* Retrieves User information. Creates dummy Guest User object if not logged in
+  /* Retrieves User information.
      Returns: User object */
+  //flag if user is found in db
+  this.isNewUser = false;
   //TODO: fetchUser should take in a netid?
   this.fetchUser = function(netid) {
-
     //TODO Get AJAX call and pull data from User table
-    if (netid !== ''){
-      $.ajax({
+    var user = null;
+    $.ajax({
         type: "GET",
         url: "user.php", //TODO, wait on Merrill
         async: false,
         dataType: "json",
         data:   {'netid': netid },
         success: function(data){
-          var name = data['Name'];
-          var next_schedule_num = data['next_schedule_num'];
-          var current_schedule_id = data['current_schedule_id'];
-          var schedules = data['schedules'];
-          str_schedule = "";
-          for (var j=0; j<schedules.length; j++) {
-            str_schedule += schedules[j];
+          if (data == null) {
+           //user was not found, must create new one. we set user to null
+           //we create user object and set flag below
+           user = null;
           }
+          else {
+            var name = data['name'];
+            var next_schedule_num = data['next_schedule_num'];
+            var current_schedule_id = data['current_schedule_id'];
+            var schedules = data['schedules'];
+            str_schedule = "";
+            for (var j=0; j<schedules.length; j++) {
+              str_schedule += schedules[j];
+            }
 
-        //var user = new User(name, netid, 2012, null, null, null);
+            var arr = str_schedule.split(",");
+            //TODO change schdule encoding to include name and verison
+            //TODO generalize decoding for case of mulitple schedules
+            var s = new Schedule("first", 2012, current_schedule_id, []);
+          
+            //i.e. if schedule string was not empty
+            if (arr[0] !== "") {
+              s.fromDBArray(arr);
+            }
+            scheds = [];
+            scheds[scheds.length] = s;
         
-        var arr = str_schedule.split(",");
-        var s = new Schedule("first", 2012, current_schedule_id);
-        s.fromArray(arr);
-        var user = new User(name, netid, 2012, current_schedule_id, next_schedule_num, [s]);
-       // return user;
-      //    user.schedules[0].fromArray(arr);
-        //  user.current_schedule = user.schedules[0];
-
-
-        } 
-      }); 
-
-        var user = new User(name, netid, 2012, null, null, null);
-        return user;
-    } 
-      //Builds schedule if new or old user
-    else { 
-      //If cannot find user profile, create new one!:
-      var user = new User("Eric Chahin", "erc73", 2012, null, null, null);
-      //else:
-      //TODO pass in AJAX User data from table into Schedule object
-      return user;
-    }
-    
-    //create dummy user for Guest Mode
-  }
+            this.isNewUser = false;
+            user = new User(name, netid, 2012, next_schedule_num, current_schedule_id, scheds);
+          }
+        }
+    });
+      
+    return user;
+      
+}
 
   /* Scans through the user object and loads all elements on the schedule and 
    * checklist. */
@@ -100,19 +99,6 @@ function fillEmptySpots() {
   }); 
 }
 
-/* Scans through the schedule and saves all elements on the site into
-   * the current schedule. */
-function saveUser (user) {
-  var user_semesters = user.current_schedule.semesters;
-  for (var i = 0; i < user_semesters.length; i++){
-    var user_semester = user_semesters[i];
-    var $semester = $("#semester"+(i+1));
-    var $courses = $semester.children();
-    for (var j = 1; j <= 8; j++){
-      user_semester[j-1].listing = $courses[j].innerHTML;
-    }
-  }
-}
 
 /* The method sets up a popup at the selector with the html.
  * Uses the white-popup class for CSS. 
@@ -197,6 +183,24 @@ function getSplashPageFunctions() {
       $("#splash_warning").text("Please, select your first year at Cornell.");
     } else {
       $.magnificPopup.close();
+      //once user clicks confirm, we can put user in db
+      $.ajax({
+             type:  "POST",
+             url: "user.php",
+             async: true,
+             dataType: "json",
+             data:   {'netid': user.netid,
+              'full_name': user.full_name,
+              'next_schedule_num': user.next_schedule_num,
+              'current_schedule_id': user.current_schedule.id,
+              'schedules': user.current_schedule.toArray().toString()},
+             success: function(data){
+               if (data == "error"){
+               //TODO: couldn't connect to database on saving
+               }
+             }
+      });
+                        
     }
     return false;
   });
@@ -231,10 +235,21 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
+  var netid = "erc73" //TODO get netid from web auth login
+                  
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
-  user = loader.fetchUser("erc73");
+  user = loader.fetchUser(netid);
+  
+  if (user == null) {
+  //netid was not found in user table. create new user object
+    loader.isNewUser = true;
+    //TODO determine user's name from their netid
+    user = new User("need to get this somehow", netid, 2012, null, null, null);
+
+  }
+  
   loader.applyUser(user);
   setupMagnificPopup(user);
   var panel = new Panel();
@@ -244,8 +259,9 @@ $(document).ready(function(){
   checklistDrag();
 
   //TODO see if user is a new user, if so:
+  if (loader.isNewUser) {
     $("#start_splash_page").click();
-
+  }
     //TODO: saving while someone is actually on a schedule
 
 });
