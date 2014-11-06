@@ -235,7 +235,8 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
                 if (arr[1]=="") {
                     req = null;
                 }
-                this.courses_I_want[countInArrays[8]] = new Course(name, req);                countInArrays[8] = countInArrays[8] + 1;
+                this.courses_I_want[countInArrays[8]] = new Course(name, req);                
+                countInArrays[8] = countInArrays[8] + 1;
             }
             else {
                 var sem = savedSchedule[i];
