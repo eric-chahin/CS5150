@@ -5464,8 +5464,8 @@ button.close {
   color: #ffffff;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  opacity: 0.8;
+  filter: alpha(opacity=80);
 }
 
 .carousel-control.left {
@@ -5497,8 +5497,8 @@ button.close {
 .carousel-control:focus {
   color: #ffffff;
   text-decoration: none;
-  opacity: 0.9;
-  filter: alpha(opacity=90);
+  opacity: 1;
+  filter: alpha(opacity=100); */
 }
 
 .carousel-control .icon-prev,
