@@ -19,12 +19,38 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   /* If there is a new user, the method initializes the Schedule to the default
    * schedule which is defined in data/guest_data.csv
    *
-   * @param courses_lst   Takes in the courses list from the DB and parses
+   * @param savedSchedule   Takes in the courses list from the DB
+   *                         It is a (int,"listing#requirement") array
    */
-  this.init_schedule = function(courses_lst) {
-    //TODO read from courses_lst
-    //TODO store the Courses in the semester
-    //TODO
+  this.init_schedule = function(savedSchedule) {
+    var countInArrays = new Array(9)
+    for (var k = 0; k < countInArrays.length; k++) {
+        countInArrays[k] = 0;
+    }
+    for (var i = 0; i < savedSchedule.length; i=i+2) {
+      if (savedSchedule[i] == -1){
+        str = savedSchedule[i+1];
+        var arr = str.split("#");
+        var name = arr[0];
+        var req = arr[1];
+        if (arr[1]=="") {
+            req = null;
+        }
+        this.courses_I_want[countInArrays[8]] = new Course(name, req);                
+        countInArrays[8] = countInArrays[8] + 1;
+      } else {
+        var sem = savedSchedule[i];
+        str = savedSchedule[i+1];
+        var arr = str.split("#");
+        var name = arr[0];
+        var req = arr[1];
+        if (arr[1]=="") {
+            req = null;
+        }
+        this.semesters[sem][countInArrays[sem]] = new Course(name, req);
+        countInArrays[sem] = countInArrays[sem] + 1;
+      }
+    }
   }
 
   //TODO: Make sure that the this._saved flag is false when switching requirements around AND CIWTT
@@ -41,7 +67,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     if (bool) {
       window.onbeforeunload = null;
     } else {
-      window.onbeforeunload = confirmOnPageExit; 
+      window.onbeforeunload = confirmOnPageExit;
     }
   }
 
@@ -66,7 +92,7 @@ function convertSemesterName(semesterNum){
     name+= startYear + Math.floor(semesterNum/2);
     return name;
   }
-  
+
   /* Adds a new course with listing at [semester][index].
    * Overwrites anything that is there and returns the newly generated course.
    *
@@ -78,7 +104,12 @@ function convertSemesterName(semesterNum){
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
     var newCourse = new Course(listing, null);
-    this.semesters[semester][index] = newCourse;
+
+    if (semester == -1){
+      this.courses_I_want[index] = newCourse;
+    }
+    else{
+      this.semesters[semester][index] = newCourse;
     
     if (newCourse.requirement_filled == null) {
     //assign a course to the unassigned box
@@ -114,7 +145,7 @@ function convertSemesterName(semesterNum){
    // copySections();
     checklistcopySections();
     checklistDrag();
-    
+    }
     return newCourse;
   }
 
@@ -130,6 +161,7 @@ function convertSemesterName(semesterNum){
     //Swap the test in the checklist for each semester 
     semester2 = convertSemesterName(semester2);
     semester1 = convertSemesterName(semester1);
+
      $(".data").each(function(){
         if(tmp != null && $(this).attr('data-name') == tmp.listing){
           for (var i = 0; i < this.childNodes.length; i++) {
@@ -153,7 +185,7 @@ function convertSemesterName(semesterNum){
     this.setSaved(false);
     var oldCourse = this.semesters[semester][index];
     this.semesters[semester][index] = null;
-    
+
     $(".data").each(function(){
         if($(this).attr('data-name') == oldCourse.listing){
           $(this).parent().append(
@@ -163,13 +195,13 @@ function convertSemesterName(semesterNum){
          $(this).remove();
         }
       });
-    
+
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
          $(this).remove();
         }
       });
-    
+
     return oldCourse;
   }
 
@@ -200,11 +232,11 @@ function convertSemesterName(semesterNum){
   }
 
   /*written by Ben
-   *  Returns array containing (Course, semester it's being taken in)
+   *  Returns array containing (semester it's being taken in,Course)
    *  return type is [(int,Course),...]
    *  semester = -1 if course is not yet on schedule (course i want to take)
    *  Strictly reads from the schedule object. Does not save state anywhere
-   *  in order to avoid maintaining multiple states. 
+   *  in order to avoid maintaining multiple states.
    */
   this.toArray = function(){
     var output = []
@@ -220,9 +252,11 @@ function convertSemesterName(semesterNum){
     }
     return output;
   }
-
   /*written by Ben
    *  repopulates schedule from saved user schedule
+   *  takes array containing (semester it's being taken in, Course)
+   *   is [(int,Course),...]
+   *  semester = -1 if course is not yet on schedule (course i want to take)
    *  input format is assumed to be same as output format of this.toArray */
   this.fromArray = function(savedSchedule){
     var countInArrays = new Array(9)
@@ -235,14 +269,12 @@ function convertSemesterName(semesterNum){
         countInArrays[8] = countInArrays[8] + 1;
       }
       else {
-        this.courses_I_want[countInArrays[i]] = savedSchedule[i][1];
+        this.semesters[countInArrays[i]] = savedSchedule[i][1];
         countInArrays[i] = countInArrays[i] + 1;
       }
     }
+    //add a function call to update the checklist
   }
-
-
-
 
   /* Returns JSON object of title of Rule -> Course array
    *  Strictly reads from the schedule object. Does not save state anywhere
@@ -282,11 +314,5 @@ function convertSemesterName(semesterNum){
     }
   }
 
-  //Constructor code
-  //If new:
-    //TODO put disclaimer splash page up
-    //TODO put different view up?
-    this.init_schedule(courses_lst);
-  //else:
-    //TODO
+  this.init_schedule(courses_lst);
 }

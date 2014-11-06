@@ -1,11 +1,6 @@
 
   function addToDesiredCourses(object){
     
-    /* Fades the passed in div in and out */
-    function fadeInFadeOut(jQuery_div) {
-
-    }
-
     console.log("addToDesiredCourses");
     console.log(object);
     var course = object.getAttribute("data-course");

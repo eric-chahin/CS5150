@@ -1,13 +1,13 @@
 /**
 * Class: An object that represents a course taken at cornell on the checklist.
 * Note: You cannot create a Course object without creating a checklist object first
-* @param listing      
+* @param listing
 */
 var Course = function(listing, requirement_filled) {
   this.listing = listing.replace(" ","");
   this.requirement_filled = requirement_filled ? requirement_filled : determineRequirement();
 
-  /* Returns the requirement that it should fulfills, 
+  /* Returns the requirement that it should fulfills,
    * returns null if cannot make decision. (TODO: perhaps it should return a list of possibilites)
    */
   function determineRequirement() {
@@ -23,8 +23,16 @@ var Course = function(listing, requirement_filled) {
     return null;
   }
 
+   
+    
   this.toString = function() {
-    //return COURSE_INFORMATION[this.listing]["title"] + " is a great course. You should really take it.";
-    return this.listing; 
+    //in the user db, a course object is represented as <listing>#<requirement_filled>
+    if (this.requirement_filled !== null) {
+        return this.listing + "#" + this.requirement_filled;
+    }
+    else {
+        return this.listing + "#";
+    }
   };
+
 };
