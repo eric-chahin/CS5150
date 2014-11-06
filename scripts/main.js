@@ -28,7 +28,7 @@ var Loader = function() {
             var current_schedule_id = data['current_schedule_id'];
             var schedules = data['schedules']; //TODO needs to be an array of schedule IDs
 
-            var courses_lst = schedules.split(",");
+            var courses_lst = schedules ? schedules.split(",") : [];
             //TODO change schdule encoding to include name and verison
             //TODO generalize decoding for case of mulitple schedules
             var s = new Schedule("first", 2012, current_schedule_id, courses_lst);
@@ -59,7 +59,11 @@ var Loader = function() {
       var $courses = $semester.children();
       for (var j = 1; j <= 8; j++) {
         if (user_semester[j-1] && user_semester[j-1].listing) {
-          $courses[j].innerHTML = user_semester[j-1].listing;
+          var listing = user_semester[j-1].listing;
+          var match = listing.match(/\d+/);
+          var numIndex = listing.indexOf(match[0]);
+          var listing_spaced = listing.substring(0,numIndex) + " " + listing.substring(numIndex);
+          $courses[j].innerHTML = listing_spaced;
           $("#course_"+(i+1)+j).data("course",user_semester[j-1]);
         }
       }
