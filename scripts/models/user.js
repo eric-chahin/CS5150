@@ -23,7 +23,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
 
   this.save_schedule = function() {
     //user data ON PAGE has been updated in main.js, the rest must be updated here
-    this.setSaved(true);
+    this.current_schedule.setSaved(true);
     schedArray = [];
     for (var i =0; i < this.schedules.length; i++){
         schedArray[schedArray.length] = this.schedules[i].toArray().toString();
