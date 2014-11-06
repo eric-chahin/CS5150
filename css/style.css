@@ -593,13 +593,14 @@ clear:left;
   margin: 20px auto;
 }
 
-/* Search bar needs styling*/
+
 #results{
   overflow-y: scroll;
   overflow-x: hidden;
   height: 194px;
   width: 294px;
   padding-left: 15px;
+  padding-right: 7px;
   padding-top: 5px;
   margin-bottom: 20px;
   text-align: left;
@@ -653,6 +654,29 @@ clear:left;
 #results div:hover div span{
   display: block;
 }
+
+/* Custom scrollbar design */
+::-webkit-scrollbar
+{
+}
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: rgba(255,255,255,.2);
+}
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: rgba(255,255,255,.3);
+}
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #3a3a3a;
+}
+
 
 /* For shaking the trashcan when accepting a hexagon */
 @-webkit-keyframes trashcan_shake {
