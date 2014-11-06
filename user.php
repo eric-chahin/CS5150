@@ -7,7 +7,7 @@
 	$dbpass = "";
 
 	// the db name, which depends on what you name your db
-	$dbname = "registration";
+	$dbname = "test";
 
 
 	//  Connection
