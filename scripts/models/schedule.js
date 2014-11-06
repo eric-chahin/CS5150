@@ -16,12 +16,38 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   /* If there is a new user, the method initializes the Schedule to the default
    * schedule which is defined in data/guest_data.csv
    *
-   * @param courses_lst   Takes in the courses list from the DB and parses
+   * @param savedSchedule   Takes in the courses list from the DB
+   *                         It is a (int,"listing#requirement") array
    */
-  this.init_schedule = function(courses_lst) {
-    //TODO read from courses_lst
-    //TODO store the Courses in the semester
-    //TODO
+  this.init_schedule = function(savedSchedule) {
+    var countInArrays = new Array(9)
+    for (var k = 0; k < countInArrays.length; k++) {
+        countInArrays[k] = 0;
+    }
+    for (var i = 0; i < savedSchedule.length; i=i+2) {
+      if (savedSchedule[i] == -1){
+        str = savedSchedule[i+1];
+        var arr = str.split("#");
+        var name = arr[0];
+        var req = arr[1];
+        if (arr[1]=="") {
+            req = null;
+        }
+        this.courses_I_want[countInArrays[8]] = new Course(name, req);                
+        countInArrays[8] = countInArrays[8] + 1;
+      } else {
+        var sem = savedSchedule[i];
+        str = savedSchedule[i+1];
+        var arr = str.split("#");
+        var name = arr[0];
+        var req = arr[1];
+        if (arr[1]=="") {
+            req = null;
+        }
+        this.semesters[sem][countInArrays[sem]] = new Course(name, req);
+        countInArrays[sem] = countInArrays[sem] + 1;
+      }
+    }
   }
 
   //TODO: Make sure that the this._saved flag is false when switching requirements around AND CIWTT
@@ -217,41 +243,6 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     //add a function call to update the checklist
   }
-    /*adaptation of fromArray to comply with the db serialization of a schedule.
-      */
-  this.fromDBArray = function(savedSchedule){
-        var countInArrays = new Array(9)
-        for (var k = 0; k < countInArrays.length; k++) {
-            countInArrays[k] = 0;
-        }
-        for (var i = 0; i < savedSchedule.length; i=i+2) {
-            if (savedSchedule[i] == -1){
-                str = savedSchedule[i+1];
-                var arr = str.split("#");
-                var name = arr[0];
-                var req = arr[1];
-                if (arr[1]=="") {
-                    req = null;
-                }
-                this.courses_I_want[countInArrays[8]] = new Course(name, req);                
-                countInArrays[8] = countInArrays[8] + 1;
-            }
-            else {
-                var sem = savedSchedule[i];
-                str = savedSchedule[i+1];
-                var arr = str.split("#");
-                var name = arr[0];
-                var req = arr[1];
-                if (arr[1]=="") {
-                    req = null;
-                }
-                this.semesters[sem][countInArrays[sem]] = new Course(name, req);
-                countInArrays[sem] = countInArrays[sem] + 1;
-            }
-        }
-    }
-
-
 
   /* Returns JSON object of title of Rule -> Course array
    *  Strictly reads from the schedule object. Does not save state anywhere
@@ -291,11 +282,5 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
   }
 
-  //Constructor code
-  //If new:
-    //TODO put disclaimer splash page up
-    //TODO put different view up?
-  //  this.init_schedule(courses_lst);
-  //else:
-    //TODO
+  this.init_schedule(courses_lst);
 }

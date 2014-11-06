@@ -12,7 +12,7 @@ var Loader = function() {
     var user = null;
     $.ajax({
         type: "GET",
-        url: "user.php", //TODO, wait on Merrill
+        url: "user.php", 
         async: false,
         dataType: "json",
         data:   {'netid': netid },
@@ -26,21 +26,13 @@ var Loader = function() {
             var name = data['name'];
             var next_schedule_num = data['next_schedule_num'];
             var current_schedule_id = data['current_schedule_id'];
-            var schedules = data['schedules'];
-            str_schedule = "";
-            for (var j=0; j<schedules.length; j++) {
-              str_schedule += schedules[j];
-            }
+            var schedules = data['schedules']; //TODO needs to be an array of schedule IDs
 
-            var arr = str_schedule.split(",");
+            var courses_lst = schedules.split(",");
             //TODO change schdule encoding to include name and verison
             //TODO generalize decoding for case of mulitple schedules
-            var s = new Schedule("first", 2012, current_schedule_id, []);
+            var s = new Schedule("first", 2012, current_schedule_id, courses_lst);
           
-            //i.e. if schedule string was not empty
-            if (arr[0] !== "") {
-              s.fromDBArray(arr);
-            }
             scheds = [];
             scheds[scheds.length] = s;
         
@@ -52,7 +44,7 @@ var Loader = function() {
       
     return user;
       
-}
+  }
 
   /* Scans through the user object and loads all elements on the schedule and 
    * checklist. */
@@ -236,8 +228,7 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
-  var netid = "erc73" //TODO get netid from web auth login
-                  
+  var netid = "erc73"; //TODO get netid from web auth login
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
