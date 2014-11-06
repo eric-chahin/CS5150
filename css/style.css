@@ -17,6 +17,12 @@ body{
      background-image: url("../img/background_text.png");
      margin-left: -10px;
      -webkit-backface-visibility:hidden;
+     font-family: 'Caviar Dreams';
+}
+
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('../fonts/CaviarDreams_Bold.ttf');
 }
 
 
@@ -683,7 +689,7 @@ clear:left;
 }
 ::-webkit-scrollbar-track
 {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(114,91,80,0.5);
 	border-radius: 10px;
 	background-color: rgba(255,255,255,.2);
 }
