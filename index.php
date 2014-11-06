@@ -84,7 +84,7 @@
 		<div class="col-md-12 column">
     <div class="checklist_box_container">
 			<div class="checklist_box">
-                         <h2> CS Checklist (Engineering) </h2>
+                <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
         <div class="classleftrow">
 
          </div>
@@ -159,7 +159,7 @@
                                    
                                           echo ('
 					    <div class= "classContainer"> 
-                                                <div class= "coursetitle"><img src= "img/text_courses.png"></div>
+                                                <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>
                                                      <div class="hexagon dragcolumn">CS 3152</div>
                                                      <div class="hexagon dragcolumn">CS 4152</div>
                                                      <div class="hexagon dragcolumn">MATH 1920</div>
