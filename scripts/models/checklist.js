@@ -160,7 +160,7 @@ var Checklist = function(version) {
     var leftChecklistRows = 19;
     var count = 0;
     var header = "";
-     var checklistclass = ".classleftrow";
+    var checklistclass = ".classleftrow";
     for (var rule in checklist_rules) {
       for (var i = 0; i < checklist_rules[rule].slots; i++) {
         
@@ -187,24 +187,23 @@ var Checklist = function(version) {
                  "  </div><div class='course-credit'></div>" +
                  "<div class='course-semester'></div> " +
                  " </div></div>");
-    
       if (count == leftChecklistRows) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
-                                    "<div class ='unassigned-classes'></div></div>");
+                                  "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+
+                                  "<input type='checkbox' name='req' value='tech'> Technical Writing<br>" +
+                                  " <input type='checkbox' name='req' value='stat'> Statistics</div>");      
       }
       count++;
+      }
+         
     }
-  }
+$(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
+                         +"Vector 1:<input type='text' name='lname'> Completed? <input type='checkbox' name='req' value='tech'><br>"
+                         +"Vector 2:<input type='text' name='lname'> Completed? <input type='checkbox' name='req' value='tech'></div>");
+ 
 }
 
- /* this.addclasstoChecklistHTML = function() {
-                  <div class='classRow'><div class='requirement'>Requirement</div>" +
-                  "<div class='drag-course'><div class='course-name'>Course Name</div><div class='course-credit'>Cr</div>" +
-                  "<div class='course-semester'>Sem</div></div>" +
-                  " </div>");
-                  
-  }
-*/
+
   /* 
    * Takes in a list and returns true if the course matches a rule in the lst
    * 'x' can match with any digit

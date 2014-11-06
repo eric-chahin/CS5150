@@ -4,6 +4,8 @@
 * @param netid
 * @param version
 */
+
+
 var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules) {
 
   this.add_new_schedule = function(schedule_name, version) {

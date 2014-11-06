@@ -7,7 +7,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
   this.courses_I_want = []; //TODO load/save this properly
-  this.startYear = 11; //TODO let the user enter this for their schedule or generate based on version
+  var startYear = 11; //TODO let the user enter this for their schedule or generate based on version
   this._saved = true; //Private variable. Please don't touch outside of class
 
   //Semester 2D Array that contain Course objects
@@ -77,7 +77,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.semesters[semester][index] = obj;
   }
 
- var startYear = 11;
+
   /*Creates the string name for a semester number*/
 function convertSemesterName(semesterNum){
   console.log(semesterNum);
