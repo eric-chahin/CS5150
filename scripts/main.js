@@ -79,6 +79,7 @@ var Loader = function() {
       type:     "GET",
       url:      "courses.php",
       dataType: "json",
+      async: false,
       cache: false,
       success: function(data){
         for (var x = 0; x < data.length; x++) {
