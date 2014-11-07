@@ -144,6 +144,7 @@ function getSplashPageHTML() {
   select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
 
   var splash_html = "<div id='splashPage'>                                      \
+     <div class='popup-title'><img src='img/text_welcome.png'></div>                   \
   <p>Welcome to Checklist Interactive! This tool is intended for Cornell\
     University Computer Science students in the College of Engineering to plan\
     out their four years at Cornell in a smart and efficient manner. We want\
@@ -159,8 +160,8 @@ function getSplashPageHTML() {
   splash_html += '<div class="splash_check">\
                     <input type="checkbox" value="confirm" id="splash_check" name="splash_check" style="display: none;"/>\
                     <label for="splash_check"></label>\
-                    <p>Yes, agreed.</p>\
-                  </div>';
+                  </div>\
+                  <div class="splash_check_label">Accept</div>';
   splash_html += select_html;
   splash_html += '<input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
   splash_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div>';

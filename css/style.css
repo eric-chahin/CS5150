@@ -629,6 +629,13 @@ clear:left;
   margin: 20px auto;
 }
 
+.popup-title{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:20px;
+}
 
 #results{
   overflow-y: scroll;
@@ -641,6 +648,7 @@ clear:left;
   margin-bottom: 20px;
   text-align: left;
   text-decoration: none;
+  background: transparent;
 }
 
 #results div{
@@ -658,7 +666,7 @@ clear:left;
 
 #results div:hover{
   cursor: pointer;
-  background-color: #F7F7F7;
+  background: transparent;
 }
 
 #results div:active{
@@ -679,7 +687,7 @@ clear:left;
   height:10px;
   border-bottom:5px solid #dfdfdf;
   border-right:5px solid #dfdfdf;
-  background:#f8f8f8;
+  background:transparent;
   left:50%;
   margin-left:-5px;
   -moz-transform:rotate(45deg);
@@ -759,6 +767,12 @@ clear:left;
 .splash_check {
   margin: 20px auto;
   position: relative;
+  float:left;
+}
+
+.splash_check_label {
+  float: left;
+  margin-left: 20px;
 }
 
 .splash_check label {
