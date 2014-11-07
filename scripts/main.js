@@ -159,11 +159,10 @@ function getSplashPageHTML() {
   //TODO add button and checkbox
   splash_html += '<div class="splash_check">\
                     <input type="checkbox" value="confirm" id="splash_check" name="splash_check" style="display: none;"/>\
-                    <label for="splash_check"></label>\
-                  </div>\
-                  <div class="splash_check_label">Accept</div>';
+                    <label for="splash_check"></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept\
+                  </div>';
   splash_html += select_html;
-  splash_html += '<input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
+  splash_html += '<br><br><input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
   splash_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div>';
   
   //Add closing div

@@ -765,9 +765,9 @@ clear:left;
 
 /* Splash page checkbox */
 .splash_check {
-  margin: 20px auto;
+  margin: 10px;
   position: relative;
-  float:left;
+
 }
 
 .splash_check_label {
@@ -827,6 +827,7 @@ clear:left;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
+  display: inline;
 }
 
 #swapmssg{
