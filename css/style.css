@@ -766,6 +766,7 @@ clear:left;
 /* Splash page checkbox */
 .splash_check {
   margin: 10px;
+  margin-left: 0px;
   position: relative;
 
 }
