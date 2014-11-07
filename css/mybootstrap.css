@@ -8,6 +8,12 @@
 
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
 
+
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('../fonts/CaviarDreams_Bold.ttf');
+}
+
 article,
 aside,
 details,
@@ -387,9 +393,8 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  line-height: 1.1;
+  font-family: 'Caviar Dreams';
+  font-size: 11pt;
   color: inherit;
 }
 

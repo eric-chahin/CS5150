@@ -85,6 +85,7 @@
     <div class="checklist_box_container">
 			<div class="checklist_box">
                 <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
+        
         <div class="classleftrow">
 
          </div>
@@ -97,8 +98,12 @@
          <div class="classrightrow">
                 
          </div>
-         *NOTE: This page is NOT official. There is no guarenteee that the placement of your courses on the checklist are correct.
-			</div>
+         <div class ="classbottom">
+      
+            *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
+         </div>
+         
+         </div>
     </div>
     <div id= "swapmssg"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 		</div>
