@@ -32,14 +32,14 @@
 2012,College Requirements,B23,1,CHEM 2080 or PHYS 2214,CHEM2080;PHYS2214
 2012,College Requirements,B24,1,CHEM 2090,CHEM2090
 2012,College Requirements,B25,1,Introductory Programming,CS1110;CS1112;CS1114;CS1115
-2012,College Requirements,B26,1,Data Structures,CS2110;ENGRD2110
+2012,College Requirements,B26,1,CS/ENGRD 2110,CS2110;ENGRD2110
 2012,College Requirements,B27,1,Engineering Distribution,ENGRD*
-2012,College Requirements,B28,1,Intro to Engineering,ENGRI*
-2012,CS Core,I10,1,Discrete Structures,CS2800
-2012,CS Core,I11,1,Functional Programming,CS3110
-2012,CS Core,I12,1,Digital Systems,CS3410;CS3420
-2012,CS Core,I13,1,Operating Systems,CS4410
-2012,CS Core,I14,1,Algorithms,CS4820
+2012,College Requirements,B28,1,Intro to Engineering (ENGRI),ENGRI*
+2012,CS Core,I10,1,CS 2800,CS2800
+2012,CS Core,I11,1,CS 3110,CS3110
+2012,CS Core,I12,1,CS 3410 or CS 3420,CS3410;CS3420
+2012,CS Core,I13,1,CS 4410,CS4410
+2012,CS Core,I14,1,CS 4820,CS4820
 2012,Electives,I18,3,CS Electives,$CSElective
 2012,Electives,I21,1,CS Project,CS4121;CS4321;CS4411;CS4621;CS4701;CS4758;CS5150;CS5152;CS5412;CS5414;CS6670
 2012,Electives,I22,3,Technical Electives,$Technical
