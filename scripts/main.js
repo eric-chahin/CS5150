@@ -203,6 +203,18 @@ function getSplashPageFunctions() {
   });
 }
 
+function getLoadPageHTML() {
+  var select_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
+  for (var i = 0; i < 6; i++){
+    select_html += '<option value="'+i+'">' + i + "</option>"; //TODO: link this to the user's saved schedules somehow
+  }
+  select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
+  var load_html = select_html;
+  load_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
+  load_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div></center>';
+  return load_html; 
+}
+
 function saveUserFunction() {
   user.save_schedule(); 
 }
@@ -222,7 +234,7 @@ function setupMagnificPopup(user) {
   });
   makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
   makePopup("#new",'New Page', false, false, null);
-  makePopup("#load",'Load Page', false, false, null);
+  makePopup("#load",getLoadPageHTML(), false, false, null);
   makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   makePopup("#print",'Enter message to Nicole:<br /><textarea />', false, false, null)
 }
