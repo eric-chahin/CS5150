@@ -123,15 +123,20 @@ function applyrun() {
       e.stopPropagation(); // stops the browser from redirecting.
     }
 
-
     // Don't do anything if we're dropping on the same column we're dragging.
     if (dragSrc != this) {
+      if ("course_" !== dragSrc.id.substring(0,7) && "potential_" !== dragSrc.id.substring(0,10) ||
+          "course_" !==    this.id.substring(0,7) && "potential_" !==    this.id.substring(0,10)) {
+        console.error("Dragging should not be done between these two things.");
+      }
+      debugger;
       var $thisNode = $("#" + this.id);
       var thisCourse = $thisNode.data("course");
       if (thisCourse == undefined) thisCourse = null;
       var dragCourse = $dragSrcNode.data("course");
       if (dragCourse == undefined) dragCourse = null;
 
+      var temp_html = $dragSrcNode.html();
       //Swapping the contents in this div and the dragSrc div, no object switching
         dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
         //NOTE: changed from this.textContent to this.innerHTML
@@ -145,44 +150,52 @@ function applyrun() {
         dragSrc.innerHTML = "";
         this.innerHTML = "";
         shakeGarbageCan();
+        //TODO: are we setting the course data to null for the dragged hexagon?
+        //TODO: check that this works with new dragging
+        //deletePotentialCourse use!!!
       }
+
+      //Swap the Course objects tied to the DOM
+      $dragSrcNode.data("course",thisCourse);
+      $thisNode.data("course",dragCourse); 
 
       //gets their locations based on id course_12
       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
-      var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
       var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
       var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
+
+      var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
       var thisSemester = parseInt(this.id.substring(7,8))-1;
-      var thisIndex    = parseInt(this.id.substring(8,9))-1;
+      var thisIndex    = parseInt(this.id.substring(8))-1;
 
       if (dragIsScheduleCourse && thisIsScheduleCourse) {
-        $dragSrcNode.data("course",thisCourse);
-        $thisNode.data("course",dragCourse); 
+        //swapping within the schedule
         user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
-      } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
-        if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
-          var newCourse = user.current_schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
-          $dragSrcNode.data("course", newCourse);
-        } else {
-          console.log("deleting " + this.textContent);
-          user.current_schedule.deleteCourse(dragSemester, dragIndex);
-          $dragSrcNode.data("course",null);
+      } else if (dragIsScheduleCourse || thisIsScheduleCourse ) {
+        var fromSchedule  = dragIsScheduleCourse ? dragCourse   : thisCourse; 
+        var schSemester   = dragIsScheduleCourse ? dragSemester : thisSemester;
+        var schIndex      = dragIsScheduleCourse ? dragIndex    : thisIndex
+        var fromPotential = dragIsScheduleCourse ? thisCourse   : dragCourse;
+        //Taking off of the schedule
+        if (fromSchedule) {
+          user.current_schedule.deleteCourse(schSemester, schIndex);
+          user.current_schedule.addCourse(fromSchedule.listing,-1,null,fromSchedule);
         }
-      } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
-        //add a new course from the hexagon that you've just dragged over
-        if (!user.current_schedule.contains(this.textContent)){
-          var newCourse = user.current_schedule.addCourse(this.textContent, thisSemester,thisIndex); 
-          $thisNode.data("course", newCourse);
-        } else {
-          this.innerHTML = dragSrc.innerHTML;
-          dragSrc.innerHTML = e.dataTransfer.getData('text/html');
-          alert(dragSrc.textContent + " is already in your schedule! :(");
-        }
-      } else {
-        //just swapping divs elsewhere, don't care
-      }
+        //Moving to the schedule!
+        if (fromPotential) {
+          if (!user.current_schedule.contains(fromPotential.listing)) {
+            user.current_schedule.deletePotentialCourse(fromPotential);
+            user.current_schedule.addCourse(fromPotential.listing,schSemester,schIndex,fromPotential);
+          } else {
+            this.innerHTML = dragSrc.innerHTML;
+            dragSrc.innerHTML = e.dataTransfer.getData('text/html');
+            alert(dragSrc.textContent + " is already in your schedule! :(");
+          }
+        } 
+      } 
 
       console.log(user.current_schedule.toString());
+      console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
 
 
     }
@@ -249,6 +262,11 @@ function applyrun() {
     col.addEventListener('dragend', handleDragEnd);
   }
 
+  if (Modernizr.draganddrop) {
+    console.log("good to go with DnD");
+  } else {
+    console.error("Browser does not support DnD");
+  }
 
   var cols = document.querySelectorAll('.dragcolumn');
   [].forEach.call(cols, function (col) {

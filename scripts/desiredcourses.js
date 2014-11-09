@@ -1,8 +1,5 @@
 
   function addToDesiredCourses(object){
-    
-    console.log("addToDesiredCourses");
-    console.log(object);
     var course = object.getAttribute("data-course");
     var match = course.match(/\d+/);
     var numIndex = course.indexOf(match[0]);
@@ -20,6 +17,11 @@
         }
         copySections();
         applyrun();
+
+        //Tie the course object to the DOM and load it to the model
+        var c_obj = user.current_schedule.addCourse(course, -1, " because it is a potential course");
+        $("#" + hexagon_id).data("course",c_obj);
+        
         setTimeout(function() {
           $("#" + hexagon_id).removeClass('fadeinfadeout');
         },3000);
