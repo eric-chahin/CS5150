@@ -6,6 +6,9 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
+
+  // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
+  // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
   this.courses_I_want = []; //TODO load/save this properly
   var startYear = 11; //TODO let the user enter this for their schedule or generate based on version
   this._saved = true; //Private variable. Please don't touch outside of class
@@ -16,8 +19,11 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.semesters[i] = new Array(8);
   }
 
-  /* If there is a new user, the method initializes the Schedule to the default
-   * schedule which is defined in data/guest_data.csv
+  /* This method takes in a saved schedule and initializes all of the
+   * courses in the schedule area and potential courses area.
+   * This method does NOT tie the course object to the DOM.
+   * It only loads the DB's serialized data into Course objects and stores
+   * them into the Schedule object.
    *
    * @param savedSchedule   Takes in the courses list from the DB
    *                         It is a (int,"listing#requirement") array
@@ -80,7 +86,6 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
 
   /*Creates the string name for a semester number*/
 function convertSemesterName(semesterNum){
-  console.log(semesterNum);
     var name = "";
     if (semesterNum % 2 == 0) {
       name = "FA";
@@ -96,55 +101,64 @@ function convertSemesterName(semesterNum){
   /* Adds a new course with listing at [semester][index].
    * Overwrites anything that is there and returns the newly generated course.
    *
+   * Returns the added Course object.
+   * 
    * NOTE: You should not use this method to load in User from the User DB because it
-   * is not given a requirement_filled for the course.
+   * is not given a requirement_filled for the course. 
+   * //TODO fix this so that it can be used for the requirement
+
+      There should only be TWO PLACES where Course objects are created.
+        1. Loading in a Schedule
+        2. Going from Search -> Potential
+      All other times, courseToAdd should NOT be null. The course should be initialized
+      before this method is called!!
+
+      TODO: shouldn't need 'listing' parameter because Course should have that.
+
    */
-  this.addCourse = function(listing,semester,index) {
+  this.addCourse = function(listing,semester,index,courseToAdd) {
     this.setSaved(false);
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
-    var newCourse = new Course(listing, null);
+    var newCourse = courseToAdd ? courseToAdd : new Course(listing, null);
 
     if (semester == -1){
-      this.courses_I_want[index] = newCourse;
-    }
-    else{
+      this.courses_I_want.push(newCourse);
+    } else {
       this.semesters[semester][index] = newCourse;
     
-    if (newCourse.requirement_filled == null) {
-    //assign a course to the unassigned box
-      $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
-                  "' ><div class='course-name'>" + listing +
-                  "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
-                  "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
-                  " </span></div>");
-    } else {
-     $(".classRow").each(function(){
-       var found = false;
-       for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] != null) {
-               if (this.childNodes[i].innerHTML == newCourse.requirement_filled){
-                console.log(newCourse.requirement_filled);
-               // if (this.childNodes[i].childnodes[0].innerHTML == "") {
-               //   //code
-              // }
-                
-                this.innerHTML = "<div class='requirement'>"+ newCourse.requirement_filled +
-                  "</div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
-                  "' ><div class='course-name'>" + listing +
-                  "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
-                  "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
-                  " </span></div>";
-                //$(this).remove();
-               } 
-            }
-       }
-     });
-    }
-
-   // copySections();
-    checklistcopySections();
-    checklistDrag();
+      if (newCourse.requirement_filled == null) {
+      //assign a course to the unassigned box
+        $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
+                    "' ><div class='course-name'>" + listing +
+                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                    "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
+                    " </span></div>");
+      } else {
+       $(".classRow").each(function(){
+         var found = false;
+         for (var i = 0; i < this.childNodes.length; i++) {
+              if (this.childNodes[i] != null) {
+                 if (this.childNodes[i].innerHTML == newCourse.requirement_filled){
+                  console.log(newCourse.requirement_filled);
+                 // if (this.childNodes[i].childnodes[0].innerHTML == "") {
+                 //   //code
+                // }
+                  
+                  this.innerHTML = "<div class='requirement'>"+ newCourse.requirement_filled +
+                    "</div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
+                    "' ><div class='course-name'>" + listing +
+                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                    "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
+                    " </span></div>";
+                  //$(this).remove();
+                 } 
+              }
+         }
+       });
+      }
+      checklistcopySections();
+      checklistDrag();
     }
     return newCourse;
   }
@@ -203,6 +217,17 @@ function convertSemesterName(semesterNum){
       });
 
     return oldCourse;
+  }
+
+  /* Removes Course object from courses_I_want because of (1) trashcan or (2) 
+   *  moving onto schedule. */
+  this.deletePotentialCourse = function(course) {
+    if (!course) return;
+    var index = this.courses_I_want.indexOf(course);
+    if (index > -1) {
+      console.log("Deleted " + course.listing + " from potential courses");
+      this.courses_I_want.splice(index,1);
+    }
   }
 
 

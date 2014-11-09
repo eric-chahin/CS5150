@@ -193,7 +193,6 @@ function checklistrecreateExistingDivs() {
 }
 
 function checklistcopySections(){
-  console.log("deep cloning son");
   var checklistclone = $(".checklist_box").clone();
   $(".checklist_box").remove();
   $(".checklist_box_container").append(checklistclone);

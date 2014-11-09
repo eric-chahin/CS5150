@@ -6,9 +6,7 @@ var Loader = function() {
      Returns: User object */
   //flag if user is found in db
   this.isNewUser = false;
-  //TODO: fetchUser should take in a netid?
   this.fetchUser = function(netid) {
-    //TODO Get AJAX call and pull data from User table
     var user = null;
     $.ajax({
         type: "GET",
@@ -47,7 +45,7 @@ var Loader = function() {
   }
 
   /* Scans through the user object and loads all elements on the schedule and 
-   * checklist. */
+   * checklist. Ties Course objects to the DOM. */
   this.applyUser = function(user) {
     //TODO: Put user's name somewhere on site
     //TODO: Change revision?
