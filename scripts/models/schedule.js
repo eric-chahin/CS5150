@@ -98,30 +98,51 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     return name;
   }
 
+  /* This method returns true/false whether this course would be overflowing the
+   * slot count for the requirement it is trying to fulfill. */
+  this.overflowsSlotCount = function(courseToAdd) {
+    if (courseToAdd.requirement_filled === null) {
+      return false;
+    } else {
+      var courses = this.ruleToCourses();
+      var current_lst = courses[courseToAdd.requirement_filled];
+      return current_lst && 
+        current_lst.length >= checklist_rules[courseToAdd.requirement_filled].slots;
+    }
+  }
+
   /* Adds a new course with listing at [semester][index].
    *  Overwrites anything that is there and returns the newly generated course.
-   *
+   *  
+   *  This method should obey the checklist rules. Therefore, if have CS1110 
+   *    taking "Intro Programming" and courseToAdd is CS1112 -- Intro Programming,
+   *    this method should set the courseToAdd.requirement_filled = null.
+   *  
    *  Returns the added Course object.
    * 
    *  There should only be TWO PLACES where Course objects are created.
    *    1. Loading in a Schedule
    *    2. Going from Search -> Potential
-   *  All other times, courseToAdd should NOT be null. The course should be initialized
+   *  courseToAdd should NEVER be null. The course should be initialized
    *  before this method is called!  */
   this.addCourse = function(courseToAdd,semester,index) {
     this.setSaved(false);
     var listing = courseToAdd.listing;
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
-    var newCourse = courseToAdd ? courseToAdd : new Course(listing, null);
 
     if (semester == -1){
-      this.courses_I_want.push(newCourse);
+      this.courses_I_want.push(courseToAdd);
     } else {
-      this.semesters[semester][index] = newCourse;
+      if (this.overflowsSlotCount(courseToAdd)) {
+        courseToAdd.requirement_filled = null;
+        //TODO: In the future, get other possible matches and try to match there. (low priority)
+      }
+      this.semesters[semester][index] = courseToAdd;
     }
-    return newCourse;
+    return courseToAdd;
   }
+
 
   /* Swaps the object at [semester1][index1] with [semester2][index2] 
    * Returns the two course objects that were swapped before they were swapped. */
