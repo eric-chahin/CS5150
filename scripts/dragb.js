@@ -162,7 +162,7 @@ function applyrun() {
         checklist_view.swapCoursesOnChecklistView(dragSemester,temps[0],thisSemester,temps[1]);
       } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
         if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
-          var newCourse = user.current_schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
+          var newCourse = user.current_schedule.addCourse(new Course(dragSrc.textContent,null), dragSemester, dragIndex); 
           checklist_view.addCourseToChecklistView(newCourse,dragSemester);
           $dragSrcNode.data("course", newCourse);
         } else {
@@ -174,7 +174,7 @@ function applyrun() {
       } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
         //add a new course from the hexagon that you've just dragged over
         if (!user.current_schedule.contains(this.textContent)){
-          var newCourse = user.current_schedule.addCourse(this.textContent, thisSemester,thisIndex); 
+          var newCourse = user.current_schedule.addCourse(new Course(this.textContent,null), thisSemester,thisIndex); 
           checklist_view.addCourseToChecklistView(newCourse,thisSemester);
           $thisNode.data("course", newCourse);
         } else {

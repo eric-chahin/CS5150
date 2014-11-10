@@ -21,12 +21,13 @@ var Loader = function() {
            user = null;
           }
           else {
+            this.isNewUser = true;
             var name = data['name'];
             var next_schedule_num = data['next_schedule_num'];
             var current_schedule_id = data['current_schedule_id'];
             var schedules = data['schedules']; //TODO needs to be an array of schedule IDs
 
-            var courses_lst = schedules ? schedules.split(",") : [];
+            var courses_lst = schedules ? schedules.split(",") : []; //TODO: This should come from the current_schedule_id not array of schedule IDs
             //TODO change schdule encoding to include name and verison
             //TODO generalize decoding for case of mulitple schedules
             var s = new Schedule("first", 2012, current_schedule_id, courses_lst);
@@ -251,11 +252,9 @@ $(document).ready(function(){
   checklist_view = new ChecklistView();
   
   if (user == null) {
-  //netid was not found in user table. create new user object
-    loader.isNewUser = true;
+    //netid was not found in user table. create new user object
     //TODO determine user's name from their netid
     user = new User("need to get this somehow", netid, 2012, null, null, null);
-
   }
   
   loader.applyUser(user);

@@ -99,25 +99,18 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
   }
 
   /* Adds a new course with listing at [semester][index].
-   * Overwrites anything that is there and returns the newly generated course.
+   *  Overwrites anything that is there and returns the newly generated course.
    *
-   * Returns the added Course object.
+   *  Returns the added Course object.
    * 
-   * NOTE: You should not use this method to load in User from the User DB because it
-   * is not given a requirement_filled for the course. 
-   * //TODO fix this so that it can be used for the requirement
-
-      There should only be TWO PLACES where Course objects are created.
-        1. Loading in a Schedule
-        2. Going from Search -> Potential
-      All other times, courseToAdd should NOT be null. The course should be initialized
-      before this method is called!!
-
-      TODO: shouldn't need 'listing' parameter because Course should have that.
-
-   */
-  this.addCourse = function(listing,semester,index,courseToAdd) {
+   *  There should only be TWO PLACES where Course objects are created.
+   *    1. Loading in a Schedule
+   *    2. Going from Search -> Potential
+   *  All other times, courseToAdd should NOT be null. The course should be initialized
+   *  before this method is called!  */
+  this.addCourse = function(courseToAdd,semester,index) {
     this.setSaved(false);
+    var listing = courseToAdd.listing;
     listing = listing.replace(" ",""); // Removes spaces from input just in case
     console.log("adding " + listing + " at " + semester+index);
     var newCourse = courseToAdd ? courseToAdd : new Course(listing, null);
