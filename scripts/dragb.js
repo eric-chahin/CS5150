@@ -132,19 +132,20 @@ function applyrun() {
       var dragCourse = $dragSrcNode.data("course");
       if (dragCourse == undefined) dragCourse = null;
 
-      //Swapping the contents in this div and the dragSrc div, no object switching
-        dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
-        //NOTE: changed from this.textContent to this.innerHTML
-        
-      //   console.log("does it come to replace the data");
-      // }
-      this.innerHTML = e.dataTransfer.getData('text/html');
-      
       if (document.getElementById("remove") == this) {
         //send hexagon into the abyss
-        dragSrc.innerHTML = "";
-        this.innerHTML = "";
-        shakeGarbageCan();
+        if (dragSrc === null) {
+          return false;
+        } else {
+          dragSrc.innerHTML = "";
+          this.innerHTML = "";
+          shakeGarbageCan();
+        }
+      } else {
+        //Swapping the contents in this div and the dragSrc div, no object switching
+        dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
+        //NOTE: changed from this.textContent to this.innerHTML
+        this.innerHTML = e.dataTransfer.getData('text/html');
       }
 
       //gets their locations based on id course_12
@@ -206,6 +207,7 @@ function applyrun() {
     });
 
     dragSrc.style.opacity = '1';
+    dragSrc = null;
 
     if (ENABLE_GHOST_COL) {
       document.body.removeChild(draggingColumn);
