@@ -85,7 +85,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
 
 
   /*Creates the string name for a semester number*/
-function convertSemesterName(semesterNum){
+  this.convertSemesterName = function(semesterNum){
     var name = "";
     if (semesterNum % 2 == 0) {
       name = "FA";
@@ -126,72 +126,21 @@ function convertSemesterName(semesterNum){
       this.courses_I_want.push(newCourse);
     } else {
       this.semesters[semester][index] = newCourse;
-    
-      if (newCourse.requirement_filled == null) {
-      //assign a course to the unassigned box
-        $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
-                    "' ><div class='course-name'>" + listing +
-                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
-                    "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
-                    " </span></div>");
-      } else {
-       $(".classRow").each(function(){
-         var found = false;
-         for (var i = 0; i < this.childNodes.length; i++) {
-              if (this.childNodes[i] != null) {
-                 if (this.childNodes[i].innerHTML == newCourse.requirement_filled){
-                  console.log(newCourse.requirement_filled);
-                 // if (this.childNodes[i].childnodes[0].innerHTML == "") {
-                 //   //code
-                // }
-                  
-                  this.innerHTML = "<div class='requirement'>"+ newCourse.requirement_filled +
-                    "</div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
-                    "' ><div class='course-name'>" + listing +
-                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
-                    "<div class='course-semester'>" + convertSemesterName(semester) + "</div>" +
-                    " </span></div>";
-                  //$(this).remove();
-                 } 
-              }
-         }
-       });
-      }
-      checklistcopySections();
-      checklistDrag();
     }
     return newCourse;
   }
 
-  /* Swaps the object at [semester1][index1] with [semester2][index2] */
+  /* Swaps the object at [semester1][index1] with [semester2][index2] 
+   * Returns the two course objects that were swapped before they were swapped. */
   this.swapCourses = function(semester1,index1,semester2,index2) {
     this.setSaved(false);
     console.log("switch " + semester1+index1 + " with " + semester2+index2);
     var tmp = this.semesters[semester1][index1];
     var tmp2 = this.semesters[semester2][index2];
-    this.semesters[semester1][index1] = this.semesters[semester2][index2];
+    this.semesters[semester1][index1] = tmp2;
     this.semesters[semester2][index2] = tmp;
-    
-    //Swap the test in the checklist for each semester 
-    semester2 = convertSemesterName(semester2);
-    semester1 = convertSemesterName(semester1);
 
-     $(".data").each(function(){
-        if(tmp != null && $(this).attr('data-name') == tmp.listing){
-          for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] != null) {
-               if (this.childNodes[i].innerHTML == semester1) this.childNodes[i].innerHTML =  semester2;
-            }
-          }
-        }
-         if(tmp2 != null && $(this).attr('data-name') == tmp2.listing){
-          for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] != null) {
-               if (this.childNodes[i].innerHTML == semester2) this.childNodes[i].innerHTML =  semester1;
-            }
-          }
-         }
-    });
+    return [tmp,tmp2];
   }
 
   /* Returns the old course and sets the spot in the semester to null. */
@@ -199,22 +148,6 @@ function convertSemesterName(semesterNum){
     this.setSaved(false);
     var oldCourse = this.semesters[semester][index];
     this.semesters[semester][index] = null;
-
-    $(".data").each(function(){
-        if($(this).attr('data-name') == oldCourse.listing){
-          $(this).parent().append(
-                  " <div class='course-name'>" + "" +
-                 "  </div><div class='course-credit'></div>" +
-                 "<div class='course-semester'> ");
-         $(this).remove();
-        }
-      });
-
-      $(".unassigned-classes").children().each(function(){
-        if($.trim($(this).text()) == ""){
-         $(this).remove();
-        }
-      });
 
     return oldCourse;
   }

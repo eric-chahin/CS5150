@@ -54,6 +54,7 @@
   <script type="text/javascript" src="scripts/magnific-popup.js"></script>
   <script type="text/javascript" src="scripts/scrolling.js"></script>
   <script type="text/javascript" src="scripts/desiredcourses.js"></script>
+  <script type="text/javascript" src="scripts/views/ChecklistView.js"></script>  
 
 </head>
 

@@ -246,7 +246,9 @@ $(document).ready(function(){
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
+  //global vars
   user = loader.fetchUser(netid);
+  checklist_view = new ChecklistView();
   
   if (user == null) {
   //netid was not found in user table. create new user object

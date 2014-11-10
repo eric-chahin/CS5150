@@ -158,20 +158,24 @@ function applyrun() {
       if (dragIsScheduleCourse && thisIsScheduleCourse) {
         $dragSrcNode.data("course",thisCourse);
         $thisNode.data("course",dragCourse); 
-        user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
+        var temps = user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
+        checklist_view.swapCoursesOnChecklistView(dragSemester,temps[0],thisSemester,temps[1]);
       } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
         if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
           var newCourse = user.current_schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
+          checklist_view.addCourseToChecklistView(newCourse,dragSemester);
           $dragSrcNode.data("course", newCourse);
         } else {
           console.log("deleting " + this.textContent);
-          user.current_schedule.deleteCourse(dragSemester, dragIndex);
+          var oldCourse = user.current_schedule.deleteCourse(dragSemester, dragIndex);
+          checklist_view.deleteCourseFromChecklistView(oldCourse);
           $dragSrcNode.data("course",null);
         }
       } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
         //add a new course from the hexagon that you've just dragged over
         if (!user.current_schedule.contains(this.textContent)){
           var newCourse = user.current_schedule.addCourse(this.textContent, thisSemester,thisIndex); 
+          checklist_view.addCourseToChecklistView(newCourse,thisSemester);
           $thisNode.data("course", newCourse);
         } else {
           this.innerHTML = dragSrc.innerHTML;
