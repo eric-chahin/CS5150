@@ -21,7 +21,6 @@ var Loader = function() {
            user = null;
           }
           else {
-            this.isNewUser = true;
             var name = data['name'];
             var next_schedule_num = data['next_schedule_num'];
             var current_schedule_id = data['current_schedule_id'];
@@ -254,6 +253,7 @@ $(document).ready(function(){
   if (user == null) {
     //netid was not found in user table. create new user object
     //TODO determine user's name from their netid
+    loader.isNewUser = true;
     user = new User("need to get this somehow", netid, 2012, null, null, null);
   }
   
