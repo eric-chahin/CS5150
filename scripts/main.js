@@ -244,7 +244,7 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
-  var netid = "erc73"; //TODO get netid from web auth login
+  var netid = "awg66"; //TODO get netid from web auth login
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();

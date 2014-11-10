@@ -38,13 +38,14 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       data:   {'netid': this.netid,
                'next_schedule_num': this.next_schedule_num, 
                'current_schedule_id': this.current_schedule.id,
+               'schedule_name': this.current_schedule.name,
                'schedules': this.current_schedule.toArray().toString()},
       success: function(data){
         if (data == "error"){
           //TODO: couldn't connect to database on saving
         }
       }
-    });  
+    });
   }
 
   //Initializing fields
