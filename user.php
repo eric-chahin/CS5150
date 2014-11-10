@@ -32,16 +32,18 @@
         $schedules = $_POST['schedules'];
         $schedule_name = $_POST['schedule_name']; 
        
+        mysql_query("START TRANSACTION");
         //TODO: use a transaction to handle possible database failures
-        $qry =
-        "INSERT INTO member(netid,name,current_schedule_id,next_schedule_num,schedules)VALUES('$netid','$full_name','$current_schedule_id','$next_schedule_num','$schedules')"; 
-        "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule)VALUES('$netid','$current_schedule_id','$schedule_name','$schedules')"; 
+        $qry1= "INSERT INTO member(netid,name,current_schedule_id,next_schedule_num,schedules)VALUES('$netid','$full_name','$current_schedule_id','$next_schedule_num','$schedules')"; 
+        $qry2= "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule)VALUES('$netid','$current_schedule_id','$schedule_name','$schedules')"; 
 
-        if ($tutorial_db->query($qry) == TRUE) {
+        if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {
+            mysql_query("COMMIT");
             echo "ok";
         }
         else {
             //connection error
+            mysql_query("ROLLBACK"); 
             echo "error";
         }
         
@@ -54,15 +56,19 @@
         $schedules = $_POST['schedules'];
         $schedule_name = $_POST['schedule_name'];
 
-        $qry = "UPDATE member, schedule SET member.current_schedule_id='$current_schedule_id', member.next_schedule_num='$next_schedule_num', member.schedules='$schedules', 
-        schedule.schedule_id='$current_schedule_id', schedule.schedule_name='$schedule_name', schedule.schedules='$schedules' 
-        WHERE member.netid= schedule.netid AND schedule.current_schedule_id='$current_schedule_id'";
-    
-        if ($tutorial_db->query($qry) == TRUE) {
+        //$qry = "UPDATE member, schedule SET member.current_schedule_id='$current_schedule_id', member.next_schedule_num='$next_schedule_num', member.schedules='$schedules', schedule.schedule_id='$current_schedule_id', schedule.schedule_name='$schedule_name', schedule.schedule='$schedules' WHERE member.netid= schedule.netid AND schedule.current_schedule_id='$current_schedule_id'";
+        mysql_query("START TRANSACTION");
+
+        $qry1="UPDATE member SET current_schedule_id='$current_schedule_id', next_schedule_num='$next_schedule_num', schedules='$schedules' WHERE netid='$netid'";
+        $qry2="UPDATE schedule SET schedule='$schedules' WHERE netid='$netid' AND schedule_id='$current_schedule_id'";    
+
+        if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {
+            mysql_query("COMMIT"); 
             echo "ok";
         }
         else {
            //connection error
+           mysql_query("ROLLBACK"); 
            echo "error";
         }
     }

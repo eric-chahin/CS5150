@@ -34,7 +34,7 @@ var Loader = function() {
             var s = new Schedule("first", 2012, current_schedule_id, courses_lst);
           
             scheds = [];
-            scheds[scheds.length] = s;
+            scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
         
             this.isNewUser = false;
             user = new User(name, netid, 2012, next_schedule_num, current_schedule_id, scheds);
@@ -244,7 +244,7 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
-  var netid = "awg66"; //TODO get netid from web auth login
+  var netid = "awg666"; //TODO get netid from web auth login
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();

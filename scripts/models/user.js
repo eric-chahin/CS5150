@@ -6,6 +6,7 @@
 */
 
 
+//TODO: change constructor for User to include start_year 
 var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules) {
 
   this.add_new_schedule = function(schedule_name, version) {
@@ -51,7 +52,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   //Initializing fields
   this.full_name = name;
   this.netid = netid;
-  this.schedules = schedules; //Should be an array of Schdule objects
+  this.schedules = schedules; //Should be an array of Schedule objects
   if (!this.schedules || this.schedules.length == 0) {
     //New user
     this.next_schedule_num = 0;
