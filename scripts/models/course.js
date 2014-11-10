@@ -4,7 +4,9 @@
 * @param listing
 */
 var Course = function(listing, requirement_filled) {
-  this.listing = listing.replace(" ","");
+  if (requirement_filled === null) requirement_filled = undefined;
+  var listing = listing.replace(" ","");
+  this.listing = listing;
   this.requirement_filled = requirement_filled ? requirement_filled : determineRequirement();
 
   /* Returns the requirement that it should fulfills,
