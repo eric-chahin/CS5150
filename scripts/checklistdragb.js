@@ -86,49 +86,6 @@ function checklistDrag() {
         //NOTE: changed from this.textContent to this.innerHTML
         
       this.innerHTML = e.dataTransfer.getData('text/html');
-     
-      
-      if (document.getElementById("remove") == this) {
-        //send hexagon into the abyss
-        dragSrc.innerHTML = "";
-        this.innerHTML = "";
-        shakeGarbageCan();
-      }
-
-      //gets their locations based on id course_12
-      var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
-      var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
-      var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
-      var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
-      var thisSemester = parseInt(this.id.substring(7,8))-1;
-      var thisIndex    = parseInt(this.id.substring(8,9))-1;
-
-      if (dragIsScheduleCourse && thisIsScheduleCourse) {
-        $dragSrcNode.data("course",thisCourse);
-        $thisNode.data("course",dragCourse); 
-        user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
-      } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
-        if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
-          var newCourse = user.current_schedule.addCourse(dragSrc.textContent, dragSemester, dragIndex); 
-          $dragSrcNode.data("course", newCourse);
-        } else {
-          console.log("deleting " + this.textContent);
-          user.current_schedule.deleteCourse(dragSemester, dragIndex);
-          $dragSrcNode.data("course",null);
-        }
-      } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
-        //add a new course from the hexagon that you've just dragged over
-        if (!user.current_schedule.contains(this.textContent)){
-          var newCourse = user.current_schedule.addCourse(this.textContent, thisSemester,thisIndex); 
-          $thisNode.data("course", newCourse);
-        } else {
-          this.innerHTML = dragSrc.innerHTML;
-          dragSrc.innerHTML = e.dataTransfer.getData('text/html');
-          alert(dragSrc.textContent + " is already in your schedule! :(");
-        }
-      } else {
-        //just swapping divs elsewhere, don't care
-      }
 
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
@@ -136,8 +93,7 @@ function checklistDrag() {
         }
       });
       console.log(user.current_schedule.toString());
-
-
+      console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
     }
 
     return false;

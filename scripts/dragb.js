@@ -183,7 +183,7 @@ function applyrun() {
       }
 
       console.log(user.current_schedule.toString());
-
+      console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
 
     }
     return false;
