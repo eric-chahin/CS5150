@@ -6,12 +6,12 @@
 */
 
 
-var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules) {
+var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules, start_year) {
 
   this.add_new_schedule = function(schedule_name, version) {
   	var new_schedule_id = this.netid + "_" + this.next_schedule_num;
   	this.next_schedule_num += 1;
-  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, []);
+  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year);
   	this.schedules[this.schedules.length] = this.current_schedule;
   }
 
@@ -51,6 +51,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.full_name = name;
   this.netid = netid;
   this.schedules = schedules; //Should be an array of Schdule objects
+  this.start_year = start_year; 
   if (!this.schedules || this.schedules.length == 0) {
     //New user
     this.next_schedule_num = 0;

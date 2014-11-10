@@ -1,6 +1,7 @@
 /* Class: Loader is a singleton that contains methods to load the data into the website */
 
 //TODO: pass netid from weblogin into loader, must be used in Ajax call to user database
+//TODO: pass all LDAP information into loader
 var Loader = function() {
   /* Retrieves User information.
      Returns: User object */
@@ -35,7 +36,7 @@ var Loader = function() {
             scheds[scheds.length] = s;
         
             this.isNewUser = false;
-            user = new User(name, netid, 2012, next_schedule_num, current_schedule_id, scheds);
+            user = new User(name, netid, 2012, next_schedule_num, current_schedule_id, scheds, 2012);
           }
         }
     });
@@ -254,7 +255,7 @@ $(document).ready(function(){
     //netid was not found in user table. create new user object
     //TODO determine user's name from their netid
     loader.isNewUser = true;
-    user = new User("need to get this somehow", netid, 2012, null, null, null);
+    user = new User("need to get this somehow", netid, 2012, null, null, null, 2012);
   }
   
   loader.applyUser(user);
