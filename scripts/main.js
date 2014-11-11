@@ -30,7 +30,7 @@ var Loader = function() {
             var courses_lst = schedules ? schedules.split(",") : []; //TODO: This should come from the current_schedule_id not array of schedule IDs
             //TODO change schdule encoding to include name and verison
             //TODO generalize decoding for case of mulitple schedules
-            var s = new Schedule("first", 2012, current_schedule_id, courses_lst);
+            var s = new Schedule("first", 2012, current_schedule_id, courses_lst, 2012);
           
             scheds = [];
             scheds[scheds.length] = s;

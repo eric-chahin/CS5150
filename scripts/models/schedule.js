@@ -10,7 +10,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
   this.courses_I_want = []; //TODO load/save this properly
-  var startYear = start_year;
+  var startYear = start_year % 100; 
   this._saved = true; //Private variable. Please don't touch outside of class
 
   //Semester 2D Array that contain Course objects
