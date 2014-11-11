@@ -98,7 +98,7 @@ var Checklist = function(version) {
   /* Creates a tag function for this rule. 
    * Returns true if accepted by tag. */
   function create_tag_f(credits,course_num,forbidden_str) {
-    return function(course_listing) {
+    return function(course_listing, warnings) {
       course_listing = course_listing.replace(" ","");
       var course = COURSE_INFORMATION[course_listing];
       if (!course) debugger;
@@ -110,7 +110,15 @@ var Checklist = function(version) {
       }
       var cn = parseInt(course_listing.substring(course_listing.length-4,course_listing.length)); 
       var forbidden = is_forbidden(course_listing, forbidden_str); 
-      return this_credits >= credits && cn >= course_num && !forbidden;
+      var too_few_credits = this_credits < credits;
+      var course_num_too_low = cn < course_num;
+      if (forbidden)
+        warnings.push(WarningType.FORBIDDEN);
+      if (too_few_credits)
+        warnings.push(WarningType.CREDITS);
+      if (course_num_too_low)
+        warnings.push(WarningType.COURSE_LEVEL);
+      return !too_few_credits && !course_num_too_low && !forbidden;
     };
   }
 
@@ -132,13 +140,13 @@ var Checklist = function(version) {
   function generate_filter_f(tag_allowed_lst) {
     if (tag_allowed_lst.charAt(0) === "$") {
       //tag
-      var rtn_f = function(listing) {
+      var rtn_f = function(listing,warnings) {
         var f = tagsDict[tag_allowed_lst];
         if (!f) {
           //TODO: Take care of FWS and Liberal Studies tags
           return FilterValue.FORBIDDEN;
         }
-        if (f(listing)) {
+        if (f(listing,warnings)) {
           return FilterValue.ALLOWED;
         } else {
           return FilterValue.FORBIDDEN;
@@ -146,9 +154,14 @@ var Checklist = function(version) {
       };
     } else {
       //allowed_lst
-      var rtn_f = function(listing) {
+      var rtn_f = function(listing,warnings) {
         var lst = tag_allowed_lst.split(";");
-        return (lst.indexOf(listing) > -1) ? FilterValue.PERFECT : FilterValue.FORBIDDEN;
+        if (lst.indexOf(listing) > -1) {
+          return FilterValue.PERFECT;
+        } else {
+          warnings.push(WarningType.FORBIDDEN);
+          return FilterValue.FORBIDDEN;
+        }
       };
     }
 
@@ -244,7 +257,7 @@ $(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
    * The two parameters are strings in encoded list form "item1;item2;item3;etc"
    */
   var create_vector_f = function(allowed_str, forbidden_str) {
-    return function(course_listing) {
+    return function(course_listing, warnings) {
       var allowed_lst = allowed_str.split(";");
       if (forbidden_str.length === 0) {
         var forbidden_lst = [];

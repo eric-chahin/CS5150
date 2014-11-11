@@ -6,7 +6,7 @@ var ChecklistView = function() {
   this.addCourseToChecklistView = function(newCourse,semester) {
     var listing = newCourse.listing;
     var semester_name = user.current_schedule.convertSemesterName(semester);
-    if (newCourse.requirement_filled == null) {
+    if (newCourse.getRequirementFilled() == null) {
       //assign a course to the unassigned box
         $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
                     "' ><div class='course-name'>" + listing +
@@ -17,10 +17,10 @@ var ChecklistView = function() {
        $(".classRow").each(function(){
          for (var i = 0; i < this.childNodes.length; i++) {
               if (this.childNodes[i] != null) {
-                 if (this.childNodes[i].innerHTML == newCourse.requirement_filled){
-                  console.log(newCourse.requirement_filled);
+                 if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled()){
+                  console.log(newCourse.getRequirementFilled());
                   
-                  this.innerHTML = "<div class='requirement'>"+ newCourse.requirement_filled +
+                  this.innerHTML = "<div class='requirement'>"+ newCourse.getRequirementFilled() +
                     "</div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
                     "' ><div class='course-name'>" + listing +
                     "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +

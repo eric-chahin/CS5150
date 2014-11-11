@@ -101,13 +101,13 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
   /* This method returns true/false whether this course would be overflowing the
    * slot count for the requirement it is trying to fulfill. */
   this.overflowsSlotCount = function(courseToAdd) {
-    if (courseToAdd.requirement_filled === null) {
+    if (courseToAdd.getRequirementFilled() === null) {
       return false;
     } else {
       var courses = this.ruleToCourses();
-      var current_lst = courses[courseToAdd.requirement_filled];
+      var current_lst = courses[courseToAdd.getRequirementFilled()];
       return current_lst && 
-        current_lst.length >= checklist_rules[courseToAdd.requirement_filled].slots;
+        current_lst.length >= checklist_rules[courseToAdd.getRequirementFilled()].slots;
     }
   }
 
@@ -116,7 +116,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
    *  
    *  This method should obey the checklist rules. Therefore, if have CS1110 
    *    taking "Intro Programming" and courseToAdd is CS1112 -- Intro Programming,
-   *    this method should set the courseToAdd.requirement_filled = null.
+   *    this method should set the courseToAdd.setRequirementFilled(null).
    *  
    *  Returns the added Course object.
    * 
@@ -135,7 +135,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
       this.courses_I_want.push(courseToAdd);
     } else {
       if (this.overflowsSlotCount(courseToAdd)) {
-        courseToAdd.requirement_filled = null;
+        courseToAdd.setRequirementFilled(null);
         //TODO: In the future, get other possible matches and try to match there. (low priority)
       }
       this.semesters[semester][index] = courseToAdd;
@@ -196,7 +196,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
-          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].requirement_filled + "\n";
+          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].getRequirementFilled() + "\n";
         }
       }
     }
@@ -257,10 +257,10 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
     var ruleToCourse = {};
     for (var i = 0; i < courses.length; i++) {
       var c = courses[i][1];
-      if (!ruleToCourse[c.requirement_filled]) {
-        ruleToCourse[c.requirement_filled] = [c];
+      if (!ruleToCourse[c.getRequirementFilled()]) {
+        ruleToCourse[c.getRequirementFilled()] = [c];
       } else {
-        ruleToCourse[c.requirement_filled].push(c);
+        ruleToCourse[c.getRequirementFilled()].push(c);
       }
     }
     return ruleToCourse;
