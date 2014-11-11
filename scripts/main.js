@@ -133,6 +133,16 @@ function makePopup(selector,html,open_f,dismiss_off, user) {
   });
 }
 
+function setVectorDropDowns() {
+  var html_str = "<option selected>Select Vector</option>";
+  for (var vector in vectors) {
+    if (vectors.hasOwnProperty(vector)) {
+      html_str += "<option>" + vector + "</option>"
+    }
+  }
+  $("#vector1,#vector2").html(html_str);
+}
+
 /* Separates the splash page HTML so that it can be used as a popup. */
 function getSplashPageHTML() {
   var select_html = '<option selected disabled>Entering year</option>';
@@ -266,6 +276,7 @@ $(document).ready(function(){
   fillEmptySpots();
   applyrun(); //This starts the dragging and dropping
   checklistDrag();
+  setVectorDropDowns();
 
   //TODO see if user is a new user, if so:
   if (loader.isNewUser) {

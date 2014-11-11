@@ -5,7 +5,7 @@
 var Checklist = function(version) {
   this.version = version;
   checklist_rules = null; // dictionary of Rules (title) -> Rule
-  vectors = null;
+  vectors = null; // Holds vector name (function) -> vector object (Vector)
 
   function get_rules_from_server(v) {
     if(v !== ''){
@@ -211,8 +211,8 @@ var Checklist = function(version) {
          
     }
 $(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
-                         +"Vector 1:<input type='text' name='lname'> Completed? <input type='checkbox' name='req' value='tech'><br>"
-                         +"Vector 2:<input type='text' name='lname'> Completed? <input type='checkbox' name='req' value='tech'></div>");
+                         +"Vector 1:<select type='text' name='vector1' id='vector1'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='req' value='tech'><br>"
+                         +"Vector 2:<select type='text' name='vector2' id='vector2'><option selected         >Select Vector</option></select> Completed? <input type='checkbox' name='req' value='tech'></div>");
  
 }
 
@@ -270,7 +270,7 @@ $(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
 
   var tagsDict = {}; // Holds tag_name (String) -> tag function (function)
   var tmp_rules = {};
-  var vectorDict = {}; // Holds vector name (function) -> vector object (Vector)
+  var vectorDict = {}; 
   get_tags_from_server(version);
   get_rules_from_server(version);
   get_vectors_from_server(version);
