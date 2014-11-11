@@ -203,6 +203,36 @@ function getSplashPageFunctions() {
   });
 }
 
+
+
+function getNewPageHTML() {
+    var new_html = 'Enter new schedule name:<br />';
+    new_html += '<input type ="text" name="schedule_name" id="schedule_name" />';
+    new_html += '<br><center><input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
+    new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></center>';
+    
+    return new_html;
+}
+
+
+function getNewPageFunctions() {
+    $("#confirmNew").on('click', function () {
+        var name = $('#schedule_name').val();
+        if (name == "") {
+            $("#new_schedule_warning").text("Please enter a name for this schedule.");
+        }
+        else {
+            //close popup and save schedule in db with the user provided name
+            $.magnificPopup.close();
+            user.add_new_schedule(name, "2011"); //TODO: get version
+            window.location.reload(); //for now, just reload page to load new schedule
+        }
+    
+        return false;
+    });
+}
+
+
 function getLoadPageHTML() {
   var select_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
   for (var i = 0; i < 6; i++){
@@ -216,7 +246,7 @@ function getLoadPageHTML() {
 }
 
 function saveUserFunction() {
-  user.save_schedule(); 
+  user.save_schedule("false");
 }
 
 function setupMagnificPopup(user) {
@@ -233,7 +263,7 @@ function setupMagnificPopup(user) {
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
   makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
-  makePopup("#new",'New Page', false, false, null);
+  makePopup("#new",getNewPageHTML(), getNewPageFunctions, true, user);
   makePopup("#load",getLoadPageHTML(), false, false, null);
   makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   makePopup("#print",'Enter message to Nicole:<br /><textarea />', false, false, null)
@@ -244,7 +274,7 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
-  var netid = "awg666"; //TODO get netid from web auth login
+  var netid = "csm12345"; //TODO get netid from web auth login
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
