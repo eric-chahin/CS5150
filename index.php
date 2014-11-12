@@ -100,7 +100,13 @@
                 
          </div>
          <div class ="classbottom">
-      
+            
+            <a class="hvrlink"><img src="img/warning_excluded.png" alt="Excluded Course Warning"></a>
+            <div class="details-pane">
+              <h3 class="title">Warning: Excluded Course</h3>
+              <p class="desc">The course you have placed in this requirement is listed under excluded courses.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
+            </div><!-- @end .details-pane -->
+            
             *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
          </div>
          

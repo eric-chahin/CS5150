@@ -924,3 +924,52 @@ input[type=checkbox] {
 	filter: alpha(opacity=100);
 	opacity: 1;
 }
+
+
+/** detail panel **/
+.details-pane {
+  display: none;
+  color: #000000;
+  position: absolute;
+  top: 1;
+  left: 100px;
+  z-index: 99999;
+  width: 300px;
+  text-align: left;
+  padding: 15px;
+	background-color: rgba(255, 255, 255, 0.85);
+	border: 10px solid rgb(255, 255, 255); 
+	border: 10px solid rgba(255, 255, 255, 0.55); 
+	-moz-background-clip: padding; 
+	-webkit-background-clip: padding; 
+	background-clip: padding-box; 
+}
+.details-pane.rightside {
+  left: -529px;
+}
+
+.details-pane h3 {
+  font-size: 1.6em;
+  margin-bottom: 4px;
+}
+
+.details-pane h3 span {
+  font-size: 0.75em;
+  font-style: italic;
+  color: #555;
+  padding-left: 15px;
+}
+
+.details-pane .desc {
+  font-size: 1.2em;
+  margin-bottom: 6px;
+}
+
+
+/** hover styles **/
+a.hvrlink:hover + .details-pane {
+  display: block;
+}
+.details-pane:hover {
+  display: block;
+}
