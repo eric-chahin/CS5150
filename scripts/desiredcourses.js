@@ -1,6 +1,9 @@
 
   function addToDesiredCourses(object){
-    
+    //note from Ben: we would like for a new Course object to be created when a hexagon is
+    //added to "Courses I want to take"
+
+
     /* Fades the passed in div in and out */
     function fadeInFadeOut(jQuery_div) {
 
