@@ -16,7 +16,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   }
 
   this.load_schedule = function(schedule_id) {
-    //TODO 
+    //TODO
   }
 
   //TODO Alex/Chris : save user function
@@ -36,7 +36,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       async: false,
       dataType: "json",
       data:   {'netid': this.netid,
-               'next_schedule_num': this.next_schedule_num, 
+               'next_schedule_num': this.next_schedule_num,
                'current_schedule_id': this.current_schedule.id,
                'schedules': this.current_schedule.toArray().toString()},
       success: function(data){
@@ -44,14 +44,14 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
           //TODO: couldn't connect to database on saving
         }
       }
-    });  
+    });
   }
 
   //Initializing fields
   this.full_name = name;
   this.netid = netid;
   this.schedules = schedules; //Should be an array of Schdule objects
-  this.start_year = start_year; 
+  this.start_year = start_year;
   if (!this.schedules || this.schedules.length == 0) {
     //New user
     this.next_schedule_num = 0;

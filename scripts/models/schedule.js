@@ -6,17 +6,18 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
+  this.numSemesters = 8;
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
   this.courses_I_want = []; //TODO load/save this properly
-  var startYear = start_year % 100; 
+  var startYear = start_year % 100;
   this._saved = true; //Private variable. Please don't touch outside of class
 
   //Semester 2D Array that contain Course objects
-  this.semesters = new Array(8);
+  this.semesters = new Array(this.numSemesters);
   for (var i = 0; i < this.semesters.length; i++) {
-    this.semesters[i] = new Array(8);
+    this.semesters[i] = new Array(this.numSemesters);
   }
 
   /* This method takes in a saved schedule and initializes all of the
@@ -29,7 +30,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
    *                         It is a (int,"listing#requirement") array
    */
   this.init_schedule = function(savedSchedule) {
-    var countInArrays = new Array(9)
+    var countInArrays = new Array(this.numSemesters+1)
     for (var k = 0; k < countInArrays.length; k++) {
         countInArrays[k] = 0;
     }
@@ -42,8 +43,8 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
         if (arr[1]=="") {
             req = null;
         }
-        this.courses_I_want[countInArrays[8]] = new Course(name, req);                
-        countInArrays[8] = countInArrays[8] + 1;
+        this.courses_I_want[countInArrays[this.numSemesters]] = new Course(name, req);
+        countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
       } else {
         var sem = savedSchedule[i];
         str = savedSchedule[i+1];
@@ -93,7 +94,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
       name = "SP";
       semesterNum+=1;
     }
-   
+
     name+= startYear + Math.floor(semesterNum/2);
     return name;
   }
@@ -106,20 +107,20 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
     } else {
       var courses = this.ruleToCourses();
       var current_lst = courses[courseToAdd.getRequirementFilled()];
-      return current_lst && 
+      return current_lst &&
         current_lst.length >= checklist_rules[courseToAdd.getRequirementFilled()].slots;
     }
   }
 
   /* Adds a new course with listing at [semester][index].
    *  Overwrites anything that is there and returns the newly generated course.
-   *  
-   *  This method should obey the checklist rules. Therefore, if have CS1110 
+   *
+   *  This method should obey the checklist rules. Therefore, if have CS1110
    *    taking "Intro Programming" and courseToAdd is CS1112 -- Intro Programming,
    *    this method should set the courseToAdd.setRequirementFilled(null).
-   *  
+   *
    *  Returns the added Course object.
-   * 
+   *
    *  There should only be TWO PLACES where Course objects are created.
    *    1. Loading in a Schedule
    *    2. Going from Search -> Potential
@@ -144,7 +145,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
   }
 
 
-  /* Swaps the object at [semester1][index1] with [semester2][index2] 
+  /* Swaps the object at [semester1][index1] with [semester2][index2]
    * Returns the two course objects that were swapped before they were swapped. */
   this.swapCourses = function(semester1,index1,semester2,index2) {
     this.setSaved(false);
@@ -166,7 +167,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
     return oldCourse;
   }
 
-  /* Removes Course object from courses_I_want because of (1) trashcan or (2) 
+  /* Removes Course object from courses_I_want because of (1) trashcan or (2)
    *  moving onto schedule. */
   this.deletePotentialCourse = function(course) {
     if (!course) return;
@@ -231,14 +232,14 @@ var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
    *  semester = -1 if course is not yet on schedule (course i want to take)
    *  input format is assumed to be same as output format of this.toArray */
   this.fromArray = function(savedSchedule){
-    var countInArrays = new Array(9)
+    var countInArrays = new Array(this.numSemesters+1)
     for (var k = 0; k < countInArrays.length; k++) {
       countInArrays[k] = 0;
     }
     for (var i = 0; i < savedSchedule.length; i++) {
       if (savedSchedule[i][0] == -1){
-        this.courses_I_want[countInArrays[8]] = savedSchedule[i][1];
-        countInArrays[8] = countInArrays[8] + 1;
+        this.courses_I_want[countInArrays[this.numSemesters]] = savedSchedule[i][1];
+        countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
       }
       else {
         this.semesters[countInArrays[i]] = savedSchedule[i][1];
