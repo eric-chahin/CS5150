@@ -54,6 +54,7 @@
   <script type="text/javascript" src="scripts/magnific-popup.js"></script>
   <script type="text/javascript" src="scripts/scrolling.js"></script>
   <script type="text/javascript" src="scripts/desiredcourses.js"></script>
+  <script type="text/javascript" src="scripts/views/ChecklistView.js"></script>  
 
 </head>
 
@@ -84,6 +85,8 @@
 		<div class="col-md-12 column">
     <div class="checklist_box_container">
 			<div class="checklist_box">
+                <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
+        
         <div class="classleftrow">
 
          </div>
@@ -96,7 +99,17 @@
          <div class="classrightrow">
                 
          </div>
-			</div>
+         <div class ="classbottom">           
+            *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
+         </div>
+            
+            <a class="hvrlink"><img src="img/warning_excluded.png" alt="Excluded Course Warning"></a>
+            <div class="details-pane">
+              <h3 class="title">Warning: Excluded Course</h3>
+              <p class="desc">The course you have placed in this requirement is listed under excluded courses.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
+            </div><!-- @end .details-pane -->
+         
+         </div>
     </div>
     <div id= "swapmssg"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 		</div>
@@ -147,41 +160,34 @@
 
 				<div class="carousel-inner">
           
-                                 <?php 
-                                 //keep this immediate place holder
-                               
-                                   $classnumber = 54;
-                                   for ($i = 0; $i <= ($classnumber); $i+=18) {
-                                    if ($i == 0) echo ('<div class="item active">');
-                                    else echo ('<div class="item">');
-                                   
-                                          echo ('
-					    <div class= "classContainer"> 
-                                                <div class= "coursetitle"><img src= "img/text_courses.png"></div>
-                                                     <div class="hexagon dragcolumn">CS 3152</div>
-                                                     <div class="hexagon dragcolumn">CS 4152</div>
-                                                     <div class="hexagon dragcolumn">MATH 1920</div>
-                                                     <div class="hexagon dragcolumn">MATH 2940</div>
-                                                     <div class="hexagon dragcolumn">CS 3410</div>
-                                                     <div class="hexagonLeft dragcolumn">CS 3410</div>
-                                                     <div class="hexagon dragcolumn">CS 2110</div>
-                                                     <div class="hexagon dragcolumn">CS 4410</div>
-                                                     <div class="hexagon dragcolumn">CS 3110</div>
-                                                     <div class="hexagon dragcolumn">CS 3410</div>
-                                                     <div class="hexagon dragcolumn"></div>
-                                                     <div class="hexagon dragcolumn"></div>
-                                                     <div class="hexagon dragcolumn"></div>
-                                                     <div class="hexagon dragcolumn"></div>
-                                                     <div class="hexagonLeft dragcolumn"></div>
-                                                     <div class="hexagon dragcolumn"></div>
-                                                     <div class="hexagon dragcolumn"></div>
-                                                     <div class="hexagon dragcolumn"></div>
-					    </div>
-					</div>
-					');
-                                   }
-                                          ?>
-                               </div> <a class="left carousel-control" href="#carousel-144942" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+           <?php 
+           //keep this immediate place holder
+         
+            $potential_courses_panel_count = 4;
+            $hexagons_per_panel = 18; 
+            for ($i = 0; $i < ($potential_courses_panel_count*$hexagons_per_panel); $i+=$hexagons_per_panel) {
+              if ($i == 0) echo ('<div class="item active">');
+              else echo ('<div class="item">');
+                echo ('
+                    <div class= "classContainer"> 
+                      <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>
+                      ');
+              for ($j = 0; $j < $hexagons_per_panel;$j+=1) {
+                if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
+                  // echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
+                  echo (sprintf('<div id="potential_%d" class="hexagonLeft dragcolumn"></div>',$i+$j));
+                } else {
+                  echo (sprintf('<div id="potential_%d" class="hexagon dragcolumn"></div>',$i+$j));
+                }
+              }
+                  echo ('
+                    </div>
+                  </div>
+              ');
+             }
+            ?>
+         </div> 
+        <a class="left carousel-control" href="#carousel-144942" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
 				<a class="right carousel-control" href="#carousel-144942" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
     </div>

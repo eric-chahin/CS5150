@@ -5,7 +5,7 @@
 var Checklist = function(version) {
   this.version = version;
   checklist_rules = null; // dictionary of Rules (title) -> Rule
-  vectors = null;
+  vectors = null; // Holds vector name (function) -> vector object (Vector)
 
   function get_rules_from_server(v) {
     if(v !== ''){
@@ -98,7 +98,7 @@ var Checklist = function(version) {
   /* Creates a tag function for this rule. 
    * Returns true if accepted by tag. */
   function create_tag_f(credits,course_num,forbidden_str) {
-    return function(course_listing) {
+    return function(course_listing, warnings) {
       course_listing = course_listing.replace(" ","");
       var course = COURSE_INFORMATION[course_listing];
       if (!course) debugger;
@@ -110,7 +110,15 @@ var Checklist = function(version) {
       }
       var cn = parseInt(course_listing.substring(course_listing.length-4,course_listing.length)); 
       var forbidden = is_forbidden(course_listing, forbidden_str); 
-      return this_credits >= credits && cn >= course_num && !forbidden;
+      var too_few_credits = this_credits < credits;
+      var course_num_too_low = cn < course_num;
+      if (forbidden)
+        warnings.push(WarningType.FORBIDDEN);
+      if (too_few_credits)
+        warnings.push(WarningType.CREDITS);
+      if (course_num_too_low)
+        warnings.push(WarningType.COURSE_LEVEL);
+      return !too_few_credits && !course_num_too_low && !forbidden;
     };
   }
 
@@ -132,13 +140,13 @@ var Checklist = function(version) {
   function generate_filter_f(tag_allowed_lst) {
     if (tag_allowed_lst.charAt(0) === "$") {
       //tag
-      var rtn_f = function(listing) {
+      var rtn_f = function(listing,warnings) {
         var f = tagsDict[tag_allowed_lst];
         if (!f) {
           //TODO: Take care of FWS and Liberal Studies tags
           return FilterValue.FORBIDDEN;
         }
-        if (f(listing)) {
+        if (f(listing,warnings)) {
           return FilterValue.ALLOWED;
         } else {
           return FilterValue.FORBIDDEN;
@@ -146,9 +154,14 @@ var Checklist = function(version) {
       };
     } else {
       //allowed_lst
-      var rtn_f = function(listing) {
+      var rtn_f = function(listing,warnings) {
         var lst = tag_allowed_lst.split(";");
-        return (lst.indexOf(listing) > -1) ? FilterValue.PERFECT : FilterValue.FORBIDDEN;
+        if (lst.indexOf(listing) > -1) {
+          return FilterValue.PERFECT;
+        } else {
+          warnings.push(WarningType.FORBIDDEN);
+          return FilterValue.FORBIDDEN;
+        }
       };
     }
 
@@ -160,7 +173,7 @@ var Checklist = function(version) {
     var leftChecklistRows = 19;
     var count = 0;
     var header = "";
-     var checklistclass = ".classleftrow";
+    var checklistclass = ".classleftrow";
     for (var rule in checklist_rules) {
       for (var i = 0; i < checklist_rules[rule].slots; i++) {
         
@@ -187,24 +200,23 @@ var Checklist = function(version) {
                  "  </div><div class='course-credit'></div>" +
                  "<div class='course-semester'></div> " +
                  " </div></div>");
-    
       if (count == leftChecklistRows) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
-                                    "<div class ='unassigned-classes'></div></div>");
+                                  "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+
+                                  "<input type='checkbox' name='req' value='tech'> Technical Writing<br>" +
+                                  " <input type='checkbox' name='req' value='stat'> Statistics</div>");      
       }
       count++;
+      }
+         
     }
-  }
+$(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
+                         +"Vector 1:<select type='text' name='vector1' id='vector1'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='req' value='tech'><br>"
+                         +"Vector 2:<select type='text' name='vector2' id='vector2'><option selected         >Select Vector</option></select> Completed? <input type='checkbox' name='req' value='tech'></div>");
+ 
 }
 
- /* this.addclasstoChecklistHTML = function() {
-                  <div class='classRow'><div class='requirement'>Requirement</div>" +
-                  "<div class='drag-course'><div class='course-name'>Course Name</div><div class='course-credit'>Cr</div>" +
-                  "<div class='course-semester'>Sem</div></div>" +
-                  " </div>");
-                  
-  }
-*/
+
   /* 
    * Takes in a list and returns true if the course matches a rule in the lst
    * 'x' can match with any digit
@@ -245,7 +257,7 @@ var Checklist = function(version) {
    * The two parameters are strings in encoded list form "item1;item2;item3;etc"
    */
   var create_vector_f = function(allowed_str, forbidden_str) {
-    return function(course_listing) {
+    return function(course_listing, warnings) {
       var allowed_lst = allowed_str.split(";");
       if (forbidden_str.length === 0) {
         var forbidden_lst = [];
@@ -258,7 +270,7 @@ var Checklist = function(version) {
 
   var tagsDict = {}; // Holds tag_name (String) -> tag function (function)
   var tmp_rules = {};
-  var vectorDict = {}; // Holds vector name (function) -> vector object (Vector)
+  var vectorDict = {}; 
   get_tags_from_server(version);
   get_rules_from_server(version);
   get_vectors_from_server(version);

@@ -4,12 +4,14 @@
 * @param netid
 * @param version
 */
-var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules) {
+
+
+var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules, start_year) {
 
   this.add_new_schedule = function(schedule_name, version) {
   	var new_schedule_id = this.netid + "_" + this.next_schedule_num;
   	this.next_schedule_num += 1;
-  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, []);
+  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year);
   	this.schedules[this.schedules.length] = this.current_schedule;
   }
 
@@ -23,20 +25,20 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
 
   this.save_schedule = function() {
     //user data ON PAGE has been updated in main.js, the rest must be updated here
-    this.setSaved(true);
+    this.current_schedule.setSaved(true);
     schedArray = [];
     for (var i =0; i < this.schedules.length; i++){
-      schedArray[schedArray.length] = this.schedules[i].toString(); 
+        schedArray[schedArray.length] = this.schedules[i].toArray().toString();
     }
     $.ajax({
       type:  "POST",
-      url: "user.php", //TODO, wait on Merrill
+      url: "user.php",
       async: false,
       dataType: "json",
-      data:   {'netid': this.netid, 
+      data:   {'netid': this.netid,
                'next_schedule_num': this.next_schedule_num, 
-               'current_schedule': this.current_schedule.toArray().toString()},
-              // 'schedules': schedArray}, 
+               'current_schedule_id': this.current_schedule.id,
+               'schedules': this.current_schedule.toArray().toString()},
       success: function(data){
         if (data == "error"){
           //TODO: couldn't connect to database on saving
@@ -48,6 +50,8 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   //Initializing fields
   this.full_name = name;
   this.netid = netid;
+  this.schedules = schedules; //Should be an array of Schdule objects
+  this.start_year = start_year; 
   if (!this.schedules || this.schedules.length == 0) {
     //New user
     this.next_schedule_num = 0;
@@ -57,7 +61,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   } else {
     //Loading old user
     this.next_schedule_num = next_schedule_num;
-    this.schedules = schedules; //Should be an array of Schedule objects
     this.current_schedule = null; //Of type Schedule object
     for (var i = 0; i < schedules.length; i++) {
       if (this.schedules[i].id == current_schedule_id) {

@@ -17,14 +17,25 @@ body{
      background-image: url("../img/background_text.png");
      margin-left: -10px;
      -webkit-backface-visibility:hidden;
+     font-family: 'Caviar Dreams';
+     font-size: 9pt;
+     -webkit-user-select: none;
+     -moz-user-select: none;
+     user-select: none;
+}
+
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('../fonts/CaviarDreams_Bold.ttf');
 }
 
 
 .checklist_box{
     background-image: url("../img/checklist_box.png");
     width: 764px;
-    height: 600px;
+    height: 732px;
     margin: 24px;
+    margin-left:  34px;
     padding: 10px;
     
 }
@@ -193,6 +204,12 @@ body{
     
 }
 
+.checklisttitle{
+    width: 784px;
+    margin: 20px;
+    text-align: center;
+}
+
 .semestertitle{
     width: 160px;
     margin: 10px;
@@ -214,10 +231,10 @@ body{
     text-align: center;
 }
 
+
 .searchtitle{
     width: 300px;
     margin: 10px;
-    margin-right: -13px;
     text-align: center;
     padding-bottom: 0px;
 }
@@ -264,9 +281,10 @@ background-color:black;
 color:white;
 border: 1px solid #ffffff;
 border-radius: 7px;
-display:block; height:28px; width:260px;
-
-
+padding-left: 10px;
+padding-right: 10px;
+height:28px;
+width:220px;
 clear:left;
 }
 
@@ -397,6 +415,7 @@ clear:left;
     border-width: 1px;
     border-color: #000000;
     text-align: center;
+    
 }
 
 .requirement{
@@ -459,17 +478,37 @@ clear:left;
 
 .unassigned-box{
     width: 50%;
-    height: 140px;
+    height: 120px;
     float: left;
-    margin-top: 18px;
+    margin-top: 45px;
+    margin-right: 15px;
+    margin-bottom: 10px;
     background-color:  #FFFFFF;
     border: 1px solid #000000;
 
 }
 
-.unassigned-classes{
+.vector-row{
     width: 100%;
     height: 120px;
+    float: left;
+    margin-top: 0px;
+    margin-right: 15px;
+    margin-bottom: 50px;
+
+}
+
+.checkbox-requirements{
+    width: 43%;
+    height: 120px;
+    float: left;
+    margin-top: 45px;
+
+}
+
+.unassigned-classes{
+    width: 100%;
+    height: 100px;
     float: left;
     background-color:  #FFFFFF;
     border: 1px solid #000000;
@@ -478,10 +517,11 @@ clear:left;
 
 }
 
+
+
 .classleftrow{
     width: 47%;
-    height: 87%;
-    margin-top: 55px;
+    
     margin-left: 15px;
     float: left;
    /* opacity: 0.2;
@@ -490,10 +530,14 @@ clear:left;
 
 .classrightrow{
     width: 47%;
-    height: 87%;
-    margin-top: 55px;
     margin-left: 15px;
     float: left;
+}
+
+.classbottom{
+    height: 50px;
+    margin: 10px;
+    text-align:center;
 }
 
 
@@ -588,17 +632,31 @@ clear:left;
   margin: 20px auto;
 }
 
-/* Search bar needs styling*/
+.popup-title{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:20px;
+}
+
 #results{
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   height: 194px;
-  width: 260px;
+  width: 294px;
   padding-left: 15px;
+  padding-right: 7px;
+  padding-top: 5px;
+  margin-bottom: 20px;
+  text-align: left;
   text-decoration: none;
+  background: transparent;
 }
 
 #results div{
   padding-top: 0px;
+  padding-left: 15px;
   text-decoration: none;
 }
 
@@ -611,7 +669,7 @@ clear:left;
 
 #results div:hover{
   cursor: pointer;
-  background-color: #F7F7F7;
+  background: transparent;
 }
 
 #results div:active{
@@ -632,7 +690,7 @@ clear:left;
   height:10px;
   border-bottom:5px solid #dfdfdf;
   border-right:5px solid #dfdfdf;
-  background:#f8f8f8;
+  background:transparent;
   left:50%;
   margin-left:-5px;
   -moz-transform:rotate(45deg);
@@ -643,6 +701,29 @@ clear:left;
 #results div:hover div span{
   display: block;
 }
+
+/* Custom scrollbar design */
+::-webkit-scrollbar
+{
+}
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(114,91,80,0.5);
+	border-radius: 10px;
+	background-color: rgba(255,255,255,.2);
+}
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: rgba(255,255,255,.3);
+}
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #3a3a3a;
+}
+
 
 /* For shaking the trashcan when accepting a hexagon */
 @-webkit-keyframes trashcan_shake {
@@ -687,8 +768,15 @@ clear:left;
 
 /* Splash page checkbox */
 .splash_check {
-  margin: 20px auto;
+  margin: 10px;
+  margin-left: 0px;
   position: relative;
+
+}
+
+.splash_check_label {
+  float: left;
+  margin-left: 20px;
 }
 
 .splash_check label {
@@ -743,6 +831,7 @@ clear:left;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
+  display: inline;
 }
 
 #swapmssg{
@@ -753,6 +842,127 @@ clear:left;
 
 #tutorialaddmessg{
   position: absolute;
-  left: 1100px;
-  bottom: -400px;
+  left: 1120px;
+  bottom: -600px;
+}
+/*
+input[type=checkbox] {
+	visibility: hidden;
+}
+*/
+/* SQUARED TWO */
+.squaredTwo {
+	width: 28px;
+	height: 28px;
+	background: #fcfff4;
+
+	background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+	margin: 5px;
+
+	-webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	position: relative;
+        display: inline;
+}
+
+.squaredTwo label {
+	cursor: pointer;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 4px;
+	top: 4px;
+
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+
+	background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+	background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+	background: -o-linear-gradient(top, #222 0%, #45484d 100%);
+	background: -ms-linear-gradient(top, #222 0%, #45484d 100%);
+	background: linear-gradient(top, #222 0%, #45484d 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222', endColorstr='#45484d',GradientType=0 );
+}
+
+.squaredTwo label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 9px;
+	height: 5px;
+	background: transparent;
+	top: 4px;
+	left: 4px;
+	border: 3px solid #fcfff4;
+	border-top: none;
+	border-right: none;
+
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.squaredTwo label:hover::after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: 0.3;
+}
+
+.squaredTwo input[type=checkbox]:checked + label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+
+/** detail panel **/
+.details-pane {
+    display: none;
+    color: #000000;
+    position: absolute;
+    left: 80px;
+    z-index: 99999;
+    width: 400px;
+    text-align: left;
+    padding: 15px;
+	background-color: rgba(255, 255, 255, 0.95);
+	border: 10px solid rgb(255, 255, 255); 
+	border: 10px solid rgba(255, 255, 255, 0.65); 
+	-moz-background-clip: padding; 
+	-webkit-background-clip: padding; 
+	background-clip: padding-box; 
+}
+.details-pane.rightside {
+  left: -529px;
+}
+
+.details-pane h3 {
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 1.4em;
+    margin-bottom: 4px;
+}
+
+.details-pane .desc {
+}
+
+
+/** hover styles **/
+a.hvrlink:hover + .details-pane {
+  display: block;
+}
+.details-pane:hover {
+  display: block;
 }

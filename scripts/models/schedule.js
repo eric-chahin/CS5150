@@ -1,10 +1,16 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
-var Schedule = function(schedule_name, version, id, courses_lst) {
+
+
+
+var Schedule = function(schedule_name, version, id, courses_lst, start_year) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
+
+  // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
+  // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
   this.courses_I_want = []; //TODO load/save this properly
-  this.startYear = 11; //TODO let the user enter this for their schedule or generate based on version
+  var startYear = start_year % 100; 
   this._saved = true; //Private variable. Please don't touch outside of class
 
   //Semester 2D Array that contain Course objects
@@ -13,15 +19,44 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.semesters[i] = new Array(8);
   }
 
-  /* If there is a new user, the method initializes the Schedule to the default
-   * schedule which is defined in data/guest_data.csv
+  /* This method takes in a saved schedule and initializes all of the
+   * courses in the schedule area and potential courses area.
+   * This method does NOT tie the course object to the DOM.
+   * It only loads the DB's serialized data into Course objects and stores
+   * them into the Schedule object.
    *
-   * @param courses_lst   Takes in the courses list from the DB and parses
+   * @param savedSchedule   Takes in the courses list from the DB
+   *                         It is a (int,"listing#requirement") array
    */
-  this.init_schedule = function(courses_lst) {
-    //TODO read from courses_lst
-    //TODO store the Courses in the semester
-    //TODO
+  this.init_schedule = function(savedSchedule) {
+    var countInArrays = new Array(9)
+    for (var k = 0; k < countInArrays.length; k++) {
+        countInArrays[k] = 0;
+    }
+    for (var i = 0; i < savedSchedule.length; i=i+2) {
+      if (savedSchedule[i] == -1){
+        str = savedSchedule[i+1];
+        var arr = str.split("#");
+        var name = arr[0];
+        var req = arr[1];
+        if (arr[1]=="") {
+            req = null;
+        }
+        this.courses_I_want[countInArrays[8]] = new Course(name, req);                
+        countInArrays[8] = countInArrays[8] + 1;
+      } else {
+        var sem = savedSchedule[i];
+        str = savedSchedule[i+1];
+        var arr = str.split("#");
+        var name = arr[0];
+        var req = arr[1];
+        if (arr[1]=="") {
+            req = null;
+        }
+        this.semesters[sem][countInArrays[sem]] = new Course(name, req);
+        countInArrays[sem] = countInArrays[sem] + 1;
+      }
+    }
   }
 
   //TODO: Make sure that the this._saved flag is false when switching requirements around AND CIWTT
@@ -48,6 +83,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     this.semesters[semester][index] = obj;
   }
 
+
   /*Creates the string name for a semester number*/
   this.convertSemesterName = function(semesterNum){
     var name = "";
@@ -57,69 +93,68 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
       name = "SP";
       semesterNum+=1;
     }
-    name+= this.startYear + Math.floor(semesterNum/2);
+   
+    name+= startYear + Math.floor(semesterNum/2);
     return name;
   }
 
-  /* Adds a new course with listing at [semester][index].
-   * Overwrites anything that is there and returns the newly generated course.
-   *
-   * NOTE: You should not use this method to load in User from the User DB because it
-   * is not given a requirement_filled for the course.
-   */
-  this.addCourse = function(listing,semester,index) {
-    this.setSaved(false);
-    listing = listing.replace(" ",""); // Removes spaces from input just in case
-    console.log("adding " + listing + " at " + semester+index);
-    var newCourse = new Course(listing, null);
-    if (semester == -1){
-      this.courses_I_want[index] = newCourse;
+  /* This method returns true/false whether this course would be overflowing the
+   * slot count for the requirement it is trying to fulfill. */
+  this.overflowsSlotCount = function(courseToAdd) {
+    if (courseToAdd.getRequirementFilled() === null) {
+      return false;
+    } else {
+      var courses = this.ruleToCourses();
+      var current_lst = courses[courseToAdd.getRequirementFilled()];
+      return current_lst && 
+        current_lst.length >= checklist_rules[courseToAdd.getRequirementFilled()].slots;
     }
-    else{
-      this.semesters[semester][index] = newCourse;
-
-      //assign a course to the unassigned box
-        $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
-                    "' ><div class='course-name'>" + listing +
-                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
-                    "<div class='course-semester'>" + this.convertSemesterName(semester) + "</div>" +
-                    " </span></div>");
-     // copySections();
-      checklistcopySections();
-      checklistDrag();
-    }
-
-    return newCourse;
   }
 
-  /* Swaps the object at [semester1][index1] with [semester2][index2] */
+  /* Adds a new course with listing at [semester][index].
+   *  Overwrites anything that is there and returns the newly generated course.
+   *  
+   *  This method should obey the checklist rules. Therefore, if have CS1110 
+   *    taking "Intro Programming" and courseToAdd is CS1112 -- Intro Programming,
+   *    this method should set the courseToAdd.setRequirementFilled(null).
+   *  
+   *  Returns the added Course object.
+   * 
+   *  There should only be TWO PLACES where Course objects are created.
+   *    1. Loading in a Schedule
+   *    2. Going from Search -> Potential
+   *  courseToAdd should NEVER be null. The course should be initialized
+   *  before this method is called!  */
+  this.addCourse = function(courseToAdd,semester,index) {
+    this.setSaved(false);
+    var listing = courseToAdd.listing;
+    listing = listing.replace(" ",""); // Removes spaces from input just in case
+    console.log("adding " + listing + " at " + semester+index);
+
+    if (semester == -1){
+      this.courses_I_want.push(courseToAdd);
+    } else {
+      if (this.overflowsSlotCount(courseToAdd)) {
+        courseToAdd.setRequirementFilled(null);
+        //TODO: In the future, get other possible matches and try to match there. (low priority)
+      }
+      this.semesters[semester][index] = courseToAdd;
+    }
+    return courseToAdd;
+  }
+
+
+  /* Swaps the object at [semester1][index1] with [semester2][index2] 
+   * Returns the two course objects that were swapped before they were swapped. */
   this.swapCourses = function(semester1,index1,semester2,index2) {
     this.setSaved(false);
     console.log("switch " + semester1+index1 + " with " + semester2+index2);
     var tmp = this.semesters[semester1][index1];
     var tmp2 = this.semesters[semester2][index2];
-    this.semesters[semester1][index1] = this.semesters[semester2][index2];
+    this.semesters[semester1][index1] = tmp2;
     this.semesters[semester2][index2] = tmp;
 
-    //Swap the test in the checklist for each semester
-    semester2 = this.convertSemesterName(semester2);
-    semester1 = this.convertSemesterName(semester1);
-     $(".data").each(function(){
-        if(tmp != null && $(this).attr('data-name') == tmp.listing){
-          for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] != null) {
-               if (this.childNodes[i].innerHTML == semester1) this.childNodes[i].innerHTML =  semester2;
-            }
-          }
-        }
-         if(tmp2 != null && $(this).attr('data-name') == tmp2.listing){
-          for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i] != null) {
-               if (this.childNodes[i].innerHTML == semester2) this.childNodes[i].innerHTML =  semester1;
-            }
-          }
-         }
-    });
+    return [tmp,tmp2];
   }
 
   /* Returns the old course and sets the spot in the semester to null. */
@@ -128,23 +163,18 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     var oldCourse = this.semesters[semester][index];
     this.semesters[semester][index] = null;
 
-    $(".data").each(function(){
-        if($(this).attr('data-name') == oldCourse.listing){
-          $(this).parent().append(
-                  " <div class='course-name'>" + "" +
-                 "  </div><div class='course-credit'></div>" +
-                 "<div class='course-semester'> ");
-         $(this).remove();
-        }
-      });
-
-      $(".unassigned-classes").children().each(function(){
-        if($.trim($(this).text()) == ""){
-         $(this).remove();
-        }
-      });
-
     return oldCourse;
+  }
+
+  /* Removes Course object from courses_I_want because of (1) trashcan or (2) 
+   *  moving onto schedule. */
+  this.deletePotentialCourse = function(course) {
+    if (!course) return;
+    var index = this.courses_I_want.indexOf(course);
+    if (index > -1) {
+      console.log("Deleted " + course.listing + " from potential courses");
+      this.courses_I_want.splice(index,1);
+    }
   }
 
 
@@ -166,7 +196,7 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
-          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].requirement_filled + "\n";
+          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].getRequirementFilled() + "\n";
         }
       }
     }
@@ -194,7 +224,6 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
     return output;
   }
-
   /*written by Ben
    *  repopulates schedule from saved user schedule
    *  takes array containing (semester it's being taken in, Course)
@@ -219,9 +248,6 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     //add a function call to update the checklist
   }
 
-
-
-
   /* Returns JSON object of title of Rule -> Course array
    *  Strictly reads from the schedule object. Does not save state anywhere
    *  in order to avoid maintaining multiple states.
@@ -231,10 +257,10 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     var ruleToCourse = {};
     for (var i = 0; i < courses.length; i++) {
       var c = courses[i][1];
-      if (!ruleToCourse[c.requirement_filled]) {
-        ruleToCourse[c.requirement_filled] = [c];
+      if (!ruleToCourse[c.getRequirementFilled()]) {
+        ruleToCourse[c.getRequirementFilled()] = [c];
       } else {
-        ruleToCourse[c.requirement_filled].push(c);
+        ruleToCourse[c.getRequirementFilled()].push(c);
       }
     }
     return ruleToCourse;
@@ -260,11 +286,5 @@ var Schedule = function(schedule_name, version, id, courses_lst) {
     }
   }
 
-  //Constructor code
-  //If new:
-    //TODO put disclaimer splash page up
-    //TODO put different view up?
-    this.init_schedule(courses_lst);
-  //else:
-    //TODO
+  this.init_schedule(courses_lst);
 }

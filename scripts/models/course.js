@@ -4,8 +4,11 @@
 * @param listing
 */
 var Course = function(listing, requirement_filled) {
-  this.listing = listing.replace(" ","");
-  this.requirement_filled = requirement_filled ? requirement_filled : determineRequirement();
+  if (requirement_filled === null) requirement_filled = undefined;
+  var listing = listing.replace(" ","");
+  this.listing = listing;
+  var requirement_filled = requirement_filled ? requirement_filled : determineRequirement();
+  this.warnings = []; // A list of warnings that come with the reqirement_filled
 
   /* Returns the requirement that it should fulfills,
    * returns null if cannot make decision. (TODO: perhaps it should return a list of possibilites)
@@ -14,7 +17,7 @@ var Course = function(listing, requirement_filled) {
     for (var key in checklist_rules) {
       if (checklist_rules.hasOwnProperty(key)) {
         var rule = checklist_rules[key];
-        if (rule.isAccepted(listing) === FilterValue.PERFECT) {
+        if (rule.isAccepted(listing,[]) === FilterValue.PERFECT) {
           return key;
         }
         //TODO: Rethink this. Problem cases 4780, 4410
@@ -23,9 +26,32 @@ var Course = function(listing, requirement_filled) {
     return null;
   }
 
+  this.getRequirementFilled = function() {
+    return requirement_filled;
+  }
+
+  this.setRequirementFilled = function(req) {
+    if (req !== null) {
+      var rule = checklist_rules[req];
+      if (rule) {
+        var warns = [];
+        rule.isAccepted(listing,warns);
+        this.warnings = warns;
+      }
+    } else {
+      this.warnings = [];
+    }
+    requirement_filled = req;
+  }
+    
   this.toString = function() {
-    //return COURSE_INFORMATION[this.listing]["title"] + " is a great course. You should really take it.";
-    return this.listing; 
+    //in the user db, a course object is represented as <listing>#<requirement_filled>
+    if (this.requirement_filled !== null) {
+        return this.listing + "#" + this.requirement_filled;
+    }
+    else {
+        return this.listing + "#";
+    }
   };
 
 };

@@ -10,6 +10,7 @@ var Rule = function(title, slots, filter, header, excel_cell) {
   this.header = header;
   this.slots = slots;
   this.excel_cell = excel_cell;
-  this.isAccepted = filter; //function that returns either {FORBIDDEN, ALLOWED, PERFECT} 
+  this.isAccepted = filter; //function that returns either {FORBIDDEN, ALLOWED, PERFECT}
+                            //isAccepted(String,Warning lst)
 };
 
