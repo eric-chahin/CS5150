@@ -394,7 +394,7 @@ clear:left;
 
 
 .classRow{
-    width: 100%;
+    width: 99%;
     height: 18px;
     float: left;
     color: #000000;
@@ -478,13 +478,15 @@ clear:left;
 
 .unassigned-box{
     width: 50%;
-    height: 120px;
+    height: 122px;
     float: left;
     margin-top: 45px;
     margin-right: 15px;
     margin-bottom: 10px;
     background-color:  #FFFFFF;
-    border: 1px solid #000000;
+    box-shadow: 0 0 5px #e23316;
+    border: 1px solid #e23316;
+
 
 }
 
@@ -507,7 +509,7 @@ clear:left;
 }
 
 .unassigned-classes{
-    width: 100%;
+    width: 99%;
     height: 100px;
     float: left;
     background-color:  #FFFFFF;
