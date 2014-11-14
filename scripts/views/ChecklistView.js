@@ -21,7 +21,7 @@ var ChecklistView = function() {
                   console.log(newCourse.getRequirementFilled());
                   
                   this.innerHTML = "<div class='requirement'>"+ newCourse.getRequirementFilled() +
-                    "</div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
+                    "</div><div class='warning-col'></div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
                     "' ><div class='course-name'>" + listing +
                     "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
                     "<div class='course-semester'>" + semester_name + "</div>" +
@@ -36,36 +36,37 @@ var ChecklistView = function() {
   }
   
   /* Create warning message */
-  this.addCourseWarning = function(warning_number) {
-        /*
+  this.addCourseWarning = function(warning_code) {
+        var html = "";
         //Excluded Warning
-        if (warning_number == 1) {
-            <a class="hvrlink"><img src="img/warning_excluded.png" alt="Excluded Course Warning"></a>
-            <div class="details-pane">
-              <h3 class="title">Warning: Excluded Course</h3>
-              <p class="desc">The course you have placed in this requirement is listed under excluded courses.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
-            </div>
+        if (warning_code == WarningType.FORBIDDEN) {
+          //Warning: Excluded Course                            
+           html = "<a class='hvrlink'><img src='img/warning_excluded.png' alt='Excluded Course Warning'></a>" +
+            "<div class='details-pane'>" +
+              "<h3 class='title'>Warning: Excluded Course</h3>" +
+              "<p class='desc'>The course you have placed in this requirement is listed under excluded courses.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>" +
+            "</div>";                                                                       
         }
-        
         //Level Warning
-        if (warning_number == 2) {
-            <a class="hvrlink"><img src="img/warning_level.png" alt="Course Level Warning"></a>
-            <div class="details-pane">
-              <h3 class="title">Warning: Course Level</h3>
-              <p class="desc">The class you have added is not 3000+ level or 3+ credits.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
-            </div>
+        if (warning_code == WarningType.COURSE_LEVEL || warning_code == WarningType.CREDITS) {
+           // Warning: Course Level
+           html = "<a class='hvrlink'><img src='img/warning_level.png' alt='Course Level Warning'></a>" +
+            "<div class='details-pane'>" + 
+              "<h3 class='title'>Warning: Course Level</h3>" +
+              "<p class='desc'>The class you have added is not 3000+ level or 3+ credits.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>" +
+            "</div>";
         }
-        
         //Specific Warning
-        if (warning_number == 3) {
-            <a class="hvrlink"><img src="img/warning_specific.png" alt="Specific Course Warning"></a>
-            <div class="details-pane">
-              <h3 class="title">Warning: Specific Course Needed</h3>
-              <p class="desc">Only specific classes can fulfill this requirement and this course is not listed.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
-            </div>
+        if (warning_code == WarningType.SPECIFIC_CLASS) {
+          // Warning: Specific Course Needed
+        html =  "<a class='hvrlink'><img src='img/warning_specific.png' alt='Specific Course Warning'></a>"+
+            "<div class='details-pane'>"+
+              "<h3 class='title'>Warning: Specific Course Needed</h3>"+
+              "<p class='desc'>Only specific classes can fulfill this requirement and this course is not listed.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>" +
+            "</div>";
         }
         
-        */
+        return html;
   }
             
             

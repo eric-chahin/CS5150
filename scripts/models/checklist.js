@@ -187,7 +187,8 @@ var Checklist = function(version) {
                   checklist_rules[rule].header +
                   " </div>");
           header = checklist_rules[rule].header
-                              $(checklistclass).append("<div class='classRow'><div class='requirement'>Requirement</div>" +
+                              $(checklistclass).append("<div class='classRow'><div class='requirement'>Requirement</div><div class = 'warning-col'>" +          
+                                    "</div>" +
                                     "<div class='drag-course'><div class='course-name'>Course Name</div><div class='course-credit'>Cr</div>" +
                                     "<div class='course-semester'>Sem</div></div>" +
                   " </div>");
@@ -195,7 +196,7 @@ var Checklist = function(version) {
         
         $(checklistclass).append("<div class='classRow'>" +
                   " <div class='requirement'>" + checklist_rules[rule].title +
-                  "</div><div class='drag-course dragcolumnchecklist'>" +
+                  "</div><div class = 'warning-col'></div><div class='drag-course dragcolumnchecklist'>" +
                   " <div class='course-name'>" + "" +
                  "  </div><div class='course-credit'></div>" +
                  "<div class='course-semester'></div> " +
