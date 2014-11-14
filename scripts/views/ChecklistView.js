@@ -34,6 +34,41 @@ var ChecklistView = function() {
       checklistcopySections();
       checklistDrag();
   }
+  
+  /* Create warning message */
+  this.addCourseWarning = function(warning_number) {
+        /*
+        //Excluded Warning
+        if (warning_number == 1) {
+            <a class="hvrlink"><img src="img/warning_excluded.png" alt="Excluded Course Warning"></a>
+            <div class="details-pane">
+              <h3 class="title">Warning: Excluded Course</h3>
+              <p class="desc">The course you have placed in this requirement is listed under excluded courses.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
+            </div>
+        }
+        
+        //Level Warning
+        if (warning_number == 2) {
+            <a class="hvrlink"><img src="img/warning_level.png" alt="Course Level Warning"></a>
+            <div class="details-pane">
+              <h3 class="title">Warning: Course Level</h3>
+              <p class="desc">The class you have added is not 3000+ level or 3+ credits.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
+            </div>
+        }
+        
+        //Specific Warning
+        if (warning_number == 3) {
+            <a class="hvrlink"><img src="img/warning_specific.png" alt="Specific Course Warning"></a>
+            <div class="details-pane">
+              <h3 class="title">Warning: Specific Course Needed</h3>
+              <p class="desc">Only specific classes can fulfill this requirement and this course is not listed.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>
+            </div>
+        }
+        
+        */
+  }
+            
+            
 
   /* Takes in the Course object that will be deleted. */
   this.deleteCourseFromChecklistView = function(oldCourse) {
