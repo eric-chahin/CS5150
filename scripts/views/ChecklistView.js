@@ -93,6 +93,7 @@ var ChecklistView = function() {
   this.swapCoursesOnChecklistView = function(semester1, course1, semester2, course2) {
     var tmp  = course1;
     var tmp2 = course2;
+    
     //Swap the test in the checklist for each semester 
     semester1 = user.current_schedule.convertSemesterName(semester1);
     semester2 = user.current_schedule.convertSemesterName(semester2);

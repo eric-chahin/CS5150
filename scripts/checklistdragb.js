@@ -86,7 +86,27 @@ function checklistDrag() {
         //NOTE: changed from this.textContent to this.innerHTML
         
       this.innerHTML = e.dataTransfer.getData('text/html');
+      
+     var currentSched =  user.current_schedule;
+      console.log(currentSched);
+     for (var i = 0; i < currentSched.semesters.length; i++) {
+        for (var j = 0; j < currentSched.semesters[i].length; j++) {
+         var tmp = currentSched.semesters[i][j];
 
+           var req = null;
+          $(".data").each(function(){
+           if(tmp != null && $(this).attr('data-name') == tmp.listing){
+              req = $(this).parent().prev().html();
+           }
+          });
+           if(tmp != null) {
+            tmp.setRequirementFilled(req);
+           }
+            
+       }
+     }
+      
+      
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
          $(this).remove();
