@@ -1,6 +1,6 @@
  #!/usr/bin/env bash
-../../mysql/bin/mysql -e 'DROP TABLE IF EXISTS test.member'
-../../mysql/bin/mysql -e 'CREATE TABLE member(
+../../bin/mysql -e 'DROP TABLE IF EXISTS test.member'
+../../bin/mysql -e 'CREATE TABLE member(
   netid               VARCHAR(30) NOT NULL,
   name                VARCHAR(30) NOT NULL,
   next_schedule_num   VARCHAR(30) NOT NULL,

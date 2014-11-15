@@ -939,9 +939,8 @@ input[type=checkbox] {
 .details-pane {
     display: none;
     color: #000000;
-    position: relative;
-    left: 18px;
-    top: 0px;
+    position: absolute;
+    left: 80px;
     z-index: 99999;
     width: 400px;
     text-align: left;
