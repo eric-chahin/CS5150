@@ -155,11 +155,12 @@ var Checklist = function(version) {
     } else {
       //allowed_lst
       var rtn_f = function(listing,warnings) {
-        var lst = tag_allowed_lst.split(";");
-        if (lst.indexOf(listing) > -1) {
+        //A bit weird, but we are just using is_forbidden to see if listing matches with the list
+        var accepted = is_forbidden(listing,tag_allowed_lst) 
+        if (accepted) {
           return FilterValue.PERFECT;
         } else {
-          warnings.push(WarningType.FORBIDDEN);
+          warnings.push(WarningType.SPECIFIC_CLASS);
           return FilterValue.FORBIDDEN;
         }
       };
