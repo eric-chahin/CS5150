@@ -82,23 +82,30 @@
     <div class="container" data-ng-controller="userController">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <div class="checklist_box_container">
-                    <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
+                <div class="checklist_container">
                     <div class="checklist_box">
-                        <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
-            
-                        <div class="classleftrow"></div>
+                        <div id="top"></div>
+                        <div id="middle"></div>
+                        <div id="bottom"></div>
+                        <div id="content">
                         
-                        <!-- For people who have JS turned off for some reason. -->
-                        <noscript>
-                        For full functionality of this page it is necessary to enable JavaScript. 
-                        Here are the <a href="http://www.enable-javascript.com" target="_blank"> 
-                        instructions how to enable JavaScript in your web browser</a>
-                        </noscript>
+                            <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
+                            <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
+                
+                            <div class="classleftrow"></div>
+                            
+                            <!-- For people who have JS turned off for some reason. -->
+                            <noscript>
+                            For full functionality of this page it is necessary to enable JavaScript. 
+                            Here are the <a href="http://www.enable-javascript.com" target="_blank"> 
+                            instructions how to enable JavaScript in your web browser</a>
+                            </noscript>
+                            
+                            <div class="classrightrow"></div>
+                            <div class ="classbottom">           
+                                *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
+                            </div>
                         
-                        <div class="classrightrow"></div>
-                        <div class ="classbottom">           
-                            *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
                         </div>
                     </div>
                 </div>

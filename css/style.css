@@ -14,7 +14,8 @@
 }
 
 body{
-     background-image: url("../img/background_text.png");
+     background: red;
+     /*background-image: url("../img/background_text.png");*/
      margin-left: -10px;
      -webkit-backface-visibility:hidden;
      font-family: 'Caviar Dreams';
@@ -36,16 +37,50 @@ button:focus {
     outline: none;
 }
 
+.checklist_container{
+    margin: 24px;
+}
 
 .checklist_box{
-    background-image: url("../img/checklist_box.png");
-    width: 764px;
-    height: 732px;
-    margin: 24px;
-    margin-left:  34px;
-    padding: 10px;
-    
+    width: 784px;
+    height: 800px;
+    position:relative;
 }
+    
+#top,
+#middle,
+#bottom {
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+
+#top {
+    background-image: url("../img/checklist_box_top.png");
+    background-repeat: no-repeat;
+    height: 50px;
+    top: 0;
+}
+
+#middle {
+    background-image: url("../img/checklist_box_middle.png");
+    bottom: 25px;
+    top: 50px;
+}
+
+#bottom {
+    background-image: url("../img/checklist_box_bottom.png");
+    background-repeat: no-repeat;
+    bottom: 0;
+    height: 25px;
+}
+
+ #content {
+    /* any padding or anything */
+    position: relative;
+    padding: 10px;
+}
+
 
 .login_box{
     background-image: url("../img/login_box.png");
@@ -64,8 +99,7 @@ button:focus {
       width: 827px;
       height: 68px;
       margin-top: 20px;
-      
-    
+
 }
 
 #sidebar{
@@ -212,7 +246,7 @@ button:focus {
 }
 
 .checklisttitle{
-    width: 784px;
+    width: 724px;
     margin: 20px;
     text-align: center;
 }
@@ -550,8 +584,6 @@ clear:left;
 }
 
 .classbottom{
-    height: 50px;
-    margin: 10px;
     text-align:center;
 }
 
@@ -852,7 +884,7 @@ clear:left;
 #tutorialchecklist{
   z-index: -1;
   overflow: hidden;
-  left: -85px;
+  left: -95px;
   top: 450px;
   position: absolute;
   display: block;
