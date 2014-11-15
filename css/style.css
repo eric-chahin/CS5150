@@ -939,8 +939,9 @@ input[type=checkbox] {
 .details-pane {
     display: none;
     color: #000000;
-    position: absolute;
-    left: 80px;
+    position: relative;
+    left: 18px;
+    top: 0px;
     z-index: 99999;
     width: 400px;
     text-align: left;
@@ -952,6 +953,7 @@ input[type=checkbox] {
 	-webkit-background-clip: padding; 
 	background-clip: padding-box; 
 }
+
 .details-pane.rightside {
   left: -529px;
 }
