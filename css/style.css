@@ -14,8 +14,7 @@
 }
 
 body{
-     background: red;
-     /*background-image: url("../img/background_text.png");*/
+     background-image: url("../img/background_text.png");
      margin-left: -10px;
      -webkit-backface-visibility:hidden;
      font-family: 'Caviar Dreams';
@@ -884,7 +883,7 @@ clear:left;
 #tutorialchecklist{
   z-index: -1;
   overflow: hidden;
-  left: -95px;
+  left: -135px;
   top: 450px;
   position: absolute;
   display: block;
