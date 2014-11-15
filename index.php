@@ -84,6 +84,7 @@
 	<div class="row clearfix">
 		<div class="col-md-12 column">
     <div class="checklist_box_container">
+        <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 			<div class="checklist_box">
                 <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
         
@@ -105,7 +106,6 @@
          
          </div>
     </div>
-    <div id= "swapmssg"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 		</div>
 	</div>
 	<div class="row clearfix">
@@ -113,6 +113,7 @@
 		<div class="col-md-12 column">
       <div class="carousel_holder">
       <div class="carousel_container">
+          <div id= "tutorialschedule"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
 			<div class="carousel slide" id="carousel-111948" data-interval="false">
 				
 				<div class="carousel-inner">
@@ -129,7 +130,6 @@
 		</div>
 	</div>
 	  </div>
-  <div id= "tutorialaddmessg"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
 	<div class="row clearfix">
 	  <div class="row3" >
            
