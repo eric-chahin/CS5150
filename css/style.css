@@ -29,6 +29,13 @@ body{
   src: url('../fonts/CaviarDreams_Bold.ttf');
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
 
 .checklist_box{
     background-image: url("../img/checklist_box.png");
@@ -491,8 +498,7 @@ clear:left;
     margin-right: 15px;
     margin-bottom: 10px;
     background-color:  #FFFFFF;
-    box-shadow: 0 0 5px #e23316;
-    border: 1px solid #e23316;
+    border: 2px dashed #50b7c9;
 
 
 }
@@ -519,7 +525,7 @@ clear:left;
     width: 99%;
     height: 100px;
     float: left;
-    background-color:  #FFFFFF;
+    background-color:  #ffffff;
     border: 1px solid #000000;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -843,16 +849,22 @@ clear:left;
   display: inline;
 }
 
-#swapmssg{
+#tutorialchecklist{
+  z-index: -1;
+  overflow: hidden;
+  left: -85px;
+  top: 450px;
   position: absolute;
-  left: -100px;
-  top:370px;
+  display: block;
 }
 
-#tutorialaddmessg{
+#tutorialschedule{
+  z-index: -1;
+  overflow: hidden;
+  left: 825px;
+  top: 285px;
   position: absolute;
-  left: 1120px;
-  bottom: -600px;
+  display: block;
 }
 /*
 input[type=checkbox] {

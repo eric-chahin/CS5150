@@ -84,6 +84,7 @@
 	<div class="row clearfix">
 		<div class="col-md-12 column">
     <div class="checklist_box_container">
+    <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 			<div class="checklist_box">
                 <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
         
@@ -105,7 +106,6 @@
          
          </div>
     </div>
-    <div id= "swapmssg"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
 		</div>
 	</div>
 	<div class="row clearfix">
@@ -113,6 +113,7 @@
 		<div class="col-md-12 column">
       <div class="carousel_holder">
       <div class="carousel_container">
+            <div id= "tutorialschedule"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
 			<div class="carousel slide" id="carousel-111948" data-interval="false">
 				
 				<div class="carousel-inner">
@@ -129,59 +130,59 @@
 		</div>
 	</div>
 	  </div>
-  <div id= "tutorialaddmessg"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
 	<div class="row clearfix">
 	  <div class="row3" >
            
-	  <div class="col-md-4 column" style="z-index: 1;">
-      <div class= "search">
-        <div class= "searchtitle">
-          <img src= "img/text_search.png">
-          <br><br>
-          <input type="text" id="search" autocomplete="off">
-        </div>
-        <!-- Show Results -->
-        <!-- <h4 id="results-text">Showing results for: <b id="search-string"></b></h4> -->
-        <p>
-  		    <div id="results"></div>
-        </p>
-      </div>        
-			  </div>
-		<div class="col-md-8 column">
-      <div class = "refresh_holder_classContainer">
-        <div class="classContainerChildren">
-			<div class="carousel slide" id="carousel-144942" data-interval="false">
+    <div class="col-md-4 column" style="z-index: 1;">
+        <div class= "search">
+            <div class= "searchtitle">
+                <img src= "img/text_search.png">
+                <br><br>
+                <input type="text" id="search" autocomplete="off">
+            </div>
+            <!-- Show Results -->
+            <!-- <h4 id="results-text">Showing results for: <b id="search-string"></b></h4> -->
+            <p>
+            <div id="results"></div>
+            </p>
+        </div>        
+    </div>
+	
+    <div class="col-md-8 column">
+        <div class = "refresh_holder_classContainer">
+            <div class="classContainerChildren">
+                <div class="carousel slide" id="carousel-144942" data-interval="false">
 
-				<div class="carousel-inner">
+                    <div class="carousel-inner">
           
-           <?php 
-           //keep this immediate place holder
-         
-            $potential_courses_panel_count = 4;
-            $hexagons_per_panel = 18; 
-            for ($i = 0; $i < ($potential_courses_panel_count*$hexagons_per_panel); $i+=$hexagons_per_panel) {
-              if ($i == 0) echo ('<div class="item active">');
-              else echo ('<div class="item">');
-                echo ('
-                    <div class= "classContainer"> 
-                      <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>
-                      ');
-              for ($j = 0; $j < $hexagons_per_panel;$j+=1) {
-                if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
-                  // echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
-                  echo (sprintf('<div id="potential_%d" class="hexagonLeft dragcolumn"></div>',$i+$j));
-                } else {
-                  echo (sprintf('<div id="potential_%d" class="hexagon dragcolumn"></div>',$i+$j));
-                }
-              }
-                  echo ('
-                    </div>
-                  </div>
-              ');
-             }
-            ?>
-         </div> 
-        <a class="left carousel-control" href="#carousel-144942" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                       <?php 
+                       //keep this immediate place holder
+                     
+                        $potential_courses_panel_count = 4;
+                        $hexagons_per_panel = 18; 
+                        for ($i = 0; $i < ($potential_courses_panel_count*$hexagons_per_panel); $i+=$hexagons_per_panel) {
+                          if ($i == 0) echo ('<div class="item active">');
+                          else echo ('<div class="item">');
+                            echo ('
+                                <div class= "classContainer"> 
+                                  <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>
+                                  ');
+                          for ($j = 0; $j < $hexagons_per_panel;$j+=1) {
+                            if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
+                              // echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
+                              echo (sprintf('<div id="potential_%d" class="hexagonLeft dragcolumn"></div>',$i+$j));
+                            } else {
+                              echo (sprintf('<div id="potential_%d" class="hexagon dragcolumn"></div>',$i+$j));
+                            }
+                          }
+                              echo ('
+                                </div>
+                              </div>
+                          ');
+                         }
+                        ?>
+                    </div> 
+                <a class="left carousel-control" href="#carousel-144942" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
 				<a class="right carousel-control" href="#carousel-144942" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
     </div>
