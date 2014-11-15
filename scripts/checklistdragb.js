@@ -98,7 +98,7 @@ function checklistDrag() {
          var tmp = currentSched.semesters[i][j];
 
            var req = null;
-          $(".data").each(function(){
+          $('.drag-course').children('.data').each(function(){
             if(tmp != null && $(this).attr('data-name') == tmp.listing){
                 if (tmp == null) {
                     $(this).parent().prev().html("");
@@ -118,12 +118,15 @@ function checklistDrag() {
      
      }
       
-      
+    
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
          $(this).remove();
         }
       });
+      
+   
+        
       console.log(user.current_schedule.toString());
       console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
     }
