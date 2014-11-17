@@ -12,26 +12,52 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
 
   this.add_new_schedule = function(schedule_name, version) {
   	var new_schedule_id = this.netid + "_" + this.next_schedule_num;
-  	this.next_schedule_num += 1;
+  	this.next_schedule_num = parseInt(this.next_schedule_num) + 1;
   	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, []);
   	this.schedules[this.schedules.length] = this.current_schedule;
+    this.save_schedule("true");
   }
 
+    
+    
+  // given a schedule_id for a particular user (the id is guaranteed to be linked
+  // to this user), set this users current schedule to be schedule with id
+  // schedule_id.  Reflect this change in the tables as well.
   this.load_schedule = function(schedule_id) {
-    //TODO 
+      var s = null;
+      $.ajax({
+             type: "GET",
+             url: "user.php",
+             async: false,
+             dataType: "json",
+             data: {'netid': this.netid,
+             'schedule_id': schedule_id,
+             'isInitialLoad': "false"},
+             success: function(data){
+                if (data != null) {
+                    var schedule_name = data['schedule_name'];
+                    var schedule_id = data['schedule_id'];
+                    var schedule = data['schedule'];
+                    var courses_lst = schedule ? schedule.split(",") : [];
+                    //TODO add version to db schema
+                    s = new Schedule(schedule_name, 2012, schedule_id, courses_lst);
+             
+
+                }
+             }
+      });
+      
+      this.current_schedule = s;
+      this.save_schedule("false");
   }
 
   //TODO Alex/Chris : save user function
   // saves the schedule in this.schedules corresponding to this.current_schedule
   //NOTE: Need to save the current view id for when user visits again
-
-  this.save_schedule = function() {
+  //isNew is a flag that indicates whether the schedule to be saved was just created (i.e. using the 'add' button)
+  this.save_schedule = function(isNew) {
     //user data ON PAGE has been updated in main.js, the rest must be updated here
     this.current_schedule.setSaved(true);
-    schedArray = [];
-    for (var i =0; i < this.schedules.length; i++){
-        schedArray[schedArray.length] = this.schedules[i].toArray().toString();
-    }
     $.ajax({
       type:  "POST",
       url: "user.php",
@@ -41,7 +67,8 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                'next_schedule_num': this.next_schedule_num, 
                'current_schedule_id': this.current_schedule.id,
                'schedule_name': this.current_schedule.name,
-               'schedules': this.current_schedule.toArray().toString()},
+               'schedules': this.current_schedule.toArray().toString(),
+               'isNew': isNew},
       success: function(data){
         if (data == "error"){
           //TODO: couldn't connect to database on saving
