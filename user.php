@@ -99,15 +99,48 @@
         }
     }
     else if (isset($_GET['netid'])) {
-        //get user information
         $netid = $_GET['netid'];
-
-        $qry = "SELECT * FROM member WHERE netid='$netid'";
-        $result = $tutorial_db->query($qry);
-        //at most one row will be returned since netid is a unique identifier
-        $row = mysqli_fetch_array($result);
-        echo(json_encode($row));
+        $isInitialLoad = $_GET['isInitialLoad'];
+        $loadUser = ($isInitialLoad === 'true');
+        
+        if (isset($_GET['schedule_id'])) {
+            //retrieve schedule corresponding the the one with this id
+            $schedule_id = $_GET['schedule_id'];
+            
+            $qry = "SELECT * FROM schedule WHERE netid='$netid' AND schedule_id='$schedule_id'";
+            $result = $tutorial_db->query($qry);
+            //exactly one row to be returned, since netid and schedul_id are
+            //a key for the schedule table
+            $row = mysqli_fetch_array($result);
+            echo(json_encode($row));
+        
+        }
+        else if ($loadUser) {
+            //get initial user information
+            $qry = "SELECT * FROM member WHERE netid='$netid'";
+            $result = $tutorial_db->query($qry);
+            //at most one row will be returned since netid is a unique identifier
+            $row = mysqli_fetch_array($result);
+            echo(json_encode($row));
+            
+        }
+        else {
+            //load scchedule names for user with this netid
+            $netid = $_GET['netid'];
+            
+            $qry = "SELECT schedule_id, schedule_name FROM schedule WHERE netid='$netid'";
+            $result = $tutorial_db->query($qry);
+            
+            $schedule_names = "";
+            while ($row = mysqli_fetch_array($result)) {
+                //each row corresponds to a different schedule for the current user
+                //user a semicolon as delimiter
+                $schedule_names .= $row[0] . ";" . $row[1] . ";";
+            }
+            echo(json_encode($schedule_names));
+        }
     }
+    
 
     
 

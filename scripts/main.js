@@ -6,6 +6,8 @@ var Loader = function() {
      Returns: User object */
   //flag if user is found in db
   this.isNewUser = false;
+
+    
   //TODO: fetchUser should take in a netid?
   this.fetchUser = function(netid) {
     //TODO Get AJAX call and pull data from User table
@@ -15,7 +17,8 @@ var Loader = function() {
         url: "user.php", 
         async: false,
         dataType: "json",
-        data:   {'netid': netid },
+        data:   {'netid': netid,
+           'isInitialLoad': "true"},
         success: function(data){
           if (data == null) {
            //user was not found, must create new one. we set user to null
@@ -26,6 +29,7 @@ var Loader = function() {
             var name = data['name'];
             var next_schedule_num = data['next_schedule_num'];
             var current_schedule_id = data['current_schedule_id'];
+           
             var schedules = data['schedules']; //TODO needs to be an array of schedule IDs
 
             var courses_lst = schedules ? schedules.split(",") : [];
@@ -234,20 +238,61 @@ function getNewPageFunctions() {
 
 
 function getLoadPageHTML() {
+  // first need to retrieve all schedule names to populate the dropdown
+    var name_array = [];
+    $.ajax({
+           type: "GET",
+           url: "user.php",
+           async: false,
+           dataType: "json",
+           data: {
+                'netid': user.netid,
+                'isInitialLoad': "false"
+           },
+           success: function(data) {
+                name_array = data.split(";");
+           }
+    });
+    
   var select_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
-  for (var i = 0; i < 6; i++){
-    select_html += '<option value="'+i+'">' + i + "</option>"; //TODO: link this to the user's saved schedules somehow
+  for (var i = 0; i < (name_array.length-1); i=i+2){
+    select_html += '<option value="'+name_array[i]+'">' + name_array[i+1] + "</option>"; //TODO: link this to the user's saved schedules somehow
   }
-  select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
+  select_html = "<select id='loadPageSelect'>" + select_html + "</select>";
   var load_html = select_html;
-  load_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
-  load_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div></center>';
+  load_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
+  load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></center>';
   return load_html; 
 }
+
+
+function getLoadPageFunctions() {
+    $("#loadSchedule").on('click', function () {
+        var selection = document.getElementById("loadPageSelect");
+        var schedule_id = selection.options[selection.selectedIndex].value;
+        if (schedule_id === "Select the Checklist you wish to load:") {
+            //i.e. they didn't acutally select something from the dropdown
+            $(load_warning).text("Please select a saved schedule.");
+        }
+        else {
+            //set user's 'schedule_name' to be his current schedule
+            user.load_schedule(schedule_id);
+            $.magnificPopup.close();
+            window.location.reload();  // for now, reload page after loading schedule
+                    
+        }
+        return false;
+    });
+    
+}
+
+
 
 function saveUserFunction() {
   user.save_schedule("false");
 }
+
+
 
 function setupMagnificPopup(user) {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
@@ -263,8 +308,8 @@ function setupMagnificPopup(user) {
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
   makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
-  makePopup("#new",getNewPageHTML(), getNewPageFunctions, true, user);
-  makePopup("#load",getLoadPageHTML(), false, false, null);
+  makePopup("#new",getNewPageHTML(), getNewPageFunctions, false, user);
+  makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false, user);
   makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   makePopup("#print",'Enter message to Nicole:<br /><textarea />', false, false, null)
 }
@@ -274,7 +319,7 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
-  var netid = "csm12345"; //TODO get netid from web auth login
+  var netid = "og"; //TODO get netid from web auth login
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();

@@ -17,8 +17,37 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
     this.save_schedule("true");
   }
 
+    
+    
+  // given a schedule_id for a particular user (the id is guaranteed to be linked
+  // to this user), set this users current schedule to be schedule with id
+  // schedule_id.  Reflect this change in the tables as well.
   this.load_schedule = function(schedule_id) {
-    //TODO 
+      var s = null;
+      $.ajax({
+             type: "GET",
+             url: "user.php",
+             async: false,
+             dataType: "json",
+             data: {'netid': this.netid,
+             'schedule_id': schedule_id,
+             'isInitialLoad': "false"},
+             success: function(data){
+                if (data != null) {
+                    var schedule_name = data['schedule_name'];
+                    var schedule_id = data['schedule_id'];
+                    var schedule = data['schedule'];
+                    var courses_lst = schedule ? schedule.split(",") : [];
+                    //TODO add version to db schema
+                    s = new Schedule(schedule_name, 2012, schedule_id, courses_lst);
+             
+
+                }
+             }
+      });
+      
+      this.current_schedule = s;
+      this.save_schedule("false");
   }
 
   //TODO Alex/Chris : save user function
