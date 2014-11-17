@@ -5,7 +5,6 @@
 * @param version
 */
 
-
 //TODO: change constructor for User to include start_year
 //TODO: save this.numSemesters somewhere 
 var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules) {
@@ -16,10 +15,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, []);
   	this.schedules[this.schedules.length] = this.current_schedule;
     this.save_schedule("true");
-  }
-
-    
-    
+  } 
   // given a schedule_id for a particular user (the id is guaranteed to be linked
   // to this user), set this users current schedule to be schedule with id
   // schedule_id.  Reflect this change in the tables as well.
@@ -39,10 +35,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                     var schedule_id = data['schedule_id'];
                     var schedule = data['schedule'];
                     var courses_lst = schedule ? schedule.split(",") : [];
-                    //TODO add version to db schema
-                    s = new Schedule(schedule_name, 2012, schedule_id, courses_lst);
-             
-
+                    s = new Schedule(schedule_name, this.user_version, schedule_id, courses_lst);
                 }
              }
       });
@@ -51,7 +44,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       this.save_schedule("false");
   }
 
-  //TODO Alex/Chris : save user function
   // saves the schedule in this.schedules corresponding to this.current_schedule
   //NOTE: Need to save the current view id for when user visits again
   //isNew is a flag that indicates whether the schedule to be saved was just created (i.e. using the 'add' button)
@@ -80,6 +72,8 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   //Initializing fields
   this.full_name = name;
   this.netid = netid;
+  //Addition: user object contains version
+  this.user_version = vers;
   this.schedules = schedules; //Should be an array of Schedule objects
   if (!this.schedules || this.schedules.length == 0) {
     //New user

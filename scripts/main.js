@@ -7,12 +7,15 @@ var Loader = function() {
      Returns: User object */
   //flag if user is found in db
   this.isNewUser = false;
-
-    
-  //TODO: fetchUser should take in a netid?
+ 
   this.fetchUser = function(netid) {
-    //TODO Get AJAX call and pull data from User table
     var user = null;
+    var name = null;
+    var next_schedule_num = null;
+    var current_schedule_id = null;
+    var version = null;
+    var schedule = null;
+    var schedule_name = null;
     $.ajax({
         type: "GET",
         url: "user.php", 
@@ -21,34 +24,41 @@ var Loader = function() {
         data:   {'netid': netid,
            'isInitialLoad': "true"},
         success: function(data){
-          if (data == null) {
-           //user was not found, must create new one. we set user to null
-           //we create user object and set flag below
-           user = null;
-          }
-          else {
-            var name = data['name'];
-            var next_schedule_num = data['next_schedule_num'];
-            var current_schedule_id = data['current_schedule_id'];
-           
-            var schedules = data['schedules']; //TODO needs to be an array of schedule IDs
-
-            var courses_lst = schedules ? schedules.split(",") : [];
-            //TODO change schdule encoding to include name and verison
-            //TODO generalize decoding for case of mulitple schedules
-            var s = new Schedule("first", 2012, current_schedule_id, courses_lst);
-          
-            scheds = [];
-            scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
-        
-            this.isNewUser = false;
-            user = new User(name, netid, 2012, next_schedule_num, current_schedule_id, scheds);
+          if (data != null) {
+            name = data['name'];
+            next_schedule_num = data['next_schedule_num'];
+            current_schedule_id = data['current_schedule_id'];
+            version = data['version'];
           }
         }
     });
-      
-    return user;
-      
+    $.ajax({
+        type: "GET",
+        url: "user.php", 
+        async: false,
+        dataType: "json",
+        data:   {'netid': netid,
+                 'schedule_id': current_schedule_id,
+                  'isInitialLoad': "false"},
+        success: function(data){
+          if (data != null){
+            schedule = data['schedule'];
+            schedule_name = data['schedule_name']; 
+          }
+        }
+    });
+    //TODO: deal with database corruption issue (checking other variables besides schedule)
+    if (schedule == null){
+       return user;
+    } else {
+      var courses_lst = schedule ? schedule.split(",") : [];   
+      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst);
+      scheds = [];
+      scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
+      this.isNewUser = false;
+      user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds);
+      return user;   
+    }  
   }
 
   /* Scans through the user object and loads all elements on the schedule and 
@@ -100,7 +110,6 @@ function fillEmptySpots() {
     }
   }); 
 }
-
 
 /* The method sets up a popup at the selector with the html.
  * Uses the white-popup class for CSS. 
@@ -194,8 +203,8 @@ function getSplashPageFunctions() {
              data:   {'netid': user.netid,
               'full_name': user.full_name,
               'next_schedule_num': user.next_schedule_num,
-              'current_schedule_id': user.current_schedule.id,
-              'schedules': user.current_schedule.toArray().toString()},
+              'version': user.user_version,
+              'current_schedule_id': user.current_schedule.id},
              success: function(data){
                if (data == "error"){
                //TODO: couldn't connect to database on saving
@@ -208,8 +217,6 @@ function getSplashPageFunctions() {
   });
 }
 
-
-
 function getNewPageHTML() {
     var new_html = 'Enter new schedule name:<br />';
     new_html += '<input type ="text" name="schedule_name" id="schedule_name" />';
@@ -218,7 +225,6 @@ function getNewPageHTML() {
     
     return new_html;
 }
-
 
 function getNewPageFunctions() {
     $("#confirmNew").on('click', function () {
@@ -229,14 +235,13 @@ function getNewPageFunctions() {
         else {
             //close popup and save schedule in db with the user provided name
             $.magnificPopup.close();
-            user.add_new_schedule(name, "2011"); //TODO: get version
+            user.add_new_schedule(name, user.user_version); //TODO: get version
             window.location.reload(); //for now, just reload page to load new schedule
         }
     
         return false;
     });
 }
-
 
 function getLoadPageHTML() {
   // first need to retrieve all schedule names to populate the dropdown
@@ -266,7 +271,6 @@ function getLoadPageHTML() {
   return load_html; 
 }
 
-
 function getLoadPageFunctions() {
     $("#loadSchedule").on('click', function () {
         var selection = document.getElementById("loadPageSelect");
@@ -283,8 +287,7 @@ function getLoadPageFunctions() {
                     
         }
         return false;
-    });
-    
+    });    
 }
 
 function saveUserFunction() {
@@ -323,11 +326,9 @@ $(document).ready(function(){
   user = loader.fetchUser(netid);
   
   if (user == null) {
-  //netid was not found in user table. create new user object
     loader.isNewUser = true;
-    //TODO determine user's name from their netid
+    //TODO determine user's name from their netid, version from splash page
     user = new User("need to get this somehow", netid, 2012, null, null, null);
-
   }
   
   loader.applyUser(user);
@@ -338,10 +339,8 @@ $(document).ready(function(){
   applyrun(); //This starts the dragging and dropping
   checklistDrag();
 
-  //TODO see if user is a new user, if so:
   if (loader.isNewUser) {
     $("#start_splash_page").click();
   }
-    //TODO: saving while someone is actually on a schedule
 
 });
