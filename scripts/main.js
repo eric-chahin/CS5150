@@ -287,13 +287,9 @@ function getLoadPageFunctions() {
     
 }
 
-
-
 function saveUserFunction() {
   user.save_schedule("false");
 }
-
-
 
 function setupMagnificPopup(user) {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
@@ -320,11 +316,7 @@ $(document).ready(function(){
   //global enum
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   //(course_id -> Course_information object)
-<<<<<<< HEAD
   var netid = "abc123"; //TODO get netid from web auth login
-=======
-  var netid = "og"; //TODO get netid from web auth login
->>>>>>> FETCH_HEAD
   var loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
