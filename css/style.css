@@ -38,6 +38,7 @@ button:focus {
 
 .checklist_container{
     margin: 24px;
+    min-height: 100px;
 }
 
 .checklist_box{

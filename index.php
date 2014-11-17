@@ -87,25 +87,26 @@
                         <div id="top"></div>
                         <div id="middle"></div>
                         <div id="bottom"></div>
-                        <div id="content">
-                        
-                            <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
-                            <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
-                
-                            <div class="classleftrow"></div>
+                        <div id ="content_container">
+                            <div id="content">
                             
-                            <!-- For people who have JS turned off for some reason. -->
-                            <noscript>
-                            For full functionality of this page it is necessary to enable JavaScript. 
-                            Here are the <a href="http://www.enable-javascript.com" target="_blank"> 
-                            instructions how to enable JavaScript in your web browser</a>
-                            </noscript>
-                            
-                            <div class="classrightrow"></div>
-                            <div class ="classbottom">           
-                                *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
+                                <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
+                                <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
+                    
+                                <div class="classleftrow"></div>
+                                
+                                <!-- For people who have JS turned off for some reason. -->
+                                <noscript>
+                                For full functionality of this page it is necessary to enable JavaScript. 
+                                Here are the <a href="http://www.enable-javascript.com" target="_blank"> 
+                                instructions how to enable JavaScript in your web browser</a>
+                                </noscript>
+                                
+                                <div class="classrightrow"></div>
+                                <div class ="classbottom">           
+                                    *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
+                                </div>
                             </div>
-                        
                         </div>
                     </div>
                 </div>
