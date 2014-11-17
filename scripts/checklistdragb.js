@@ -173,21 +173,21 @@ function checklistDrag() {
 };
 
 function checklistrecreateExistingDivs() { 
-    
+
   //checklist_box_container
   console.log("recreate is being called");
-  var nodes = $( ".content" ).children();
-  $( ".content" ).remove();
+  var nodes = $( ".checklist_box" ).children();
+  $( ".checklist_box" ).remove();
   for(var i = 0; i< nodes.length;i++){
-    $(".content_container").append("<div class='content'></div>");
-    $(".content").append("<div class='hexagon dragcolumn searchdiv'" + "draggable='true'>" + nodes[i].innerHTML + "</div>");
+    $(".checklist_box_container").append("<div class='checklist_box'></div>");
+    $(".checklist_box").append("<div class='hexagon dragcolumn searchdiv'" + "draggable='true'>" + nodes[i].innerHTML + "</div>");
   }
 }
 
 function checklistcopySections(){
-  var checklistclone = $(".content").clone();
-  $(".content").remove();
-  $(".content_container").append(checklistclone);
+  var checklistclone = $("#content").clone();
+  $("#content").remove();
+  $("#content_container").append(checklistclone);
 }
 
 
