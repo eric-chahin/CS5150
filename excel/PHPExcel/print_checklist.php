@@ -1,8 +1,8 @@
 <?php
 /**
  *  Checklist Interactive is using PHPExcel, which has its license declared below.
- *  This php file is intended to 
- *      1. send an email to the administrator 
+ *  This php file is intended to
+ *      1. send an email to the administrator
  *                       OR
  *      2. send a pdf to the user so that they can print it
  *
@@ -47,8 +47,8 @@ require_once('../PHPMailer/class.phpmailer.php');
 
 $admin_name  = $_POST['name'];//TODO: Get the Admin's name!
 $admin_netid = $_POST['netid'];//TODO: Get the Admin's netid!
-$users_name = $_POST['name']; 
-$netid = $_POST['netid']; 
+$users_name = $_POST['name'];
+$netid = $_POST['netid'];
 $version_checklist = $DIRECTORY_OF_CHECKLIST_TEMPLATES.$_POST['version'].".xls"; //TODO get correct version
 if (!file_exists($version_checklist)) {
   exit("The checklist you are looking for, ".$version_checklist.", does not exist." . EOL);
@@ -56,6 +56,30 @@ if (!file_exists($version_checklist)) {
 
 echo date('H:i:s') , " Load from Excel2007 file" , EOL;
 $objPHPExcel = PHPExcel_IOFactory::load($version_checklist);
+
+
+//creating PDF section (written by Ben)
+$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
+$rendererLibrary = 'mpdf.php';
+$rendererLibraryPath = dirname(__FILE__).'/MPDF57/' . $rendererLibrary;
+
+if (!PHPExcel_Settings::setPdfRenderer(
+    $rendererName,
+    $rendererLibraryPath
+    )) {
+        die(
+            'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
+            '<br />' .
+            'at the top of this script as appropriate for your directory structure'
+        );
+}
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPexcel, 'PDF');
+$objWriter->writeAllSheets();
+$objWriter->setPreCalculateFormulas(false);
+$objWriter->save('php://output');
+
+//end of creating pdf section
 
 
 // Add some data
@@ -110,7 +134,7 @@ $headers = 'From: '.$from_email_addr. "\r\n" .
 $msg = '
 Hello,
 
-This is an automated message from Checklist Interactive. '.$users_name.' 
+This is an automated message from Checklist Interactive. '.$users_name.'
 would like you to check their checklist. Please, see the attached file.
 
 Thank you,
