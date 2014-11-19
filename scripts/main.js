@@ -81,6 +81,7 @@ var Loader = function() {
           var listing_spaced = listing.substring(0,numIndex) + " " + listing.substring(numIndex);
           $courses[j].innerHTML = listing_spaced;
           $("#course_"+(i+1)+j).data("course",user_semester[j-1]);
+          checklist_view.addCourseToChecklistView(user_semester[j-1],i);
         }
       }
     }
@@ -204,6 +205,7 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first year at Cornell.");
     } else {
+      //user.user_version = enteringYear; 
       $.magnificPopup.close();
       //once user clicks confirm, we can put user in db
       $.ajax({
@@ -293,16 +295,8 @@ function getLoadPageFunctions() {
         else {
             //set user's 'schedule_name' to be his current schedule
             user.load_schedule(schedule_id);
-            inter = user.current_schedule.toArray();
-            for (var i = 0; i < inter.length; i++){
-              object = inter[i];
-              semester = object[0];
-              course = object[1];
-              checklist_view.addCourseToChecklistView(course, semester);
-            }
-            $.magnificPopup.close();
-            window.location.reload();  // for now, reload page after loading schedule
-                    
+            loader.applyUser(user);
+            $.magnificPopup.close();   
         }
         return false;
     });    
@@ -339,7 +333,7 @@ $(document).ready(function(){
   WarningType = Object.freeze({SPECIFIC_CLASS : 0, COURSE_LEVEL : 1, FORBIDDEN : 2, CREDITS : 3});
   //(course_id -> Course_information object)
   var netid = "abc123"; //TODO get netid from web auth login
-  var loader = new Loader(); //this is where we would pass the netid from web login
+  loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
   //global vars

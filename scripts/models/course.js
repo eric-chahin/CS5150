@@ -4,7 +4,6 @@
 * @param listing
 */
 var Course = function(listing, requirement_filled) {
-  if (requirement_filled === null) requirement_filled = undefined;
   var listing = listing.replace(" ","");
   this.listing = listing;
   var requirement_filled = requirement_filled ? requirement_filled : determineRequirement();
@@ -46,8 +45,8 @@ var Course = function(listing, requirement_filled) {
     
   this.toString = function() {
     //in the user db, a course object is represented as <listing>#<requirement_filled>
-    if (this.requirement_filled !== null) {
-        return this.listing + "#" + this.requirement_filled;
+    if (requirement_filled !== null) {
+        return this.listing + "#" + requirement_filled;
     }
     else {
         return this.listing + "#";

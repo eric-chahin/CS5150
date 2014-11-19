@@ -21,12 +21,14 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   // schedule_id.  Reflect this change in the tables as well.
   this.load_schedule = function(schedule_id) {
       var s = null;
+      var net_id = this.netid;
+      var version_number = this.user_version
       $.ajax({
              type: "GET",
              url: "user.php",
              async: false,
              dataType: "json",
-             data: {'netid': this.netid,
+             data: {'netid': net_id,
              'schedule_id': schedule_id,
              'isInitialLoad': "false"},
              success: function(data){
@@ -35,7 +37,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                     var schedule_id = data['schedule_id'];
                     var schedule = data['schedule'];
                     var courses_lst = schedule ? schedule.split(",") : [];
-                    s = new Schedule(schedule_name, this.user_version, schedule_id, courses_lst);
+                    s = new Schedule(schedule_name, version_number, schedule_id, courses_lst);
                 }
              }
       });
@@ -72,6 +74,8 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.full_name = name;
   this.netid = netid;
   //Addition: user object contains version
+  if (!vers)
+    console.error("Version is null or undefined.");
   this.user_version = vers;
   this.schedules = schedules; //Should be an array of Schedule objects
   if (!this.schedules || this.schedules.length == 0) {
