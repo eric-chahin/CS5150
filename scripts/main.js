@@ -204,6 +204,7 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first year at Cornell.");
     } else {
+      user.user_version = enteringYear; 
       $.magnificPopup.close();
       //once user clicks confirm, we can put user in db
       $.ajax({
@@ -301,8 +302,7 @@ function getLoadPageFunctions() {
               checklist_view.addCourseToChecklistView(course, semester);
             }
             $.magnificPopup.close();
-            window.location.reload();  // for now, reload page after loading schedule
-                    
+            window.location.reload();       
         }
         return false;
     });    
