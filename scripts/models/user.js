@@ -39,7 +39,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                 }
              }
       });
-      
       this.current_schedule = s;
       this.save_schedule("false");
   }

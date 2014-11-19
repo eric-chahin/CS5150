@@ -6,7 +6,7 @@ var ChecklistView = function() {
   this.addCourseToChecklistView = function(newCourse,semester) {
     var listing = newCourse.listing;
     var semester_name = user.current_schedule.convertSemesterName(semester);
-    if (newCourse.getRequirementFilled() == null) {
+    if (newCourse.getRequirementFilled() == undefined) {
       //assign a course to the unassigned box
         $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
                     "' ><div class='course-name'>" + listing +

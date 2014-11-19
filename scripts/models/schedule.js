@@ -1,7 +1,5 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
 
-
-
 //TODO: save this.numSemesters somewhere
 var Schedule = function(schedule_name, version, id, courses_lst) {
   this.checklist = new Checklist(version);

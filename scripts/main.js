@@ -273,7 +273,7 @@ function getLoadPageHTML() {
     
   var select_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
   for (var i = 0; i < (name_array.length-1); i=i+2){
-    select_html += '<option value="'+name_array[i]+'">' + name_array[i+1] + "</option>"; //TODO: link this to the user's saved schedules somehow
+    select_html += '<option value="'+name_array[i]+'">' + name_array[i+1] + "</option>";
   }
   select_html = "<select id='loadPageSelect'>" + select_html + "</select>";
   var load_html = select_html;
@@ -293,6 +293,13 @@ function getLoadPageFunctions() {
         else {
             //set user's 'schedule_name' to be his current schedule
             user.load_schedule(schedule_id);
+            inter = user.current_schedule.toArray();
+            for (var i = 0; i < inter.length; i++){
+              object = inter[i];
+              semester = object[0];
+              course = object[1];
+              checklist_view.addCourseToChecklistView(course, semester);
+            }
             $.magnificPopup.close();
             window.location.reload();  // for now, reload page after loading schedule
                     
