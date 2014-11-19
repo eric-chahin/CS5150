@@ -49,7 +49,17 @@ if (strlen($search_string) >= 1 && $search_string !== ' ') {
 	} else {
 		$search_space_deleted = substr($search_string,0,$pos).substr($search_string,$pos+1);
 	}
-	$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR course_listing LIKE "%'.$search_space_deleted.'%" OR title LIKE "%'. $search_string.'%" LIMIT 10';
+
+	if (strlen($search_string) <= 3 && ctype_alpha($search_string)){
+		$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR course_listing LIKE "%'.$search_space_deleted.'%"'.' LIMIT 15';
+
+	} elseif(strcspn($search_string, '0123456789') == strlen($search_string)){
+		$query = 'SELECT * FROM courses WHERE title LIKE "%'.$search_string.'%"  OR title LIKE "%'.$search_space_deleted.'%"'.' LIMIT 15';
+
+	}else{
+		$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR course_listing LIKE "%'.$search_space_deleted.'%" OR title LIKE "%'. $search_string.'%" LIMIT 15';
+	}
+	//$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR course_listing LIKE "%'.$search_space_deleted.'%" OR title LIKE "%'. $search_string.'%" LIMIT 15';
 
 	// Do Search
 	$result = $tutorial_db->query($query);
@@ -77,10 +87,14 @@ if (strlen($search_string) >= 1 && $search_string !== ' ') {
 	    $index_of_first_number = isset($m[0]) ? strlen($m[0]) : strlen($elem);
 	    $num = substr($elem,$index_of_first_number);
 	    $dept = substr($elem,0,$index_of_first_number);
-	   	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div><span>');
+	   	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div>');
 	    //name of the course
+
+		echo($dept." ".$num."");
+		echo('<span>');
 	    echo($courseName);
-			echo('</span>'.$dept." ".$num."".'</div></div>');
+	    echo('</span>');
+	    echo('</div></div>');
 			$counter = $counter + 1;
 		}
 	}
