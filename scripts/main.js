@@ -204,7 +204,7 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first year at Cornell.");
     } else {
-      user.user_version = enteringYear; 
+      //user.user_version = enteringYear; 
       $.magnificPopup.close();
       //once user clicks confirm, we can put user in db
       $.ajax({
