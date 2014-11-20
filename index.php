@@ -103,8 +103,10 @@
                                 </noscript>
                                 
                                 <div class="classrightrow"></div>
-                                <div class ="classbottom">           
+                                <div class ="classbottom">
+                                    <div id="checklist_disclaimer">  
                                     *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
+                                    </div>
                                 </div>
                             </div>
                         </div>
