@@ -88,6 +88,7 @@ var Loader = function() {
       }
     }
     fillEmptySpots(); // clear black hexagon background
+    checklistcopySections();
   }
 
   this.initializeCourseInfo = function() {
@@ -308,8 +309,10 @@ function getLoadPageFunctions() {
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
       user.load_schedule(schedule_id);
       loader.applyUser(user);
-      $.magnificPopup.close();   
+      $.magnificPopup.close();
     }
+     checklistcopySections();
+      checklistDrag();
     return false;
   });    
 }
