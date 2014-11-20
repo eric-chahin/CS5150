@@ -33,6 +33,7 @@ var ChecklistView = function() {
        });
       }
       checklistcopySections();
+      checklistDrag();
       this.addChecklistWarnings();
   }
 
