@@ -30,6 +30,9 @@ var Course = function(listing, requirement_filled) {
   }
 
   this.setRequirementFilled = function(req) {
+    if (requirement_filled != req) {
+      user.current_schedule.setSaved(false);
+    }
     if (req !== null) {
       var rule = checklist_rules[req];
       if (rule) {
