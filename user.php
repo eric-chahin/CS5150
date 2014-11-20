@@ -30,13 +30,11 @@
         $current_schedule_id = $_POST['current_schedule_id'];
         $next_schedule_num = $_POST['next_schedule_num'];
         $schedule_name = $_POST['schedule_name'];
-        $version = $_POST['version']; 
+        $version = $_POST['version'];
+        $start_year = $_POST['start_year'];
        
         mysql_query("START TRANSACTION");
-        //TODO: use a transaction to handle possible database failures
-        $qry1= "INSERT INTO member(netid,name,version,current_schedule_id,next_schedule_num)VALUES('$netid','$full_name','$version','$current_schedule_id','$next_schedule_num')"; 
-      //  $qry2= "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule)VALUES('$netid','$current_schedule_id','$schedule_name','$schedules')";
-
+        $qry1= "INSERT INTO member(netid,name,version,start_year,current_schedule_id,next_schedule_num)VALUES('$netid','$full_name','$version','$start_year','$current_schedule_id','$next_schedule_num')"; 
         if ($tutorial_db->query($qry1)) {
             mysql_query("COMMIT");
             echo "ok";
