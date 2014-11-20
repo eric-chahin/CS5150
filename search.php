@@ -49,27 +49,38 @@ if (strlen($search_string) >= 1 && $search_string !== ' ') {
 	} else {
 		$search_space_deleted = substr($search_string,0,$pos).substr($search_string,$pos+1);
 	}
-	$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR course_listing LIKE "%'.$search_space_deleted.'%" OR title LIKE "%'. $search_string.'%" LIMIT 10';
+	$search_space_deleted = trim($search_space_deleted);
 
-	// Do Search
+	$query = 'SELECT * FROM courses WHERE course_listing REGEXP "^'.$search_space_deleted.'" LIMIT 15';
 	$result = $tutorial_db->query($query);
-	
 	while($results = $result->fetch_array()) {
 		$result_array[] = $results;
 	}
+
+	$query = 'SELECT * FROM courses WHERE title LIKE "%'.$search_string.'%"  OR title LIKE "%'.$search_space_deleted.'%"'.' LIMIT 15';
+	$result = $tutorial_db->query($query);
+	while($results = $result->fetch_array()) {
+		$result_array[] = $results;
+	}
+
+	$query = 'SELECT * FROM courses WHERE course_listing LIKE "%'.$search_string.'%"  OR course_listing LIKE "%'.$search_space_deleted.'%" OR title LIKE "%'. $search_string.'%" LIMIT 15';
+	$result = $tutorial_db->query($query);
+	while($results = $result->fetch_array()) {
+		$result_array[] = $results;
+	}
+
+	//Removing duplicates from the 2D Array
+	if (isset($result_array) && empty($result_array) == false) {
+		$newArr = array();
+		foreach ($result_array as $val) {
+			$newArr[$val[0]] = $val;
+		}
+		$result_array = array_values($newArr);
+	}
+
 	$counter = 0;
 	if (isset($result_array) && empty($result_array) == false) {
-
 		foreach ($result_array as $result) {
-	    //if (($counter -4 ) %7== 0 && $counter!=0) {
-	       //echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagonLeft dragcolumn searchdiv" new="true" draggable="true">');
-	    	//on click needs function that adds to the course box on the right of search
-	    	
-	    //}else {
-				//echo('<a href="#popup" data-effect="mfp-zoom-out" class="open-popup-link"><div class="hexagon dragcolumn searchdiv" new="true" draggable="true">');
-	    	//echo ('<div onclick="return addToDesiredCourses(this)"><div><span>');
-	    //	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div><span>');
-	    //}
 	    $elem = $result_array[$counter][0];
 	    $courseName = $result_array[$counter][1];
 	    //find first number
@@ -77,20 +88,15 @@ if (strlen($search_string) >= 1 && $search_string !== ' ') {
 	    $index_of_first_number = isset($m[0]) ? strlen($m[0]) : strlen($elem);
 	    $num = substr($elem,$index_of_first_number);
 	    $dept = substr($elem,0,$index_of_first_number);
-	   	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div><span>');
+	   	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div>');
 	    //name of the course
+			echo($dept." ".$num."");
+			echo('<span>');
 	    echo($courseName);
-			echo('</span>'.$dept." ".$num."".'</div></div>');
+	    echo('</span>');
+	    echo('</div></div>');
 			$counter = $counter + 1;
 		}
 	}
-	//if empty don't care
-	/*else{
-		//if empty
-		
-		//echo('<div class="hexagon dragcolumn new" >'.$result_array[$counter]."".'</div>'.'<script type="text/javascript" src="scripts/dragb.js"></script>');
-	}*/
-	$counter = 0;
-
 }
 ?>
