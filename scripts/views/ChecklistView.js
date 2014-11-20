@@ -14,10 +14,10 @@ var ChecklistView = function() {
                     "<div class='course-semester'>" + semester_name + "</div>" +
                     " </span></div>");
       } else {
-       $(".classRow").each(function(){
-         for (var i = 0; i < this.childNodes.length; i++) {
+        $(".classRow").each(function(){
+          for (var i = 0; i < this.childNodes.length; i++) {
               if (this.childNodes[i] != null) {
-                 if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled()){
+                if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled() &&  this.childNodes[i+2].innerText == ""){
                   console.log(newCourse.getRequirementFilled());
                   
                   this.innerHTML = "<div class='requirement'>"+ newCourse.getRequirementFilled() +
@@ -26,6 +26,7 @@ var ChecklistView = function() {
                     "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
                     "<div class='course-semester'>" + semester_name + "</div>" +
                     " </span></div>";
+                  return false; // Once the course is placed, then we should get out of the each loop.
                  } 
               }
          }

@@ -8,7 +8,6 @@ var Loader = function() {
      Returns: User object */
   //flag if user is found in db
   this.isNewUser = false;
-
   this.fetchUser = function(netid) {
     var user = null;
     var name = null;
@@ -17,6 +16,7 @@ var Loader = function() {
     var version = null;
     var schedule = null;
     var schedule_name = null;
+    var start_year = null;
     $.ajax({
         type: "GET",
         url: "user.php", 
@@ -30,6 +30,7 @@ var Loader = function() {
             next_schedule_num = data['next_schedule_num'];
             current_schedule_id = data['current_schedule_id'];
             version = data['version'];
+            start_year = data['start_year'];
           }
         }
     });
@@ -53,11 +54,11 @@ var Loader = function() {
        return user;
     } else {
       var courses_lst = schedule ? schedule.split(",") : [];   
-      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst);
+      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year);
       scheds = [];
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       this.isNewUser = false;
-      user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds);
+      user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
       return user;   
     }  
   }
@@ -221,7 +222,8 @@ function getSplashPageFunctions() {
               'full_name': user.full_name,
               'next_schedule_num': user.next_schedule_num,
               'version': user.user_version,
-              'current_schedule_id': user.current_schedule.id},
+              'current_schedule_id': user.current_schedule.id,
+              'start_year': user.start_year},
              success: function(data){
                if (data == "error"){
                //TODO: couldn't connect to database on saving
@@ -353,7 +355,7 @@ $(document).ready(function(){
   if (user == null) {
     loader.isNewUser = true;
     //TODO determine user's name from their netid, version from splash page
-    user = new User("need to get this somehow", netid, 2012, null, null, null);
+    user = new User("need to get this somehow", netid, 2012, null, null, null, 2011);
   }
   
   setupMagnificPopup(user);

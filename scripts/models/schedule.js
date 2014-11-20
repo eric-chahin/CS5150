@@ -1,18 +1,18 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
 
 //TODO: save this.numSemesters somewhere
-var Schedule = function(schedule_name, version, id, courses_lst) {
+var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
   this.numSemesters = 8;
+  var startYear = startYear % 100;
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
   this.courses_I_want = []; //TODO load/save this properly
   if (!version)
     console.error("Version is null or undefined.");
-  var startYear = version % 100; //TODO let the user enter this for their schedule
   this._saved = true; //Private variable. Please don't touch outside of class
 
   //Semester 2D Array that contain Course objects
