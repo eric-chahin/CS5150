@@ -256,7 +256,7 @@ function getNewPageFunctions() {
         else {
             user.save_schedule("false");
             checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
-            user.add_new_schedule(name, user.user_version); //TODO: get version
+            user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
             loader.applyUser(user);
             $.magnificPopup.close();
         }
