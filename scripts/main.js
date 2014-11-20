@@ -79,12 +79,14 @@ var Loader = function() {
           var match = listing.match(/\d+/);
           var numIndex = listing.indexOf(match[0]);
           var listing_spaced = listing.substring(0,numIndex) + " " + listing.substring(numIndex);
-          $courses[j].innerHTML = listing_spaced;
+          $courses[j].children[0].innerHTML = listing_spaced;
+          // $courses[j].innerHTML = listing_spaced; // Use if we get rid of the links on top of the divs
           $("#course_"+(i+1)+j).data("course",user_semester[j-1]);
           checklist_view.addCourseToChecklistView(user_semester[j-1],i);
         }
       }
     }
+    fillEmptySpots(); // clear black hexagon background
   }
 
   this.initializeCourseInfo = function() {
@@ -109,6 +111,8 @@ function fillEmptySpots() {
   [].forEach.call(cols, function (col) {
     if (col.innerHTML == "") {
       $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
+    } else {
+      $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
     }
   }); 
 }
@@ -242,14 +246,16 @@ function getNewPageHTML() {
 function getNewPageFunctions() {
     $("#confirmNew").on('click', function () {
         var name = $('#schedule_name').val();
+        // TODO: Also do a check to make sure you cannot enter a schedule with the same name
         if (name == "") {
             $("#new_schedule_warning").text("Please enter a name for this schedule.");
         }
         else {
-            //close popup and save schedule in db with the user provided name
-            $.magnificPopup.close();
+            user.save_schedule("false");
+            checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
             user.add_new_schedule(name, user.user_version); //TODO: get version
-            window.location.reload(); //for now, just reload page to load new schedule
+            loader.applyUser(user);
+            $.magnificPopup.close();
         }
     
         return false;
@@ -294,6 +300,8 @@ function getLoadPageFunctions() {
         }
         else {
             //set user's 'schedule_name' to be his current schedule
+            user.save_schedule("false");
+            checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
             user.load_schedule(schedule_id);
             loader.applyUser(user);
             $.magnificPopup.close();   
@@ -346,11 +354,10 @@ $(document).ready(function(){
     user = new User("need to get this somehow", netid, 2012, null, null, null);
   }
   
-  loader.applyUser(user);
   setupMagnificPopup(user);
+  loader.applyUser(user); // must come AFTER setupMagnificPopup
   var panel = new Panel();
 
-  fillEmptySpots();
   applyrun(); //This starts the dragging and dropping
   checklistDrag();
   setVectorDropDowns();

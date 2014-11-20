@@ -22,7 +22,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.load_schedule = function(schedule_id) {
       var s = null;
       var net_id = this.netid;
-      var version_number = this.user_version
+      var version_number = this.user_version;
       $.ajax({
              type: "GET",
              url: "user.php",

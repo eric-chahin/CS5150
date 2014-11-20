@@ -34,6 +34,24 @@ var ChecklistView = function() {
       checklistcopySections();
       checklistDrag();
   }
+
+
+  /* View method to clean the divs and DOM for loading in a new schedule and checklist 
+   * Explicit parameter number_of_semesters to not run this method in the wrong order. */
+  this.wipeViewsClean = function(number_of_semesters) {
+    this.deleteChecklistView();
+    for (var s = 1; s <= number_of_semesters; s++) {
+      for (var course_i = 1; course_i <= 8; course_i++) {
+        $("#course_"+s+course_i).text("");
+      }
+    }
+  }
+
+  /* Deletes entire checklist. Important for loading in a new checklist. */
+  this.deleteChecklistView = function() {
+    $(".classleftrow").empty();
+    $(".classrightrow").empty();
+  }
   
   /* Create warning message */
   this.addCourseWarning = function(warning_code) {
