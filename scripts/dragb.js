@@ -189,7 +189,6 @@ function applyrun() {
 
       console.log(user.current_schedule.toString());
       console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
-
     }
     return false;
   }
@@ -213,15 +212,7 @@ function applyrun() {
       document.body.removeChild(draggingColumn);
     }
 
-    var cols = document.querySelectorAll('.dragcolumn');
-    [].forEach.call(cols, function (col) {
-      if (col.innerHTML == "") {
-        $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
-        //col.addClassName('over');
-      } else {
-        $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
-      }
-    }); 
+    checklist_view.fillEmptyScheduleSpots();
     //handling the scrollbar buttons
     setTimeout(function(){
       $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");

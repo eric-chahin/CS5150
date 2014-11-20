@@ -55,7 +55,17 @@ var ChecklistView = function() {
     $(".classrightrow").empty();
   }
   
-  
+  /* Fills empty spots on the schedule. */
+  this.fillEmptyScheduleSpots = function() {
+    var cols = document.querySelectorAll('.dragcolumn');
+    [].forEach.call(cols, function (col) {
+      if (col.innerHTML == "") {
+        $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
+      } else {
+        $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+      }
+    }); 
+  }
 
   /* Create warning message */
   this.addCourseWarning = function(warning_code) {
@@ -141,6 +151,7 @@ this.addChecklistWarnings = function(){
        $(this).remove();
       }
     });
+    checklist_view.addChecklistWarnings(); // Update warnings after dragging into the trash
   }
 
   /* The courses before they were about to be swapped. */

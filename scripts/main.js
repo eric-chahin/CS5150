@@ -87,7 +87,7 @@ var Loader = function() {
         }
       }
     }
-    fillEmptySpots(); // clear black hexagon background
+    checklist_view.fillEmptyScheduleSpots(); // clear black hexagon background
     checklistcopySections();
   }
 
@@ -106,17 +106,6 @@ var Loader = function() {
       }
     });
   }
-}
-
-function fillEmptySpots() {
-  var cols = document.querySelectorAll('.dragcolumn');
-  [].forEach.call(cols, function (col) {
-    if (col.innerHTML == "") {
-      $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
-    } else {
-      $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
-    }
-  }); 
 }
 
 /* The method sets up a popup at the selector with the html.
