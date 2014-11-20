@@ -73,6 +73,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.full_name = name;
   this.netid = netid;
   //Addition: user object contains version
+  //TODO: make version a function of start_year
   if (!vers)
     console.error("Version is null or undefined.");
   this.user_version = vers;

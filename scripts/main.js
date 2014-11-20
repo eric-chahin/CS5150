@@ -200,7 +200,7 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first year at Cornell.");
     } else {
-      //user.user_version = enteringYear; 
+      user.start_year = enteringYear; 
       $.magnificPopup.close();
       //once user clicks confirm, we can put user in db
       $.ajax({
@@ -346,7 +346,7 @@ $(document).ready(function(){
   
   if (user == null) {
     loader.isNewUser = true;
-    //TODO determine user's name from their netid, version from splash page
+    //TODO determine user's name from their netid, version and start_year from splash page
     user = new User("need to get this somehow", netid, 2012, null, null, null, 2011);
   }
   

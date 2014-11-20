@@ -11,6 +11,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
   this.courses_I_want = []; //TODO load/save this properly
+  //TODO: make version a function fo start_year
   if (!version)
     console.error("Version is null or undefined.");
   this._saved = true; //Private variable. Please don't touch outside of class
