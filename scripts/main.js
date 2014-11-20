@@ -263,27 +263,7 @@ function getNewPageFunctions() {
 }
 
 function getLoadPageHTML() {
-  // first need to retrieve all schedule names to populate the dropdown
-    var name_array = [];
-    $.ajax({
-           type: "GET",
-           url: "user.php",
-           async: false,
-           dataType: "json",
-           data: {
-                'netid': user.netid,
-                'isInitialLoad': "false"
-           },
-           success: function(data) {
-                name_array = data.split(";");
-           }
-    });
-    
-  var select_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
-  for (var i = 0; i < (name_array.length-1); i=i+2){
-    select_html += '<option value="'+name_array[i]+'">' + name_array[i+1] + "</option>";
-  }
-  select_html = "<select id='loadPageSelect'>" + select_html + "</select>";
+  select_html = "<select id='loadPageSelect'></select>";
   var load_html = select_html;
   load_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
   load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></center>';
@@ -291,23 +271,45 @@ function getLoadPageHTML() {
 }
 
 function getLoadPageFunctions() {
-    $("#loadSchedule").on('click', function () {
-        var selection = document.getElementById("loadPageSelect");
-        var schedule_id = selection.options[selection.selectedIndex].value;
-        if (schedule_id === "Select the Checklist you wish to load:") {
-            //i.e. they didn't acutally select something from the dropdown
-            $(load_warning).text("Please select a saved schedule.");
-        }
-        else {
-            //set user's 'schedule_name' to be his current schedule
-            user.save_schedule("false");
-            checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
-            user.load_schedule(schedule_id);
-            loader.applyUser(user);
-            $.magnificPopup.close();   
-        }
-        return false;
-    });    
+  // Loading dropdown for schedules
+  var name_array = [];
+  $.ajax({
+    type: "GET",
+    url: "user.php",
+    async: false,
+    dataType: "json",
+    data: {
+      'netid': user.netid,
+      'isInitialLoad': "false"
+    },
+    success: function(data) {
+      name_array = data.split(";");
+    }
+  });
+  var options_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
+  for (var i = 0; i < (name_array.length-1); i=i+2){
+    options_html += '<option value="'+name_array[i]+'">' + name_array[i+1] + "</option>";
+  }
+  $("#loadPageSelect").html(options_html);
+
+  //Initializing the load...
+  $("#loadSchedule").on('click', function () {
+    var selection = document.getElementById("loadPageSelect");
+    var schedule_id = selection.options[selection.selectedIndex].value;
+    if (schedule_id === "Select the Checklist you wish to load:") {
+      //i.e. they didn't acutally select something from the dropdown
+      $(load_warning).text("Please select a saved schedule.");
+    }
+    else {
+      //set user's 'schedule_name' to be his current schedule
+      user.save_schedule("false");
+      checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
+      user.load_schedule(schedule_id);
+      loader.applyUser(user);
+      $.magnificPopup.close();   
+    }
+    return false;
+  });    
 }
 
 function saveUserFunction() {
