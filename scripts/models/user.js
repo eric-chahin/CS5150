@@ -37,7 +37,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                     var schedule_name = data['schedule_name'];
                     var schedule_id = data['schedule_id'];
                     var schedule = data['schedule'];
-                    var numSemesters = data['schedule_numSemesters'];
+                    var numSemesters = parseInt(data['schedule_numSemesters']);
                     var courses_lst = schedule ? schedule.split(",") : [];
                     s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year, numSemesters);
                 }

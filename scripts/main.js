@@ -47,7 +47,7 @@ var Loader = function() {
           if (data != null){
             schedule = data['schedule'];
             schedule_name = data['schedule_name'];
-            schedule_numSemesters = data['schedule_numSemesters'];
+            schedule_numSemesters = parseInt(data['schedule_numSemesters']);
           }
         }
     });
