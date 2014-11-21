@@ -204,7 +204,7 @@
             </div>
             <!-- DO NOT DELETE THIS BUTTON BELOW HERE, IT IS CRUCIAL FOR DISPLAYING THE SPLASH PAGE -->
             <div style="display:none;"><button id="start_splash_page"></button></div>
-
+            <div style="display:none;" id="printDiv"></div>
         </div>
         <br />
         <br />

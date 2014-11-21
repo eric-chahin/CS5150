@@ -327,7 +327,7 @@ function setupMagnificPopup(user) {
   makePopup("#new",getNewPageHTML(), getNewPageFunctions, false, user);
   makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false, user);
   makePopup("#save", 'Saved!', saveUserFunction, false, user); 
-  makePopup("#print",'Enter message to Nicole:<br /><textarea />', false, false, null)
+  // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
 }
 
 //when page is finished loading, the main methods are called
