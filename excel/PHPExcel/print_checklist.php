@@ -58,42 +58,53 @@ echo date('H:i:s') , " Load from Excel2007 file" , EOL;
 $objPHPExcel = PHPExcel_IOFactory::load($version_checklist);
 
 
-//creating PDF section (written by Ben)
-$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
-$rendererLibrary = 'mpdf.php';
-$rendererLibraryPath = dirname(__FILE__).'/MPDF57/' . $rendererLibrary;
-
-if (!PHPExcel_Settings::setPdfRenderer(
-    $rendererName,
-    $rendererLibraryPath
-    )) {
-        die(
-            'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
-            '<br />' .
-            'at the top of this script as appropriate for your directory structure'
-        );
-}
-
-$objWriter = PHPExcel_IOFactory::createWriter($objPHPexcel, 'PDF');
-$objWriter->writeAllSheets();
-$objWriter->setPreCalculateFormulas(false);
-$objWriter->save('php://output');
-
-//end of creating pdf section
-
-
 // Add some data
 echo date('H:i:s') , " Add some data" , EOL;
 
 // $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
 
-// foreach($_POST['cells'] as $key => $value) {
-//   $objPHPExcel->setActiveSheetIndex(0)->setCellValue($key,$value);
-// }
+foreach($_POST['cells'] as $key => $value) {
+  $objPHPExcel->setActiveSheetIndex(0)->setCellValue($key,$value);
+}
 
 
+//
+// Commented out because it takes up way too much memory.
+// 
+//
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-$objPHPExcel->setActiveSheetIndex(0);
+// $objPHPExcel->setActiveSheetIndex(0);
+
+// //creating PDF section
+// echo("starting pdf...\n");
+// require_once(dirname(__FILE__)."/dompdf/dompdf_config.inc.php");
+
+// echo("starting pdf again...\n");
+
+// $rendererName = PHPExcel_Settings::PDF_RENDERER_DOMPDF;
+// // $rendererLibrary = 'mpdf.php';
+// $rendererLibrary = 'dompdf';
+// $rendererLibraryPath = dirname(__FILE__).'/'. $rendererLibrary;
+// echo(dirname(__FILE__));
+
+// if (!PHPExcel_Settings::setPdfRenderer(
+//     $rendererName,
+//     $rendererLibraryPath
+//     )) {
+//         die(
+//             'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
+//             '<br />' .
+//             'at the top of this script as appropriate for your directory structure'
+//         );
+// }
+// $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
+// $objWriter->setSheetIndex(0);
+// $objWriter->writeAllSheets();
+// // $objWriter->setPreCalculateFormulas(false);
+// $objWriter->save('../user_checklists/'.$netid.'.pdf');
+// $objWriter->save('php://output');
+//end of creating pdf section
+
 
 /*
  *
@@ -122,6 +133,9 @@ echo date('H:i:s') , " Writing to Excel5 format..." , EOL;
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 $objWriter->save('../user_checklists/'.$netid.'.xls');
+
+//TODO: delete to enable email
+exit;
 
 echo 'Sending email...', EOL;
 $from_email_addr = $netid.'@cornell.edu';
