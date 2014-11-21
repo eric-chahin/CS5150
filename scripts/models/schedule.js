@@ -8,6 +8,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   this.numSemesters = numSemesters;
   //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
+  console.log(startYear); 
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
