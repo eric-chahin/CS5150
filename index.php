@@ -103,8 +103,10 @@
                                 </noscript>
                                 
                                 <div class="classrightrow"></div>
-                                <div class ="classbottom">           
+                                <div class ="classbottom">
+                                    <div id="checklist_disclaimer">  
                                     *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +204,7 @@
             </div>
             <!-- DO NOT DELETE THIS BUTTON BELOW HERE, IT IS CRUCIAL FOR DISPLAYING THE SPLASH PAGE -->
             <div style="display:none;"><button id="start_splash_page"></button></div>
-
+            <div style="display:none;" id="printDiv"></div>
         </div>
         <br />
         <br />

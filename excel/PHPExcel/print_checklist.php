@@ -45,6 +45,21 @@ require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 require_once dirname(__FILE__) . '/Classes/PHPExcel/IOFactory.php';
 require_once('../PHPMailer/class.phpmailer.php');
 
+
+// add "?test" to the end of "CS5150/excel/PHPExcel/print_checklist.php" to utilize these vars
+$istest = false;
+if (isset($_GET['test'])) {
+  $_POST['name'] = "Your Name";
+  $_POST['netid'] = "your_netid";
+  $_POST['version'] = "2012";
+  $istest = true;
+} else {
+  if (!isset($_POST['name'])) {
+    echo date('H:i:s'),"  add '?test'\n";
+    exit;
+  }
+}
+
 $admin_name  = $_POST['name'];//TODO: Get the Admin's name!
 $admin_netid = $_POST['netid'];//TODO: Get the Admin's netid!
 $users_name = $_POST['name'];
@@ -54,46 +69,63 @@ if (!file_exists($version_checklist)) {
   exit("The checklist you are looking for, ".$version_checklist.", does not exist." . EOL);
 }
 
-echo date('H:i:s') , " Load from Excel2007 file" , EOL;
+// echo date('H:i:s') , " Load from Excel2007 file" , EOL;
 $objPHPExcel = PHPExcel_IOFactory::load($version_checklist);
 
 
-//creating PDF section (written by Ben)
-$rendererName = PHPExcel_Settings::PDF_RENDERER_MPDF;
-$rendererLibrary = 'mpdf.php';
-$rendererLibraryPath = dirname(__FILE__).'/MPDF57/' . $rendererLibrary;
-
-if (!PHPExcel_Settings::setPdfRenderer(
-    $rendererName,
-    $rendererLibraryPath
-    )) {
-        die(
-            'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
-            '<br />' .
-            'at the top of this script as appropriate for your directory structure'
-        );
-}
-
-$objWriter = PHPExcel_IOFactory::createWriter($objPHPexcel, 'PDF');
-$objWriter->writeAllSheets();
-$objWriter->setPreCalculateFormulas(false);
-$objWriter->save('php://output');
-
-//end of creating pdf section
-
-
 // Add some data
-echo date('H:i:s') , " Add some data" , EOL;
+// echo date('H:i:s') , " Add some data" , EOL;
 
-// $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
+// $objPHPExcel->getActiveSheet()->setCellValue('B4',"Hello World and super tired");
 
-// foreach($_POST['cells'] as $key => $value) {
-//   $objPHPExcel->setActiveSheetIndex(0)->setCellValue($key,$value);
+// if (isset($_POST['cells'])) {
+//   echo "cells need to be initialized.";
 // }
 
+if (!$istest) {
+  foreach($_POST['cells'] as $key => $value) {
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($key,$value);
+  }
+}
 
+
+//
+// Commented out because it takes up way too much memory.
+// 
+//
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-$objPHPExcel->setActiveSheetIndex(0);
+// $objPHPExcel->setActiveSheetIndex(0);
+
+// //creating PDF section
+// echo("starting pdf...\n");
+// require_once(dirname(__FILE__)."/dompdf/dompdf_config.inc.php");
+
+// echo("starting pdf again...\n");
+
+// $rendererName = PHPExcel_Settings::PDF_RENDERER_DOMPDF;
+// // $rendererLibrary = 'mpdf.php';
+// $rendererLibrary = 'dompdf';
+// $rendererLibraryPath = dirname(__FILE__).'/'. $rendererLibrary;
+// echo(dirname(__FILE__));
+
+// if (!PHPExcel_Settings::setPdfRenderer(
+//     $rendererName,
+//     $rendererLibraryPath
+//     )) {
+//         die(
+//             'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
+//             '<br />' .
+//             'at the top of this script as appropriate for your directory structure'
+//         );
+// }
+// $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
+// $objWriter->setSheetIndex(0);
+// $objWriter->writeAllSheets();
+// // $objWriter->setPreCalculateFormulas(false);
+// $objWriter->save('../user_checklists/'.$netid.'.pdf');
+// $objWriter->save('php://output');
+//end of creating pdf section
+
 
 /*
  *
@@ -118,10 +150,18 @@ $objPHPExcel->setActiveSheetIndex(0);
 
 
 // Save Excel 95 file
-echo date('H:i:s') , " Writing to Excel5 format..." , EOL;
-
+// echo date('H:i:s') , " Writing to Excel5 format..." , EOL;
+$filename = '../user_checklists/'.$netid.'.xls';
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-$objWriter->save('../user_checklists/'.$netid.'.xls');
+$objWriter->save($filename);
+// echo "Done writing!";
+
+//Sends the file on the server to the client
+header('Content-Type: application/vnd.ms-excel');        
+header('Content-Disposition: attachment; filename="'.$netid.'_checklist.xls"'); 
+readfile($filename);
+//TODO: delete to enable email
+exit;
 
 echo 'Sending email...', EOL;
 $from_email_addr = $netid.'@cornell.edu';
@@ -153,9 +193,8 @@ $email->Subject    = $subject;
 $email->Body       = $msg;
 $email->AddAddress($to_email_addr, $admin_name);
 $email->AddAddress($from_email_addr, $users_name);
-$file_to_attach = '../user_checklists/'.$netid.'.xls';
 
-$email->AddAttachment( $file_to_attach );
+$email->AddAttachment( $filename );
 if (!$email->Send()) {
   echo "Problem occurred with PHPMailer";
 } else {

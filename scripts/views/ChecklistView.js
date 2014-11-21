@@ -14,10 +14,10 @@ var ChecklistView = function() {
                     "<div class='course-semester'>" + semester_name + "</div>" +
                     " </span></div>");
       } else {
-       $(".classRow").each(function(){
-         for (var i = 0; i < this.childNodes.length; i++) {
+        $(".classRow").each(function(){
+          for (var i = 0; i < this.childNodes.length; i++) {
               if (this.childNodes[i] != null) {
-                 if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled()){
+                if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled() &&  this.childNodes[i+2].innerText == ""){
                   console.log(newCourse.getRequirementFilled());
                   
                   this.innerHTML = "<div class='requirement'>"+ newCourse.getRequirementFilled() +
@@ -26,6 +26,7 @@ var ChecklistView = function() {
                     "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
                     "<div class='course-semester'>" + semester_name + "</div>" +
                     " </span></div>";
+                  return false; // Once the course is placed, then we should get out of the each loop.
                  } 
               }
          }
@@ -33,8 +34,52 @@ var ChecklistView = function() {
       }
       checklistcopySections();
       checklistDrag();
+      this.addChecklistWarnings();
+  }
+
+
+  /* View method to clean the divs and DOM for loading in a new schedule and checklist 
+   * Explicit parameter number_of_semesters to not run this method in the wrong order. */
+  this.wipeViewsClean = function(number_of_semesters) {
+    this.deleteChecklistView();
+    for (var s = 1; s <= number_of_semesters; s++) {
+      for (var course_i = 1; course_i <= 8; course_i++) {
+        $("#course_"+s+course_i).text("");
+      }
+    }
+  }
+
+  /* Deletes entire checklist. Important for loading in a new checklist. */
+  this.deleteChecklistView = function() {
+    $(".classleftrow").empty();
+    $(".classrightrow").empty();
   }
   
+  /* Fills empty spots on the schedule. */
+  this.fillEmptyScheduleSpots = function() {
+    var cols = document.querySelectorAll('.dragcolumn');
+    [].forEach.call(cols, function (col) {
+      if (col.innerHTML == "") {
+        $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
+      } else {
+        var listing = col.innerText.replace(" ","");
+        var color = HEXAGON_COLORS[listing];
+        if (color) {
+          var test_url = "/CS5150/img/hexagon_"+color+".png";
+          $.get(test_url)
+            .done(function() {
+              $(col).css( "background-image", "url("+test_url+")");
+            }).fail(function() {
+              // load default background
+              $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+            });
+        } else {
+          $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+        }
+      }
+    }); 
+  }
+
   /* Create warning message */
   this.addCourseWarning = function(warning_code) {
         var html = "";
@@ -69,7 +114,38 @@ var ChecklistView = function() {
         return html;
   }
             
-            
+this.addChecklistWarnings = function(){
+       var currentSched =  user.current_schedule;
+      
+       $(".warning-col").each(function(){
+              $(this).html("");
+       });
+      
+     for (var i = 0; i < currentSched.semesters.length; i++) {
+        for (var j = 0; j < currentSched.semesters[i].length; j++) {
+         var tmp = currentSched.semesters[i][j];
+
+           var req = null;
+          $('.drag-course').children('.data').each(function(){
+            if(tmp != null && $(this).attr('data-name') == tmp.listing){
+                if (tmp == null) {
+                    $(this).parent().prev().html("");
+                }else {
+                    req = $(this).parent().prev().prev().html();
+                    tmp.setRequirementFilled(req);
+                    var warning = "";
+                if (tmp.warnings.length > 0) {
+                  warning = checklist_view.addCourseWarning(tmp.warnings[0]);
+                }
+  
+            $(this).parent().prev().html(warning);
+           }
+        }
+        });
+        }
+      }
+    }
+              
 
   /* Takes in the Course object that will be deleted. */
   this.deleteCourseFromChecklistView = function(oldCourse) {
@@ -88,6 +164,7 @@ var ChecklistView = function() {
        $(this).remove();
       }
     });
+    checklist_view.addChecklistWarnings(); // Update warnings after dragging into the trash
   }
 
   /* The courses before they were about to be swapped. */

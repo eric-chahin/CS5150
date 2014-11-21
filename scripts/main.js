@@ -2,6 +2,7 @@
 
 //TODO: pass netid from weblogin into loader, must be used in Ajax call to user database
 //TODO: pass all LDAP information into loader
+//TODO: save this.numSemesters somewhere
 var Loader = function() {
   /* Retrieves User information.
      Returns: User object */
@@ -9,40 +10,57 @@ var Loader = function() {
   this.isNewUser = false;
   this.fetchUser = function(netid) {
     var user = null;
+    var name = null;
+    var next_schedule_num = null;
+    var current_schedule_id = null;
+    var version = null;
+    var schedule = null;
+    var schedule_name = null;
+    var start_year = null;
     $.ajax({
         type: "GET",
         url: "user.php", 
         async: false,
         dataType: "json",
-        data:   {'netid': netid },
+        data:   {'netid': netid,
+           'isInitialLoad': "true"},
         success: function(data){
-          if (data == null) {
-           //user was not found, must create new one. we set user to null
-           //we create user object and set flag below
-           user = null;
-          }
-          else {
-            var name = data['name'];
-            var next_schedule_num = data['next_schedule_num'];
-            var current_schedule_id = data['current_schedule_id'];
-            var schedules = data['schedules']; //TODO needs to be an array of schedule IDs
-
-            var courses_lst = schedules ? schedules.split(",") : []; //TODO: This should come from the current_schedule_id not array of schedule IDs
-            //TODO change schdule encoding to include name and verison
-            //TODO generalize decoding for case of mulitple schedules
-            var s = new Schedule("first", 2012, current_schedule_id, courses_lst, 2012);
-          
-            scheds = [];
-            scheds[scheds.length] = s;
-        
-            this.isNewUser = false;
-            user = new User(name, netid, 2012, next_schedule_num, current_schedule_id, scheds, 2012);
+          if (data != null) {
+            name = data['name'];
+            next_schedule_num = data['next_schedule_num'];
+            current_schedule_id = data['current_schedule_id'];
+            version = data['version'];
+            start_year = data['start_year'];
           }
         }
     });
-      
-    return user;
-      
+    $.ajax({
+        type: "GET",
+        url: "user.php", 
+        async: false,
+        dataType: "json",
+        data:   {'netid': netid,
+                 'schedule_id': current_schedule_id,
+                  'isInitialLoad': "false"},
+        success: function(data){
+          if (data != null){
+            schedule = data['schedule'];
+            schedule_name = data['schedule_name']; 
+          }
+        }
+    });
+    //TODO: deal with database corruption issue (checking other variables besides schedule)
+    if (schedule == null){
+       return user;
+    } else {
+      var courses_lst = schedule ? schedule.split(",") : [];   
+      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year);
+      scheds = [];
+      scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
+      this.isNewUser = false;
+      user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
+      return user;   
+    }  
   }
 
   /* Scans through the user object and loads all elements on the schedule and 
@@ -62,11 +80,15 @@ var Loader = function() {
           var match = listing.match(/\d+/);
           var numIndex = listing.indexOf(match[0]);
           var listing_spaced = listing.substring(0,numIndex) + " " + listing.substring(numIndex);
-          $courses[j].innerHTML = listing_spaced;
+          $courses[j].children[0].innerHTML = listing_spaced;
+          // $courses[j].innerHTML = listing_spaced; // Use if we get rid of the links on top of the divs
           $("#course_"+(i+1)+j).data("course",user_semester[j-1]);
+          checklist_view.addCourseToChecklistView(user_semester[j-1],i);
         }
       }
     }
+    checklist_view.fillEmptyScheduleSpots(); // clear black hexagon background
+    checklistcopySections();
   }
 
   this.initializeCourseInfo = function() {
@@ -84,17 +106,28 @@ var Loader = function() {
       }
     });
   }
-}
 
-function fillEmptySpots() {
-  var cols = document.querySelectorAll('.dragcolumn');
-  [].forEach.call(cols, function (col) {
-    if (col.innerHTML == "") {
-      $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
-    }
-  }); 
+  this.initializeHexagonColors = function() {
+    $.ajax({
+      type:     "GET",
+      url:      "hexagon_colors.php",
+      dataType: "json",
+      async: false,
+      cache: false,
+      success: function(data){
+        for (var x = 0; x < data.length; x++) {
+          // pull the color (entry), split the list, loop over the list TODO
+          var entry = data[x];
+          var color = entry["color"];
+          var classes_for_color = entry["courses"].split(";");
+          for (var i = 0; i < classes_for_color.length; i++) {
+            HEXAGON_COLORS[classes_for_color[i]] = color;
+          }
+        }
+      }
+    });
+  }
 }
-
 
 /* The method sets up a popup at the selector with the html.
  * Uses the white-popup class for CSS. 
@@ -188,6 +221,7 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first year at Cornell.");
     } else {
+      user.start_year = enteringYear; 
       $.magnificPopup.close();
       //once user clicks confirm, we can put user in db
       $.ajax({
@@ -198,8 +232,9 @@ function getSplashPageFunctions() {
              data:   {'netid': user.netid,
               'full_name': user.full_name,
               'next_schedule_num': user.next_schedule_num,
+              'version': user.user_version,
               'current_schedule_id': user.current_schedule.id,
-              'schedules': user.current_schedule.toArray().toString()},
+              'start_year': user.start_year},
              success: function(data){
                if (data == "error"){
                //TODO: couldn't connect to database on saving
@@ -212,20 +247,88 @@ function getSplashPageFunctions() {
   });
 }
 
+function getNewPageHTML() {
+    var new_html = 'Enter new schedule name:<br />';
+    new_html += '<input type ="text" name="schedule_name" id="schedule_name" />';
+    new_html += '<br><center><input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
+    new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></center>';
+    
+    return new_html;
+}
+
+function getNewPageFunctions() {
+    $("#confirmNew").on('click', function () {
+        var name = $('#schedule_name').val();
+        // TODO: Also do a check to make sure you cannot enter a schedule with the same name
+        if (name == "") {
+            $("#new_schedule_warning").text("Please enter a name for this schedule.");
+        }
+        else {
+            user.save_schedule("false");
+            checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
+            user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
+            loader.applyUser(user);
+            $.magnificPopup.close();
+        }
+    
+        return false;
+    });
+}
+
 function getLoadPageHTML() {
-  var select_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
-  for (var i = 0; i < 6; i++){
-    select_html += '<option value="'+i+'">' + i + "</option>"; //TODO: link this to the user's saved schedules somehow
-  }
-  select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
+  select_html = "<select id='loadPageSelect'></select>";
   var load_html = select_html;
-  load_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
-  load_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div></center>';
+  load_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
+  load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></center>';
   return load_html; 
 }
 
+function getLoadPageFunctions() {
+  // Loading dropdown for schedules
+  var name_array = [];
+  $.ajax({
+    type: "GET",
+    url: "user.php",
+    async: false,
+    dataType: "json",
+    data: {
+      'netid': user.netid,
+      'isInitialLoad': "false"
+    },
+    success: function(data) {
+      name_array = data.split(";");
+    }
+  });
+  var options_html = '<option selected disabled>Select the Checklist you wish to load:</option>';
+  for (var i = 0; i < (name_array.length-1); i=i+2){
+    options_html += '<option value="'+name_array[i]+'">' + name_array[i+1] + "</option>";
+  }
+  $("#loadPageSelect").html(options_html);
+
+  //Initializing the load...
+  $("#loadSchedule").on('click', function () {
+    var selection = document.getElementById("loadPageSelect");
+    var schedule_id = selection.options[selection.selectedIndex].value;
+    if (schedule_id === "Select the Checklist you wish to load:") {
+      //i.e. they didn't acutally select something from the dropdown
+      $(load_warning).text("Please select a saved schedule.");
+    }
+    else {
+      //set user's 'schedule_name' to be his current schedule
+      user.save_schedule("false");
+      checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
+      user.load_schedule(schedule_id);
+      loader.applyUser(user);
+      $.magnificPopup.close();
+    }
+     checklistcopySections();
+      checklistDrag();
+    return false;
+  });    
+}
+
 function saveUserFunction() {
-  user.save_schedule(); 
+  user.save_schedule("false");
 }
 
 function setupMagnificPopup(user) {
@@ -242,10 +345,10 @@ function setupMagnificPopup(user) {
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
   makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
-  makePopup("#new",'New Page', false, false, null);
-  makePopup("#load",getLoadPageHTML(), false, false, null);
+  makePopup("#new",getNewPageHTML(), getNewPageFunctions, false, user);
+  makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false, user);
   makePopup("#save", 'Saved!', saveUserFunction, false, user); 
-  makePopup("#print",'Enter message to Nicole:<br /><textarea />', false, false, null)
+  // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
 }
 
 //when page is finished loading, the main methods are called
@@ -254,34 +357,32 @@ $(document).ready(function(){
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   WarningType = Object.freeze({SPECIFIC_CLASS : 0, COURSE_LEVEL : 1, FORBIDDEN : 2, CREDITS : 3});
   //(course_id -> Course_information object)
-  var netid = "erc73"; //TODO get netid from web auth login
-  var loader = new Loader(); //this is where we would pass the netid from web login
+  var netid = "abc123"; //TODO get netid from web auth login
+  loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
+  HEXAGON_COLORS = {}; // listing (String) -> color (String)
+  loader.initializeHexagonColors();
   //global vars
   user = loader.fetchUser(netid);
   checklist_view = new ChecklistView();
   
   if (user == null) {
-    //netid was not found in user table. create new user object
-    //TODO determine user's name from their netid
     loader.isNewUser = true;
-    user = new User("need to get this somehow", netid, 2012, null, null, null, 2012);
+    //TODO determine user's name from their netid, version and start_year from splash page
+    user = new User("need to get this somehow", netid, 2012, null, null, null, 2011);
   }
   
-  loader.applyUser(user);
   setupMagnificPopup(user);
+  loader.applyUser(user); // must come AFTER setupMagnificPopup
   var panel = new Panel();
 
-  fillEmptySpots();
   applyrun(); //This starts the dragging and dropping
   checklistDrag();
   setVectorDropDowns();
 
-  //TODO see if user is a new user, if so:
   if (loader.isNewUser) {
     $("#start_splash_page").click();
   }
-    //TODO: saving while someone is actually on a schedule
 
 });
