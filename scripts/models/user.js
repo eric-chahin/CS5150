@@ -12,7 +12,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.add_new_schedule = function(schedule_name, version, start_year) {
   	var new_schedule_id = this.netid + "_" + this.next_schedule_num;
   	this.next_schedule_num = parseInt(this.next_schedule_num) + 1;
-  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year);
+  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year, 8);
   	this.schedules[this.schedules.length] = this.current_schedule;
     this.save_schedule("true");
   } 
@@ -37,8 +37,9 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                     var schedule_name = data['schedule_name'];
                     var schedule_id = data['schedule_id'];
                     var schedule = data['schedule'];
+                    var numSemesters = data['schedule_numSemesters'];
                     var courses_lst = schedule ? schedule.split(",") : [];
-                    s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year);
+                    s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year, numSemesters);
                 }
              }
       });
@@ -46,7 +47,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       this.save_schedule("false");
   }
 
-  //TODO: save start_year when saving schedules?
   //isNew is a flag that indicates whether the schedule to be saved was just created (i.e. using the 'add' button)
   this.save_schedule = function(isNew) {
     this.current_schedule.setSaved(true);
@@ -60,6 +60,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                'current_schedule_id': this.current_schedule.id,
                'schedule_name': this.current_schedule.name,
                'schedules': this.current_schedule.toArray().toString(),
+               'schedule_numSemesters': this.current_schedule.numSemesters,
                'isNew': isNew},
       success: function(data){
         if (data == "error"){

@@ -53,6 +53,7 @@
         $next_schedule_num = $_POST['next_schedule_num'];
         $schedules = $_POST['schedules'];
         $schedule_name = $_POST['schedule_name'];
+        $schedule_numSemesters = $_POST['schedule_numSemesters'];
         $isNew = $_POST['isNew'];
         $new_flag = ($isNew === 'true');
         
@@ -60,7 +61,7 @@
         if ($new_flag) {
             mysql_query("START TRANSACTION");
             
-            $qry1 = "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule)VALUES('$netid','$current_schedule_id','$schedule_name','$schedules')";
+            $qry1 = "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule_numSemesters,schedule)VALUES('$netid','$current_schedule_id','$schedule_name','$schedule_numSemesters','$schedules')";
             $qry2= "UPDATE member SET current_schedule_id='$current_schedule_id', next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
             
             if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {

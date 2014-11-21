@@ -17,6 +17,7 @@ var Loader = function() {
     var schedule = null;
     var schedule_name = null;
     var start_year = null;
+    var schedule_numSemesters = null;
     $.ajax({
         type: "GET",
         url: "user.php", 
@@ -45,7 +46,8 @@ var Loader = function() {
         success: function(data){
           if (data != null){
             schedule = data['schedule'];
-            schedule_name = data['schedule_name']; 
+            schedule_name = data['schedule_name'];
+            schedule_numSemesters = data['schedule_numSemesters'];
           }
         }
     });
@@ -54,7 +56,7 @@ var Loader = function() {
        return user;
     } else {
       var courses_lst = schedule ? schedule.split(",") : [];   
-      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year);
+      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year, schedule_numSemesters);
       scheds = [];
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       this.isNewUser = false;

@@ -1,11 +1,12 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
 
 //TODO: save this.numSemesters somewhere
-var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
+var Schedule = function(schedule_name, version, id, courses_lst, startYear, numSemesters) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
-  this.numSemesters = 8;
+  this.numSemesters = numSemesters;
+  //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
@@ -19,7 +20,15 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   //Semester 2D Array that contain Course objects
   this.semesters = new Array(this.numSemesters);
   for (var i = 0; i < this.semesters.length; i++) {
-    this.semesters[i] = new Array(this.numSemesters);
+    this.semesters[i] = new Array(8);
+  }
+
+  //this code should be executed when someone clicks the button to add an extra semester to the schedule
+  this.add_semester = function(){
+    this.semesters[this.semesters.length] = new Array(18);
+    this.numSemesters = this.numSemesters+1;
+    //add new double semester object to schedule front end
+    // move the view to show the new semester
   }
 
   /* This method takes in a saved schedule and initializes all of the
@@ -225,6 +234,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
     }
     return output;
   }
+
   /*written by Ben
    *  repopulates schedule from saved user schedule
    *  takes array containing (semester it's being taken in, Course)
