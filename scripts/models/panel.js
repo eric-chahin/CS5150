@@ -4,6 +4,8 @@ var Panel = function() {
 
   $("#print").click(
     function() {
+      // Save checklist
+      user.save_schedule("false");
       var dataDict = {};
       var name  = 'Eric Chahin'; //TODO get!
       var netid = 'erc73'; //TODO get!

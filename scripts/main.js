@@ -106,6 +106,27 @@ var Loader = function() {
       }
     });
   }
+
+  this.initializeHexagonColors = function() {
+    $.ajax({
+      type:     "GET",
+      url:      "hexagon_colors.php",
+      dataType: "json",
+      async: false,
+      cache: false,
+      success: function(data){
+        for (var x = 0; x < data.length; x++) {
+          // pull the color (entry), split the list, loop over the list TODO
+          var entry = data[x];
+          var color = entry["color"];
+          var classes_for_color = entry["courses"].split(";");
+          for (var i = 0; i < classes_for_color.length; i++) {
+            HEXAGON_COLORS[classes_for_color[i]] = color;
+          }
+        }
+      }
+    });
+  }
 }
 
 /* The method sets up a popup at the selector with the html.
@@ -340,6 +361,8 @@ $(document).ready(function(){
   loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
+  HEXAGON_COLORS = {}; // listing (String) -> color (String)
+  loader.initializeHexagonColors();
   //global vars
   user = loader.fetchUser(netid);
   checklist_view = new ChecklistView();
