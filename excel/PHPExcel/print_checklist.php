@@ -45,6 +45,21 @@ require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 require_once dirname(__FILE__) . '/Classes/PHPExcel/IOFactory.php';
 require_once('../PHPMailer/class.phpmailer.php');
 
+
+// add "?test" to the end of "CS5150/excel/PHPExcel/print_checklist.php" to utilize these vars
+$istest = false;
+if (isset($_GET['test'])) {
+  $_POST['name'] = "Your Name";
+  $_POST['netid'] = "your_netid";
+  $_POST['version'] = "2012";
+  $istest = true;
+} else {
+  if (!isset($_POST['name'])) {
+    echo date('H:i:s'),"  add '?test'\n";
+    exit;
+  }
+}
+
 $admin_name  = $_POST['name'];//TODO: Get the Admin's name!
 $admin_netid = $_POST['netid'];//TODO: Get the Admin's netid!
 $users_name = $_POST['name'];
@@ -54,17 +69,23 @@ if (!file_exists($version_checklist)) {
   exit("The checklist you are looking for, ".$version_checklist.", does not exist." . EOL);
 }
 
-echo date('H:i:s') , " Load from Excel2007 file" , EOL;
+// echo date('H:i:s') , " Load from Excel2007 file" , EOL;
 $objPHPExcel = PHPExcel_IOFactory::load($version_checklist);
 
 
 // Add some data
-echo date('H:i:s') , " Add some data" , EOL;
+// echo date('H:i:s') , " Add some data" , EOL;
 
-// $objPHPExcel->getActiveSheet()->setCellValue('A8',"Hello\nWorld");
+// $objPHPExcel->getActiveSheet()->setCellValue('B4',"Hello World and super tired");
 
-foreach($_POST['cells'] as $key => $value) {
-  $objPHPExcel->setActiveSheetIndex(0)->setCellValue($key,$value);
+// if (isset($_POST['cells'])) {
+//   echo "cells need to be initialized.";
+// }
+
+if (!$istest) {
+  foreach($_POST['cells'] as $key => $value) {
+    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($key,$value);
+  }
 }
 
 
@@ -129,11 +150,16 @@ foreach($_POST['cells'] as $key => $value) {
 
 
 // Save Excel 95 file
-echo date('H:i:s') , " Writing to Excel5 format..." , EOL;
-
+// echo date('H:i:s') , " Writing to Excel5 format..." , EOL;
+$filename = '../user_checklists/'.$netid.'.xls';
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-$objWriter->save('../user_checklists/'.$netid.'.xls');
+$objWriter->save($filename);
+// echo "Done writing!";
 
+//Sends the file on the server to the client
+header('Content-Type: application/vnd.ms-excel');        
+header('Content-Disposition: attachment; filename="'.$netid.'_checklist.xls"'); 
+readfile($filename);
 //TODO: delete to enable email
 exit;
 
@@ -167,9 +193,8 @@ $email->Subject    = $subject;
 $email->Body       = $msg;
 $email->AddAddress($to_email_addr, $admin_name);
 $email->AddAddress($from_email_addr, $users_name);
-$file_to_attach = '../user_checklists/'.$netid.'.xls';
 
-$email->AddAttachment( $file_to_attach );
+$email->AddAttachment( $filename );
 if (!$email->Send()) {
   echo "Problem occurred with PHPMailer";
 } else {
