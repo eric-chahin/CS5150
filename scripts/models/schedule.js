@@ -1,11 +1,12 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
 
 //TODO: save this.numSemesters somewhere
-var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
+var Schedule = function(schedule_name, version, id, courses_lst, startYear, numSemesters) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
-  this.numSemesters = 8;
+  this.numSemesters = numSemesters;
+  //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
