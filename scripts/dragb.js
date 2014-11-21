@@ -221,7 +221,7 @@ function applyrun() {
       if (user.current_schedule._saved == true) {
         $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
       } else {
-            $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_unsaved.png)");
+        $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_unsaved.png)");
       }
       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
     }, 100);

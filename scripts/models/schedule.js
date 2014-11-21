@@ -41,7 +41,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
    *                         It is a (int,"listing#requirement") array
    */
   this.init_schedule = function(savedSchedule) {
-    var countInArrays = new Array(this.numSemesters+1)
+    var countInArrays = new Array(this.numSemesters+1);
     for (var k = 0; k < countInArrays.length; k++) {
         countInArrays[k] = 0;
     }
