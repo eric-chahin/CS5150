@@ -20,7 +20,15 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   //Semester 2D Array that contain Course objects
   this.semesters = new Array(this.numSemesters);
   for (var i = 0; i < this.semesters.length; i++) {
-    this.semesters[i] = new Array(this.numSemesters);
+    this.semesters[i] = new Array(8);
+  }
+
+  //this code should be executed when someone clicks the button to add an extra semester to the schedule
+  this.add_semester = function(){
+    this.semesters[this.semesters.length] = new Array(18);
+    this.numSemesters = this.numSemesters+1;
+    //add new double semester object to schedule front end
+    // move the view to show the new semester
   }
 
   /* This method takes in a saved schedule and initializes all of the
@@ -226,6 +234,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     }
     return output;
   }
+
   /*written by Ben
    *  repopulates schedule from saved user schedule
    *  takes array containing (semester it's being taken in, Course)
