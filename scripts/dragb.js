@@ -218,7 +218,11 @@ function applyrun() {
       $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
       $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
       $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
-      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+      if (user.current_schedule._saved == true) {
+        $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+      } else {
+            $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_unsaved.png)");
+      }
       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
     }, 100);
   }

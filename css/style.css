@@ -453,9 +453,8 @@ clear:left;
     height: 18px;
     float: left;
     color: #000000;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #000000;
+    border-right: 1px solid #000000;
+    border-bottom: 1px solid #000000;
     text-align: center;
     
 }
