@@ -306,6 +306,15 @@ function getLoadPageFunctions() {
   });    
 }
 
+ $("#addsemesterimage").on('click', function () {
+    console.log("Clicked");
+    if (user.current_schedule.numSemesters < 9) {
+        checklist_view.addExtraSemester();
+    }
+    
+ });
+
+
 function saveUserFunction() {
   user.save_schedule("false");
 }

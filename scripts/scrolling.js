@@ -88,5 +88,40 @@ $("#print").hover(function(){
   $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
 });
 
+$("#addsemesterimage").mousedown(function(){
+  $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add_selected.png");
+})
+
+$("#addsemesterimage").mouseup(function(){
+  $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add.png)");
+    console.log("Clicked");
+    if (user.current_schedule.numSemesters < 9) {
+        user.current_schedule.numSemesters+=1;
+        checklist_view.addExtraSemester();
+
+    var cols = document.querySelectorAll('.dragcolumn');
+    [].forEach.call(cols, function (col) {
+      if (col.innerHTML == "") {
+        $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
+        //col.addClassName('over');
+      } else {
+        $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+      }
+    });
+    
+    } else{
+       $(".semester9").parent().remove();
+       user.current_schedule.numSemesters-=1;
+      
+    }
+    
+})
+
+$("#addsemesterimage").hover(function(){
+  $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add_selected.png)");
+}, function(){
+  $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add.png)");
+});
+
 };
 

@@ -339,6 +339,15 @@ clear:left;
     background-image: url("../img/courses_box.png");
 }
 
+.semester9 {
+    padding: 15px;
+    height: 298px;
+    width: 360px;
+    margin-left: 18px;
+    float: left;
+    background-image: url("../img/courses_box.png");
+}
+
 
 .core{
     width: 766px;
@@ -905,6 +914,19 @@ clear:left;
   position: absolute;
   display: block;
 }
+
+#addsemesterimage{
+  overflow: hidden;
+  left: 825px;
+  top: -35px;
+  position: absolute;
+  display: block;
+  width: 41px;
+  height: 39px;
+  background-image: url("/CS5150/img/icon_add.png");
+  
+}
+
 /*
 input[type=checkbox] {
 	visibility: hidden;

@@ -89,7 +89,6 @@
                         <div id="bottom"></div>
                         <div id ="content_container">
                             <div id="content">
-                            
                                 <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
                                 <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
                     
@@ -121,9 +120,11 @@
                 <div class="col-md-12 column">
                     <div class="carousel_holder">
                         <div class="carousel_container">
-                            <div id= "tutorialschedule"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
+                            <div id= "addsemesterimage"></div>
+                            <div id= "tutorialschedule">
+                             <img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
                             <div class="carousel slide" id="carousel-111948" data-interval="false">
-                                <div class="carousel-inner">
+                                <div class="carousel-inner" id="semester-carousel">
                                     <?php
                                     include 'carousel.php';
                                     ?>
