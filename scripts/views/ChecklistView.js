@@ -51,8 +51,11 @@ var ChecklistView = function() {
   this.addExtraSemester = function() {
      //keep this immediate place holder
        //   var potential_courses_panel_count = 4;
+       $( "#year_first" ).removeClass("active");
+       $( "#year_second" ).removeClass("active");
+       
           var hexagons_per_panel = 18;
-          var htmlString = '<div class="item"><div class= "semester9" id="semester9"> <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>';
+          var htmlString = '<div class="item active" id="year_third" ><div class= "semester9" id="semester9"> <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>';
             for (var j = 0; j < hexagons_per_panel;j+=1) {
               if (j % hexagons_per_panel == 5 || j % hexagons_per_panel == 14) {
               

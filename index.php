@@ -32,7 +32,7 @@
   <link rel="shortcut icon" href="img/favicon.png">
   
 	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
         
   <!-- Load search js -->

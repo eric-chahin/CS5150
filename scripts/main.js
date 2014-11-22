@@ -17,7 +17,6 @@ var Loader = function() {
     var schedule = null;
     var schedule_name = null;
     var start_year = null;
-    var schedule_numSemesters = null;
     $.ajax({
         type: "GET",
         url: "user.php", 
@@ -46,8 +45,7 @@ var Loader = function() {
         success: function(data){
           if (data != null){
             schedule = data['schedule'];
-            schedule_name = data['schedule_name'];
-            schedule_numSemesters = parseInt(data['schedule_numSemesters']);
+            schedule_name = data['schedule_name']; 
           }
         }
     });
@@ -56,7 +54,7 @@ var Loader = function() {
        return user;
     } else {
       var courses_lst = schedule ? schedule.split(",") : [];   
-      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year, schedule_numSemesters);
+      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year);
       scheds = [];
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       this.isNewUser = false;
@@ -107,48 +105,6 @@ var Loader = function() {
         }
       }
     });
-  }
-
-  this.initializeHexagonColors = function() {
-    var listOfClasses = [];
-    var colors  = [];
-    $.ajax({
-      type:     "GET",
-      url:      "hexagon_colors.php",
-      dataType: "json",
-      async: false,
-      cache: false,
-      success: function(data){
-        for (var x = 0; x < data.length; x++) {
-          // pull the color (entry), split the list, loop over the list TODO
-          var entry = data[x];
-          var color = entry["color"];
-          colors.push(color);
-          //if color doesn't exist then skip...
-          var classes = entry["courses"].split(";");
-          for (var i = 0; i < classes.length; i++) {
-            listOfClasses.push([classes[i],color]);
-          }
-        }
-      }
-    });
-    var passedColors = [];
-    for (var i = 0; i < colors.length; i++) {
-      var color = colors[i];
-      var test_url = "/CS5150/img/hexagon_"+color+".png";
-      $.ajax({
-        type: "GET",
-        url:  test_url,
-        async: false,
-        success: function(data) {
-          passedColors.push(color);
-        }
-      });     
-    }
-    for (var i = 0; i < listOfClasses.length; i++) {
-      if (passedColors.indexOf(listOfClasses[i][1]) >= 0)
-        HEXAGON_COLORS[listOfClasses[i][0]] = listOfClasses[i][1];
-    }
   }
 }
 
@@ -350,18 +306,8 @@ function getLoadPageFunctions() {
   });    
 }
 
- $("#addsemesterimage").on('click', function () {
-    console.log("Clicked");
-    if (user.current_schedule.numSemesters < 9) {
-        checklist_view.addExtraSemester();
-    }
-    
- });
-
-
 function saveUserFunction() {
   user.save_schedule("false");
-  console.log("SAVED");
 }
 
 function setupMagnificPopup(user) {
@@ -380,11 +326,7 @@ function setupMagnificPopup(user) {
   makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
   makePopup("#new",getNewPageHTML(), getNewPageFunctions, false, user);
   makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false, user);
-  $("#save").on('click', function () {
-      user.save_schedule("false");
-      console.log("SAVED");
-  });
-  //makePopup("#save", 'Saved!', saveUserFunction, false, user); 
+  makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
 }
 
@@ -398,8 +340,6 @@ $(document).ready(function(){
   loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
-  HEXAGON_COLORS = {}; // listing (String) -> color (String)
-  loader.initializeHexagonColors();
   //global vars
   user = loader.fetchUser(netid);
   checklist_view = new ChecklistView();
