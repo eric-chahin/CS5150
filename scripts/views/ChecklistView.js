@@ -65,14 +65,8 @@ var ChecklistView = function() {
         var listing = col.innerText.replace(" ","");
         var color = HEXAGON_COLORS[listing];
         if (color) {
-          var test_url = "/CS5150/img/hexagon_"+color+".png";
-          $.get(test_url)
-            .done(function() {
-              $(col).css( "background-image", "url("+test_url+")");
-            }).fail(function() {
-              // load default background
-              $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
-            });
+          var color_url = "/CS5150/img/hexagon_"+color+".png";
+          $(col).css( "background-image", "url("+color_url+")");
         } else {
           $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
         }

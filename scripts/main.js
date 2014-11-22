@@ -110,6 +110,8 @@ var Loader = function() {
   }
 
   this.initializeHexagonColors = function() {
+    var listOfClasses = [];
+    var colors  = [];
     $.ajax({
       type:     "GET",
       url:      "hexagon_colors.php",
@@ -121,13 +123,32 @@ var Loader = function() {
           // pull the color (entry), split the list, loop over the list TODO
           var entry = data[x];
           var color = entry["color"];
-          var classes_for_color = entry["courses"].split(";");
-          for (var i = 0; i < classes_for_color.length; i++) {
-            HEXAGON_COLORS[classes_for_color[i]] = color;
+          colors.push(color);
+          //if color doesn't exist then skip...
+          var classes = entry["courses"].split(";");
+          for (var i = 0; i < classes.length; i++) {
+            listOfClasses.push([classes[i],color]);
           }
         }
       }
     });
+    var passedColors = [];
+    for (var i = 0; i < colors.length; i++) {
+      var color = colors[i];
+      var test_url = "/CS5150/img/hexagon_"+color+".png";
+      $.ajax({
+        type: "GET",
+        url:  test_url,
+        async: false,
+        success: function(data) {
+          passedColors.push(color);
+        }
+      });     
+    }
+    for (var i = 0; i < listOfClasses.length; i++) {
+      if (passedColors.indexOf(listOfClasses[i][1]) >= 0)
+        HEXAGON_COLORS[listOfClasses[i][0]] = listOfClasses[i][1];
+    }
   }
 }
 
