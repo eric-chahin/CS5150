@@ -331,6 +331,7 @@ function getLoadPageFunctions() {
 
 function saveUserFunction() {
   user.save_schedule("false");
+  console.log("SAVED");
 }
 
 function setupMagnificPopup(user) {
@@ -349,7 +350,11 @@ function setupMagnificPopup(user) {
   makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
   makePopup("#new",getNewPageHTML(), getNewPageFunctions, false, user);
   makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false, user);
-  makePopup("#save", 'Saved!', saveUserFunction, false, user); 
+  $("#save").on('click', function () {
+      user.save_schedule("false");
+      console.log("SAVED");
+  });
+  //makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
 }
 
