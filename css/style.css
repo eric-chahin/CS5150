@@ -43,7 +43,6 @@ button:focus {
 
 .checklist_box{
     width: 784px;
-    height: 800px;
     position:relative;
     display:table;
 }
