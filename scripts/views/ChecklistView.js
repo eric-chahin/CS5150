@@ -79,7 +79,14 @@ var ChecklistView = function() {
       if (col.innerHTML == "") {
         $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
       } else {
-        $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+        var listing = col.innerText.replace(" ","");
+        var color = HEXAGON_COLORS[listing];
+        if (color) {
+          var color_url = "/CS5150/img/hexagon_"+color+".png";
+          $(col).css( "background-image", "url("+color_url+")");
+        } else {
+          $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+        }
       }
     }); 
   }

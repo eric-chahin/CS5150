@@ -18,6 +18,7 @@
           $(this).replaceWith('<div class="hexagon dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
         }
         copySections();
+        checklist_view.fillEmptyScheduleSpots();
         applyrun();
         setTimeout(function() {
           $("#" + hexagon_id).removeClass('fadeinfadeout');
