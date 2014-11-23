@@ -2,8 +2,8 @@
   for ($i = 1; $i <= 8; $i++) {
     //if the current semester is a start of a new carousel cell, then add the item div
     if ($i == 1 || $i == 5) {
-      if ($i == 1) echo ('<div class="item active">');
-      else if ($i == 5) echo ('<div class="item">');
+      if ($i == 1) echo ('<div class="item active" id="year_first">');
+      else if ($i == 5) echo ('<div class="item" id="year_second">');
       echo ('<div class= "twoyear">');
     }
     //if this semester is the start of a year, put the year div in

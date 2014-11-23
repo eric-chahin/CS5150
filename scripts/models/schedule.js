@@ -18,10 +18,14 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     console.error("Version is null or undefined.");
   this._saved = true; //Private variable. Please don't touch outside of class
 
-  //Semester 2D Array that contain Course objects
+  //Semester 2D Array that contain Course object
+
   this.semesters = new Array(this.numSemesters);
   for (var i = 0; i < this.semesters.length; i++) {
     this.semesters[i] = new Array(8);
+    if (i == 9) {
+      this.semesters[i] = new Array(18);
+    }
   }
 
   //this code should be executed when someone clicks the button to add an extra semester to the schedule
