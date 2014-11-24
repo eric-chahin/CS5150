@@ -316,6 +316,19 @@ function applyrun(){
 
         //info on the semester it is placed on
         console.log($("#"+ui.item.attr('id')).parent().parent());
+        var potentialcourse = $("#"+ui.item.attr('id')).substring(0,10) === "potential_";
+
+
+        if (potentialcourse){
+          //have to change the id of the potential course
+          //add to the schedule
+        }
+      // var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
+      // var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
+      // var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
+      // var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
+      // var thisSemester = parseInt(this.id.substring(7,8))-1;
+      // var thisIndex    = parseInt(this.id.substring(8,9))-1;
 
         // var $thisNode = $("#" + ui.item.id);
         // var thisCourse = $thisNode.data("course");
