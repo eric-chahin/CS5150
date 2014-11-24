@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +41,13 @@
   <!-- // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script> -->
 	<!-- <script type="text/javascript" src="scripts/jquery-ui.js"></script> -->
 	<script type="text/javascript" src="scripts/search.js"></script>
+
+
+  <script type="text/javascript" src="scripts/swap_scripts/jquery/jquery.ui.core.js"></script> 
+  <script type="text/javascript" src="scripts/swap_scripts/jquery/jquery.ui.widget.js"></script> 
+  <script type="text/javascript" src="scripts/swap_scripts/jquery/jquery.ui.mouse.js"></script> 
+  <script type="text/javascript" src="scripts/swap_scripts/jquery/jquery.ui.sortable.js"></script> 
+  <script type="text/javascript" src="scripts/swap_scripts/jquery.ui.swappable.js"></script>
 	<!-- There is draga, dragb,dragc js files -->
 	<script type="text/javascript" src="scripts/dragb.js"></script>
     <script type="text/javascript" src="scripts/checklistdragb.js"></script>
@@ -172,15 +180,17 @@
                                       if ($i == 0) echo ('<div class="item active">');
                                       else echo ('<div class="item">');
                                         echo ('
-                                            <div class= "classContainer"> 
+                                            <div class= "classContainer swappable"> 
                                               <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>
                                               ');
                                       for ($j = 0; $j < $hexagons_per_panel;$j+=1) {
                                         if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
                                           // echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
-                                          echo (sprintf('<div id="potential_%d" class="hexagonLeft dragcolumn"></div>',$i+$j));
+                                          echo ('<div class="leftShift">');
+                                          echo('</div>');
+                                          echo (sprintf('<div id="potential_%d" class="ui-state-default hexagon dragcolumn"></div>',$i+$j));
                                         } else {
-                                          echo (sprintf('<div id="potential_%d" class="hexagon dragcolumn"></div>',$i+$j));
+                                          echo (sprintf('<div id="potential_%d" class="ui-state-default hexagon dragcolumn"></div>',$i+$j));
                                         }
                                       }
                                           echo ('

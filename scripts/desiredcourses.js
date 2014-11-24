@@ -12,12 +12,13 @@
       // console.log($(this).text());
       if($(this).is(':empty')){
         var hexagon_id = this.id;
-        if($(this).hasClass("hexagonLeft")){
-          $(this).replaceWith('<div class="hexagonLeft dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
-        }else{
-          $(this).replaceWith('<div class="hexagon dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
-        }
-        copySections();
+        // if($(this).hasClass("hexagonLeft")){
+        //   $(this).replaceWith('<div class="hexagonLeft dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
+        // }else{
+        //   $(this).replaceWith('<div class="hexagon dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
+        // }
+        $(this).replaceWith('<div class="ui-state-default hexagon dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
+        // copySections();
         checklist_view.fillEmptyScheduleSpots();
         applyrun();
         setTimeout(function() {

@@ -10,7 +10,7 @@
     if ($i % 2 == 1) echo ('<div class= "year">');
     
     //echo the semester div every time
-    echo (sprintf('<div id="semester%d" class= "semester">', $i));
+    echo (sprintf('<div id="semester%d" class= "semester swappable">', $i));
     
     if ($i % 2 == 1) {
       $img = "img/text_fall" . (($i+1)/2) . ".png";
@@ -20,14 +20,18 @@
     }
 
     echo ('<div class="semestertitle"><img src= "'.$img.'"></div>');
-    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
-    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,2));
-    echo (sprintf('<div id="course_%d%d" class="hexagonLeft dragcolumn"></div>',$i,3));
-    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,4));
-    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,5));
-    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,6));
-    echo (sprintf('<div id="course_%d%d" class="hexagonLeft dragcolumn"></div>',$i,7));
-    echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,8));
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,1));
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,2));
+    echo ('<div class ="leftShiftSem"></div>');
+    echo ('<div class ="leftShiftSemAfter"></div>');
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default  hexagon dragcolumn"></div>',$i,3));
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,4));
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,5));
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,6));
+    echo ('<div class ="leftShiftSem"></div>');
+    echo ('<div class ="leftShiftSemAfter"></div>');
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,7));
+    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,8));
     echo('</div>');
     if ($i % 2 == 0) {
       echo ('</div>');

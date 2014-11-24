@@ -1,6 +1,6 @@
 //http://www.html5rocks.com/en/tutorials/dnd/basics/
 
-function applyrun() { 
+function applyrunc() { 
   var dragSrc = null;
   var $dragSrcNode = null; //jQuery node
   var draggingColumn = null;
@@ -271,13 +271,83 @@ function recreateExistingDivs() {
 
 function copySections(){
   // console.log("copy the sections");
-  var classContainerChildren =  $(".classContainerChildren").clone();
-  var yearChildren = $(".carousel_container").clone();
-  $(".classContainerChildren").remove();
-  $(".carousel_container").remove();
-  $(".refresh_holder_classContainer").append(classContainerChildren);
-  $(".carousel_holder").append(yearChildren);
+  // var classContainerChildren =  $(".classContainerChildren").clone();
+  // var yearChildren = $(".carousel_container").clone();
+  // $(".classContainerChildren").remove();
+  // $(".carousel_container").remove();
+  // $(".refresh_holder_classContainer").append(classContainerChildren);
+  // $(".carousel_holder").append(yearChildren);
 }
+
+function applyrun(){
+
+    // var trashcan = document.getElementById("remove");
+    // trashcan.addEventListener('drop',handleDrop);
+    // trashcan.addEventListener('dragover', handleDragOver);
+    // trashcan.addEventListener('dragleave', handleDragLeave);
+    // trashcan.addEventListener('dragend', handleDragEnd);
+
+    $(".swappable").swappable({
+      placeholder: 'ui-state-highlight',
+      items: '.ui-state-default',
+      cursorAt: {top:-5},
+      appendTo: "body",
+      helper: "clone",
+
+      // connectWith: '.carousel_container',
+
+      sort: function(event, ui){
+          setTimeout(function(){
+
+            $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_selected.png)");
+            $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_grayed.png)");
+            $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
+            $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
+            $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
+          }, 100);
+      },
+      start: function(event, ui) { 
+        //changing the trashbin to being selected
+      },
+      remove: function(event, ui){
+        console.log("here");
+        console.log(this.id);
+        console.log(ui.item.attr('id'));
+
+        //info on the semester it is placed on
+        console.log($("#"+ui.item.attr('id')).parent().parent());
+
+        // var $thisNode = $("#" + ui.item.id);
+        // var thisCourse = $thisNode.data("course");
+        // if (thisCourse == undefined) thisCourse = null;
+        // var dragCourse = $dragSrcNode.data("course");
+        // if (dragCourse == undefined) dragCourse = null;
+        //add to schedule
+
+
+      },
+
+
+      update: function(event, ui) { 
+        // console.log(ui.item);
+
+      },
+
+      stop: function(event, ui){
+        setTimeout(function(){
+          $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
+          $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
+          $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
+          $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+          $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
+        }, 100);        
+      }
+
+
+    });
+    $("#swappable").disableSelection();
+}
+
 
 
 
