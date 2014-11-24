@@ -310,14 +310,29 @@ function applyrun(){
         //changing the trashbin to being selected
       },
       remove: function(event, ui){
+        //response occurs when drag from either semesters to potential or from potential to semesters
         console.log("here");
         console.log(this.id);
         console.log(ui.item.attr('id'));
 
         //info on the semester it is placed on
         console.log($("#"+ui.item.attr('id')).parent().parent());
-        var potentialcourse = $("#"+ui.item.attr('id')).substring(0,10) === "potential_";
-
+        var potentialcourse = ui.item.attr('id').substring(0,10) === "potential_";
+        var child = $("#"+ui.item.attr('id'));
+        //var currentIndex_in_semester = $("#"+ui.item.attr('id')).parent().addClass("indicator");
+        //slight offset of "a" children. since the parent semester has a title div and 2 space divs
+        //0,3,4,9,10 are not possible as a result
+        //however, you need to adjust the values accordingly
+        //off one possible depending on how 0th or 1st for the first course in the semester
+        var currentIndex_in_semester = $("#"+ui.item.attr('id')).parent().index();
+        if ($("#"+ui.item.attr('id')).parent().index() == 5 || $("#"+ui.item.attr('id')).parent().index() == 6){
+          currentIndex_in_semester = currentIndex_in_semester - 2; 
+        }elseif($("#"+ui.item.attr('id')).parent().index() == 9 || $("#"+ui.item.attr('id')).parent().index() == 10){
+          currentIndex_in_semester = currentIndex_in_semester - 2; 
+        }else{
+        
+        }
+        console.log(currentIndex_in_semester);
 
         if (potentialcourse){
           //have to change the id of the potential course
