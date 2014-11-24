@@ -33,7 +33,7 @@ def getIndividualSubject(roster_semester,subject):
   for c in classes:
     listing = subject + c.find('catalognbr').text
     if listing not in COURSE_DICT:
-      name = unidecode(c.find('titlelong').text)
+      name = unidecode(c.find('titlelong').text.replace('\n', ' '))
       units_min = c.find('unitsminimum').text
       units_max = c.find('unitsmaximum').text
       if units_min == units_max:
@@ -41,10 +41,10 @@ def getIndividualSubject(roster_semester,subject):
       else:
         credits = units_min + "-" + units_max
       course_obj = Course(listing,name,credits)
-      course_obj.description   = unidecode(c.find('description').text)
-      course_obj.offered       = unidecode(c.find('catalogwhenoffered').text)
-      course_obj.prerequisites = unidecode(c.find('catalogprereqcoreq').text)
-      course_obj.arts_tags     = unidecode(c.find('catalogdistr').text)
+      course_obj.description   = unidecode(c.find('description').text.replace('\n', ' '))
+      course_obj.offered       = unidecode(c.find('catalogwhenoffered').text.replace('\n', ' '))
+      course_obj.prerequisites = unidecode(c.find('catalogprereqcoreq').text.replace('\n', ' '))
+      course_obj.arts_tags     = unidecode(c.find('catalogdistr').text.replace('\n', ' '))
       COURSE_DICT[listing] = course_obj
       print str(listing)
       print '-' * 50
