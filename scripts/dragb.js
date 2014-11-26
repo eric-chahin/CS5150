@@ -87,13 +87,29 @@ function applyrun() {
       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
     }, 100);
       
-    // Make the left slider trigger an action
-    var left_slider = document.getElementById("left_slider");
-    left_slider.addEventListener('dragover', handleLeftSliderDragOver);
+    // Make the left schedule slider trigger an action
+    var slider = document.getElementById("left_slider");
+    slider.addEventListener('dragover', function(){
+        document.getElementById('left_slider').click();
+    });
     
-    // Make the right slider trigger an action
-    var right_slider = document.getElementById("right_slider");
-    right_slider.addEventListener('dragover', handleRightSliderDragOver);
+    // Make the right schedule slider trigger an action
+    slider = document.getElementById("right_slider");
+    slider.addEventListener('dragover', function(){
+        document.getElementById('right_slider').click();
+    });
+    
+    // Make the left courses slider trigger an action
+    slider = document.getElementById("left_slider_courses");
+    slider.addEventListener('dragover', function(){
+        document.getElementById('left_slider_courses').click();
+    });
+    
+    // Make the right courses slider trigger an action
+    slider = document.getElementById("right_slider_courses");
+    slider.addEventListener('dragover', function(){
+        document.getElementById('right_slider_courses').click();
+    });
     
     // Make the garbage can a drop target
     var trashcan = document.getElementById("remove");
@@ -102,43 +118,7 @@ function applyrun() {
     trashcan.addEventListener('dragleave', handleDragLeave);
     trashcan.addEventListener('dragend', handleDragEnd);
   }
-
-  function handleLeftSliderDragOver(e) {
-    if (e.preventDefault) {
-      e.preventDefault(); // Allows us to drop.
-    }
-    if (ENABLE_GHOST_COL) {
-      var mousePos = mouseCoords(e);
-      draggingColumn.style.display = 'block';
-      draggingColumn.style.position =  'absolute';  
-      draggingColumn.style.top =  mousePos.y + 5 + 'px';
-      draggingColumn.style.left = mousePos.x + 5 + 'px';
-    }
     
-    document.getElementById('left_slider').click();
-
-    return false;
-  }
-  
-    function handleRightSliderDragOver(e) {
-    if (e.preventDefault) {
-      e.preventDefault(); // Allows us to drop.
-    }
-    if (ENABLE_GHOST_COL) {
-      var mousePos = mouseCoords(e);
-      draggingColumn.style.display = 'block';
-      draggingColumn.style.position =  'absolute';  
-      draggingColumn.style.top =  mousePos.y + 5 + 'px';
-      draggingColumn.style.left = mousePos.x + 5 + 'px';
-    }
-    
-    document.getElementById('right_slider').click();
-
-    return false;
-  }
-  
-  
-  
   function handleDragOver(e) {
     if (e.preventDefault) {
       e.preventDefault(); // Allows us to drop.

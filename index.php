@@ -126,7 +126,7 @@
                 <div class="col-md-12 column">
                     <div class="carousel_holder">
                         <div class="carousel_container">
-                            <div id= "addsemesterimage"></div>
+                            <a href="#carousel-111948" data-slide-to="1" id= "addsemesterimage"></a>
                             <div id= "tutorialschedule">
                              <img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
                             <div class="carousel slide" id="carousel-111948" data-interval="false">
@@ -199,10 +199,10 @@
                                     ?>
                                     </div>
                                     
-                                    <a class="left carousel-control" href="#carousel-144942" data-slide="prev">
+                                    <a class="left carousel-control" href="#carousel-144942" data-slide="prev" id="left_slider_courses">
                                         <span class="glyphicon glyphicon-chevron-left"></span>
                                     </a>
-                                    <a class="right carousel-control" href="#carousel-144942" data-slide="next">
+                                    <a class="right carousel-control" href="#carousel-144942" data-slide="next" id="right_slider_courses">
                                         <span class="glyphicon glyphicon-chevron-right"></span>
                                     </a>
                                 </div>
