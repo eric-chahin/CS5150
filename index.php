@@ -55,11 +55,11 @@
     <script type="text/javascript" src="scripts/scrolling.js"></script>
     <script type="text/javascript" src="scripts/desiredcourses.js"></script>
     <script type="text/javascript" src="scripts/views/ChecklistView.js"></script>  
+    <script type="text/javascript" src="scripts/draghover.js"></script>
 
 </head>
 
-<body>
- 
+<body> 
     <div class="titlebanner"></div>
     
     <div id="sidebar">
@@ -78,7 +78,8 @@
       typeset text. Only for show. He who searches for meaning here will be sorely 
       disappointed.
     </div>
-
+    
+    
     <div class="container" data-ng-controller="userController">
         <div class="row clearfix">
             <div class="col-md-12 column">
@@ -107,12 +108,17 @@
                                     *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
                                     </div>
                                 </div>
+                                
+                               
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        
+        
         
         
         <div class="row clearfix">
@@ -129,10 +135,12 @@
                                     include 'carousel.php';
                                     ?>
                                 </div>
-                                <a class="left carousel-control" href="#carousel-111948" data-slide="prev">
+                                
+                                <a class="left carousel-control" href="#carousel-111948" data-slide="prev" id="left_slider">
                                     <span class="glyphicon glyphicon-chevron-left"></span>
                                 </a>
-                                <a class="right carousel-control" href="#carousel-111948" data-slide="next">
+                                
+                                <a class="right carousel-control" href="#carousel-111948" data-slide="next" id="right_slider">
                                     <span class="glyphicon glyphicon-chevron-right"></span>
                                 </a>
                             </div>

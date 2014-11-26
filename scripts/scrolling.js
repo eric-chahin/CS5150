@@ -139,6 +139,7 @@ $('#carousel-111948').on('slid',function(e){
 });
 */
 
+
 $("#addsemesterimage").hover(function(){
     if (user.current_schedule.numSemesters < 9)
   $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add_selected.png)");

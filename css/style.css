@@ -1048,3 +1048,34 @@ a.hvrlink:hover + .details-pane {
 .details-pane:hover {
   display: block;
 }
+
+
+
+
+
+
+
+.droppable {
+    width:50px;
+    height:50px;
+    float: left;
+    background-color: #DDD;
+    margin: 5px;
+}
+
+.draggable {
+    width:40px;
+    height:40px;
+    float: right;
+    background-color: #FC0;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.dropped {
+    background-color: #FC0;
+}
+
+.somethingover {
+    background-color: #FCD;
+}
