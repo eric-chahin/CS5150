@@ -389,6 +389,3 @@ function applyrun(){
     $("#swappable").disableSelection();
 }
 
-
-
-

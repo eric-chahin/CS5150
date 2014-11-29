@@ -97,14 +97,37 @@ $("#print").hover(function(){
 });
 
 $("#addsemesterimage").mousedown(function(){
-   if (user.current_schedule.numSemesters < 9) 
-  $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add_selected.png");
-  else
-  $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_subtract_selected.png");
+   if (user.current_schedule.numSemesters < 9) {
+        //$("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add_selected.png");
+         $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_subtract.png)");
+        user.current_schedule.numSemesters+=1;
+        checklist_view.addExtraSemester();
+
+        var cols = document.querySelectorAll('.dragcolumn');
+        [].forEach.call(cols, function (col) {
+          if (col.innerHTML == "") {
+            $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
+            //col.addClassName('over');
+          } else {
+            $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+          }
+        });
+  }
+  else {
+        //$("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_subtract_selected.png");
+        $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add.png)");
+       user.current_schedule.numSemesters-=1;
+      $(".semester9").parent().remove();
+      $( "#year_first" ).addClass( "active" );
+      $( "#year_second" ).removeClass( "active" );
+      $( "#year_third" ).removeClass( "active" );
+  }
+  
 })
 
 $("#addsemesterimage").mouseup(function(){
     console.log("Clicked");
+    /*
     if (user.current_schedule.numSemesters < 9) {
        $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_subtract.png)");
         user.current_schedule.numSemesters+=1;
@@ -128,7 +151,7 @@ $("#addsemesterimage").mouseup(function(){
       $( "#year_second" ).removeClass( "active" );
       $( "#year_third" ).removeClass( "active" );
       
-    }
+    }*/
     
 })
 /*
@@ -138,6 +161,7 @@ $('#carousel-111948').on('slid',function(e){
     console.log(slideFrom+' => '+slideTo);
 });
 */
+
 
 $("#addsemesterimage").hover(function(){
     if (user.current_schedule.numSemesters < 9)

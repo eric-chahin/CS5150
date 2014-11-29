@@ -17,9 +17,7 @@ var ChecklistView = function() {
         $(".classRow").each(function(){
           for (var i = 0; i < this.childNodes.length; i++) {
               if (this.childNodes[i] != null) {
-                if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled() &&  this.childNodes[i+2].innerText == ""){
-                  // console.log(newCourse.getRequirementFilled());
-                  
+                if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled() &&  this.childNodes[i+2].innerText == ""){                  
                   this.innerHTML = "<div class='requirement'>"+ newCourse.getRequirementFilled() +
                     "</div><div class='warning-col'></div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
                     "' ><div class='course-name'>" + listing +

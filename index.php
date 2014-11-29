@@ -63,11 +63,11 @@
     <script type="text/javascript" src="scripts/scrolling.js"></script>
     <script type="text/javascript" src="scripts/desiredcourses.js"></script>
     <script type="text/javascript" src="scripts/views/ChecklistView.js"></script>  
+    <script type="text/javascript" src="scripts/draghover.js"></script>
 
 </head>
 
-<body>
- 
+<body> 
     <div class="titlebanner"></div>
     
     <div id="sidebar">
@@ -86,7 +86,8 @@
       typeset text. Only for show. He who searches for meaning here will be sorely 
       disappointed.
     </div>
-
+    
+    
     <div class="container" data-ng-controller="userController">
         <div class="row clearfix">
             <div class="col-md-12 column">
@@ -115,6 +116,8 @@
                                     *NOTE: This page is NOT official. There is no guarantee that the placement of your courses on the checklist are correct.
                                     </div>
                                 </div>
+                                
+                               
                             </div>
                         </div>
                     </div>
@@ -123,12 +126,15 @@
         </div>
         
         
+        
+        
+        
         <div class="row clearfix">
             <div class="row" >
                 <div class="col-md-12 column">
                     <div class="carousel_holder">
                         <div class="carousel_container">
-                            <div id= "addsemesterimage"></div>
+                            <a href="#carousel-111948" data-slide-to="1" id= "addsemesterimage"></a>
                             <div id= "tutorialschedule">
                              <img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
                             <div class="carousel slide" id="carousel-111948" data-interval="false">
@@ -137,10 +143,12 @@
                                     include 'carousel.php';
                                     ?>
                                 </div>
-                                <a class="left carousel-control" href="#carousel-111948" data-slide="prev">
+                                
+                                <a class="left carousel-control" href="#carousel-111948" data-slide="prev" id="left_slider">
                                     <span class="glyphicon glyphicon-chevron-left"></span>
                                 </a>
-                                <a class="right carousel-control" href="#carousel-111948" data-slide="next">
+                                
+                                <a class="right carousel-control" href="#carousel-111948" data-slide="next" id="right_slider">
                                     <span class="glyphicon glyphicon-chevron-right"></span>
                                 </a>
                             </div>
@@ -201,10 +209,10 @@
                                     ?>
                                     </div>
                                     
-                                    <a class="left carousel-control" href="#carousel-144942" data-slide="prev">
+                                    <a class="left carousel-control" href="#carousel-144942" data-slide="prev" id="left_slider_courses">
                                         <span class="glyphicon glyphicon-chevron-left"></span>
                                     </a>
-                                    <a class="right carousel-control" href="#carousel-144942" data-slide="next">
+                                    <a class="right carousel-control" href="#carousel-144942" data-slide="next" id="right_slider_courses">
                                         <span class="glyphicon glyphicon-chevron-right"></span>
                                     </a>
                                 </div>
