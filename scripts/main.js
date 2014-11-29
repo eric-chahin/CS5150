@@ -82,8 +82,7 @@ var Loader = function() {
           var match = listing.match(/\d+/);
           var numIndex = listing.indexOf(match[0]);
           var listing_spaced = listing.substring(0,numIndex) + " " + listing.substring(numIndex);
-          $courses[j].children[0].innerHTML = listing_spaced;
-          // $courses[j].innerHTML = listing_spaced; // Use if we get rid of the links on top of the divs
+          $("#course_"+(i+1)+j).children().children().html(listing_spaced);
           $("#course_"+(i+1)+j).data("course",user_semester[j-1]);
           checklist_view.addCourseToChecklistView(user_semester[j-1],i);
         }
@@ -403,7 +402,7 @@ $(document).ready(function(){
   //global vars
   user = loader.fetchUser(netid);
   checklist_view = new ChecklistView();
-  
+  fade_id = 0;
   if (user == null) {
     loader.isNewUser = true;
     //TODO determine user's name from their netid, version and start_year from splash page

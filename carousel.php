@@ -20,18 +20,18 @@
     }
 
     echo ('<div class="semestertitle"><img src= "'.$img.'"></div>');
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,1));
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,2));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,1));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,2));
     echo ('<div class ="leftShiftSem"></div>');
     echo ('<div class ="leftShiftSemAfter"></div>');
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default  hexagon dragcolumn"></div>',$i,3));
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,4));
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,5));
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,6));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,3));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,4));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,5));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,6));
     echo ('<div class ="leftShiftSem"></div>');
     echo ('<div class ="leftShiftSemAfter"></div>');
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,7));
-    echo (sprintf('<div id="course_%d%d" class="ui-state-default hexagon dragcolumn"></div>',$i,8));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,7));
+    echo (sprintf('<div id="course_%d%d"><div class="hexagon dragcolumn ui-state-default"></div></div>',$i,8));
     echo('</div>');
     if ($i % 2 == 0) {
       echo ('</div>');

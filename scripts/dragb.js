@@ -1,263 +1,263 @@
 //http://www.html5rocks.com/en/tutorials/dnd/basics/
 
-function applyrunc() { 
-  var dragSrc = null;
-  var $dragSrcNode = null; //jQuery node
-  var draggingColumn = null;
-  var ENABLE_GHOST_COL = false;
+// function applyrunc() { 
+//   var dragSrc = null;
+//   var $dragSrcNode = null; //jQuery node
+//   var draggingColumn = null;
+//   var ENABLE_GHOST_COL = false;
 
-  /* Checks to see if element's class property has <name> in it. */
-  Element.prototype.hasClassName = function(name) {
-    return new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)").test(this.className);
-  };
+//   /* Checks to see if element's class property has <name> in it. */
+//   Element.prototype.hasClassName = function(name) {
+//     return new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)").test(this.className);
+//   };
 
-  /* Adds <name> to this tag's class property. */
-  Element.prototype.addClassName = function(name) {
-    if (!this.hasClassName(name)) {
-      if (this.className) {
-        this.className = [this.className, name].join(' ');
-      } else {
-        this.className = name;
-      }
-    }
-  };
+//   /* Adds <name> to this tag's class property. */
+//   Element.prototype.addClassName = function(name) {
+//     if (!this.hasClassName(name)) {
+//       if (this.className) {
+//         this.className = [this.className, name].join(' ');
+//       } else {
+//         this.className = name;
+//       }
+//     }
+//   };
 
-  /* Removes <name> from this tag's class property. */
-  Element.prototype.removeClassName = function(name) {
-    if (this.hasClassName(name)) {
-      var c = this.className;
-      this.className = c.replace(new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)", "g"), "");
-    }
-  };
-
-
-  function mouseCoords(ev) {
-    if (ev.pageX || ev.pageY) {
-      return {x: ev.pageX, y: ev.pageY};
-    }
-    return {
-      x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-      y: ev.clientY + document.body.scrollTop  - document.body.clientTop
-    };
-  }
-
-  function handleClick(e) {
-    if (this.textContent !== "") {
-      var $thisNode = $("#" + this.id);
-      var thisCourse = $thisNode.data("course");
-      if (thisCourse) {
-        // console.log(thisCourse.toString());
-        replacePopupText(thisCourse.toString());
-      } else {
-        // console.log(new Course(this.textContent,"").toString());
-        replacePopupText(new Course(this.textContent,"").toString())
-      }
-    }
-  }
-
-  /* Replaces the current popup text with str. */
-  function replacePopupText(str) {
-    $("#popup").text(str);
-  }
+//   /* Removes <name> from this tag's class property. */
+//   Element.prototype.removeClassName = function(name) {
+//     if (this.hasClassName(name)) {
+//       var c = this.className;
+//       this.className = c.replace(new RegExp("(?:^|\\s+)" + name + "(?:\\s+|$)", "g"), "");
+//     }
+//   };
 
 
-  function handleDragStart(e) {
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', this.innerHTML);
-    dragSrc = this;
-    $dragSrcNode = $("#" + this.id);
+//   function mouseCoords(ev) {
+//     if (ev.pageX || ev.pageY) {
+//       return {x: ev.pageX, y: ev.pageY};
+//     }
+//     return {
+//       x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+//       y: ev.clientY + document.body.scrollTop  - document.body.clientTop
+//     };
+//   }
+
+//   function handleClick(e) {
+//     if (this.textContent !== "") {
+//       var $thisNode = $("#" + this.id);
+//       var thisCourse = $thisNode.data("course");
+//       if (thisCourse) {
+//         // console.log(thisCourse.toString());
+//         replacePopupText(thisCourse.toString());
+//       } else {
+//         // console.log(new Course(this.textContent,"").toString());
+//         replacePopupText(new Course(this.textContent,"").toString())
+//       }
+//     }
+//   }
+
+//   /* Replaces the current popup text with str. */
+//   function replacePopupText(str) {
+//     $("#popup").text(str);
+//   }
 
 
-    window.console && console.log(e, e.dataTransfer);
-    window.foo = e;
-    if (ENABLE_GHOST_COL) {
-      draggingColumn = dragSrc.cloneNode(true);
-      draggingColumn.style.display = 'none';
-      document.body.appendChild(draggingColumn);
-    }
-
-    dragSrc.style.opacity = '0.4';
-
-    //changing the trashbin to being selected
-    setTimeout(function(){
-      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_selected.png)");
-      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_grayed.png)");
-      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
-      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
-      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
-    }, 100);
-    // Make the garbage can a drop target
-    var trashcan = document.getElementById("remove");
-    trashcan.addEventListener('drop',handleDrop);
-    trashcan.addEventListener('dragover', handleDragOver);
-    trashcan.addEventListener('dragleave', handleDragLeave);
-    trashcan.addEventListener('dragend', handleDragEnd);
-  }
-
-  function handleDragOver(e) {
-    if (e.preventDefault) {
-      e.preventDefault(); // Allows us to drop.
-    }
-    if (ENABLE_GHOST_COL) {
-      var mousePos = mouseCoords(e);
-      draggingColumn.style.display = 'block';
-      draggingColumn.style.position =  'absolute';  
-      draggingColumn.style.top =  mousePos.y + 5 + 'px';
-      draggingColumn.style.left = mousePos.x + 5 + 'px';
-    }
-
-    e.dataTransfer.dropEffect = 'move';
-
-    this.addClassName('over');
-
-    return false;
-  }
-
-  function handleDragLeave(e) {
-    this.removeClassName('over');
-    // console.log("does this happen multiple times");
-  }
-
-  function handleDrop(e) {
-    if (e.stopPropagation) {
-      e.stopPropagation(); // stops the browser from redirecting.
-    }
+//   function handleDragStart(e) {
+//     e.dataTransfer.effectAllowed = 'move';
+//     e.dataTransfer.setData('text/html', this.innerHTML);
+//     dragSrc = this;
+//     $dragSrcNode = $("#" + this.id);
 
 
-    // Don't do anything if we're dropping on the same column we're dragging.
-    if (dragSrc != this) {
-      var $thisNode = $("#" + this.id);
-      var thisCourse = $thisNode.data("course");
-      if (thisCourse == undefined) thisCourse = null;
-      var dragCourse = $dragSrcNode.data("course");
-      if (dragCourse == undefined) dragCourse = null;
+//     window.console && console.log(e, e.dataTransfer);
+//     window.foo = e;
+//     if (ENABLE_GHOST_COL) {
+//       draggingColumn = dragSrc.cloneNode(true);
+//       draggingColumn.style.display = 'none';
+//       document.body.appendChild(draggingColumn);
+//     }
 
-      if (document.getElementById("remove") == this) {
-        //send hexagon into the abyss
-        if (dragSrc === null) {
-          return false;
-        } else {
-          dragSrc.innerHTML = "";
-          this.innerHTML = "";
-          shakeGarbageCan();
-        }
-      } else {
-        //Swapping the contents in this div and the dragSrc div, no object switching
-        dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
-        //NOTE: changed from this.textContent to this.innerHTML
-        this.innerHTML = e.dataTransfer.getData('text/html');
-      }
+//     dragSrc.style.opacity = '0.4';
 
-      //gets their locations based on id course_12
-      var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
-      var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
-      var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
-      var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
-      var thisSemester = parseInt(this.id.substring(7,8))-1;
-      var thisIndex    = parseInt(this.id.substring(8,9))-1;
+//     //changing the trashbin to being selected
+//     setTimeout(function(){
+//       $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_selected.png)");
+//       $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_grayed.png)");
+//       $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
+//       $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
+//       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
+//     }, 100);
+//     // Make the garbage can a drop target
+//     var trashcan = document.getElementById("remove");
+//     trashcan.addEventListener('drop',handleDrop);
+//     trashcan.addEventListener('dragover', handleDragOver);
+//     trashcan.addEventListener('dragleave', handleDragLeave);
+//     trashcan.addEventListener('dragend', handleDragEnd);
+//   }
 
-      if (dragIsScheduleCourse && thisIsScheduleCourse) {
-        $dragSrcNode.data("course",thisCourse);
-        $thisNode.data("course",dragCourse); 
-        var temps = user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
-        checklist_view.swapCoursesOnChecklistView(dragSemester,temps[0],thisSemester,temps[1]);
-      } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
-        if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
-          var newCourse = user.current_schedule.addCourse(new Course(dragSrc.textContent,null), dragSemester, dragIndex); 
-          checklist_view.addCourseToChecklistView(newCourse,dragSemester);
-          $dragSrcNode.data("course", newCourse);
-        } else {
-          console.log("deleting " + this.textContent);
-          var oldCourse = user.current_schedule.deleteCourse(dragSemester, dragIndex);
-          checklist_view.deleteCourseFromChecklistView(oldCourse);
-          $dragSrcNode.data("course",null);
-        }
-      } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
-        //add a new course from the hexagon that you've just dragged over
-        if (!user.current_schedule.contains(this.textContent)){
-          var newCourse = user.current_schedule.addCourse(new Course(this.textContent,null), thisSemester,thisIndex); 
-          checklist_view.addCourseToChecklistView(newCourse,thisSemester);
-          $thisNode.data("course", newCourse);
-        } else {
-          this.innerHTML = dragSrc.innerHTML;
-          dragSrc.innerHTML = e.dataTransfer.getData('text/html');
-          alert(dragSrc.textContent + " is already in your schedule! :(");
-        }
-      } else {
-        //just swapping divs elsewhere, don't care
-      }
+//   function handleDragOver(e) {
+//     if (e.preventDefault) {
+//       e.preventDefault(); // Allows us to drop.
+//     }
+//     if (ENABLE_GHOST_COL) {
+//       var mousePos = mouseCoords(e);
+//       draggingColumn.style.display = 'block';
+//       draggingColumn.style.position =  'absolute';  
+//       draggingColumn.style.top =  mousePos.y + 5 + 'px';
+//       draggingColumn.style.left = mousePos.x + 5 + 'px';
+//     }
 
-      console.log(user.current_schedule.toString());
-      console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
-    }
-    return false;
-  }
+//     e.dataTransfer.dropEffect = 'move';
 
-  function handleDragEnd(e) {
-    console.log("dragb dropped");
-    var cols = document.querySelectorAll('.dragcolumn');
-    [].forEach.call(cols, function (col) {
-      col.removeClassName('over');
-    });
+//     this.addClassName('over');
+
+//     return false;
+//   }
+
+//   function handleDragLeave(e) {
+//     this.removeClassName('over');
+//     // console.log("does this happen multiple times");
+//   }
+
+//   function handleDrop(e) {
+//     if (e.stopPropagation) {
+//       e.stopPropagation(); // stops the browser from redirecting.
+//     }
+
+
+//     // Don't do anything if we're dropping on the same column we're dragging.
+//     if (dragSrc != this) {
+//       var $thisNode = $("#" + this.id);
+//       var thisCourse = $thisNode.data("course");
+//       if (thisCourse == undefined) thisCourse = null;
+//       var dragCourse = $dragSrcNode.data("course");
+//       if (dragCourse == undefined) dragCourse = null;
+
+//       if (document.getElementById("remove") == this) {
+//         //send hexagon into the abyss
+//         if (dragSrc === null) {
+//           return false;
+//         } else {
+//           dragSrc.innerHTML = "";
+//           this.innerHTML = "";
+//           shakeGarbageCan();
+//         }
+//       } else {
+//         //Swapping the contents in this div and the dragSrc div, no object switching
+//         dragSrc.innerHTML = this.innerHTML; //this.getData('text/html');
+//         //NOTE: changed from this.textContent to this.innerHTML
+//         this.innerHTML = e.dataTransfer.getData('text/html');
+//       }
+
+//       //gets their locations based on id course_12
+//       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
+//       var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
+//       var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
+//       var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
+//       var thisSemester = parseInt(this.id.substring(7,8))-1;
+//       var thisIndex    = parseInt(this.id.substring(8,9))-1;
+
+//       if (dragIsScheduleCourse && thisIsScheduleCourse) {
+//         $dragSrcNode.data("course",thisCourse);
+//         $thisNode.data("course",dragCourse); 
+//         var temps = user.current_schedule.swapCourses(dragSemester,dragIndex,thisSemester,thisIndex);
+//         checklist_view.swapCoursesOnChecklistView(dragSemester,temps[0],thisSemester,temps[1]);
+//       } else if (dragIsScheduleCourse && !thisIsScheduleCourse) {
+//         if (dragSrc.textContent !== "" && !user.current_schedule.contains(dragSrc.textContent)) {
+//           var newCourse = user.current_schedule.addCourse(new Course(dragSrc.textContent,null), dragSemester, dragIndex); 
+//           checklist_view.addCourseToChecklistView(newCourse,dragSemester);
+//           $dragSrcNode.data("course", newCourse);
+//         } else {
+//           console.log("deleting " + this.textContent);
+//           var oldCourse = user.current_schedule.deleteCourse(dragSemester, dragIndex);
+//           checklist_view.deleteCourseFromChecklistView(oldCourse);
+//           $dragSrcNode.data("course",null);
+//         }
+//       } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
+//         //add a new course from the hexagon that you've just dragged over
+//         if (!user.current_schedule.contains(this.textContent)){
+//           var newCourse = user.current_schedule.addCourse(new Course(this.textContent,null), thisSemester,thisIndex); 
+//           checklist_view.addCourseToChecklistView(newCourse,thisSemester);
+//           $thisNode.data("course", newCourse);
+//         } else {
+//           this.innerHTML = dragSrc.innerHTML;
+//           dragSrc.innerHTML = e.dataTransfer.getData('text/html');
+//           alert(dragSrc.textContent + " is already in your schedule! :(");
+//         }
+//       } else {
+//         //just swapping divs elsewhere, don't care
+//       }
+
+//       console.log(user.current_schedule.toString());
+//       console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
+//     }
+//     return false;
+//   }
+
+//   function handleDragEnd(e) {
+//     console.log("dragb dropped");
+//     var cols = document.querySelectorAll('.dragcolumn');
+//     [].forEach.call(cols, function (col) {
+//       col.removeClassName('over');
+//     });
     
-    var cols = document.querySelectorAll('.dragcolumnchecklist');
-    [].forEach.call(cols, function (col) {
-      col.removeClassName('over');
-    });
+//     var cols = document.querySelectorAll('.dragcolumnchecklist');
+//     [].forEach.call(cols, function (col) {
+//       col.removeClassName('over');
+//     });
 
-    dragSrc.style.opacity = '1';
-    dragSrc = null;
+//     dragSrc.style.opacity = '1';
+//     dragSrc = null;
 
-    if (ENABLE_GHOST_COL) {
-      document.body.removeChild(draggingColumn);
-    }
+//     if (ENABLE_GHOST_COL) {
+//       document.body.removeChild(draggingColumn);
+//     }
 
-    checklist_view.fillEmptyScheduleSpots();
-    //handling the scrollbar buttons
-    setTimeout(function(){
-      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
-      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
-      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
-      if (user.current_schedule._saved == true) {
-        $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
-      } else {
-        $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_unsaved.png)");
-      }
-      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
-    }, 100);
-  }
+//     checklist_view.fillEmptyScheduleSpots();
+//     //handling the scrollbar buttons
+//     setTimeout(function(){
+//       $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
+//       $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
+//       $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
+//       if (user.current_schedule._saved == true) {
+//         $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+//       } else {
+//         $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_unsaved.png)");
+//       }
+//       $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
+//     }, 100);
+//   }
 
-  function shakeGarbageCan() {
-    setTimeout(function() {
-     $("#remove").addClass("shaking");
-    }, 100);
-    setTimeout(function() {
-     $("#remove").removeClass("shaking");
-    }, 1000);
-  }
+//   function shakeGarbageCan() {
+//     setTimeout(function() {
+//      $("#remove").addClass("shaking");
+//     }, 100);
+//     setTimeout(function() {
+//      $("#remove").removeClass("shaking");
+//     }, 1000);
+//   }
 
-  function attachColumnListener(col) {
-    // Enable columns to be draggable.
-    col.setAttribute('draggable', 'true');
-    col.addEventListener('dragstart', handleDragStart);
+//   function attachColumnListener(col) {
+//     // Enable columns to be draggable.
+//     col.setAttribute('draggable', 'true');
+//     col.addEventListener('dragstart', handleDragStart);
 
-    // Enable columns to be clickable
-    col.addEventListener('click', handleClick);
-    // Make each column itself a drop target.
-    col.addEventListener('drop', handleDrop);
-    col.addEventListener('dragover', handleDragOver);
-    col.addEventListener('dragleave', handleDragLeave);
-    col.addEventListener('dragend', handleDragEnd);
-  }
-
-
-  var cols = document.querySelectorAll('.dragcolumn');
-  [].forEach.call(cols, function (col) {
-    attachColumnListener(col);
-  });
+//     // Enable columns to be clickable
+//     col.addEventListener('click', handleClick);
+//     // Make each column itself a drop target.
+//     col.addEventListener('drop', handleDrop);
+//     col.addEventListener('dragover', handleDragOver);
+//     col.addEventListener('dragleave', handleDragLeave);
+//     col.addEventListener('dragend', handleDragEnd);
+//   }
 
 
-};
+//   var cols = document.querySelectorAll('.dragcolumn');
+//   [].forEach.call(cols, function (col) {
+//     attachColumnListener(col);
+//   });
+
+
+// };
 
 function recreateExistingDivs() { 
   console.log("recreate is being called");
@@ -311,48 +311,61 @@ function applyrun(){
       },
       remove: function(event, ui){
         //response occurs when drag from either semesters to potential or from potential to semesters
-        console.log("here");
-        console.log(this.id);
-        console.log(ui.item.attr('id'));
+        var dragID = event.srcElement.parentElement.parentElement.id;
+        var thisID = ui.item.parent().parent()[0].id;
 
-        //info on the semester it is placed on
-        console.log($("#"+ui.item.attr('id')).parent().parent());
-        var potentialcourse = ui.item.attr('id').substring(0,10) === "potential_";
-        var child = $("#"+ui.item.attr('id'));
-        //var currentIndex_in_semester = $("#"+ui.item.attr('id')).parent().addClass("indicator");
-        //slight offset of "a" children. since the parent semester has a title div and 2 space divs
-        //0,3,4,9,10 are not possible as a result
-        //however, you need to adjust the values accordingly
-        //off one possible depending on how 0th or 1st for the first course in the semester
-        var currentIndex_in_semester = $("#"+ui.item.attr('id')).parent().index();
-        if ($("#"+ui.item.attr('id')).parent().index() == 5 || $("#"+ui.item.attr('id')).parent().index() == 6){
-          currentIndex_in_semester = currentIndex_in_semester - 2; 
-        }elseif($("#"+ui.item.attr('id')).parent().index() == 9 || $("#"+ui.item.attr('id')).parent().index() == 10){
-          currentIndex_in_semester = currentIndex_in_semester - 2; 
-        }else{
-        
+        var $thisNode = $("#" + thisID);
+        var thisCourse = $thisNode.data("course");
+        if (thisCourse == undefined) thisCourse = null;
+        var $dragSrcNode = $("#" + dragID);
+        var dragCourse = $dragSrcNode.data("course");
+        if (dragCourse == undefined) dragCourse = null;
+
+        //TODO: garbage can stuff
+
+        $dragSrcNode.data("course", thisCourse);
+        $thisNode.data("course", dragCourse);
+
+        var dragIsScheduleCourse = "course_" == dragID.substring(0,7);
+        var dragSemester = parseInt(dragID.substring(7,8))-1;
+        var dragIndex    = parseInt(dragID.substring(8))-1;
+
+        var thisIsScheduleCourse = "course_" == thisID.substring(0,7);
+        var thisSemester = parseInt(thisID.substring(7,8))-1;
+        var thisIndex    = parseInt(thisID.substring(8))-1;
+
+        if (dragIsScheduleCourse && thisIsScheduleCourse) {
+          //swap within schedule
+          user.current_schedule.deleteCourse(dragCourse);
+          user.current_schedule.deleteCourse(thisCourse);
+          user.current_schedule.addCourse(dragCourse,thisSemester);
+          user.current_schedule.addCourse(thisCourse,dragSemester);
+        } else if (dragIsScheduleCourse || thisIsScheduleCourse) {
+          var fromSchedule  = dragIsScheduleCourse ? dragCourse   : thisCourse;
+          var schSemester   = dragIsScheduleCourse ? dragSemester : thisSemester;
+          var schIndex      = dragIsScheduleCourse ? dragIndex    : thisIndex;
+          var fromPotential = dragIsScheduleCourse ? thisCourse   : dragCourse;
+          //taking off of the schedule
+          if (fromSchedule) {
+            user.current_schedule.deleteCourse(fromSchedule);
+            user.current_schedule.addCourse(fromSchedule, -1);            
+          }
+          // Moving to the schedule!
+          if (fromPotential) {
+            if (!user.current_schedule.contains(fromPotential.listing)) {
+              user.current_schedule.deletePotentialCourse(fromPotential);
+              user.current_schedule.addCourse(fromPotential,schSemester);
+            } else {
+              console.error("TODO: cannot handle duplicate classes");
+              // this.innerHTML = dragSrc.innerHTML;
+              // dragSrc.innerHTML = e.dataTransfer.getData('text/html');
+              // alert(dragSrc.textContent + " is already in your schedule! :(");
+            }
+          }
         }
-        console.log(currentIndex_in_semester);
 
-        if (potentialcourse){
-          //have to change the id of the potential course
-          //add to the schedule
-        }
-      // var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
-      // var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
-      // var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
-      // var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
-      // var thisSemester = parseInt(this.id.substring(7,8))-1;
-      // var thisIndex    = parseInt(this.id.substring(8,9))-1;
-
-        // var $thisNode = $("#" + ui.item.id);
-        // var thisCourse = $thisNode.data("course");
-        // if (thisCourse == undefined) thisCourse = null;
-        // var dragCourse = $dragSrcNode.data("course");
-        // if (dragCourse == undefined) dragCourse = null;
-        //add to schedule
-
-
+        console.log(user.current_schedule.toString());
+        console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
       },
 
 

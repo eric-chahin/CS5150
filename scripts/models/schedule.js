@@ -8,7 +8,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   this.numSemesters = numSemesters;
   //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
-  console.log(startYear); 
+  // console.log(startYear); 
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
@@ -141,11 +141,12 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
    *    2. Going from Search -> Potential
    *  courseToAdd should NEVER be null. The course should be initialized
    *  before this method is called!  */
-  this.addCourse = function(courseToAdd,semester,index) {
+  this.addCourse = function(courseToAdd,semester) {
+    if (!courseToAdd) return null;
     this.setSaved(false);
     var listing = courseToAdd.listing;
     listing = listing.replace(" ",""); // Removes spaces from input just in case
-    console.log("adding " + listing + " at " + semester+index);
+    console.log("adding " + listing + " at " + semester);
 
     if (semester == -1){
       this.courses_I_want.push(courseToAdd);
@@ -154,9 +155,13 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
         courseToAdd.setRequirementFilled(null);
         //TODO: In the future, get other possible matches and try to match there. (low priority)
       }
-      this.semesters[semester][index] = courseToAdd;
+      for (var c = 0; c < this.semesters[semester].length; c++) {
+        if (!this.semesters[semester][c]) {
+          this.semesters[semester][c] = courseToAdd;
+          return courseToAdd;
+        }
+      }
     }
-    return courseToAdd;
   }
 
   /* Swaps the object at [semester1][index1] with [semester2][index2]
@@ -173,18 +178,29 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   }
 
   /* Returns the old course and sets the spot in the semester to null. */
-  this.deleteCourse = function(semester,index) {
+  this.deleteCourse = function(course) {
+    if (!course) return null;
     this.setSaved(false);
-    var oldCourse = this.semesters[semester][index];
-    this.semesters[semester][index] = null;
 
-    return oldCourse;
+    for (var s = 0; s < this.semesters.length; s++) {
+      for (var c = 0; c < this.semesters[s].length; c++) {
+        if (this.semesters[s][c] == course) {
+          this.semesters[s][c] = null;
+          return course
+        }
+      }
+    }
+
+    // Could not find course
+    console.error("Could not find course to delete.");
+    return null;
   }
 
   /* Removes Course object from courses_I_want because of (1) trashcan or (2)
    *  moving onto schedule. */
   this.deletePotentialCourse = function(course) {
     if (!course) return;
+    this.setSaved(false);
     var index = this.courses_I_want.indexOf(course);
     if (index > -1) {
       console.log("Deleted " + course.listing + " from potential courses");
@@ -211,7 +227,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
-          rtnStr += this.semesters[s][i].listing + " --- " + this.semesters[s][i].getRequirementFilled() + "\n";
+          rtnStr += this.semesters[s][i].listing + " --- " + s + " --- " + this.semesters[s][i].getRequirementFilled() + "\n";
         }
       }
     }

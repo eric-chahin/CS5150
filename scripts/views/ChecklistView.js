@@ -18,7 +18,7 @@ var ChecklistView = function() {
           for (var i = 0; i < this.childNodes.length; i++) {
               if (this.childNodes[i] != null) {
                 if (this.childNodes[i].innerHTML == newCourse.getRequirementFilled() &&  this.childNodes[i+2].innerText == ""){
-                  console.log(newCourse.getRequirementFilled());
+                  // console.log(newCourse.getRequirementFilled());
                   
                   this.innerHTML = "<div class='requirement'>"+ newCourse.getRequirementFilled() +
                     "</div><div class='warning-col'></div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
@@ -79,10 +79,10 @@ var ChecklistView = function() {
   this.fillEmptyScheduleSpots = function() {
     var cols = document.querySelectorAll('.dragcolumn');
     [].forEach.call(cols, function (col) {
-      if (col.innerHTML == "") {
+      if (col.textContent == "") {
         $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
       } else {
-        var listing = col.innerText.replace(" ","");
+        var listing = col.textContent.replace(" ","");
         var color = HEXAGON_COLORS[listing];
         if (color) {
           var color_url = "/CS5150/img/hexagon_"+color+".png";

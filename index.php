@@ -188,9 +188,9 @@
                                           // echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
                                           echo ('<div class="leftShift">');
                                           echo('</div>');
-                                          echo (sprintf('<div id="potential_%d" class="ui-state-default hexagon dragcolumn"></div>',$i+$j));
+                                          echo (sprintf('<div id="potential_%d"><div class="ui-state-default hexagon dragcolumn"></div></div>',$i+$j));
                                         } else {
-                                          echo (sprintf('<div id="potential_%d" class="ui-state-default hexagon dragcolumn"></div>',$i+$j));
+                                          echo (sprintf('<div id="potential_%d"><div class="ui-state-default hexagon dragcolumn"></div></div>',$i+$j));
                                         }
                                       }
                                           echo ('
