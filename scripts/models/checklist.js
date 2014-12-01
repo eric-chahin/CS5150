@@ -206,7 +206,7 @@ var Checklist = function(version) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
                                   "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+
                                   "<input type='checkbox' name='req' value='tech'> Technical Writing<br>" +
-                                  " <input type='checkbox' name='req' value='stat'> Statistics</div>");      
+                                  " <input type='checkbox' name='req' value='stat'> Probability</div>");      
       }
       count++;
       }

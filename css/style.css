@@ -1,5 +1,5 @@
 .container{
-  margin-left: 160px;
+  margin-left: 0px;
 }
 
 #carousel-111948{
@@ -95,11 +95,12 @@ button:focus {
 }
 
 .titlebanner{
-      background-image: url("../img/title_banner.png");
-      width: 827px;
+      background-image: url("../img/title_banner_wide.png");
+      width: 944px;
       height: 68px;
       margin-top: 20px;
-
+      margin-bottom: 30px;
+      float: left;
 }
 
 #sidebar{

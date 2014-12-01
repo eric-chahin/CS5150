@@ -55,7 +55,7 @@ var ChecklistView = function() {
        $( "#year_second" ).removeClass("active");
        
           var hexagons_per_panel = 18;
-          var htmlString = '<div class="item active" id="year_third" ><div class= "semester9" id="semester9"> <div class= "coursetitle"><img src= "img/text_potential_courses.png"></div>';
+          var htmlString = '<div class="item active" id="year_third" ><div class= "semester9" id="semester9"> <div class= "coursetitle"><img src= "img/text_extra_semester.png"></div>';
             for (var j = 0; j < hexagons_per_panel;j+=1) {
               if (j % hexagons_per_panel == 5 || j % hexagons_per_panel == 14) {
               
