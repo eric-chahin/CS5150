@@ -207,6 +207,7 @@ var Checklist = function(version) {
                                   "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+
                                   "<input type='checkbox' name='techBox' id='techBox' value='tech'> Technical Writing<br>" +
                                   " <input type='checkbox' name='statBox' id='statBox' value='stat'> Probability</div>");      
+      }
       count++;
       }
          
