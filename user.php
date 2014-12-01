@@ -81,7 +81,7 @@
             mysql_query("START TRANSACTION");
             
             $qry1="UPDATE member SET current_schedule_id='$current_schedule_id', next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
-            $qry2="UPDATE schedule SET schedule_name='$schedule_name', schedule='$schedules' WHERE netid='$netid' AND schedule_id='$current_schedule_id'";
+            $qry2="UPDATE schedule SET schedule_name='$schedule_name', schedule='$schedules', schedule_numSemesters='$schedule_numSemesters' WHERE netid='$netid' AND schedule_id='$current_schedule_id'";
             
             if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {
                 mysql_query("COMMIT");
