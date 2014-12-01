@@ -1,5 +1,5 @@
 .container{
-  margin-left: 160px;
+  margin-left: 0px;
 }
 
 #carousel-111948{
@@ -12,6 +12,11 @@
     margin-left: 385px;
     
 }
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } /* Firefox 18- */
+input:focus::-moz-placeholder { color:transparent; } /* Firefox 19+ */
+input:focus:-ms-input-placeholder { color:transparent; } /* oldIE ;) */
 
 body{
      background-image: url("../img/background_text.png");
@@ -95,11 +100,12 @@ button:focus {
 }
 
 .titlebanner{
-      background-image: url("../img/title_banner.png");
-      width: 827px;
+      background-image: url("../img/title_banner_wide.png");
+      width: 944px;
       height: 68px;
       margin-top: 20px;
-
+      margin-bottom: 30px;
+      float: left;
 }
 
 #sidebar{
@@ -305,6 +311,16 @@ button:focus {
 }
 
 
+.semester9 {
+    padding: 15px;
+    height: 298px;
+    width: 360px;
+    margin-left: 24px;
+    float: left;
+    background-image: url("../img/courses_box.png");
+}
+
+
 .search {
     width: 320px;
     height: 300px;
@@ -338,14 +354,6 @@ clear:left;
     background-image: url("../img/courses_box.png");
 }
 
-.semester9 {
-    padding: 15px;
-    height: 298px;
-    width: 360px;
-    margin-left: 18px;
-    float: left;
-    background-image: url("../img/courses_box.png");
-}
 
 
 .core{

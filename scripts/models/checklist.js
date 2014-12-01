@@ -205,8 +205,13 @@ var Checklist = function(version) {
       if (count == leftChecklistRows) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
                                   "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+
+<<<<<<< HEAD
                                   "<input type='checkbox' name='techBox' id='techBox' value='tech'> Technical Writing<br>" +
-                                  " <input type='checkbox' name='statBox' id='statBox' value='stat'> Statistics</div>");      
+                                  " <input type='checkbox' name='statBox' id='statBox' value='stat'> Probability</div>");      
+=======
+                                  "<input type='checkbox' name='req' value='tech'> Technical Writing<br>" +
+                                  " <input type='checkbox' name='req' value='stat'> Probability</div>");      
+>>>>>>> 87e2c8ae81611b20625131cc7c671d70f517b8ab
       }
       count++;
       }
