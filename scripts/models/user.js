@@ -14,12 +14,17 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   	this.next_schedule_num = parseInt(this.next_schedule_num) + 1;
   	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year, 8);
   	this.schedules[this.schedules.length] = this.current_schedule;
-    this.save_schedule("true");
+      
+    initialized_checklist_data = "Select Vector#Select Vector#false#false#false#false";
+    this.save_schedule("true", initialized_checklist_data);
+      
   } 
   // given a schedule_id for a particular user (the id is guaranteed to be linked
   // to this user), set this users current schedule to be schedule with id
   // schedule_id.  Reflect this change in the tables as well.
   // TODO: start_year is currently version, get it from saving instead
+  // returns the checklist_data (i.e. vector info -- including tech writing
+  // and probability) so we know how to update the checklist view
   this.load_schedule = function(schedule_id) {
       var s = null;
       var net_id = this.netid;
@@ -39,16 +44,20 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                     var schedule = data['schedule'];
                     var numSemesters = parseInt(data['schedule_numSemesters']);
                     var courses_lst = schedule ? schedule.split(",") : [];
+                    var checklist = data['checklist_data'];
+                    checklist_data = checklist ? checklist.split("#") : [];
                     s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year, numSemesters);
                 }
              }
       });
       this.current_schedule = s;
-      this.save_schedule("false");
+      return checklist_data;
   }
 
   //isNew is a flag that indicates whether the schedule to be saved was just created (i.e. using the 'add' button)
-  this.save_schedule = function(isNew) {
+    //checklist_data is a string encoding of the vector (and tech writing / probability) info for this user.  It must be saved to the schedule table
+    //every time the schedule is saved
+  this.save_schedule = function(isNew, checklist_data) {
     this.current_schedule.setSaved(true);
     $.ajax({
       type:  "POST",
@@ -60,6 +69,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                'current_schedule_id': this.current_schedule.id,
                'schedule_name': this.current_schedule.name,
                'schedules': this.current_schedule.toArray().toString(),
+               'checklist_data': checklist_data,
                'schedule_numSemesters': this.current_schedule.numSemesters,
                'isNew': isNew},
       success: function(data){
@@ -70,6 +80,26 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
     });
   }
 
+  
+  //saves the vector (and tech writing / probability) info for this user
+    //to the schedule table so it can be retrieved on successive loads.
+    //checklist_data is an encoding of the data delimited by "#"
+  this.save_checklist_info = function(checklist_data) {
+      
+      
+  }
+    
+  
+    
+    
+  this.load_checklist_info = function (checklist_data) {
+      data_array = checklist_data.split("#");
+      for (var i=0; i<data_array.length; i++) {
+          console.log(data_array[i]);
+      }
+  }
+    
+    
   //Initializing fields
   this.full_name = name;
   this.netid = netid;

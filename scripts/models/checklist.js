@@ -205,16 +205,15 @@ var Checklist = function(version) {
       if (count == leftChecklistRows) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
                                   "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+
-                                  "<input type='checkbox' name='req' value='tech'> Technical Writing<br>" +
-                                  " <input type='checkbox' name='req' value='stat'> Probability</div>");      
-      }
+                                  "<input type='checkbox' name='techBox' id='techBox' value='tech'> Technical Writing<br>" +
+                                  " <input type='checkbox' name='statBox' id='statBox' value='stat'> Probability</div>");      
       count++;
       }
          
     }
 $(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
-                         +"Vector 1:<select type='text' name='vector1' id='vector1'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='req' value='tech'><br>"
-                         +"Vector 2:<select type='text' name='vector2' id='vector2'><option selected         >Select Vector</option></select> Completed? <input type='checkbox' name='req' value='tech'></div>");
+                         +"Vector 1:<select type='text' name='vector1' id='vector1'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='completedVec1' id='completedVec1' value='tech'><br>"
+                         +"Vector 2:<select type='text' name='vector2' id='vector2'><option selected         >Select Vector</option></select> Completed? <input type='checkbox' name='completedVec2' id='completedVec2' value='tech'></div>");
  
 }
 

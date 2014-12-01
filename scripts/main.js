@@ -18,6 +18,7 @@ var Loader = function() {
     var schedule_name = null;
     var start_year = null;
     var schedule_numSemesters = null;
+    var checklist_data = null;
     $.ajax({
         type: "GET",
         url: "user.php", 
@@ -48,6 +49,8 @@ var Loader = function() {
             schedule = data['schedule'];
             schedule_name = data['schedule_name'];
             schedule_numSemesters = parseInt(data['schedule_numSemesters']);
+            var checklist = data['checklist_data'];
+            checklist_data = checklist ? checklist.split("#") : [];
           }
         }
     });
@@ -61,6 +64,7 @@ var Loader = function() {
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       this.isNewUser = false;
       user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
+      setVectorInfo(checklist_data);
       return user;   
     }  
   }
@@ -287,7 +291,8 @@ function getNewPageFunctions() {
             $("#new_schedule_warning").text("Please enter a name for this schedule.");
         }
         else {
-            user.save_schedule("false");
+            vec_data = getVectorInfo();
+            user.save_schedule("false", vec_data);
             checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
             user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
             loader.applyUser(user);
@@ -338,14 +343,22 @@ function getLoadPageFunctions() {
     }
     else {
       //set user's 'schedule_name' to be his current schedule
-      user.save_schedule("false");
+      vec_data = getVectorInfo();
+      user.save_schedule("false", vec_data);
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
-      user.load_schedule(schedule_id);
+      checklist_data = user.load_schedule(schedule_id);
+                        
+      //when  we save, make sure to re-encode checklist data as a string, as opposed to an array of strings
+      delim = "#";
+      checklist_str = checklist_data[0] + delim + checklist_data[1] + delim +checklist_data[2] + delim +checklist_data[3] + delim + checklist_data[4] + delim + checklist_data[5];
+      user.save_schedule("false", checklist_str);
+                        
       loader.applyUser(user);
       $.magnificPopup.close();
     }
      checklistcopySections();
-      checklistDrag();
+     checklistDrag();
+     setVectorInfo(checklist_data);
     return false;
   });    
 }
@@ -359,10 +372,61 @@ function getLoadPageFunctions() {
  });
 
 
-function saveUserFunction() {
-  user.save_schedule("false");
-  console.log("SAVED");
+//provides a string containing checklist information to be saved.  Information is delimited by "#", and is listed in the following order: Vector1, Vector2, isVector1Completed, isVector2Completed, isTechWritingCompleted, isProbabilityCompleted
+function getVectorInfo() {
+    var vector1 = document.getElementById("vector1");
+    str1 = vector1.options[vector1.selectedIndex].value;
+    var vector2 = document.getElementById("vector2");
+    str2 = vector2.options[vector2.selectedIndex].value;
+    
+    var completedVec1 = document.getElementById("completedVec1");
+    var completedVec2 = document.getElementById("completedVec2");
+    str3 = completedVec1.checked;
+    str4 = completedVec2.checked;
+    
+    var techWriting = document.getElementById("techBox");
+    str5 = techWriting.checked;
+    var probability = document.getElementById("statBox");
+    str6 = probability.checked;
+    
+    delim = "#";
+    vec_data = str1 + delim + str2 + delim + str3 + delim + str4 + delim + str5 + delim + str6;
+    
+    return vec_data;
 }
+
+
+function setVectorInfo(checklist_data) {
+    var vector1 = document.getElementById("vector1");
+    var options1 = document.getElementById("vector1").options;
+    console.log(options1.length);
+    for (var i=0; i<options1.length; i++) {
+        if (options1[i].value == checklist_data[0]) {
+            options1[i].selected = true;
+        }
+        else {
+            options1[i].selected = false;
+        }
+    }
+    
+    var vector2 = document.getElementById("vector2");
+    var options2 = document.getElementById("vector2").options;
+    for (var j=0; i<options2.length; j++) {
+        if (options2[j].value == checklist_data[1]) {
+            options2[j].selected = true;
+        }
+        else {
+            options2[j].selected = false;
+        }
+    }
+
+    document.getElementById("completedVec1").checked = (checklist_data[2] == "true");
+    document.getElementById("completedVec2").checked = (checklist_data[3] == "true");
+    document.getElementById("techBox").checked = (checklist_data[4] == "true");
+    document.getElementById("statBox").checked = (checklist_data[5] == "true");
+
+}
+
 
 function setupMagnificPopup(user) {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
@@ -381,8 +445,10 @@ function setupMagnificPopup(user) {
   makePopup("#new",getNewPageHTML(), getNewPageFunctions, false, user);
   makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false, user);
   $("#save").on('click', function () {
-      user.save_schedule("false");
+      vec_data = getVectorInfo();
+      user.save_schedule("false", vec_data);
       console.log("SAVED");
+                
   });
   //makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
@@ -401,8 +467,8 @@ $(document).ready(function(){
   HEXAGON_COLORS = {}; // listing (String) -> color (String)
   loader.initializeHexagonColors();
   //global vars
-  user = loader.fetchUser(netid);
   checklist_view = new ChecklistView();
+  user = loader.fetchUser(netid);
   
   if (user == null) {
     loader.isNewUser = true;
