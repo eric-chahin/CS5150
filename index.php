@@ -126,7 +126,7 @@
                 <div class="col-md-12 column">
                     <div class="carousel_holder">
                         <div class="carousel_container">
-                            <a href="#carousel-111948" data-slide-to="1" id= "addsemesterimage"></a>
+                            <div id= "addsemesterimage"></div>
                             <div id= "tutorialschedule">
                              <img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
                             <div class="carousel slide" id="carousel-111948" data-interval="false">
@@ -157,7 +157,7 @@
                         <div class= "searchtitle">
                             <img src= "img/text_search.png">
                             <br><br>
-                            <input type="text" id="search" autocomplete="off" placeholder="e.g. CS 5150">
+                            <input type="text" id="search" autocomplete="off" placeholder="e.g. CS 5150 or AP">
                         </div>
                         <!-- Show Results -->
                         <!-- <h4 id="results-text">Showing results for: <b id="search-string"></b></h4> -->

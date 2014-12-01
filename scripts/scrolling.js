@@ -118,8 +118,8 @@ $("#addsemesterimage").mousedown(function(){
         $("#addsemesterimage").css("background-image", "url(/CS5150/img/icon_add.png)");
        user.current_schedule.numSemesters-=1;
       $(".semester9").parent().remove();
-      $( "#year_first" ).addClass( "active" );
-      $( "#year_second" ).removeClass( "active" );
+      $( "#year_second" ).addClass( "active" );
+      $( "#year_first" ).removeClass( "active" );
       $( "#year_third" ).removeClass( "active" );
   }
   
