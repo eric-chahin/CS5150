@@ -8,6 +8,7 @@ var Loader = function() {
      Returns: User object */
   //flag if user is found in db
   this.isNewUser = false;
+  this.checklistVectorData = "";
   this.fetchUser = function(netid) {
     var user = null;
     var name = null;
@@ -64,8 +65,8 @@ var Loader = function() {
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       this.isNewUser = false;
       user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
-      setVectorInfo(checklist_data);
-      return user;   
+      this.checklistVectorData = checklist_data;
+      return user;
     }  
   }
 
@@ -376,6 +377,7 @@ function getLoadPageFunctions() {
 function getVectorInfo() {
     var vector1 = document.getElementById("vector1");
     str1 = vector1.options[vector1.selectedIndex].value;
+
     var vector2 = document.getElementById("vector2");
     str2 = vector2.options[vector2.selectedIndex].value;
     
@@ -399,7 +401,7 @@ function getVectorInfo() {
 function setVectorInfo(checklist_data) {
     var vector1 = document.getElementById("vector1");
     var options1 = document.getElementById("vector1").options;
-    console.log(options1.length);
+
     for (var i=0; i<options1.length; i++) {
         if (options1[i].value == checklist_data[0]) {
             options1[i].selected = true;
@@ -483,7 +485,8 @@ $(document).ready(function(){
   applyrun(); //This starts the dragging and dropping
   checklistDrag();
   setVectorDropDowns();
-
+  setVectorInfo(loader.checklistVectorData);
+                  
   if (loader.isNewUser) {
     $("#start_splash_page").click();
   }
