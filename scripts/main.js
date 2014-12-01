@@ -413,7 +413,7 @@ function setVectorInfo(checklist_data) {
     
     var vector2 = document.getElementById("vector2");
     var options2 = document.getElementById("vector2").options;
-    for (var j=0; i<options2.length; j++) {
+    for (var j=0; j<options2.length; j++) {
         if (options2[j].value == checklist_data[1]) {
             options2[j].selected = true;
         }
