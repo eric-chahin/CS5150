@@ -5,5 +5,6 @@
   schedule_id           VARCHAR(50) NOT NULL,
   schedule_name         VARCHAR(50) NOT NULL,
   schedule_numSemesters VARCHAR(50) NOT NULL,
-  schedule              TEXT        NOT NULL
+  schedule              TEXT        NOT NULL,
+  checklist_data        TEXT        NOT NULL
   )' test
