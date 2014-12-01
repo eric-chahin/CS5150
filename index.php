@@ -157,7 +157,7 @@
                         <div class= "searchtitle">
                             <img src= "img/text_search.png">
                             <br><br>
-                            <input type="text" id="search" autocomplete="off">
+                            <input type="text" id="search" autocomplete="off" placeholder="e.g. CS 5150">
                         </div>
                         <!-- Show Results -->
                         <!-- <h4 id="results-text">Showing results for: <b id="search-string"></b></h4> -->

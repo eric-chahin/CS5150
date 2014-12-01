@@ -13,6 +13,11 @@
     
 }
 
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } /* Firefox 18- */
+input:focus::-moz-placeholder { color:transparent; } /* Firefox 19+ */
+input:focus:-ms-input-placeholder { color:transparent; } /* oldIE ;) */
+
 body{
      background-image: url("../img/background_text.png");
      margin-left: -10px;
@@ -306,6 +311,16 @@ button:focus {
 }
 
 
+.semester9 {
+    padding: 15px;
+    height: 298px;
+    width: 360px;
+    margin-left: 24px;
+    float: left;
+    background-image: url("../img/courses_box.png");
+}
+
+
 .search {
     width: 320px;
     height: 300px;
@@ -339,14 +354,6 @@ clear:left;
     background-image: url("../img/courses_box.png");
 }
 
-.semester9 {
-    padding: 15px;
-    height: 298px;
-    width: 360px;
-    margin-left: 18px;
-    float: left;
-    background-image: url("../img/courses_box.png");
-}
 
 
 .core{
