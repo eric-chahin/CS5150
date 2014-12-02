@@ -42,9 +42,13 @@ function applyrun() {
   }
 
   function handleClick(e) {
+    console.log("here");
     if (this.textContent !== "") {
       var $thisNode = $("#" + this.id);
+      //currently data-course is just the course name which is useless
       var thisCourse = $thisNode.data("course");
+      console.log($thisNode);
+      console.log(thisCourse);
       if (thisCourse) {
         // console.log(thisCourse.toString());
         replacePopupText(thisCourse.toString());
@@ -52,11 +56,29 @@ function applyrun() {
         // console.log(new Course(this.textContent,"").toString());
         replacePopupText(new Course(this.textContent,"").toString())
       }
+    }else{
+      //Athena pointed out that the last course clicked was always in the popup when you click an empty spot
+      //this is $(#popup) contained the last course; it is now replaced with the below string 
+      replacePopupText("You clicked an empty spot");
     }
   }
 
   /* Replaces the current popup text with str. */
   function replacePopupText(str) {
+    //course name is showing up, but the popup is not happening
+    console.log("string is: " + str);
+    //the mag pop up effects go away with search, reapplying
+    //the theme for cs 5150 and search: reapply for no understandable reason
+    $('.open-popup-link').magnificPopup({
+    type:'inline',
+    removalDelay: 50, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+        this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+  });
     $("#popup").text(str);
   }
 

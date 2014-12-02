@@ -12,10 +12,11 @@
       // console.log($(this).text());
       if($(this).is(':empty')){
         var hexagon_id = this.id;
+        // TODO - add in extra info- name of course, and course descr(?)
         if($(this).hasClass("hexagonLeft")){
-          $(this).replaceWith('<div class="hexagonLeft dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
+          $(this).replaceWith('<div class="hexagonLeft dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'" data-course="' + course_spaced +'">' + course_spaced +'</div>');
         }else{
-          $(this).replaceWith('<div class="hexagon dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'">' + course_spaced +'</div>');
+          $(this).replaceWith('<div class="hexagon dragcolumn searchdiv fadeinfadeout" new="true" draggable="true" id="'+this.id+'" data-course="' + course_spaced +'">' + course_spaced +'</div>');
         }
         copySections();
         checklist_view.fillEmptyScheduleSpots();
