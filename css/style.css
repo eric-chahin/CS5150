@@ -112,7 +112,7 @@ button:focus {
   top: 120px;
   position: absolute;
   margin-left: 50px;
- /* margin-top: 60px;*/
+   z-index: 2;
   background-image: url("../img/sidebar/sidebar_box.png");
   background-repeat:no-repeat;
   width: 160px;
@@ -284,6 +284,26 @@ button:focus {
     margin: 10px;
     text-align: center;
     padding-bottom: 0px;
+}
+
+.hexagon-key{
+    width: 400px;
+    margin: 10px;
+    position: absolute;
+    top: 280px;
+}
+
+.key-item{
+    color: #005463;
+    font-size: 13px;
+    padding-right: 10px;
+    padding-left: 0px;
+    float: left;
+}
+
+#key-text{
+    float: right;
+    padding-top: 5px;
 }
 
 
@@ -712,7 +732,7 @@ clear:left;
 #results{
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 194px;
+  height: 170px;
   width: 294px;
   padding-left: 15px;
   padding-right: 7px;
@@ -917,6 +937,15 @@ clear:left;
   overflow: hidden;
   left: 825px;
   top: 285px;
+  position: absolute;
+  display: block;
+}
+
+#tutorialsearch{
+  z-index: -1;
+  overflow: hidden;
+  left: -134px;
+  top: 64px;
   position: absolute;
   display: block;
 }

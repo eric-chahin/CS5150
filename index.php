@@ -127,8 +127,7 @@
                     <div class="carousel_holder">
                         <div class="carousel_container">
                             <div id= "addsemesterimage"></div>
-                            <div id= "tutorialschedule">
-                             <img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
+                            <div id= "tutorialschedule"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
                             <div class="carousel slide" id="carousel-111948" data-interval="false">
                                 <div class="carousel-inner" id="semester-carousel">
                                     <?php
@@ -154,16 +153,23 @@
             <div class="row3" >
                 <div class="col-md-4 column" style="z-index: 1;">
                     <div class= "search">
+                        <div id= "tutorialsearch"><img src = "/CS5150/img/instructions/tutorial_search.png"></div>
                         <div class= "searchtitle">
                             <img src= "img/text_search.png">
                             <br><br>
-                            <input type="text" id="search" autocomplete="off" placeholder="e.g. CS 5150 or AP">
+                            <input type="text" id="search" autocomplete="off" placeholder="e.g. CS 5150">
                         </div>
                         <!-- Show Results -->
                         <!-- <h4 id="results-text">Showing results for: <b id="search-string"></b></h4> -->
                         <p>
                             <div id="results"></div>
                         </p>
+                        
+                        <div class="hexagon-key">
+                            <div class="key-item"><img src="img/key_blue.png"><div id="key-text">CS Core</div></div>
+                            <div class="key-item"><img src="img/key_red.png"><div id="key-text">Engineering</div></div>
+                            <div class="key-item"><img src="img/key_purple.png"><div id="key-text">Non-Cornell</div></div>
+                        </div>
                     </div>        
                 </div>
                 <div class="col-md-8 column">

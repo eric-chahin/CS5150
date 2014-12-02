@@ -102,7 +102,9 @@ function applyrun() {
     // Make the left courses slider trigger an action
     slider = document.getElementById("left_slider_courses");
     slider.addEventListener('dragover', function(){
-        document.getElementById('left_slider_courses').click();
+        setTimeout(function(){
+            document.getElementById('left_slider_courses').click();
+        }, 10000);
     });
     
     // Make the right courses slider trigger an action
