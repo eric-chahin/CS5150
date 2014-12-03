@@ -49,22 +49,21 @@ function applyrun() {
       var thisCourse = $thisNode.data("course");
       
       if (thisCourse) {
-        replacePopupText(thisCourse.prettyPrint());
+        replacePopupHTML(thisCourse.prettyPrint());
       } else {
         //new Course(this.textContent,"").toString()
-        replacePopupText(new Course(this.textContent).prettyPrint());
+        replacePopupHTML(new Course(this.textContent).prettyPrint());
       }
     }else{
       //Athena pointed out that the last course clicked was always in the popup when you click an empty spot
       //this is $(#popup) contained the last course; it is now replaced with the below string 
-      replacePopupText("You clicked an empty spot");
+      replacePopupHTML("You clicked an empty spot");
     }
   }
 
-  /* Replaces the current popup text with str. */
-  function replacePopupText(str) {
+  /* Replaces the current popup HTML with str. */
+  function replacePopupHTML(str) {
     //course name is showing up, but the popup is not happening
-    console.log("string is: " + str);
     //the mag pop up effects go away with search, reapplying
     //the theme for cs 5150 and search: reapply for no understandable reason
     $('.open-popup-link').magnificPopup({
@@ -77,7 +76,7 @@ function applyrun() {
     },
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
-    $("#popup").text(str);
+    $("#popup").html(str);
   }
 
 

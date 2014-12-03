@@ -11,12 +11,6 @@ function checklistDrag() {
    
   }
 
-  /* Replaces the current popup text with str. */
-  function replacePopupText(str) {
-    $("#popup").text(str);
-  }
-
-
   function checklisthandleDragStart(e) {
     console.log("dragstart");
     e.dataTransfer.effectAllowed = 'move';

@@ -56,9 +56,13 @@ var Course = function(listing, requirement_filled) {
     }
   };
 
-  /* To use with popup. Returns String description of course from COURSE_INFORMATION. */
+  /* To use with popup. Returns HTML description of course from COURSE_INFORMATION. */
   this.prettyPrint = function() {
-    return COURSE_INFORMATION[this.listing].description;
+    var info = COURSE_INFORMATION[this.listing];
+    return "<b>LISTING:</b> " + this.listing + "<br>" + 
+           "<b>TITLE:</b> " + info.title + "<br>" +
+           "<b>USUALLY OFFERED:</b> " + info.seasons + "<br>" +
+           "<b>DESCRIPTION:</b> " + info.description;
   }
 
 };
