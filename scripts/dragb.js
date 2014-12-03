@@ -47,14 +47,16 @@ function applyrun() {
       var $thisNode = $("#" + this.id);
       //currently data-course is just the course name which is useless
       var thisCourse = $thisNode.data("course");
-      console.log($thisNode);
-      console.log(thisCourse);
+      
       if (thisCourse) {
-        // console.log(thisCourse.toString());
-        replacePopupText(thisCourse.toString());
+          replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.listing][6].toString());
       } else {
-        // console.log(new Course(this.textContent,"").toString());
-        replacePopupText(new Course(this.textContent,"").toString())
+        //new Course(this.textContent,"").toString()
+        if (thisCourse === undefined){
+          replacePopupText(new Course(this.textContent,"").toString() + '\n' + COURSE_INFORMATION[this.textContent.split(" ").join("")][6]);
+        }else{
+            replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.toString().split(' ').join('')][6].toString());
+        }
       }
     }else{
       //Athena pointed out that the last course clicked was always in the popup when you click an empty spot

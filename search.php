@@ -88,7 +88,7 @@ if (strlen($search_string) >= 1 && $search_string !== ' ') {
 	    $index_of_first_number = isset($m[0]) ? strlen($m[0]) : strlen($elem);
 	    $num = substr($elem,$index_of_first_number);
 	    $dept = substr($elem,0,$index_of_first_number);
-	   	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem .' ><div>');
+	   	echo ('<div onclick="return addToDesiredCourses(this)" '.'data-course= '. $elem. ' ><div>');
 	    //name of the course
 			echo($dept." ".$num."");
 			echo('<span>');
