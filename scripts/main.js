@@ -316,6 +316,7 @@ function getNewPageFunctions() {
             user.save_schedule("false", vec_data);
             checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
             user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
+            setVectorDropDowns();
             loader.applyUser(user);
             $.magnificPopup.close();
         }
@@ -368,18 +369,19 @@ function getLoadPageFunctions() {
       user.save_schedule("false", vec_data);
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
       checklist_data = user.load_schedule(schedule_id);
-                        
+      setVectorDropDowns();
+
       //when  we save, make sure to re-encode checklist data as a string, as opposed to an array of strings
       delim = "#";
       checklist_str = checklist_data[0] + delim + checklist_data[1] + delim +checklist_data[2] + delim +checklist_data[3] + delim + checklist_data[4] + delim + checklist_data[5];
       user.save_schedule("false", checklist_str);
                         
       loader.applyUser(user);
+      checklistcopySections();
+      checklistDrag();
+      setVectorInfo(checklist_data);
       $.magnificPopup.close();
     }
-     checklistcopySections();
-     checklistDrag();
-     setVectorInfo(checklist_data);
     return false;
   });    
 }
@@ -393,7 +395,10 @@ function getLoadPageFunctions() {
  });
 
 
-//provides a string containing checklist information to be saved.  Information is delimited by "#", and is listed in the following order: Vector1, Vector2, isVector1Completed, isVector2Completed, isTechWritingCompleted, isProbabilityCompleted
+/* Provides a string containing checklist information to be saved.  
+ * Information is delimited by "#", and is listed in the following order: 
+ *   Vector1, Vector2, isVector1Completed, isVector2Completed, isTechWritingCompleted, 
+ *   isProbabilityCompleted */
 function getVectorInfo() {
     var vector1 = document.getElementById("vector1");
     str1 = vector1.options[vector1.selectedIndex].value;
@@ -497,7 +502,7 @@ $(document).ready(function(){
     //TODO determine user's name from their netid, version and start_year from splash page
     user = new User("need to get this somehow", netid, 2012, null, null, null, 2011);
   }
-  
+
   setupMagnificPopup(user);
   loader.applyUser(user); // must come AFTER setupMagnificPopup
   var panel = new Panel();
