@@ -55,7 +55,7 @@ function applyrun() {
         if (thisCourse === undefined){
           replacePopupText(new Course(this.textContent,"").toString() + '\n' + COURSE_INFORMATION[this.textContent.split(" ").join("")].description);
         }else{
-            replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.toString().split(' ').join('')][6].toString());
+            replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.toString().split(' ').join('')].description.toString());
         }
       }
     }else{
