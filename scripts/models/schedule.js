@@ -53,7 +53,8 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     if (savedSchedule.length == 0) {
       //This happens when setting up a new schedule, the saved Schedule will be an empty array
       //We need to load the potential courses from the given list in data/potential_courses.csv
-      checklist_view.updatePotentialCourses(loader.getSuggestedPotential());
+      var potentials = loader.getSuggestedPotential();
+      checklist_view.updatePotentialCourses(potentials);
     } else {
       for (var i = 0; i < savedSchedule.length; i=i+2) {
         if (savedSchedule[i] == -1){
