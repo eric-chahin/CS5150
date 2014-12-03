@@ -49,11 +49,11 @@ function applyrun() {
       var thisCourse = $thisNode.data("course");
       
       if (thisCourse) {
-          replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.listing][6].toString());
+          replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.listing].description.toString());
       } else {
         //new Course(this.textContent,"").toString()
         if (thisCourse === undefined){
-          replacePopupText(new Course(this.textContent,"").toString() + '\n' + COURSE_INFORMATION[this.textContent.split(" ").join("")][6]);
+          replacePopupText(new Course(this.textContent,"").toString() + '\n' + COURSE_INFORMATION[this.textContent.split(" ").join("")].description);
         }else{
             replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.toString().split(' ').join('')][6].toString());
         }
