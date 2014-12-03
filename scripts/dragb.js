@@ -49,14 +49,10 @@ function applyrun() {
       var thisCourse = $thisNode.data("course");
       
       if (thisCourse) {
-          replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.listing].description.toString());
+        replacePopupText(thisCourse.prettyPrint());
       } else {
         //new Course(this.textContent,"").toString()
-        if (thisCourse === undefined){
-          replacePopupText(new Course(this.textContent,"").toString() + '\n' + COURSE_INFORMATION[this.textContent.split(" ").join("")].description);
-        }else{
-            replacePopupText(thisCourse.toString() + '\n' + COURSE_INFORMATION[thisCourse.toString().split(' ').join('')].description.toString());
-        }
+        replacePopupText(new Course(this.textContent).prettyPrint());
       }
     }else{
       //Athena pointed out that the last course clicked was always in the popup when you click an empty spot

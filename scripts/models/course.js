@@ -56,4 +56,9 @@ var Course = function(listing, requirement_filled) {
     }
   };
 
+  /* To use with popup. Returns String description of course from COURSE_INFORMATION. */
+  this.prettyPrint = function() {
+    return COURSE_INFORMATION[this.listing].description;
+  }
+
 };
