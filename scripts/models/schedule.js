@@ -50,28 +50,34 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     for (var k = 0; k < countInArrays.length; k++) {
         countInArrays[k] = 0;
     }
-    for (var i = 0; i < savedSchedule.length; i=i+2) {
-      if (savedSchedule[i] == -1){
-        str = savedSchedule[i+1];
-        var arr = str.split("#");
-        var name = arr[0];
-        var req = arr[1];
-        if (arr[1]=="") {
-            req = null;
+    if (savedSchedule.length == 0) {
+      //This happens when setting up a new schedule, the saved Schedule will be an empty array
+      //We need to load the potential courses from the given list in data/potential_courses.csv
+      checklist_view.updatePotentialCourses(loader.getSuggestedPotential());
+    } else {
+      for (var i = 0; i < savedSchedule.length; i=i+2) {
+        if (savedSchedule[i] == -1){
+          str = savedSchedule[i+1];
+          var arr = str.split("#");
+          var name = arr[0];
+          var req = arr[1];
+          if (arr[1]=="") {
+              req = null;
+          }
+          this.courses_I_want[countInArrays[this.numSemesters]] = new Course(name, req);
+          countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
+        } else {
+          var sem = savedSchedule[i];
+          str = savedSchedule[i+1];
+          var arr = str.split("#");
+          var name = arr[0];
+          var req = arr[1];
+          if (arr[1]=="") {
+              req = null;
+          }
+          this.semesters[sem][countInArrays[sem]] = new Course(name, req);
+          countInArrays[sem] = countInArrays[sem] + 1;
         }
-        this.courses_I_want[countInArrays[this.numSemesters]] = new Course(name, req);
-        countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
-      } else {
-        var sem = savedSchedule[i];
-        str = savedSchedule[i+1];
-        var arr = str.split("#");
-        var name = arr[0];
-        var req = arr[1];
-        if (arr[1]=="") {
-            req = null;
-        }
-        this.semesters[sem][countInArrays[sem]] = new Course(name, req);
-        countInArrays[sem] = countInArrays[sem] + 1;
       }
     }
   }
