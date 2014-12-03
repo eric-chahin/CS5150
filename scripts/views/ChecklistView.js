@@ -108,6 +108,21 @@ var ChecklistView = function() {
     });
   }
 
+  /* Returns a String array of the Potential Courses hexagons. */
+  this.getPotentialCourses = function() {
+    var potential_array = [];
+    var selector = ".classContainer > a > div";
+    if ($(selector).length == 0) {
+      var selector = ".classContainer > div.dragcolumn";
+    } 
+    $(selector).each(function(){
+      if (this.textContent != ""){
+        potential_array.push(this.textContent);
+      }
+    });
+    return potential_array;
+  }
+
   /* Returns the course listing with a space for easy viewing. */
   this.getCourseSpaced = function(course) {
     var match = course.match(/\d+/);

@@ -1136,9 +1136,11 @@ a.hvrlink:hover + .details-pane {
     background-color: #FCD;
 }
 
+
 #firefox_warning {
   display: none;
 }
+
 @-moz-document url-prefix() {
   #firefox_warning {
     display: block;
