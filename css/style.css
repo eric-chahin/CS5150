@@ -34,6 +34,11 @@ body{
   src: url('../fonts/CaviarDreams_Bold.ttf');
 }
 
+@font-face {
+  font-family: 'Caviar Dreams Light';
+  src: url('../fonts/CaviarDreams.ttf');
+}
+
 input:focus,
 select:focus,
 textarea:focus,
@@ -259,8 +264,24 @@ button:focus {
 
 .semestertitle{
     width: 160px;
-    margin: 10px;
-    margin-bottom: 3px;
+    margin-bottom:0px;
+}
+
+.semestertitle_main{
+    font-family: 'Caviar Dreams Light';
+    font-weight:normal;
+    color: #000000;
+    font-size: 24px;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+}
+
+.semestertitle_sub{
+    font-family: 'Caviar Dreams';
+    font-weight:normal;
+    color: #488093;
+    font-size: 14px;
+    margin-top:-6px;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
 }
 
 .coretitle{
@@ -389,10 +410,12 @@ clear:left;
 
 
 .hexagonLeft{
-    width: 67px;
+    width: 63px;
     height: 48px;
     padding-top: 21px;
     padding-bottom: 6px;
+    padding-left:2px;
+    padding-right:2px;
     margin-bottom: -14px;
     margin-left: 39px;
     float: left;
@@ -404,10 +427,12 @@ clear:left;
 }
 
 .hexagon{
-    width: 67px;
+    width: 63px;
     height: 48px;
     padding-top: 21px;
     padding-bottom: 6px;
+    padding-left:2px;
+    padding-right:2px;
     margin-bottom: -14px;
     margin-left: 3px;
     float: left;

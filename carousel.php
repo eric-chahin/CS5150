@@ -13,13 +13,25 @@
     echo (sprintf('<div id="semester%d" class= "semester">', $i));
     
     if ($i % 2 == 1) {
-      $img = "img/text_fall" . (($i+1)/2) . ".png";
+      $sem_title = "FALL " . (($i+1)/2);
     }
     else {
-      $img = "img/text_spring" . ($i/2) . ".png";
+      $sem_title = "SPRING " . ($i/2);
+    }
+    
+    if ($i <= 2) {
+        $sem_sub = "FRESHMAN";
+    } else if ($i == 3 || $i == 4){
+        $sem_sub = "SOPHOMORE";
+    } else if ($i == 5 || $i == 6) {
+        $sem_sub = "JUNIOR";
+    } else if ($i == 7 || $i == 8) {
+        $sem_sub = "SENIOR";
+    } else {
+        $sem_sub = "";
     }
 
-    echo ('<div class="semestertitle"><img src= "'.$img.'"></div>');
+    echo ('<div class="semestertitle"><div class="semestertitle_main">'.$sem_title.'</div><div class="semestertitle_sub">'.$sem_sub.'</div></div>');
     echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
     echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,2));
     echo (sprintf('<div id="course_%d%d" class="hexagonLeft dragcolumn"></div>',$i,3));
