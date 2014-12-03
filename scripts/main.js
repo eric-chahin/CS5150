@@ -223,10 +223,10 @@ function setVectorDropDowns() {
 
 /* Separates the splash page HTML so that it can be used as a popup. */
 function getSplashPageHTML() {
-  var select_html = '<option selected disabled>Entering year</option>';
+  var select_html = '<option selected disabled>Entering academic year</option>';
   var current_year = new Date().getFullYear();
   for (var i = 0; i < 6; i++) {
-    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + "</option>";
+    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + " - " + (current_year-i+1) + "</option>";
   }
   select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
 
@@ -264,7 +264,7 @@ function getSplashPageFunctions() {
     if (checkedValue !== "confirm") {
       $("#splash_warning").text("You need to agree to the terms and conditions to use Checklist Interactive.");
     } else if (isNaN(enteringYear)) {
-      $("#splash_warning").text("Please, select your first year at Cornell.");
+      $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
       user.start_year = enteringYear; 
       $.magnificPopup.close();
