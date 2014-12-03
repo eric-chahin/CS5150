@@ -5,9 +5,10 @@
     var course = object.getAttribute("data-course");
     //var courseDescription = object.getAttribute("data-descript");
     //console.log(courseDescription)
-    var match = course.match(/\d+/);
-    var numIndex = course.indexOf(match[0]);
-    var course_spaced = course.substring(0,numIndex) + " " + course.substring(numIndex);
+    // var match = course.match(/\d+/);
+    // var numIndex = course.indexOf(match[0]);
+    // var course_spaced = course.substring(0,numIndex) + " " + course.substring(numIndex);
+    var course_spaced = checklist_view.getCourseSpaced(course);
     //var name = object.text();
     //console.log(name);
     $(".classContainer > a > div").each(function(){

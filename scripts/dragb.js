@@ -225,14 +225,14 @@ function applyrun() {
         }
       } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
         //add a new course from the hexagon that you've just dragged over
-        if (!user.current_schedule.contains(this.textContent)){
+        if (!user.current_schedule.contains(this.textContent) && !user.current_schedule.crosslist_contains(this.textContent)){
           var newCourse = user.current_schedule.addCourse(new Course(this.textContent,null), thisSemester,thisIndex); 
           checklist_view.addCourseToChecklistView(newCourse,thisSemester);
           $thisNode.data("course", newCourse);
         } else {
           this.innerHTML = dragSrc.innerHTML;
           dragSrc.innerHTML = e.dataTransfer.getData('text/html');
-          alert(dragSrc.textContent + " is already in your schedule! :(");
+          alert(dragSrc.textContent + " or a crosslist is already in your schedule! :(");
         }
       } else {
         //just swapping divs elsewhere, don't care

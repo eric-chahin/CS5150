@@ -94,6 +94,28 @@ var ChecklistView = function() {
     }); 
   }
 
+  /* Takes in a String array and updates the entire potential courses divs. */
+  this.updatePotentialCourses = function(listing_array) {
+    var i = 0;
+    var selector = ".classContainer > a > div";
+    if ($(selector).length == 0) {
+      var selector = ".classContainer > div.dragcolumn";
+    } 
+    $(selector).each(function(){
+      if (!(i < listing_array.length)) return false; // Acts like a while loop
+      this.textContent = checklist_view.getCourseSpaced(listing_array[i]);
+      i += 1;
+    });
+  }
+
+  /* Returns the course listing with a space for easy viewing. */
+  this.getCourseSpaced = function(course) {
+    var match = course.match(/\d+/);
+    if (match == null) return course;
+    var numIndex = course.indexOf(match[0]);
+    return course.substring(0,numIndex) + " " + course.substring(numIndex);
+  }
+
   /* Create warning message */
   this.addCourseWarning = function(warning_code) {
         var html = "";

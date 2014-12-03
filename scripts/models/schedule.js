@@ -50,28 +50,35 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     for (var k = 0; k < countInArrays.length; k++) {
         countInArrays[k] = 0;
     }
-    for (var i = 0; i < savedSchedule.length; i=i+2) {
-      if (savedSchedule[i] == -1){
-        str = savedSchedule[i+1];
-        var arr = str.split("#");
-        var name = arr[0];
-        var req = arr[1];
-        if (arr[1]=="") {
-            req = null;
+    if (savedSchedule.length == 0) {
+      //This happens when setting up a new schedule, the saved Schedule will be an empty array
+      //We need to load the potential courses from the given list in data/potential_courses.csv
+      var potentials = loader.getSuggestedPotential();
+      checklist_view.updatePotentialCourses(potentials);
+    } else {
+      for (var i = 0; i < savedSchedule.length; i=i+2) {
+        if (savedSchedule[i] == -1){
+          str = savedSchedule[i+1];
+          var arr = str.split("#");
+          var name = arr[0];
+          var req = arr[1];
+          if (arr[1]=="") {
+              req = null;
+          }
+          this.courses_I_want[countInArrays[this.numSemesters]] = new Course(name, req);
+          countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
+        } else {
+          var sem = savedSchedule[i];
+          str = savedSchedule[i+1];
+          var arr = str.split("#");
+          var name = arr[0];
+          var req = arr[1];
+          if (arr[1]=="") {
+              req = null;
+          }
+          this.semesters[sem][countInArrays[sem]] = new Course(name, req);
+          countInArrays[sem] = countInArrays[sem] + 1;
         }
-        this.courses_I_want[countInArrays[this.numSemesters]] = new Course(name, req);
-        countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
-      } else {
-        var sem = savedSchedule[i];
-        str = savedSchedule[i+1];
-        var arr = str.split("#");
-        var name = arr[0];
-        var req = arr[1];
-        if (arr[1]=="") {
-            req = null;
-        }
-        this.semesters[sem][countInArrays[sem]] = new Course(name, req);
-        countInArrays[sem] = countInArrays[sem] + 1;
       }
     }
   }
@@ -206,6 +213,18 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     return false;
   }
 
+  /* Returns whether a crosslisted class is found in the schedule */
+  this.crosslist_contains = function(listing) {
+    listing = listing.replace(" ",""); // Removes spaces from input just in case
+    var crosslisted_classes = COURSE_INFORMATION[listing]["crosslists"].split(";");
+    for (var i = 0; i < crosslisted_classes.length; i++) {
+      if (this.contains(crosslisted_classes[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   this.toString = function() {
     var rtnStr = "";
     for (var s = 0; s < this.semesters.length; s++) {
@@ -282,6 +301,17 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     return ruleToCourse;
   }
 
+  /* Returns the semester number that the listing was found in. */
+  this.searchForSemester =  function(listing) {
+    for (var s = 0; s < this.semesters.length; s++) {
+      var semester = this.semesters[s];
+      for (var i = 0; i < semester.length; i++) {
+        if (semester[i] && semester[i].listing == listing) {
+          return s
+        }
+      }
+    }
+  }
 
   /* Pass in a dictionary of excel cell locations -> value (String).
    * The method modifies the dictionary passed in. */
@@ -294,8 +324,13 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
           var excelLocForRule = checklist_rules[rule].excel_cell;
           var excelNum = parseInt(excelLocForRule.match(/\d+/)[0]);
           var column = excelLocForRule.substring(0,excelLocForRule.indexOf("" + excelNum));
+          var credits_col = String.fromCharCode(column.charCodeAt(0)+2); //This won't work for columns like "AA" or "AZ"
+          var semester_col = String.fromCharCode(column.charCodeAt(0)+3);
           for (var i = 0; i < checklist_rules[rule].slots && i < coursesForThisRule.length; i++) {
             dict[column + (excelNum+i)] = coursesForThisRule[i].listing // check with matlab! Shouldn't get 2!
+            dict[credits_col + (excelNum+i)] = COURSE_INFORMATION[coursesForThisRule[i].listing]["credits"];
+            var semester_number = this.searchForSemester(coursesForThisRule[i].listing);
+            dict[semester_col + (excelNum+i)] = this.convertSemesterName(semester_number);
           }
         }
       }
