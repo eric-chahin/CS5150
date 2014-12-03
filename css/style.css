@@ -1086,12 +1086,6 @@ a.hvrlink:hover + .details-pane {
   display: block;
 }
 
-
-
-
-
-
-
 .droppable {
     width:50px;
     height:50px;
@@ -1116,3 +1110,13 @@ a.hvrlink:hover + .details-pane {
 .somethingover {
     background-color: #FCD;
 }
+
+#firefox_warning {
+  display: none;
+}
+@-moz-document url-prefix() {
+  #firefox_warning {
+    display: block;
+  }
+}
+
