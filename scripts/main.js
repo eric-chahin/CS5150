@@ -182,12 +182,9 @@ var Loader = function() {
  * If you have event listeners for the html that you pass in, then you can pass
  *   in a zero argument function into open_f that can access all the selectors in 
  *   your html arg.
- * There automatically is a button added to dismiss the popup.
+ * There automatically a way to click outside of the popup to exit.
  *   If you would like to turn that off, set dismiss_off to true. */
-function makePopup(selector,html,open_f,dismiss_off, user) {
-  var dismiss_button = "<br/><button class='dismiss'>Dismiss</button>";
-  if (dismiss_off)
-    dismiss_button = "";
+function makePopup(selector, html, open_f, dismiss_off, user) {
   $(selector).attr('data-effect','mfp-zoom-out');
   $(selector).magnificPopup({
     type: 'inline',
@@ -206,11 +203,11 @@ function makePopup(selector,html,open_f,dismiss_off, user) {
       }
     },
     items: {
-        src: "<div class='white-popup'>" + html + dismiss_button + "</div>",
+        src: "<div class='white-popup'>" + html + "</div>",
         type: 'inline'
     },
     midClick: true,
-    modal: true
+    modal: dismiss_off
   });
 }
 
