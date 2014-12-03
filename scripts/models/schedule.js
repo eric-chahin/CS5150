@@ -282,6 +282,17 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     return ruleToCourse;
   }
 
+  /* Returns the semester number that the listing was found in. */
+  this.searchForSemester =  function(listing) {
+    for (var s = 0; s < this.semesters.length; s++) {
+      var semester = this.semesters[s];
+      for (var i = 0; i < semester.length; i++) {
+        if (semester[i] && semester[i].listing == listing) {
+          return s
+        }
+      }
+    }
+  }
 
   /* Pass in a dictionary of excel cell locations -> value (String).
    * The method modifies the dictionary passed in. */
@@ -294,8 +305,13 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
           var excelLocForRule = checklist_rules[rule].excel_cell;
           var excelNum = parseInt(excelLocForRule.match(/\d+/)[0]);
           var column = excelLocForRule.substring(0,excelLocForRule.indexOf("" + excelNum));
+          var credits_col = String.fromCharCode(column.charCodeAt(0)+2); //This won't work for columns like "AA" or "AZ"
+          var semester_col = String.fromCharCode(column.charCodeAt(0)+3);
           for (var i = 0; i < checklist_rules[rule].slots && i < coursesForThisRule.length; i++) {
             dict[column + (excelNum+i)] = coursesForThisRule[i].listing // check with matlab! Shouldn't get 2!
+            dict[credits_col + (excelNum+i)] = COURSE_INFORMATION[coursesForThisRule[i].listing]["credits"];
+            var semester_number = this.searchForSemester(coursesForThisRule[i].listing);
+            dict[semester_col + (excelNum+i)] = this.convertSemesterName(semester_number);
           }
         }
       }
