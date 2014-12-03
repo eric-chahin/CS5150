@@ -206,6 +206,18 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     return false;
   }
 
+  /* Returns whether a crosslisted class is found in the schedule */
+  this.crosslist_contains = function(listing) {
+    listing = listing.replace(" ",""); // Removes spaces from input just in case
+    var crosslisted_classes = COURSE_INFORMATION[listing]["crosslists"].split(";");
+    for (var i = 0; i < crosslisted_classes.length; i++) {
+      if (this.contains(crosslisted_classes[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   this.toString = function() {
     var rtnStr = "";
     for (var s = 0; s < this.semesters.length; s++) {

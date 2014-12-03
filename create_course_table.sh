@@ -7,6 +7,7 @@
   seasons        VARCHAR(127)   NOT NULL,
   arts_tags      VARCHAR(127)   NOT NULL,
   prerequisites  TEXT           NOT NULL,
+  crosslists     VARCHAR(255)   NOT NULL,
   description    TEXT           NOT NULL
   )' test
 ../../bin/mysqlimport --fields-terminated-by=\;\;\; --local test data/courses.csv
