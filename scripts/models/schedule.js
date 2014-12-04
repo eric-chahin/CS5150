@@ -251,7 +251,6 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
       this.vector_warnings[i] = !fulfillsThisVector(vectors_to_check[i],courses_lst);
     }
     
-    
     var vectorwarninghtml = "<a class='hvrlink'><img src='img/warning_vector.png' alt='Unfulfilled Vector Warning'></a>"+
             "<div class='course-warning'>"+
               "<h3 class='title'>Warning: Unfulfilled Vector</h3>"+
@@ -327,6 +326,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
     for (var i = 0; i<this.courses_I_want.length; i++){
       output[output.length]= [-1,this.courses_I_want[i]];
     }
+    console.log(output);
     return output;
   }
 
