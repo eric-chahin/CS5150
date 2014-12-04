@@ -12,7 +12,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.add_new_schedule = function(schedule_name, version, start_year) {
   	var new_schedule_id = this.netid + "_" + this.next_schedule_num;
   	this.next_schedule_num = parseInt(this.next_schedule_num) + 1;
-  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year, 8);
+  	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year);
   	this.schedules[this.schedules.length] = this.current_schedule;
       
     initialized_checklist_data = "Select Vector#Select Vector#false#false#false#false";
@@ -42,11 +42,10 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                     var schedule_name = data['schedule_name'];
                     var schedule_id = data['schedule_id'];
                     var schedule = data['schedule'];
-                    var numSemesters = parseInt(data['schedule_numSemesters']);
                     var courses_lst = schedule ? schedule.split(",") : [];
                     var checklist = data['checklist_data'];
                     checklist_data = checklist ? checklist.split("#") : [];
-                    s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year, numSemesters);
+                    s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year);
                 }
              }
       });
@@ -70,7 +69,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                'schedule_name': this.current_schedule.name,
                'schedules': this.current_schedule.toArray().toString(),
                'checklist_data': checklist_data,
-               'schedule_numSemesters': this.current_schedule.numSemesters,
                'isNew': isNew},
       success: function(data){
         if (data == "error"){
