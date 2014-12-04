@@ -258,6 +258,24 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     for (var i = 0; i < vectors_to_check.length; i++) {
       this.vector_warnings[i] = !fulfillsThisVector(vectors_to_check[i],courses_lst);
     }
+    
+    
+    var vectorwarninghtml = "<a class='hvrlink'><img src='img/warning_vector.png' alt='Unfulfilled Vector Warning'></a>"+
+            "<div class='course-warning'>"+
+              "<h3 class='title'>Warning: Unfulfilled Vector</h3>"+
+              "<p class='desc'>It appears that you have not yet fulfilled this vector; one or more courses required for the vector are missing from your schedule.  Double-check the vector listing to ensure that the requirements have been met.</p>" +
+            "</div>";
+            
+    var containingClass = this;
+    
+    $('.vector-warning').each(function(i) {
+        console.log(!containingClass.vector_warnings[i]);
+        if(containingClass.vector_warnings[i]) {
+           this.innerHTML = vectorwarninghtml;
+        } else {
+            this.innerHTML = "";
+        }
+    });    
     console.log("Vector flags: " + this.vector_warnings);
   }
 
