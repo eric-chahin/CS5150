@@ -37,4 +37,32 @@
       echo ('</div></div>');
     }
   }
+         $hexagons_per_panel = 18;
+          $htmlString = '<div class="item" id="year_third" ><div class= "semester9" id="semester9"> <div class= "coursetitle"><img src= "img/text_extra_semester.png"></div>';
+            for ($j = 0; $j < $hexagons_per_panel;$j+=1) {
+              if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
+              
+                $htmlString .= sprintf('<div id="course_9%d" class="hexagonLeft dragcolumn"></div>',$j);
+              } else {
+                 $htmlString .= sprintf('<div id="course_9%d" class="hexagon dragcolumn"></div>',$j);
+              }
+            }
+          $htmlString .= '</div>';
+       echo ($htmlString);
+       
+       
+       
+       $hexagons_per_panel = 18;
+          $htmlString = '<div class= "semester10" id="semester10"> <div class= "coursetitle"><img src= "img/text_extra_semester.png"></div>';
+            for ($j = 0; $j < $hexagons_per_panel;$j+=1) {
+              if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
+              
+                $htmlString .= sprintf('<div id="course_10%d" class="hexagonLeft dragcolumn"></div>',$j);
+              } else {
+                 $htmlString .= sprintf('<div id="course_10%d" class="hexagon dragcolumn"></div>',$j);
+              }
+            }
+          $htmlString .= '</div></div>';
+       echo ($htmlString);
+       
 ?>

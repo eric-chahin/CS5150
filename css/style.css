@@ -340,6 +340,14 @@ button:focus {
     background-image: url("../img/courses_box.png");
 }
 
+.semester10 {
+    padding: 15px;
+    height: 298px;
+    width: 360px;
+    margin-left: 6px;
+    float: left;
+    background-image: url("../img/courses_box.png");
+}
 
 .search {
     width: 320px;
