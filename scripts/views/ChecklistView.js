@@ -94,6 +94,43 @@ var ChecklistView = function() {
     }); 
   }
 
+  /* Takes in a String array and updates the entire potential courses divs. */
+  this.updatePotentialCourses = function(listing_array) {
+    var i = 0;
+    var selector = ".classContainer > a > div";
+    if ($(selector).length == 0) {
+      var selector = ".classContainer > div.dragcolumn";
+    } 
+    $(selector).each(function(){
+      if (!(i < listing_array.length)) return false; // Acts like a while loop
+      this.textContent = checklist_view.getCourseSpaced(listing_array[i]);
+      i += 1;
+    });
+  }
+
+  /* Returns a String array of the Potential Courses hexagons. */
+  this.getPotentialCourses = function() {
+    var potential_array = [];
+    var selector = ".classContainer > a > div";
+    if ($(selector).length == 0) {
+      var selector = ".classContainer > div.dragcolumn";
+    } 
+    $(selector).each(function(){
+      if (this.textContent != ""){
+        potential_array.push(this.textContent);
+      }
+    });
+    return potential_array;
+  }
+
+  /* Returns the course listing with a space for easy viewing. */
+  this.getCourseSpaced = function(course) {
+    var match = course.match(/\d+/);
+    if (match == null) return course;
+    var numIndex = course.indexOf(match[0]);
+    return course.substring(0,numIndex) + " " + course.substring(numIndex);
+  }
+
   /* Create warning message */
   this.addCourseWarning = function(warning_code) {
         var html = "";
@@ -128,37 +165,35 @@ var ChecklistView = function() {
         return html;
   }
             
-this.addChecklistWarnings = function(){
-       var currentSched =  user.current_schedule;
-      
-       $(".warning-col").each(function(){
-              $(this).html("");
-       });
-      
-     for (var i = 0; i < currentSched.semesters.length; i++) {
-        for (var j = 0; j < currentSched.semesters[i].length; j++) {
-         var tmp = currentSched.semesters[i][j];
+  this.addChecklistWarnings = function(){
+    var currentSched =  user.current_schedule;
 
-           var req = null;
-          $('.drag-course').children('.data').each(function(){
-            if(tmp != null && $(this).attr('data-name') == tmp.listing){
-                if (tmp == null) {
-                    $(this).parent().prev().html("");
-                }else {
-                    req = $(this).parent().prev().prev().html();
-                    tmp.setRequirementFilled(req);
-                    var warning = "";
-                if (tmp.warnings.length > 0) {
-                  warning = checklist_view.addCourseWarning(tmp.warnings[0]);
-                }
-  
-            $(this).parent().prev().html(warning);
-           }
-        }
+    $(".warning-col").each(function(){
+      $(this).html("");
+    });
+        
+    for (var i = 0; i < currentSched.semesters.length; i++) {
+      for (var j = 0; j < currentSched.semesters[i].length; j++) {
+        var tmp = currentSched.semesters[i][j];
+        var req = null;
+        $('.drag-course').children('.data').each(function(){
+          if(tmp != null && $(this).attr('data-name') == tmp.listing){
+            if (tmp == null) {
+              $(this).parent().prev().html("");
+            } else {
+              req = $(this).parent().prev().prev().html();
+              tmp.setRequirementFilled(req);
+              var warning = "";
+              if (tmp.warnings.length > 0) {
+                warning = checklist_view.addCourseWarning(tmp.warnings[0]);
+              }
+              $(this).parent().prev().html(warning);
+            }
+          }
         });
-        }
       }
     }
+  }
               
 
   /* Takes in the Course object that will be deleted. */

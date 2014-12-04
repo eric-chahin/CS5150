@@ -45,8 +45,12 @@ def getIndividualSubject(roster_semester,subject):
       course_obj.offered       = unidecode(c.find('catalogwhenoffered').text.replace('\n', ' '))
       course_obj.prerequisites = unidecode(c.find('catalogprereqcoreq').text.replace('\n', ' '))
       course_obj.arts_tags     = unidecode(c.find('catalogdistr').text.replace('\n', ' '))
+      crosslists = []
+      for combination in c.find_all('combination'):
+        crosslists.append(combination.find('subject').text + combination.find('catalognbr').text)
+      course_obj.crosslisted_classes = ";".join(crosslists)
       COURSE_DICT[listing] = course_obj
-      print str(listing)
+      print str(course_obj)
       print '-' * 50
 
 
@@ -71,12 +75,12 @@ class Course(object):
       self.description = "" # String of description
       #TODO self.vectors_required = None # list of vectors for which this is a required course
       #TODO self.vectors_satify = None # list of vectors that this course satisfies
+      self.crosslisted_classes = ""
       self.prerequisites = "" 
       self.course_listing = course_listing
       self.name = name
       self.credits = credits #String
   def __str__(self):
-    return self.course_listing + ";;;" + self.name + ";;;" + self.credits + ";;;" + self.offered + ";;;" + self.arts_tags + ";;;" + self.prerequisites + ";;;" + self.description
-
+    return ";;;".join([self.course_listing,self.name,self.credits,self.offered,self.arts_tags,self.prerequisites,self.crosslisted_classes,self.description])
 
 main()

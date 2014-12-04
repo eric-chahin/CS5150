@@ -7,6 +7,7 @@ mysql -e 'DROP TABLE IF EXISTS test.courses'
   seasons        VARCHAR(127)   NOT NULL,
   arts_tags      VARCHAR(127)   NOT NULL,
   prerequisites  TEXT           NOT NULL,
+  crosslists     VARCHAR(255)   NOT NULL,
   description    TEXT           NOT NULL
   )' -u checklist -pzOPukWdPDt checklistinteractive
 mysqlimport --fields-terminated-by=\;\;\; --local -u checklist -pzOPukWdPDt checklistinteractive data/courses.csv

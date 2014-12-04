@@ -8,6 +8,7 @@ var Loader = function() {
      Returns: User object */
   //flag if user is found in db
   this.isNewUser = false;
+  this.suggested_potential_courses = null;
   this.checklistVectorData = "";
   this.fetchUser = function(netid) {
     var user = null;
@@ -84,9 +85,7 @@ var Loader = function() {
       for (var j = 1; j <= 8; j++) {
         if (user_semester[j-1] && user_semester[j-1].listing) {
           var listing = user_semester[j-1].listing;
-          var match = listing.match(/\d+/);
-          var numIndex = listing.indexOf(match[0]);
-          var listing_spaced = listing.substring(0,numIndex) + " " + listing.substring(numIndex);
+          var listing_spaced = checklist_view.getCourseSpaced(listing);
           $courses[j].children[0].innerHTML = listing_spaced;
           // $courses[j].innerHTML = listing_spaced; // Use if we get rid of the links on top of the divs
           $("#course_"+(i+1)+j).data("course",user_semester[j-1]);
@@ -96,6 +95,27 @@ var Loader = function() {
     }
     checklist_view.fillEmptyScheduleSpots(); // clear black hexagon background
     checklistcopySections();
+  }
+
+  this.getSuggestedPotential = function() {
+    if (!this.suggested_potential_courses) {
+      var data_array = null;
+      $.ajax({
+        type:     "GET",
+        url:      "potential_courses.php",
+        dataType: "json",
+        async: false,
+        cache: false,
+        success: function(data){
+          data_array = [];
+          for (var i = 0; i < data.length; i++) {
+            data_array.push(data[i]["course_listing"]);
+          }
+        }
+      });
+      this.suggested_potential_courses = data_array;
+    }
+    return this.suggested_potential_courses;
   }
 
   this.initializeCourseInfo = function() {
@@ -162,12 +182,9 @@ var Loader = function() {
  * If you have event listeners for the html that you pass in, then you can pass
  *   in a zero argument function into open_f that can access all the selectors in 
  *   your html arg.
- * There automatically is a button added to dismiss the popup.
+ * There automatically a way to click outside of the popup to exit.
  *   If you would like to turn that off, set dismiss_off to true. */
-function makePopup(selector,html,open_f,dismiss_off, user) {
-  var dismiss_button = "<br/><button class='dismiss'>Dismiss</button>";
-  if (dismiss_off)
-    dismiss_button = "";
+function makePopup(selector, html, open_f, dismiss_off, user) {
   $(selector).attr('data-effect','mfp-zoom-out');
   $(selector).magnificPopup({
     type: 'inline',
@@ -186,11 +203,11 @@ function makePopup(selector,html,open_f,dismiss_off, user) {
       }
     },
     items: {
-        src: "<div class='white-popup'>" + html + dismiss_button + "</div>",
+        src: "<div class='white-popup'>" + html + "</div>",
         type: 'inline'
     },
     midClick: true,
-    modal: true
+    modal: dismiss_off
   });
 }
 
@@ -206,10 +223,10 @@ function setVectorDropDowns() {
 
 /* Separates the splash page HTML so that it can be used as a popup. */
 function getSplashPageHTML() {
-  var select_html = '<option selected disabled>Entering year</option>';
+  var select_html = '<option selected disabled>Entering academic year</option>';
   var current_year = new Date().getFullYear();
   for (var i = 0; i < 6; i++) {
-    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + "</option>";
+    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + " - " + (current_year-i+1) + "</option>";
   }
   select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
 
@@ -247,7 +264,7 @@ function getSplashPageFunctions() {
     if (checkedValue !== "confirm") {
       $("#splash_warning").text("You need to agree to the terms and conditions to use Checklist Interactive.");
     } else if (isNaN(enteringYear)) {
-      $("#splash_warning").text("Please, select your first year at Cornell.");
+      $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
       user.start_year = enteringYear; 
       $.magnificPopup.close();
@@ -296,6 +313,7 @@ function getNewPageFunctions() {
             user.save_schedule("false", vec_data);
             checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
             user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
+            setVectorDropDowns();
             loader.applyUser(user);
             $.magnificPopup.close();
         }
@@ -348,18 +366,19 @@ function getLoadPageFunctions() {
       user.save_schedule("false", vec_data);
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
       checklist_data = user.load_schedule(schedule_id);
-                        
+      setVectorDropDowns();
+
       //when  we save, make sure to re-encode checklist data as a string, as opposed to an array of strings
       delim = "#";
       checklist_str = checklist_data[0] + delim + checklist_data[1] + delim +checklist_data[2] + delim +checklist_data[3] + delim + checklist_data[4] + delim + checklist_data[5];
       user.save_schedule("false", checklist_str);
                         
       loader.applyUser(user);
+      checklistcopySections();
+      checklistDrag();
+      setVectorInfo(checklist_data);
       $.magnificPopup.close();
     }
-     checklistcopySections();
-     checklistDrag();
-     setVectorInfo(checklist_data);
     return false;
   });    
 }
@@ -373,7 +392,10 @@ function getLoadPageFunctions() {
  });
 
 
-//provides a string containing checklist information to be saved.  Information is delimited by "#", and is listed in the following order: Vector1, Vector2, isVector1Completed, isVector2Completed, isTechWritingCompleted, isProbabilityCompleted
+/* Provides a string containing checklist information to be saved.  
+ * Information is delimited by "#", and is listed in the following order: 
+ *   Vector1, Vector2, isVector1Completed, isVector2Completed, isTechWritingCompleted, 
+ *   isProbabilityCompleted */
 function getVectorInfo() {
     var vector1 = document.getElementById("vector1");
     str1 = vector1.options[vector1.selectedIndex].value;
@@ -426,7 +448,7 @@ function setVectorInfo(checklist_data) {
     document.getElementById("completedVec2").checked = (checklist_data[3] == "true");
     document.getElementById("techBox").checked = (checklist_data[4] == "true");
     document.getElementById("statBox").checked = (checklist_data[5] == "true");
-
+    user.current_schedule.updateVectorWarnings();
 }
 
 
@@ -477,7 +499,7 @@ $(document).ready(function(){
     //TODO determine user's name from their netid, version and start_year from splash page
     user = new User("need to get this somehow", netid, 2012, null, null, null, 2011);
   }
-  
+
   setupMagnificPopup(user);
   loader.applyUser(user); // must come AFTER setupMagnificPopup
   var panel = new Panel();

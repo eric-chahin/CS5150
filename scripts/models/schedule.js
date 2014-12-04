@@ -6,6 +6,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
   this.numSemesters = numSemesters;
+  this.vector_warnings = [false,false]; //Length of how many vectors we have.
   //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
   console.log(startYear); 
@@ -50,28 +51,35 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     for (var k = 0; k < countInArrays.length; k++) {
         countInArrays[k] = 0;
     }
-    for (var i = 0; i < savedSchedule.length; i=i+2) {
-      if (savedSchedule[i] == -1){
-        str = savedSchedule[i+1];
-        var arr = str.split("#");
-        var name = arr[0];
-        var req = arr[1];
-        if (arr[1]=="") {
-            req = null;
+    if (savedSchedule.length == 0) {
+      //This happens when setting up a new schedule, the saved Schedule will be an empty array
+      //We need to load the potential courses from the given list in data/potential_courses.csv
+      var potentials = loader.getSuggestedPotential();
+      checklist_view.updatePotentialCourses(potentials);
+    } else {
+      for (var i = 0; i < savedSchedule.length; i=i+2) {
+        if (savedSchedule[i] == -1){
+          str = savedSchedule[i+1];
+          var arr = str.split("#");
+          var name = arr[0];
+          var req = arr[1];
+          if (arr[1]=="") {
+              req = null;
+          }
+          this.courses_I_want[countInArrays[this.numSemesters]] = new Course(name, req);
+          countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
+        } else {
+          var sem = savedSchedule[i];
+          str = savedSchedule[i+1];
+          var arr = str.split("#");
+          var name = arr[0];
+          var req = arr[1];
+          if (arr[1]=="") {
+              req = null;
+          }
+          this.semesters[sem][countInArrays[sem]] = new Course(name, req);
+          countInArrays[sem] = countInArrays[sem] + 1;
         }
-        this.courses_I_want[countInArrays[this.numSemesters]] = new Course(name, req);
-        countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
-      } else {
-        var sem = savedSchedule[i];
-        str = savedSchedule[i+1];
-        var arr = str.split("#");
-        var name = arr[0];
-        var req = arr[1];
-        if (arr[1]=="") {
-            req = null;
-        }
-        this.semesters[sem][countInArrays[sem]] = new Course(name, req);
-        countInArrays[sem] = countInArrays[sem] + 1;
       }
     }
   }
@@ -192,6 +200,66 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     }
   }
 
+  /* Returns whether or not the courses fulfill vector_name */
+  function fulfillsThisVector(vector_name, courses_lst) {
+    if (vectors[vector_name]) { 
+      var vector_rules = vectors[vector_name].components;
+      var possibilities = [];
+      var left_to_fill = new Array(vector_rules.length);
+      for (var comp_i = 0; comp_i < vector_rules.length; comp_i++) {
+        var component = vector_rules[comp_i];
+        for (var course_i = 0; course_i < courses_lst.length; course_i++) {
+          if (component.fulfillsVector(courses_lst[course_i][1].listing)) {
+            if (possibilities.indexOf(courses_lst[course_i][1]) == -1)
+              possibilities.push(courses_lst[course_i][1]);
+          }
+        }
+        left_to_fill[comp_i] = component.slots;
+      }
+      return findVectorAssignment(vector_rules, left_to_fill, possibilities, 0);
+    } else {
+      return true; // if the vector doesn't exist, then don't initialize warnings
+    }
+  }
+
+  /* Returns true if could find assignment. False otherwise. 
+   * Parameters: 
+   *   components         array of components
+   *   left_to_fill       array of ints to show the number left to fill for the corresponding component
+   *   possibilities      A list of Course objects that could fit in the slots
+   *   i                  The current index of possibilities, giving the current course. */
+  function findVectorAssignment(components, left_to_fill, possibilities, i) {
+    var sum = 0;
+    $.each(left_to_fill, function() {
+      sum += this;
+    });
+    if (sum == 0) {
+      return true;
+    } else if (i >= possibilities.length) {
+      return false;
+    } else {
+      var valid_assignment_exists = false;
+      for (var c = 0; c < components.length; c++) {
+        var new_left_to_fill = left_to_fill.slice(0);
+        if (new_left_to_fill[c] > 0 && components[c].fulfillsVector(possibilities[i].listing)) {
+          new_left_to_fill[c] -= 1;
+          valid_assignment_exists = valid_assignment_exists || findVectorAssignment(components, new_left_to_fill, possibilities, i+1);
+        }
+      }
+      return valid_assignment_exists;
+    }
+  }
+
+  /* This will update the warnings field in schedule. */
+  this.updateVectorWarnings = function() {
+    //at this point, all the requirements in the Course objects are set.
+    var vectors_to_check = [$("#vector1").val(),$("#vector2").val()];
+    var courses_lst = this.toArray();
+    for (var i = 0; i < vectors_to_check.length; i++) {
+      this.vector_warnings[i] = !fulfillsThisVector(vectors_to_check[i],courses_lst);
+    }
+    console.log("Vector flags: " + this.vector_warnings);
+  }
 
   /* Returns whether this listing is already in the schedule */
   this.contains = function(listing) {
@@ -201,6 +269,18 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
         if (this.semesters[s][i] && listing === this.semesters[s][i].listing) {
           return true;
         }
+      }
+    }
+    return false;
+  }
+
+  /* Returns whether a crosslisted class is found in the schedule */
+  this.crosslist_contains = function(listing) {
+    listing = listing.replace(" ",""); // Removes spaces from input just in case
+    var crosslisted_classes = COURSE_INFORMATION[listing]["crosslists"].split(";");
+    for (var i = 0; i < crosslisted_classes.length; i++) {
+      if (this.contains(crosslisted_classes[i])) {
+        return true;
       }
     }
     return false;
@@ -282,6 +362,17 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     return ruleToCourse;
   }
 
+  /* Returns the semester number that the listing was found in. */
+  this.searchForSemester =  function(listing) {
+    for (var s = 0; s < this.semesters.length; s++) {
+      var semester = this.semesters[s];
+      for (var i = 0; i < semester.length; i++) {
+        if (semester[i] && semester[i].listing == listing) {
+          return s
+        }
+      }
+    }
+  }
 
   /* Pass in a dictionary of excel cell locations -> value (String).
    * The method modifies the dictionary passed in. */
@@ -294,8 +385,13 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
           var excelLocForRule = checklist_rules[rule].excel_cell;
           var excelNum = parseInt(excelLocForRule.match(/\d+/)[0]);
           var column = excelLocForRule.substring(0,excelLocForRule.indexOf("" + excelNum));
+          var credits_col = String.fromCharCode(column.charCodeAt(0)+2); //This won't work for columns like "AA" or "AZ"
+          var semester_col = String.fromCharCode(column.charCodeAt(0)+3);
           for (var i = 0; i < checklist_rules[rule].slots && i < coursesForThisRule.length; i++) {
             dict[column + (excelNum+i)] = coursesForThisRule[i].listing // check with matlab! Shouldn't get 2!
+            dict[credits_col + (excelNum+i)] = COURSE_INFORMATION[coursesForThisRule[i].listing]["credits"];
+            var semester_number = this.searchForSemester(coursesForThisRule[i].listing);
+            dict[semester_col + (excelNum+i)] = this.convertSemesterName(semester_number);
           }
         }
       }

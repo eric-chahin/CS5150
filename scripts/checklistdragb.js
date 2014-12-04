@@ -11,12 +11,6 @@ function checklistDrag() {
    
   }
 
-  /* Replaces the current popup text with str. */
-  function replacePopupText(str) {
-    $("#popup").text(str);
-  }
-
-
   function checklisthandleDragStart(e) {
     console.log("dragstart");
     e.dataTransfer.effectAllowed = 'move';
@@ -88,8 +82,8 @@ function checklistDrag() {
       this.innerHTML = e.dataTransfer.getData('text/html');
       
 
-       checklist_view.addChecklistWarnings();
-       
+      checklist_view.addChecklistWarnings();
+      user.current_schedule.updateVectorWarnings();
     
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
@@ -158,8 +152,15 @@ function checklistrecreateExistingDivs() {
 
 function checklistcopySections(){
   var checklistclone = $("#content").clone();
+  var vector1_val = $("#vector1").val();
+  var vector2_val = $("#vector2").val();
   $("#content").remove();
   $("#content_container").append(checklistclone);
+  $("#vector1").val(vector1_val);
+  $("#vector2").val(vector2_val);
+  $("#vector1,#vector2").change(function() {
+    user.current_schedule.updateVectorWarnings();
+  });
 }
 
 

@@ -143,8 +143,18 @@ var Checklist = function(version) {
       var rtn_f = function(listing,warnings) {
         var f = tagsDict[tag_allowed_lst];
         if (!f) {
-          //TODO: Take care of FWS and Liberal Studies tags
-          return FilterValue.FORBIDDEN;
+          //Special case: Freshman Writing Seminar
+          //The tag is $FWS, and is accepted whenever a course title starts with "FWS"
+          if (tag_allowed_lst === "$FWS") {
+            if (COURSE_INFORMATION[listing].title.substring(0,3) === "FWS") {
+              return FilterValue.PERFECT;
+            } else {
+              warnings.push(WarningType.FORBIDDEN);
+              return FilterValue.FORBIDDEN;
+            }
+          } else {
+            return FilterValue.FORBIDDEN;
+          }
         }
         if (f(listing,warnings)) {
           return FilterValue.ALLOWED;
@@ -212,10 +222,9 @@ var Checklist = function(version) {
       }
          
     }
-$(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
+    $(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
                          +"Vector 1:<select type='text' name='vector1' id='vector1'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='completedVec1' id='completedVec1' value='tech'><br>"
                          +"Vector 2:<select type='text' name='vector2' id='vector2'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='completedVec2' id='completedVec2' value='tech'></div>");
- 
 }
 
 

@@ -42,22 +42,41 @@ function applyrun() {
   }
 
   function handleClick(e) {
+    console.log("here");
     if (this.textContent !== "") {
       var $thisNode = $("#" + this.id);
+      //currently data-course is just the course name which is useless
       var thisCourse = $thisNode.data("course");
+      
       if (thisCourse) {
-        // console.log(thisCourse.toString());
-        replacePopupText(thisCourse.toString());
+        replacePopupHTML(thisCourse.prettyPrint());
       } else {
-        // console.log(new Course(this.textContent,"").toString());
-        replacePopupText(new Course(this.textContent,"").toString())
+        //new Course(this.textContent,"").toString()
+        replacePopupHTML(new Course(this.textContent).prettyPrint());
       }
+    }else{
+      //Athena pointed out that the last course clicked was always in the popup when you click an empty spot
+      //this is $(#popup) contained the last course; it is now replaced with the below string 
+      replacePopupHTML("You clicked an empty spot");
     }
   }
 
-  /* Replaces the current popup text with str. */
-  function replacePopupText(str) {
-    $("#popup").text(str);
+  /* Replaces the current popup HTML with str. */
+  function replacePopupHTML(str) {
+    //course name is showing up, but the popup is not happening
+    //the mag pop up effects go away with search, reapplying
+    //the theme for cs 5150 and search: reapply for no understandable reason
+    $('.open-popup-link').magnificPopup({
+    type:'inline',
+    removalDelay: 50, //delay removal by X to allow out-animation
+    callbacks: {
+      beforeOpen: function() {
+        this.st.mainClass = this.st.el.attr('data-effect');
+      }
+    },
+    midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+  });
+    $("#popup").html(str);
   }
 
 
@@ -201,14 +220,14 @@ function applyrun() {
         }
       } else if (!dragIsScheduleCourse && thisIsScheduleCourse) {
         //add a new course from the hexagon that you've just dragged over
-        if (!user.current_schedule.contains(this.textContent)){
+        if (!user.current_schedule.contains(this.textContent) && !user.current_schedule.crosslist_contains(this.textContent)){
           var newCourse = user.current_schedule.addCourse(new Course(this.textContent,null), thisSemester,thisIndex); 
           checklist_view.addCourseToChecklistView(newCourse,thisSemester);
           $thisNode.data("course", newCourse);
         } else {
           this.innerHTML = dragSrc.innerHTML;
           dragSrc.innerHTML = e.dataTransfer.getData('text/html');
-          alert(dragSrc.textContent + " is already in your schedule! :(");
+          alert(dragSrc.textContent + " or a crosslist is already in your schedule! :(");
         }
       } else {
         //just swapping divs elsewhere, don't care
