@@ -1068,8 +1068,8 @@ input[type=checkbox] {
 }
 
 
-/** detail panel **/
-.details-pane {
+/** course warning popup **/
+.course-warning {
     display: none;
     color: #000000;
     position: relative;
@@ -1087,11 +1087,11 @@ input[type=checkbox] {
 	background-clip: padding-box; 
 }
 
-.details-pane.rightside {
+.course-warning.rightside {
   left: -529px;
 }
 
-.details-pane h3 {
+.course-warning h3 {
     text-align: center;
     padding: 0px;
     margin: 0px;
@@ -1099,15 +1099,16 @@ input[type=checkbox] {
     margin-bottom: 4px;
 }
 
-.details-pane .desc {
+.course-warning.desc {
 }
 
 
 /** hover styles **/
-a.hvrlink:hover + .details-pane {
+a.hvrlink:hover + .course-warning {
   display: block;
 }
-.details-pane:hover {
+
+.course-warning:hover {
   display: block;
 }
 
