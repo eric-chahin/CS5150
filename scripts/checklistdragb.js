@@ -152,8 +152,12 @@ function checklistrecreateExistingDivs() {
 
 function checklistcopySections(){
   var checklistclone = $("#content").clone();
+  var vector1_val = $("#vector1").val();
+  var vector2_val = $("#vector2").val();
   $("#content").remove();
   $("#content_container").append(checklistclone);
+  $("#vector1").val(vector1_val);
+  $("#vector2").val(vector2_val);
 }
 
 
