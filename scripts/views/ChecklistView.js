@@ -165,37 +165,37 @@ var ChecklistView = function() {
         return html;
   }
             
-this.addChecklistWarnings = function(){
-       var currentSched =  user.current_schedule;
-      
-       $(".warning-col").each(function(){
-              $(this).html("");
-       });
-      
-     for (var i = 0; i < currentSched.semesters.length; i++) {
-        for (var j = 0; j < currentSched.semesters[i].length; j++) {
-         var tmp = currentSched.semesters[i][j];
+  this.addChecklistWarnings = function(){
+    var currentSched =  user.current_schedule;
 
-           var req = null;
-          $('.drag-course').children('.data').each(function(){
-            if(tmp != null && $(this).attr('data-name') == tmp.listing){
-                if (tmp == null) {
-                    $(this).parent().prev().html("");
-                }else {
-                    req = $(this).parent().prev().prev().html();
-                    tmp.setRequirementFilled(req);
-                    var warning = "";
-                if (tmp.warnings.length > 0) {
-                  warning = checklist_view.addCourseWarning(tmp.warnings[0]);
-                }
-  
-            $(this).parent().prev().html(warning);
-           }
-        }
+    $(".warning-col").each(function(){
+      $(this).html("");
+    });
+        
+    for (var i = 0; i < currentSched.semesters.length; i++) {
+      for (var j = 0; j < currentSched.semesters[i].length; j++) {
+        var tmp = currentSched.semesters[i][j];
+        var req = null;
+        $('.drag-course').children('.data').each(function(){
+          if(tmp != null && $(this).attr('data-name') == tmp.listing){
+            if (tmp == null) {
+              $(this).parent().prev().html("");
+            } else {
+              req = $(this).parent().prev().prev().html();
+              tmp.setRequirementFilled(req);
+              var warning = "";
+              if (tmp.warnings.length > 0) {
+                warning = checklist_view.addCourseWarning(tmp.warnings[0]);
+              }
+              $(this).parent().prev().html(warning);
+            }
+          }
         });
-        }
       }
     }
+    //After finishing updating the checklist warnings, update the vector warnings
+    currentSched.updateVectorWarnings();
+  }
               
 
   /* Takes in the Course object that will be deleted. */

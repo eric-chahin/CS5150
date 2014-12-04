@@ -6,6 +6,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
   this.numSemesters = numSemesters;
+  this.vector_warnings = [null,null]; //Length of how many vectors we have.
   //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
   console.log(startYear); 
@@ -199,6 +200,65 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     }
   }
 
+  /* Returns whether or not the courses fulfill vector_name */
+  function fulfillsVector(vector_name, courses_lst) {
+    if (vectors[vector_name]) { 
+      var vector_rules = vectors[vector_name].components;
+      var possibilities = [];
+      var left_to_fill = new Array(vector_rules.length);
+      for (var comp_i = 0; comp_i < vector_rules.length; comp_i++) {
+        var component = vector_rules[comp_i];
+        for (var course_i = 0; course_i < courses_lst.length; course_i++) {
+          if (component.fulfillsVector(courses_lst[course_i][1].listing)) {
+            if (possibilities.indexOf(courses_lst[course_i][1]) == -1)
+              possibilities.push(courses_lst[course_i][1]);
+          }
+        }
+        left_to_fill[comp_i] = component.slots;
+      }
+      if (!findVectorAssignment(vector_rules, left_to_fill, possibilities, 0)) {
+        alert(vector_name + " has not been fulfilled!! :( :( :(");
+      }
+    }
+  }
+
+  /* Returns true if could find assignment. False otherwise. 
+   * Parameters: 
+   *   components         array of components
+   *   left_to_fill       array of ints to show the number left to fill for the corresponding component
+   *   possibilities      A list of Course objects that could fit in the slots
+   *   i                  The current index of possibilities, giving the current course. */
+  function findVectorAssignment(components, left_to_fill, possibilities, i) {
+    var sum = 0;
+    $.each(left_to_fill, function() {
+      sum += this;
+    });
+    if (sum == 0) {
+      return true;
+    } else if (i >= possibilities.length) {
+      return false;
+    } else {
+      var valid_assignment_exists = false;
+      for (var c = 0; c < components.length; c++) {
+        var new_left_to_fill = left_to_fill.slice(0);
+        if (new_left_to_fill[c] > 0 && components[c].fulfillsVector(possibilities[i].listing)) {
+          new_left_to_fill[c] -= 1;
+          valid_assignment_exists = valid_assignment_exists || findVectorAssignment(components, new_left_to_fill, possibilities, i+1);
+        }
+      }
+      return valid_assignment_exists;
+    }
+  }
+
+  /* This will update the warnings field in schedule. */
+  this.updateVectorWarnings = function() {
+    //at this point, all the requirements in the Course objects are set.
+    var vectors_to_check = [$("#vector1").val(),$("#vector2").val()];
+    var courses_lst = this.toArray();
+    for (var i = 0; i < vectors_to_check.length; i++) {
+      fulfillsVector(vectors_to_check[i],courses_lst);
+    }
+  }
 
   /* Returns whether this listing is already in the schedule */
   this.contains = function(listing) {
