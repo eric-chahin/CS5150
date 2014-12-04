@@ -262,6 +262,16 @@ button:focus {
     text-align: center;
 }
 
+.coursetitle_main{
+    font-family: 'Caviar Dreams Light';
+    font-weight:normal;
+    color: #000000;
+    font-size: 24px;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+    margin-bottom: -5px;
+    margin-top: -5px;
+}
+
 .semestertitle{
     width: 160px;
     margin-bottom:0px;
@@ -308,16 +318,16 @@ button:focus {
 }
 
 .hexagon-key{
-    width: 400px;
-    margin: 10px;
+    width: 300px;
+    margin: 14px;
     position: absolute;
-    top: 280px;
+    top: 275px;
 }
 
 .key-item{
     color: #005463;
     font-size: 13px;
-    padding-right: 10px;
+    padding-right: 15px;
     padding-left: 0px;
     float: left;
 }
