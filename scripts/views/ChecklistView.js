@@ -138,7 +138,7 @@ var ChecklistView = function() {
         if (warning_code == WarningType.FORBIDDEN) {
           //Warning: Excluded Course                            
            html = "<a class='hvrlink'><img src='img/warning_excluded.png' alt='Excluded Course Warning'></a>" +
-            "<div class='details-pane'>" +
+            "<div class='course-warning'>" +
               "<h3 class='title'>Warning: Excluded Course</h3>" +
               "<p class='desc'>The course you have placed in this requirement is listed under excluded courses.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>" +
             "</div>";                                                                       
@@ -147,7 +147,7 @@ var ChecklistView = function() {
         if (warning_code == WarningType.COURSE_LEVEL || warning_code == WarningType.CREDITS) {
            // Warning: Course Level
            html = "<a class='hvrlink'><img src='img/warning_level.png' alt='Course Level Warning'></a>" +
-            "<div class='details-pane'>" + 
+            "<div class='course-warning'>" + 
               "<h3 class='title'>Warning: Course Level</h3>" +
               "<p class='desc'>The class you have added is not 3000+ level or 3+ credits.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>" +
             "</div>";
@@ -156,12 +156,21 @@ var ChecklistView = function() {
         if (warning_code == WarningType.SPECIFIC_CLASS) {
           // Warning: Specific Course Needed
         html =  "<a class='hvrlink'><img src='img/warning_specific.png' alt='Specific Course Warning'></a>"+
-            "<div class='details-pane'>"+
+            "<div class='course-warning'>"+
               "<h3 class='title'>Warning: Specific Course Needed</h3>"+
               "<p class='desc'>Only specific classes can fulfill this requirement and this course is not listed.  Double-check that the course satisfies the requirement or add an alternative course to your checklist.</p>" +
             "</div>";
         }
         
+        //Vector Warning
+        if (warning_code == WarningType.VECTOR) {
+          // Warning: Vector Unfulfilled
+        html =  "<a class='hvrlink'><img src='img/warning_vector.png' alt='Unfulfilled Vector Warning'></a>"+
+            "<div class='course-warning'>"+
+              "<h3 class='title'>Warning: Unfulfilled Vector</h3>"+
+              "<p class='desc'>It appears that you have not yet fulfilled this vector; one or more courses required for the vector are missing from your schedule.  For more information on vector requirements, click <a href='http://www.cs.cornell.edu/undergrad/csmajor/vectors'>here.</a></p>" +
+            "</div>";
+        }
         return html;
   }
             
