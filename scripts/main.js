@@ -448,7 +448,7 @@ function setVectorInfo(checklist_data) {
     document.getElementById("completedVec2").checked = (checklist_data[3] == "true");
     document.getElementById("techBox").checked = (checklist_data[4] == "true");
     document.getElementById("statBox").checked = (checklist_data[5] == "true");
-
+    user.current_schedule.updateVectorWarnings();
 }
 
 

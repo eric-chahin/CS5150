@@ -212,10 +212,9 @@ var Checklist = function(version) {
       }
          
     }
-$(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
+    $(checklistclass).append("<div class='vector-row'><h3>Vector</h5>"
                          +"Vector 1:<select type='text' name='vector1' id='vector1'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='completedVec1' id='completedVec1' value='tech'><br>"
                          +"Vector 2:<select type='text' name='vector2' id='vector2'><option selected disabled>Select Vector</option></select> Completed? <input type='checkbox' name='completedVec2' id='completedVec2' value='tech'></div>");
- 
 }
 
 

@@ -193,8 +193,6 @@ var ChecklistView = function() {
         });
       }
     }
-    //After finishing updating the checklist warnings, update the vector warnings
-    currentSched.updateVectorWarnings();
   }
               
 

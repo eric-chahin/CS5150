@@ -258,6 +258,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     for (var i = 0; i < vectors_to_check.length; i++) {
       this.vector_warnings[i] = !fulfillsThisVector(vectors_to_check[i],courses_lst);
     }
+    console.log("Vector flags: " + this.vector_warnings);
   }
 
   /* Returns whether this listing is already in the schedule */

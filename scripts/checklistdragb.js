@@ -82,8 +82,8 @@ function checklistDrag() {
       this.innerHTML = e.dataTransfer.getData('text/html');
       
 
-       checklist_view.addChecklistWarnings();
-       
+      checklist_view.addChecklistWarnings();
+      user.current_schedule.updateVectorWarnings();
     
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
@@ -158,6 +158,9 @@ function checklistcopySections(){
   $("#content_container").append(checklistclone);
   $("#vector1").val(vector1_val);
   $("#vector2").val(vector2_val);
+  $("#vector1,#vector2").change(function() {
+    user.current_schedule.updateVectorWarnings();
+  });
 }
 
 
