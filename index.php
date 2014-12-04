@@ -169,7 +169,6 @@
                         <div class="hexagon-key">
                             <div class="key-item"><img src="img/key_blue.png"><div id="key-text">CS Core</div></div>
                             <div class="key-item"><img src="img/key_red.png"><div id="key-text">Engineering</div></div>
-                            <div class="key-item"><img src="img/key_purple.png"><div id="key-text">Non-Cornell</div></div>
                         </div>
                     </div>        
                 </div>
