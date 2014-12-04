@@ -6,7 +6,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
   this.numSemesters = numSemesters;
-  this.vector_warnings = [null,null]; //Length of how many vectors we have.
+  this.vector_warnings = [false,false]; //Length of how many vectors we have.
   //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
   console.log(startYear); 
@@ -201,7 +201,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   }
 
   /* Returns whether or not the courses fulfill vector_name */
-  function fulfillsVector(vector_name, courses_lst) {
+  function fulfillsThisVector(vector_name, courses_lst) {
     if (vectors[vector_name]) { 
       var vector_rules = vectors[vector_name].components;
       var possibilities = [];
@@ -216,9 +216,9 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
         }
         left_to_fill[comp_i] = component.slots;
       }
-      if (!findVectorAssignment(vector_rules, left_to_fill, possibilities, 0)) {
-        alert(vector_name + " has not been fulfilled!! :( :( :(");
-      }
+      return findVectorAssignment(vector_rules, left_to_fill, possibilities, 0);
+    } else {
+      return true; // if the vector doesn't exist, then don't initialize warnings
     }
   }
 
@@ -256,7 +256,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
     var vectors_to_check = [$("#vector1").val(),$("#vector2").val()];
     var courses_lst = this.toArray();
     for (var i = 0; i < vectors_to_check.length; i++) {
-      fulfillsVector(vectors_to_check[i],courses_lst);
+      this.vector_warnings[i] = !fulfillsThisVector(vectors_to_check[i],courses_lst);
     }
   }
 
