@@ -48,27 +48,6 @@ var ChecklistView = function() {
     }
   }
 
-  this.addExtraSemester = function() {
-     //keep this immediate place holder
-       //   var potential_courses_panel_count = 4;
-       $( "#year_first" ).removeClass("active");
-       $( "#year_second" ).removeClass("active");
-       
-          var hexagons_per_panel = 18;
-          var htmlString = '<div class="item active" id="year_third" ><div class= "semester9" id="semester9"> <div class= "coursetitle"><img src= "img/text_extra_semester.png"></div>';
-            for (var j = 0; j < hexagons_per_panel;j+=1) {
-              if (j % hexagons_per_panel == 5 || j % hexagons_per_panel == 14) {
-              
-                htmlString +='<div id="course_9' + (j) + '" class="hexagonLeft dragcolumn"></div>';
-              } else {
-                 htmlString +='<div id="course_9' + (j) + '" class="hexagon dragcolumn"></div>';
-              }
-            }
-          htmlString += '</div></div>';
-
-           $("#semester-carousel").append(htmlString);
-  
-  }
   /* Deletes entire checklist. Important for loading in a new checklist. */
   this.deleteChecklistView = function() {
     $(".classleftrow").empty();

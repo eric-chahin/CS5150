@@ -1,11 +1,11 @@
 /* Class: Schedule is a singleton that contains all the planned classes for the user, their "schedule". */
 
 //TODO: save this.numSemesters somewhere
-var Schedule = function(schedule_name, version, id, courses_lst, startYear, numSemesters) {
+var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   this.checklist = new Checklist(version);
   this.id = id; // Should be in the form <netid>_<id>
   this.name = schedule_name;
-  this.numSemesters = numSemesters;
+  this.numSemesters = 10;
   this.vector_warnings = [false,false]; //Length of how many vectors we have.
   //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
@@ -24,17 +24,9 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear, numS
   this.semesters = new Array(this.numSemesters);
   for (var i = 0; i < this.semesters.length; i++) {
     this.semesters[i] = new Array(8);
-    if (i == 9) {
+    if (i == 9 || i == 10) {
       this.semesters[i] = new Array(18);
     }
-  }
-
-  //this code should be executed when someone clicks the button to add an extra semester to the schedule
-  this.add_semester = function(){
-    this.semesters[this.semesters.length] = new Array(18);
-    this.numSemesters = this.numSemesters+1;
-    //add new double semester object to schedule front end
-    // move the view to show the new semester
   }
 
   /* This method takes in a saved schedule and initializes all of the
