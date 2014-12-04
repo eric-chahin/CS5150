@@ -233,6 +233,7 @@ function applyrun() {
         //just swapping divs elsewhere, don't care
       }
 
+      user.current_schedule.updateVectorWarnings();
       console.log(user.current_schedule.toString());
       console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
     }

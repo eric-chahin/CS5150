@@ -83,7 +83,6 @@ function checklistDrag() {
       
 
       checklist_view.addChecklistWarnings();
-      user.current_schedule.updateVectorWarnings();
     
       $(".unassigned-classes").children().each(function(){
         if($.trim($(this).text()) == ""){
