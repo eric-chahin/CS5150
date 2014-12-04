@@ -128,7 +128,6 @@
                 <div class="col-md-12 column">
                     <div class="carousel_holder">
                         <div class="carousel_container">
-                            <div id= "addsemesterimage"></div>
                             <div id= "tutorialschedule"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
                             <div class="carousel slide" id="carousel-111948" data-interval="false">
                                 <div class="carousel-inner" id="semester-carousel">

@@ -1,5 +1,5 @@
  #!/usr/bin/env bash
-../../bin/mysql -e 'DROP TABLE IF EXISTS test.courses'
+mysql -e 'DROP TABLE IF EXISTS test.courses'
 ../../bin/mysql -e 'CREATE TABLE courses(
   course_listing VARCHAR(30) PRIMARY KEY,
   title          VARCHAR(255)   NOT NULL,
@@ -9,6 +9,10 @@
   prerequisites  TEXT           NOT NULL,
   crosslists     VARCHAR(255)   NOT NULL,
   description    TEXT           NOT NULL
-  )' test
-../../bin/mysqlimport --fields-terminated-by=\;\;\; --local test data/courses.csv
-../../bin/mysql -e 'SELECT * FROM courses' test
+  )' -u checklist -pzOPukWdPDt checklistinteractive
+mysqlimport --fields-terminated-by=\;\;\; --local -u checklist -pzOPukWdPDt checklistinteractive data/courses.csv
+mysql -e 'SELECT * FROM courses' test
+
+
+
+-u checklist -pzOPukWdPDt checklistinteractive
