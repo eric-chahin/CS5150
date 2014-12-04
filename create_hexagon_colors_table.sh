@@ -1,5 +1,5 @@
  #!/usr/bin/env bash
-mysql -e 'DROP TABLE IF EXISTS test.hexagon_colors'
+../../bin/mysql -e 'DROP TABLE IF EXISTS test.hexagon_colors'
 ../../bin/mysql -e 'CREATE TABLE hexagon_colors(
   color VARCHAR(30) NOT NULL,
   courses TEXT NOT NULL

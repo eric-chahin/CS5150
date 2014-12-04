@@ -19,7 +19,6 @@ var Loader = function() {
     var schedule = null;
     var schedule_name = null;
     var start_year = null;
-    var schedule_numSemesters = null;
     var checklist_data = null;
     $.ajax({
         type: "GET",
@@ -50,7 +49,6 @@ var Loader = function() {
           if (data != null){
             schedule = data['schedule'];
             schedule_name = data['schedule_name'];
-            schedule_numSemesters = parseInt(data['schedule_numSemesters']);
             var checklist = data['checklist_data'];
             checklist_data = checklist ? checklist.split("#") : [];
           }
@@ -61,7 +59,7 @@ var Loader = function() {
        return user;
     } else {
       var courses_lst = schedule ? schedule.split(",") : [];   
-      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year, schedule_numSemesters);
+      var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year);
       scheds = [];
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       this.isNewUser = false;
@@ -382,15 +380,6 @@ function getLoadPageFunctions() {
     return false;
   });    
 }
-
- $("#addsemesterimage").on('click', function () {
-    console.log("Clicked");
-    if (user.current_schedule.numSemesters < 9) {
-        checklist_view.addExtraSemester();
-    }
-    
- });
-
 
 /* Provides a string containing checklist information to be saved.  
  * Information is delimited by "#", and is listed in the following order: 
