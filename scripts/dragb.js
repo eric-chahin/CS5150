@@ -194,13 +194,15 @@ function applyrun() {
         this.innerHTML = e.dataTransfer.getData('text/html');
       }
 
-      //gets their locations based on id course_12
+      //gets their locations based on id course_101
       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
       var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
-      var dragSemester = parseInt(dragSrc.id.substring(7,8))-1;
-      var dragIndex    = parseInt(dragSrc.id.substring(8))-1;
-      var thisSemester = parseInt(this.id.substring(7,8))-1;
-      var thisIndex    = parseInt(this.id.substring(8,9))-1;
+      console.log(dragSrc.id)
+      console.log(this.id)
+      var dragSemester = (dragSrc.id.length == 10) ? "9" : parseInt(dragSrc.id.substring(7,8))-1;
+      var dragIndex    = (dragSrc.id.length == 10) ? parseInt(dragSrc.id.substring(9))-1 : parseInt(dragSrc.id.substring(8))-1;
+      var thisSemester = (this.id.length == 10) ? "9" : parseInt(this.id.substring(7,8))-1;
+      var thisIndex    = (this.id.length == 10) ? parseInt(this.id.substring(9))-1 : parseInt(this.id.substring(8,9))-1;
 
       if (dragIsScheduleCourse && thisIsScheduleCourse) {
         $dragSrcNode.data("course",thisCourse);
