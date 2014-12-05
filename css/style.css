@@ -629,6 +629,10 @@ clear:left;
 }
 
 .vector-warning{
+    width: 19px;
+    height: 19px;
+    float: left;
+    margin-right: 2px;
 }
 
 .checkbox-requirements{
