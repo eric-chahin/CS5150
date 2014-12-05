@@ -42,8 +42,14 @@ var ChecklistView = function() {
   this.wipeViewsClean = function(number_of_semesters) {
     this.deleteChecklistView();
     for (var s = 1; s <= number_of_semesters; s++) {
-      for (var course_i = 1; course_i <= 8; course_i++) {
-        $("#course_"+s+course_i).text("");
+      if (s == 9 || s == 10){
+        for (var course_i = 1; course_i <= 18; course_i++){
+          $("#course_"+s+course_i).text("");
+        }
+      } else {
+        for (var course_i = 1; course_i <= 8; course_i++) {
+          $("#course_"+s+course_i).text("");
+        }
       }
     }
   }
