@@ -65,7 +65,7 @@
        
        
        $hexagons_per_panel = 18;
-          $htmlString = '<div class= "semester10" id="semester10"><div class="coursetitle"><div class="coursetitle_main">AP/IB/TRANSFER</div></div>';
+          $htmlString = '<div class= "semester10" id="semester10"><div class="coursetitle"><div class="coursetitle_main"><a href="http://www.engineering.cornell.edu/admissions/undergraduate/why_cornell/upload/AP_Transfer_2013.pdf" target="_blank">AP/IB/TRANSFER</a></div></div>';
             for ($j = 0; $j < $hexagons_per_panel;$j+=1) {
               if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
               
