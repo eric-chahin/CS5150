@@ -315,9 +315,12 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
    */
   this.toArray = function(){
     var output = []
+    console.log(this.semesters);
+    console.log(this.semesters.length);
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
+          console.log(this.semesters[s][i]);
           output[output.length]= [s,this.semesters[s][i]];
         }
       }
@@ -325,6 +328,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
     for (var i = 0; i<this.courses_I_want.length; i++){
       output[output.length]= [-1,this.courses_I_want[i]];
     }
+    console.log(output);
     return output;
   }
 
