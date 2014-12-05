@@ -68,7 +68,6 @@
        $hexagons_per_panel = 18;
           $htmlString = '<div class= "semester10" id="semester10"> <div class= "coursetitle"><img src= "img/text_extra_semester.png"></div>';
             for ($j = 1; $j <= $hexagons_per_panel;$j+=1) {
-
               if ($j % $hexagons_per_panel == 5 || $j % $hexagons_per_panel == 14) {
               
                 $htmlString .= sprintf('<div id="course_10%d" class="hexagonLeft dragcolumn"></div>',$j);
