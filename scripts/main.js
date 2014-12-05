@@ -226,17 +226,18 @@ function getSplashPageHTML() {
   for (var i = 0; i < 6; i++) {
     select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + " - " + (current_year-i+1) + "</option>";
   }
-  select_html = "<select id='splashPageSelect'>" + select_html + "</select>";
+  select_html = "<div class='popup-select'><select id='splashPageSelect'>" + select_html + "</select></div>";
 
   var splash_html = "<div id='splashPage'>                                      \
      <div class='popup-title'><img src='img/text_welcome.png'></div>                   \
-  <p>Welcome to Checklist Interactive! This tool is intended for Cornell\
+  <p>Welcome to Checklist Interactive!\
+    This tool is intended for Cornell\
     University Computer Science students in the College of Engineering to plan\
     out their four years at Cornell in a smart and efficient manner. We want\
     students to be able to take all of the courses that they want to, while\
-    fulfilling all of the requirements that they need to graduate.\
+    fulfilling all of the requirements that they need to graduate.</p>\
                                                                                 \
-    Please note that this page is NOT official, and once you have planned out\
+    <p>Please note that this page is NOT official, and once you have planned out\
     your courses on the checklist, you should set up an appointment and get your\
     checklist checked by Nicole Roy (or the current assistant director of\
     undergraduate advising). We are not guaranteeing that placing your courses\
@@ -247,7 +248,7 @@ function getSplashPageHTML() {
                     <label for="splash_check"></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept\
                   </div>';
   splash_html += select_html;
-  splash_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
+  splash_html += '<center><input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
   splash_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div></center>';
   
   //Add closing div
@@ -291,10 +292,11 @@ function getSplashPageFunctions() {
 }
 
 function getNewPageHTML() {
-    var new_html = 'Enter new schedule name:<br />';
-    new_html += '<input type ="text" name="schedule_name" id="schedule_name" />';
-    new_html += '<br><center><input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
-    new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></center>';
+    var new_html ='<div class="popup-content"><div class="popup-title">New Checklist</div>';
+    new_html += '<div class="popup-dropdown">Name This Checklist:<br />';
+    new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div>';
+    new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
+    new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
     
     return new_html;
 }
@@ -321,12 +323,13 @@ function getNewPageFunctions() {
 }
 
 function getLoadPageHTML() {
-  select_html = "<select id='loadPageSelect'></select>";
-  var load_html = select_html;
-  load_html += '<br><br><center><input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
-  load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></center>';
+  var load_html = '<div class="popup-content"><div class="popup-title">Load Checklist</div>';
+  load_html += '<div class="popup-dropdown"><select id="loadPageSelect"></select></div>';
+  load_html += '<input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
+  load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></div>';
   return load_html; 
 }
+
 
 function getLoadPageFunctions() {
   // Loading dropdown for schedules
