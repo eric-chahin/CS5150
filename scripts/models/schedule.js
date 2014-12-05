@@ -9,7 +9,6 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   this.vector_warnings = [false,false]; //Length of how many vectors we have.
   //TODO: fix this so it always grabs last two digits
   var startYear = startYear % 100;
-  console.log(startYear); 
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
@@ -24,7 +23,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   this.semesters = new Array(this.numSemesters);
   for (var i = 0; i < this.semesters.length; i++) {
     this.semesters[i] = new Array(8);
-    if (i == 9 || i == 10) {
+    if (i == 8 || i == 9) {
       this.semesters[i] = new Array(18);
     }
   }
@@ -316,9 +315,12 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
    */
   this.toArray = function(){
     var output = []
+    console.log(this.semesters);
+    console.log(this.semesters.length);
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
+          console.log(this.semesters[s][i]);
           output[output.length]= [s,this.semesters[s][i]];
         }
       }
