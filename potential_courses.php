@@ -2,11 +2,19 @@
 header("Content-Type: application/json", true);
 // Credentials
 //mysql defaults
+// $dbhost = "localhost";
+// $dbuser = "checklist";
+// $dbpass = "zOPukWdPDt";
+
+// // the db name, which depends on what you name your db
+// $dbname = "checklistinteractive";
+
+//Testing
 $dbhost = "localhost";
 $dbuser = "root";
 $dbpass = "";
 
-// the db name, which depends on what you name your db
+// // the db name, which depends on what you name your db
 $dbname = "test";
 
 
@@ -27,7 +35,6 @@ $query = 'SELECT * FROM potential_courses';
 // Do Search
 $result = $tutorial_db->query($query);
 
-$result_array = [];
 while($results = $result->fetch_array()) {
   $result_array[] = $results;
 }

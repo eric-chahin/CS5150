@@ -42,7 +42,6 @@ function applyrun() {
   }
 
   function handleClick(e) {
-    console.log("here");
     if (this.textContent !== "") {
       var $thisNode = $("#" + this.id);
       //currently data-course is just the course name which is useless
@@ -87,7 +86,7 @@ function applyrun() {
     $dragSrcNode = $("#" + this.id);
 
 
-    window.console && console.log(e, e.dataTransfer);
+    // window.console && console.log(e, e.dataTransfer);
     window.foo = e;
     if (ENABLE_GHOST_COL) {
       draggingColumn = dragSrc.cloneNode(true);
@@ -161,7 +160,6 @@ function applyrun() {
 
   function handleDragLeave(e) {
     this.removeClassName('over');
-    // console.log("does this happen multiple times");
   }
 
   function handleDrop(e) {
@@ -213,7 +211,7 @@ function applyrun() {
           checklist_view.addCourseToChecklistView(newCourse,dragSemester);
           $dragSrcNode.data("course", newCourse);
         } else {
-          console.log("deleting " + this.textContent);
+          // console.log("deleting " + this.textContent);
           var oldCourse = user.current_schedule.deleteCourse(dragSemester, dragIndex);
           checklist_view.deleteCourseFromChecklistView(oldCourse);
           $dragSrcNode.data("course",null);
@@ -234,14 +232,13 @@ function applyrun() {
       }
 
       user.current_schedule.updateVectorWarnings();
-      console.log(user.current_schedule.toString());
-      console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
+      // console.log(user.current_schedule.toString());
+      // console.log("CIWTT: " + user.current_schedule.courses_I_want.toString());
     }
     return false;
   }
 
   function handleDragEnd(e) {
-    console.log("dragb dropped");
     var cols = document.querySelectorAll('.dragcolumn');
     [].forEach.call(cols, function (col) {
       col.removeClassName('over');
@@ -307,7 +304,6 @@ function applyrun() {
 };
 
 function recreateExistingDivs() { 
-  console.log("recreate is being called");
   var nodes = $( "#resultspar" ).children();
   $( "#resultspar" ).remove();
   for(var i = 0; i< nodes.length;i++){
@@ -317,7 +313,6 @@ function recreateExistingDivs() {
 }
 
 function copySections(){
-  // console.log("copy the sections");
   var classContainerChildren =  $(".classContainerChildren").clone();
   var yearChildren = $(".carousel_container").clone();
   $(".classContainerChildren").remove();

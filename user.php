@@ -2,12 +2,22 @@
     // Credentials
 	header("Content-Type: application/json", true);
 	//mysql defaults
-	$dbhost = "localhost";
-	$dbuser = "root";
-	$dbpass = "";
+    //Production
+	// $dbhost = "localhost";
+	// $dbuser = "checklist";
+	// $dbpass = "zOPukWdPDt";
 
-	// the db name, which depends on what you name your db
-	$dbname = "test";
+	// // the db name, which depends on what you name your db
+	// $dbname = "checklistinteractive";
+
+    //Testing
+    $dbhost = "localhost";
+    $dbuser = "root";
+    $dbpass = "";
+
+    // // the db name, which depends on what you name your db
+    $dbname = "test";
+
 
 
 	//  Connection

@@ -6,12 +6,6 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
-
-	<!--link rel="stylesheet/less" href="less/bootstrap.less" type="text/css" /-->
-	<!--link rel="stylesheet/less" href="less/responsive.less" type="text/css" /-->
-	<!--script src="js/less-1.3.3.min.js"></script-->
-	<!--append ‘#!watch’ to the browser URL, then refresh the page. -->
-	
 	
 	<link href="css/mybootstrap.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
@@ -34,28 +28,23 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
-        
-  <!-- Load search js -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <!-- // <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script> -->
-	<!-- <script type="text/javascript" src="scripts/jquery-ui.js"></script> -->
 	<script type="text/javascript" src="scripts/search.js"></script>
-	<!-- There is draga, dragb,dragc js files -->
 	<script type="text/javascript" src="scripts/dragb.js"></script>
-    <script type="text/javascript" src="scripts/checklistdragb.js"></script>
-    <script type="text/javascript" src="scripts/models/course.js"></script>
-    <script type="text/javascript" src="scripts/models/user.js"></script>
-    <script type="text/javascript" src="scripts/models/schedule.js"></script>
-    <script type="text/javascript" src="scripts/models/checklist.js"></script>
-    <script type="text/javascript" src="scripts/models/rule.js"></script>
-    <script type="text/javascript" src="scripts/models/vector.js"></script>
-    <script type="text/javascript" src="scripts/models/panel.js"></script>
-    <script type="text/javascript" src="scripts/main.js"></script>
-    <script type="text/javascript" src="scripts/magnific-popup.js"></script>
-    <script type="text/javascript" src="scripts/scrolling.js"></script>
-    <script type="text/javascript" src="scripts/desiredcourses.js"></script>
-    <script type="text/javascript" src="scripts/views/ChecklistView.js"></script>  
-    <script type="text/javascript" src="scripts/draghover.js"></script>
+  <script type="text/javascript" src="scripts/checklistdragb.js"></script>
+  <script type="text/javascript" src="scripts/models/course.js"></script>
+  <script type="text/javascript" src="scripts/models/user.js"></script>
+  <script type="text/javascript" src="scripts/models/schedule.js"></script>
+  <script type="text/javascript" src="scripts/models/checklist.js"></script>
+  <script type="text/javascript" src="scripts/models/rule.js"></script>
+  <script type="text/javascript" src="scripts/models/vector.js"></script>
+  <script type="text/javascript" src="scripts/models/panel.js"></script>
+  <script type="text/javascript" src="scripts/main.js"></script>
+  <script type="text/javascript" src="scripts/magnific-popup.js"></script>
+  <script type="text/javascript" src="scripts/scrolling.js"></script>
+  <script type="text/javascript" src="scripts/desiredcourses.js"></script>
+  <script type="text/javascript" src="scripts/views/ChecklistView.js"></script>  
+  <script type="text/javascript" src="scripts/draghover.js"></script>
 
 </head>
 
@@ -83,17 +72,17 @@
     <div class="container" data-ng-controller="userController">
         <div class="row clearfix">
             <div id="firefox_warning">
-                <h2>
+<!--                 <h2>
                     Checklist Interactive is unfortunately not supported on Firefox.
                     Please use Chrome or Safari.
-                </h2>
+                </h2> -->
       <!-- For people who have JS turned off for some reason. -->
       <noscript>
-
       <h3>For full functionality of this page it is necessary to enable JavaScript.</h3>
       Here are the <a href="http://www.enable-javascript.com" target="_blank"> 
       instructions how to enable JavaScript in your web browser</a>
       </noscript>
+      
     </div>
             <div class="col-md-12 column">
                 <div class="checklist_container">
@@ -103,7 +92,7 @@
                         <div id="bottom"></div>
                         <div id ="content_container">
                             <div id="content">
-                                <div id= "tutorialchecklist"><img src = "/CS5150/img/instructions/tutorial_checklist.png"></div>
+                                <div id= "tutorialchecklist"><img src = "img/instructions/tutorial_checklist.png"></div>
                                 <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
                                 <div class="classleftrow"></div>
                                 <div class="classrightrow"></div>
@@ -128,7 +117,7 @@
                 <div class="col-md-12 column">
                     <div class="carousel_holder">
                         <div class="carousel_container">
-                            <div id= "tutorialschedule"><img src = "/CS5150/img/instructions/tutorial_schedule.png"></div>
+                            <div id= "tutorialschedule"><img src = "img/instructions/tutorial_schedule.png"></div>
                             <div class="carousel slide" id="carousel-111948" data-interval="false">
                                 <div class="carousel-inner" id="semester-carousel">
                                     <?php
@@ -154,7 +143,7 @@
             <div class="row3" >
                 <div class="col-md-4 column" style="z-index: 1;">
                     <div class= "search">
-                        <div id= "tutorialsearch"><img src = "/CS5150/img/instructions/tutorial_search.png"></div>
+                        <div id= "tutorialsearch"><img src = "img/instructions/tutorial_search.png"></div>
                         <div class= "searchtitle">
                             <img src= "img/text_search.png">
                             <br><br>
