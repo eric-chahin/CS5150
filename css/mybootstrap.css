@@ -5461,10 +5461,11 @@ button.close {
 
 .carousel-control {
   position: absolute;
-  top: 0;
+  top: 115px;
   bottom: 0;
   left: 0;
   width: 15%;
+  height:100px;
   font-size: 20px;
   color: #ffffff;
   text-align: center;
@@ -5481,7 +5482,7 @@ button.close {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
   */
- margin-left: -20px;
+ margin-left: -10px;
 
 }
 
@@ -5511,14 +5512,14 @@ button.close {
 .carousel-control .glyphicon-chevron-left,
 .carousel-control .glyphicon-chevron-right {
   position: absolute;
-  top: 50%;
+  top: 25%;
   z-index: 5;
   display: inline-block;
 }
 
 .carousel-control .icon-prev,
 .carousel-control .glyphicon-chevron-left {
-  left: 50%;
+  left: 25%;
 }
 
 .carousel-control .icon-next,
