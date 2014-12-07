@@ -1,7 +1,5 @@
 
   function addToDesiredCourses(object){
-    console.log("addToDesiredCourses");
-    console.log(object);
     var course = object.getAttribute("data-course");
     //var courseDescription = object.getAttribute("data-descript");
     //console.log(courseDescription)
@@ -12,7 +10,6 @@
     //var name = object.text();
     //console.log(name);
     $(".classContainer > a > div").each(function(){
-      // console.log($(this).text());
       if($(this).is(':empty')){
         var hexagon_id = this.id;
         // TODO - add in extra info- name of course, and course descr(?)
@@ -27,6 +24,11 @@
         setTimeout(function() {
           $("#" + hexagon_id).removeClass('fadeinfadeout');
         },3000);
+        var added_panel = hexagon_id.substring(10);
+        added_panel = Math.floor(added_panel/18);
+        var jump_potent = document.getElementById('jump_to_potential');
+        jump_potent.setAttribute('data-slide-to', added_panel);
+        jump_potent.click();
         return false;
       }
     })

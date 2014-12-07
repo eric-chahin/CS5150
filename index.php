@@ -68,6 +68,8 @@
       disappointed.
     </div>
     
+    <a class="left carousel-control" href="#carousel-144942" data-slide-to="1" id="jump_to_potential"></a>
+    
 
     <div class="container" data-ng-controller="userController">
         <div class="row clearfix">
