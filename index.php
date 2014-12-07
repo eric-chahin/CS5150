@@ -53,7 +53,7 @@
     
     <div id="sidebar">
       <div id="sidebarContainer">
-        <div id="sidebarTitle">Awesome Checklist Name</div>
+        <div id="sidebarTitle">First Schedule</div>
         <div class="scrollclick" id="new"></div>
         <div class="scrollclick" id="load"></div>
         <div class="scrollclick" id="save"></div>

@@ -113,7 +113,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
     this.next_schedule_num = 0;
     this.schedules = [];
     this.current_schedule = null; //Of type Schedule object
-    this.add_new_schedule("My First Schedule", vers, start_year);
+    this.add_new_schedule("First Schedule", vers, start_year);
   } else {
     //Loading old user
     this.next_schedule_num = next_schedule_num;

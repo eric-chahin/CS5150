@@ -316,6 +316,7 @@ function getNewPageFunctions() {
             user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
             setVectorDropDowns();
             loader.applyUser(user);
+            document.getElementById("sidebarTitle").innerHTML = name;
             $.magnificPopup.close();
         }
     
