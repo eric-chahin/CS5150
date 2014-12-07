@@ -632,6 +632,22 @@ clear:left;
     margin-bottom: 50px;
 }
 
+.vector-title-container{
+    margin-top: 10px;
+    margin-bottom:10px;
+    float:left;
+}
+
+.vector-title{
+  font-family: 'Caviar Dreams';
+  font-size: 26px;
+}
+
+.vector-note{
+    font-family: 'Caviar Dreams';
+    font-size: 12px;
+}
+
 .vector-row{
     float: left;
     margin-top: 0px;
