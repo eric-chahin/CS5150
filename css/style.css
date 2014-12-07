@@ -130,7 +130,7 @@ button:focus {
   background-image: url("../img/sidebar/sidebar_box.png");
   background-repeat:no-repeat;
   width: 160px;
-  height: 300px;
+  height: 321px;
   float:left;
 
 }
@@ -232,9 +232,26 @@ button:focus {
 
 #sidebarContainer{
   position: center;
-  height: 300px;
-  width: 160px;
-  padding-left: 10px;
+  height: 321px;
+  width: 134px;
+  padding: 10px;
+}
+
+#sidebarTitle{
+    text-align:center;
+    font-family: 'Caviar Dreams';
+    font-weight:normal;
+    color: #488093;
+    font-size: 16px;
+    margin-top:8px;
+    margin-bottom:-14px;
+    margin-left:14px;
+    margin-right:14px;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+    width: 106px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
