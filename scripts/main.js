@@ -60,6 +60,7 @@ var Loader = function() {
     } else {
       var courses_lst = schedule ? schedule.split(",") : [];   
       var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year);
+      document.getElementById("sidebarTitle").innerHTML = schedule_name;
       scheds = [];
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       this.isNewUser = false;
@@ -373,11 +374,12 @@ function getLoadPageFunctions() {
       delim = "#";
       checklist_str = checklist_data[0] + delim + checklist_data[1] + delim +checklist_data[2] + delim +checklist_data[3] + delim + checklist_data[4] + delim + checklist_data[5];
       user.save_schedule("false", checklist_str);
-                        
+      
       loader.applyUser(user);
       checklistcopySections();
       checklistDrag();
       setVectorInfo(checklist_data);
+      document.getElementById("sidebarTitle").innerHTML = user.current_schedule.name;
       $.magnificPopup.close();
     }
     return false;
