@@ -1235,7 +1235,7 @@ a.hvrlink:hover + .course-warning {
 }
 
 
-/*#firefox_warning {
+#firefox_warning {
   display: none;
 }
 
@@ -1243,5 +1243,5 @@ a.hvrlink:hover + .course-warning {
   #firefox_warning {
     display: block;
   }
-}*/
+}
 

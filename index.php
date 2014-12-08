@@ -75,10 +75,10 @@
     <div class="container" data-ng-controller="userController">
         <div class="row clearfix">
             <div id="firefox_warning">
-<!--                 <h2>
+                <h2>
                     Checklist Interactive is unfortunately not supported on Firefox.
                     Please use Chrome or Safari.
-                </h2> -->
+                </h2>
       <!-- For people who have JS turned off for some reason. -->
       <noscript>
       <h3>For full functionality of this page it is necessary to enable JavaScript.</h3>
