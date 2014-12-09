@@ -6,6 +6,12 @@ var Panel = function() {
     function() {
       // Save checklist
       user.save_schedule("false");
+      if ($(".unassigned-classes > div").length > 0) {
+        if (!confirm("There are still some unassigned courses on your checklist " + 
+          "that won't be included in the download. Would you like to continue?")) {
+          return;
+        }
+      }
       var dataDict = {};
       var name  = 'Eric Chahin'; //TODO get!
       var netid = 'erc73'; //TODO get!
