@@ -13,8 +13,8 @@ var Panel = function() {
         }
       }
       var dataDict = {};
-      var name  = 'Eric Chahin'; //TODO get!
-      var netid = 'erc73'; //TODO get!
+      var name  = user.full_name;
+      var netid = user.netid;
       var version = user.current_schedule.checklist.version;
       var cellsToFill = {'B4':'Name: ' + name,'B5':'Email: ' + netid + '@cornell.edu'}; //Dictionary of cell name to value
       user.current_schedule.getExcelLocations(cellsToFill);

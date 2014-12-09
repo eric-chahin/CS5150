@@ -7,7 +7,6 @@ var Loader = function() {
   /* Retrieves User information.
      Returns: User object */
   //flag if user is found in db
-  this.isNewUser = false;
   this.suggested_potential_courses = null;
   this.checklistVectorData = "";
   this.fetchUser = function(netid) {
@@ -63,7 +62,6 @@ var Loader = function() {
       document.getElementById("sidebarTitle").innerHTML = schedule_name;
       scheds = [];
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
-      this.isNewUser = false;
       user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
       this.checklistVectorData = checklist_data;
       return user;
@@ -183,7 +181,7 @@ var Loader = function() {
  *   your html arg.
  * There automatically a way to click outside of the popup to exit.
  *   If you would like to turn that off, set dismiss_off to true. */
-function makePopup(selector, html, open_f, dismiss_off, user) {
+function makePopup(selector, html, open_f, dismiss_off) {
   $(selector).attr('data-effect','mfp-zoom-out');
   $(selector).magnificPopup({
     type: 'inline',
@@ -257,6 +255,44 @@ function getSplashPageHTML() {
   return splash_html;
 }
 
+/* Calculates the appropriate checklist version given the start year. */
+function getVersion(enteringYear) {
+  var rtn_version = -1;
+  $.ajax({
+    type:     "GET",
+    url:      "checklist.php",
+    async:    false,
+    dataType: "json",
+    data:     { version: 0,
+                table:   "checklist_rules"},
+    cache: false,
+    success: function(data) {
+      var closest_version = -1;
+      var min_version = 9007199254740992;
+      for (var x = 0; x < data.length; x++) {
+        var e = data[x];
+        var curr_version = e['version'];
+        if (curr_version.indexOf('_') >= 0) {
+          curr_version = curr_version.substring(0,curr_version.indexOf('_'));
+        }
+        curr_version = parseInt(curr_version);
+        min_version = Math.min(curr_version,min_version);
+        curr_diff = enteringYear - curr_version;
+        if (curr_diff < 0) continue;
+        if (closest_version === -1 || enteringYear - closest_version > curr_diff) {
+          closest_version = curr_version;
+        }
+      }
+      if (closest_version === -1) {
+        console.error("There does not exist a schedule for this start year.");
+        closest_version = min_version;
+      }
+      rtn_version = closest_version;
+    }
+  });
+  return rtn_version;
+}
+
 function getSplashPageFunctions() {
   $("#confirmSplash").on('click', function() {
     var checkedValue = $('#splash_check:checked').val();
@@ -266,27 +302,27 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
-      user.start_year = enteringYear; 
-      $.magnificPopup.close();
+      user = new User(users_name, netid, getVersion(enteringYear), null, null, null, enteringYear);
       //once user clicks confirm, we can put user in db
       $.ajax({
-             type:  "POST",
-             url: "user.php",
-             async: true,
-             dataType: "json",
-             data:   {'netid': user.netid,
-              'full_name': user.full_name,
-              'next_schedule_num': user.next_schedule_num,
-              'version': user.user_version,
-              'current_schedule_id': user.current_schedule.id,
-              'start_year': user.start_year},
-             success: function(data){
-               if (data == "error"){
-               //TODO: couldn't connect to database on saving
-               }
-             }
+        type:  "POST",
+        url: "user.php",
+        async: true,
+        dataType: "json",
+        data:   {'netid': user.netid,
+        'full_name': user.full_name,
+        'next_schedule_num': user.next_schedule_num,
+        'version': user.user_version,
+        'current_schedule_id': user.current_schedule.id,
+        'start_year': user.start_year},
+        success: function(data){
+          if (data == "error"){
+          //TODO: couldn't connect to database on saving
+          }
+        }
       });
-                        
+      finalizeWebsite();
+      $.magnificPopup.close();
     }
     return false;
   });
@@ -447,7 +483,7 @@ function setVectorInfo(checklist_data) {
 }
 
 
-function setupMagnificPopup(user) {
+function setupMagnificPopup() {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
   $('.hexagonLeft').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
   $('.open-popup-link').magnificPopup({
@@ -460,17 +496,27 @@ function setupMagnificPopup(user) {
     },
     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
   });
-  makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true, null);
-  makePopup("#new",getNewPageHTML(), getNewPageFunctions, false, user);
-  makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false, user);
+  makePopup("#start_splash_page",getSplashPageHTML(),getSplashPageFunctions,true);
+  makePopup("#new",getNewPageHTML(), getNewPageFunctions, false);
+  makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false);
   $("#save").on('click', function () {
       vec_data = getVectorInfo();
-      user.save_schedule("false", vec_data);
-      console.log("SAVED");
-                
+      user.save_schedule("false", vec_data);                
   });
   //makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
+}
+
+/* Called upon after user is fetched or after confirm is clicked on splash page.
+ * Sets up final touches on the website like applying the user data to the checklist.
+ * It also sets up the event handlers and vector dropdown. */
+function finalizeWebsite() {
+  loader.applyUser(user); // must come AFTER setupMagnificPopup
+
+  applyrun(); //This starts the dragging and dropping
+  checklistDrag();
+  setVectorDropDowns();
+  setVectorInfo(loader.checklistVectorData);
 }
 
 //when page is finished loading, the main methods are called
@@ -479,7 +525,8 @@ $(document).ready(function(){
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   WarningType = Object.freeze({SPECIFIC_CLASS : 0, COURSE_LEVEL : 1, FORBIDDEN : 2, CREDITS : 3, VECTOR : 4});
   //(course_id -> Course_information object)
-  var netid = "abc123"; //TODO get netid from web auth login
+  netid = "abc123"; //TODO get netid from web auth login
+  users_name = "need to get this somehow"
   loader = new Loader(); //this is where we would pass the netid from web login
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
@@ -487,25 +534,15 @@ $(document).ready(function(){
   loader.initializeHexagonColors();
   //global vars
   checklist_view = new ChecklistView();
-  user = loader.fetchUser(netid);
-  
-  if (user == null) {
-    loader.isNewUser = true;
-    //TODO determine user's name from their netid, version and start_year from splash page
-    user = new User("need to get this somehow", netid, 2012, null, null, null, 2011);
-  }
-
-  setupMagnificPopup(user);
-  loader.applyUser(user); // must come AFTER setupMagnificPopup
   var panel = new Panel();
+  setupMagnificPopup();
+  user = loader.fetchUser(netid);
 
-  applyrun(); //This starts the dragging and dropping
-  checklistDrag();
-  setVectorDropDowns();
-  setVectorInfo(loader.checklistVectorData);
-                  
-  if (loader.isNewUser) {
+  if (user == null) {
     $("#start_splash_page").click();
+    //TODO determine user's name from their netid, version and start_year from splash page
+    // global variable 'user' is initialized when getSplashPageFunctions() is called
+  } else {
+    finalizeWebsite();
   }
-
 });

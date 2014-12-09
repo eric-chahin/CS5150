@@ -39,8 +39,11 @@ $table   = $tutorial_db->real_escape_string($table);
 
 // Check Length More Than One Character
 if (strlen($version) >= 1 && $version !== ' ') {
- 
-  $query = 'SELECT * FROM '.$table.' WHERE version ='.$version;
+  if ($version > 0) {
+    $query = 'SELECT * FROM '.$table.' WHERE version ='.$version;
+  } else {
+    $query = 'SELECT * FROM '.$table;
+  }
   // Do Search
   $result = $tutorial_db->query($query);
 
