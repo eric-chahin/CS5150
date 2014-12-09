@@ -302,6 +302,7 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
+      //TODO: Add A&S or ENGR to end of version
       user = new User(users_name, netid, getVersion(enteringYear), null, null, null, enteringYear);
       //once user clicks confirm, we can put user in db
       $.ajax({
@@ -428,26 +429,25 @@ function getLoadPageFunctions() {
  *   Vector1, Vector2, isVector1Completed, isVector2Completed, isTechWritingCompleted, 
  *   isProbabilityCompleted */
 function getVectorInfo() {
+    elems = [];
     var vector1 = document.getElementById("vector1");
-    str1 = vector1.options[vector1.selectedIndex].value;
+    elems.push(vector1.options[vector1.selectedIndex].value);
 
     var vector2 = document.getElementById("vector2");
-    str2 = vector2.options[vector2.selectedIndex].value;
+    elems.push(vector2.options[vector2.selectedIndex].value);
     
     var completedVec1 = document.getElementById("completedVec1");
     var completedVec2 = document.getElementById("completedVec2");
-    str3 = completedVec1.checked;
-    str4 = completedVec2.checked;
-    
-    var techWriting = document.getElementById("techBox");
-    str5 = techWriting.checked;
-    var probability = document.getElementById("statBox");
-    str6 = probability.checked;
-    
-    delim = "#";
-    vec_data = str1 + delim + str2 + delim + str3 + delim + str4 + delim + str5 + delim + str6;
-    
-    return vec_data;
+    elems.push(completedVec1.checked);
+    elems.push(completedVec2.checked);
+
+    var checkboxes = user.current_schedule.checklist.checkboxes;
+    for (var i = 0; i < checkboxes.length; i++) {
+      var box = document.getElementById('checkbox_' + i);
+      elems.push(box.checked);
+    }
+    console.log(elems.join("#"));
+    return elems.join("#");
 }
 
 
@@ -477,8 +477,10 @@ function setVectorInfo(checklist_data) {
 
     document.getElementById("completedVec1").checked = (checklist_data[2] == "true");
     document.getElementById("completedVec2").checked = (checklist_data[3] == "true");
-    document.getElementById("techBox").checked = (checklist_data[4] == "true");
-    document.getElementById("statBox").checked = (checklist_data[5] == "true");
+
+    for (var i = 0; i < user.current_schedule.checklist.checkboxes.length; i++) {
+      document.getElementById("checkbox_" + i).checked = (checklist_data[4+i] == "true");
+    }
     user.current_schedule.updateVectorWarnings();
 }
 

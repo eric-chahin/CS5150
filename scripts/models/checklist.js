@@ -75,6 +75,26 @@ var Checklist = function(version) {
     return false;
   }
 
+  function get_checkboxes_from_server(ver) {
+    var checkbox_array = [];
+    if(ver !== ''){
+      $.ajax({
+        type:     "GET",
+        url:      "checkbox.php",
+        async:    false,
+        dataType: "json",
+        data:     { version: ver },
+        cache: false,
+        success: function(data){
+          for (var x = 0; x < data.length; x++) {
+            checkbox_array.push(new Checkbox(data[x]['title'],data[x]['excel_cell']));
+          }
+        }
+      });
+    }
+    return checkbox_array;
+  }
+
   /* Given a course listing and forbidden list, return true if this course is
    * not allowed and false if it is. 
    * Note: the forbidden list is an encoded string where the values are separated by ';'
@@ -185,6 +205,12 @@ var Checklist = function(version) {
     var count = 0;
     var header = "";
     var checklistclass = ".classleftrow";
+    var checkboxes_html = "";
+    for (var check_i = 0; check_i < this.checkboxes.length; check_i++) {
+      var n = this.checkboxes[check_i].name;
+      checkboxes_html +=  "<input type='checkbox' name='checkbox_"+check_i+"' id='checkbox_"+check_i+"' value='checkbox_"+check_i+"'> "+n+"<br>";
+    }
+
     for (var rule in checklist_rules) {
       for (var i = 0; i < checklist_rules[rule].slots; i++) {
         
@@ -214,9 +240,7 @@ var Checklist = function(version) {
                  " </div></div>");
       if (count == leftChecklistRows) {
          $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
-                                  "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+
-                                  "<input type='checkbox' name='techBox' id='techBox' value='tech'> Technical Writing<br>" +
-                                  " <input type='checkbox' name='statBox' id='statBox' value='stat'> Probability</div>");      
+                                  "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+checkboxes_html+"</div>");      
       }
       count++;
       }
@@ -282,14 +306,20 @@ var Checklist = function(version) {
 
   var tagsDict = {}; // Holds tag_name (String) -> tag function (function)
   var tmp_rules = {};
-  var vectorDict = {}; 
+  var vectorDict = {};
   get_tags_from_server(version);
   get_rules_from_server(version);
   get_vectors_from_server(version);
+  this.checkboxes = get_checkboxes_from_server(version); //Array of Checkboxes
   checklist_rules = tmp_rules;
   vectors = vectorDict;
   //TEST
   //TODO TODO tell when checklist slot or vector slot is satisfied
   this.createChecklistHTML();
 };
+
+var Checkbox = function(name,excel_cell) {
+  this.name = name;
+  this.excel_cell = excel_cell;
+}
 
