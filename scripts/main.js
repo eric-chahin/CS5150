@@ -9,6 +9,7 @@ var Loader = function() {
   //flag if user is found in db
   this.suggested_potential_courses = null;
   this.checklistVectorData = "";
+  this.potentialData = "";
   this.fetchUser = function(netid) {
     var user = null;
     var name = null;
@@ -49,7 +50,9 @@ var Loader = function() {
             schedule = data['schedule'];
             schedule_name = data['schedule_name'];
             var checklist = data['checklist_data'];
+            var potential = data['potential_courses'];
             checklist_data = checklist ? checklist.split("#") : [];
+            potential_data = potential ? potential.split("#") : [];
           }
         }
     });
@@ -64,6 +67,7 @@ var Loader = function() {
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
       this.checklistVectorData = checklist_data;
+      this.potentialData = potential_data;
       return user;
     }  
   }
@@ -354,7 +358,7 @@ function getNewPageFunctions() {
         }
         else {
             vec_data = getVectorInfo();
-            user.save_schedule("false", vec_data);
+            user.save_schedule("false", vec_data, getPotentialCourseString());
             checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
             user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
             setVectorDropDowns();
@@ -409,15 +413,19 @@ function getLoadPageFunctions() {
     else {
       //set user's 'schedule_name' to be his current schedule
       vec_data = getVectorInfo();
-      user.save_schedule("false", vec_data);
+      user.save_schedule("false", vec_data, getPotentialCourseString());
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
-      checklist_data = user.load_schedule(schedule_id);
+      loaded_data = user.load_schedule(schedule_id);
+      split_loaded_data = loaded_data.split(";");
+      checklist_data = split_loaded_data[0].split("#");
+      potential_array = split_loaded_data[1] ? split_loaded_data[1].split("#") : [];
+      checklist_view.updatePotentialCourses(potential_array);
       setVectorDropDowns();
 
       //when  we save, make sure to re-encode checklist data as a string, as opposed to an array of strings
       delim = "#";
       checklist_str = checklist_data[0] + delim + checklist_data[1] + delim +checklist_data[2] + delim +checklist_data[3] + delim + checklist_data[4] + delim + checklist_data[5];
-      user.save_schedule("false", checklist_str);
+      user.save_schedule("false", checklist_str, getPotentialCourseString());
       
       loader.applyUser(user);
       checklistcopySections();
@@ -489,6 +497,17 @@ function setVectorInfo(checklist_data) {
     user.current_schedule.updateVectorWarnings();
 }
 
+//scrapes the potential courses from the checklist view and returns them as a string
+//delimited by "#"
+function getPotentialCourseString() {
+    var potential_courses = checklist_view.getPotentialCourses();
+    potential_str = "";
+    for (var i=0; i<potential_courses.length; i++) {
+        potential_str += potential_courses[i] + "#";
+    }
+    return potential_str.substring(0, potential_str.length-1);
+}
+
 
 function setupMagnificPopup() {
   $('.hexagon').wrap("<a href='#popup' data-effect='mfp-zoom-out' class='open-popup-link'></a>");
@@ -508,7 +527,7 @@ function setupMagnificPopup() {
   makePopup("#load",getLoadPageHTML(), getLoadPageFunctions, false);
   $("#save").on('click', function () {
       vec_data = getVectorInfo();
-      user.save_schedule("false", vec_data);                
+      user.save_schedule("false", vec_data, getPotentialCourseString());
   });
   //makePopup("#save", 'Saved!', saveUserFunction, false, user); 
   // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
@@ -518,6 +537,7 @@ function setupMagnificPopup() {
  * Sets up final touches on the website like applying the user data to the checklist.
  * It also sets up the event handlers and vector dropdown. */
 function finalizeWebsite() {
+  checklist_view.updatePotentialCourses(loader.potentialData);
   loader.applyUser(user); // must come AFTER setupMagnificPopup
 
   applyrun(); //This starts the dragging and dropping

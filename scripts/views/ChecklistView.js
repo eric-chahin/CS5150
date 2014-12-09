@@ -87,9 +87,14 @@ var ChecklistView = function() {
       var selector = ".classContainer > div.dragcolumn";
     } 
     $(selector).each(function(){
-      if (!(i < listing_array.length)) return false; // Acts like a while loop
-      this.textContent = checklist_view.getCourseSpaced(listing_array[i]);
-      i += 1;
+      if (!(i < listing_array.length)) {
+        // Acts like a while loop
+        this.textContent = "";
+      }
+      else {
+        this.textContent = checklist_view.getCourseSpaced(listing_array[i]);
+        i+= 1;
+      }
     });
   }
 
@@ -102,7 +107,8 @@ var ChecklistView = function() {
     } 
     $(selector).each(function(){
       if (this.textContent != ""){
-        potential_array.push(this.textContent);
+        unspaced = this.textContent.split(" ");
+        potential_array.push(unspaced[0] + unspaced[1]);
       }
     });
     return potential_array;

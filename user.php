@@ -64,6 +64,7 @@
         $schedules = $_POST['schedules'];
         $schedule_name = $_POST['schedule_name'];
         $checklist_data = $_POST['checklist_data'];
+        $potential_courses = $_POST['potential_courses'];
         $isNew = $_POST['isNew'];
         $new_flag = ($isNew === 'true');
         
@@ -71,7 +72,7 @@
         if ($new_flag) {
             mysql_query("START TRANSACTION");
             
-            $qry1 = "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule,checklist_data)VALUES('$netid','$current_schedule_id','$schedule_name','$schedules','$checklist_data')";
+            $qry1 = "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule,checklist_data,potential_courses)VALUES('$netid','$current_schedule_id','$schedule_name','$schedules','$checklist_data','$potential_courses')";
             $qry2= "UPDATE member SET current_schedule_id='$current_schedule_id', next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
             
             if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {
@@ -91,7 +92,7 @@
             mysql_query("START TRANSACTION");
             
             $qry1="UPDATE member SET current_schedule_id='$current_schedule_id', next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
-            $qry2="UPDATE schedule SET schedule_name='$schedule_name', schedule='$schedules', checklist_data='$checklist_data' WHERE netid='$netid' AND schedule_id='$current_schedule_id'";
+            $qry2="UPDATE schedule SET schedule_name='$schedule_name', schedule='$schedules', checklist_data='$checklist_data', potential_courses='$potential_courses' WHERE netid='$netid' AND schedule_id='$current_schedule_id'";
 
             if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {
                 mysql_query("COMMIT");

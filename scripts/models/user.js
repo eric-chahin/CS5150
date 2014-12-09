@@ -23,8 +23,8 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   // to this user), set this users current schedule to be schedule with id
   // schedule_id.  Reflect this change in the tables as well.
   // TODO: start_year is currently version, get it from saving instead
-  // returns the checklist_data (i.e. vector info -- including tech writing
-  // and probability) so we know how to update the checklist view
+  // returns a string of the checklist_data (i.e. vector info -- including tech writing
+  // and probability) and potential courses so we know how to update the checklist view
   this.load_schedule = function(schedule_id) {
       var s = null;
       var net_id = this.netid;
@@ -43,20 +43,20 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                     var schedule_id = data['schedule_id'];
                     var schedule = data['schedule'];
                     var courses_lst = schedule ? schedule.split(",") : [];
-                    var checklist = data['checklist_data'];
-                    checklist_data = checklist ? checklist.split("#") : [];
+                    checklist = data['checklist_data'];
+                    potential = data['potential_courses'];
                     s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year);
                 }
              }
       });
       this.current_schedule = s;
-      return checklist_data;
+      return checklist + ";" + potential;
   }
 
   //isNew is a flag that indicates whether the schedule to be saved was just created (i.e. using the 'add' button)
     //checklist_data is a string encoding of the vector (and tech writing / probability) info for this user.  It must be saved to the schedule table
     //every time the schedule is saved
-  this.save_schedule = function(isNew, checklist_data) {
+  this.save_schedule = function(isNew, checklist_data, potential_str) {
     this.current_schedule.setSaved(true);
     $.ajax({
       type:  "POST",
@@ -69,6 +69,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                'schedule_name': this.current_schedule.name,
                'schedules': this.current_schedule.toArray().toString(),
                'checklist_data': checklist_data,
+               'potential_courses': potential_str,
                'isNew': isNew},
       success: function(data){
         if (data == "error"){
