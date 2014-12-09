@@ -77,10 +77,6 @@ var Loader = function() {
   this.applyUser = function(user) {
     //TODO: Put user's name somewhere on site
     //Apply schedule
-    if (this.potentialData !== null) {
-      //In case we were loading in a new user, we don't want to overwrite the suggested potential courses
-      checklist_view.updatePotentialCourses(this.potentialData);
-    }
     var user_semesters = user.current_schedule.semesters;
     for (var i = 0; i < user_semesters.length; i++) {
       var user_semester = user_semesters[i];
@@ -540,6 +536,10 @@ function setupMagnificPopup() {
  * Sets up final touches on the website like applying the user data to the checklist.
  * It also sets up the event handlers and vector dropdown. */
 function finalizeWebsite() {
+  if (loader.potentialData !== null) {
+    //In case we were loading in a new user, we don't want to overwrite the suggested potential courses
+    checklist_view.updatePotentialCourses(loader.potentialData);
+  }
   loader.applyUser(user); // must come AFTER setupMagnificPopup
 
   applyrun(); //This starts the dragging and dropping
