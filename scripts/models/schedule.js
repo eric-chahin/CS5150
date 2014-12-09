@@ -258,14 +258,12 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
     var containingClass = this;
     
     $('.vector-warning').each(function(i) {
-        console.log(!containingClass.vector_warnings[i]);
         if(containingClass.vector_warnings[i]) {
            this.innerHTML = vectorwarninghtml;
         } else {
             this.innerHTML = "";
         }
     });    
-    console.log("Vector flags: " + this.vector_warnings);
   }
 
   /* Returns whether this listing is already in the schedule */
@@ -314,12 +312,9 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
    */
   this.toArray = function(){
     var output = []
-    console.log(this.semesters);
-    console.log(this.semesters.length);
     for (var s = 0; s < this.semesters.length; s++) {
       for (var i = 0; i < this.semesters[s].length; i++) {
         if (this.semesters[s][i]) {
-          console.log(this.semesters[s][i]);
           output[output.length]= [s,this.semesters[s][i]];
         }
       }
@@ -327,7 +322,6 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
     for (var i = 0; i<this.courses_I_want.length; i++){
       output[output.length]= [-1,this.courses_I_want[i]];
     }
-    console.log(output);
     return output;
   }
 

@@ -9,7 +9,7 @@ var Loader = function() {
   //flag if user is found in db
   this.suggested_potential_courses = null;
   this.checklistVectorData = "";
-  this.potentialData = "";
+  this.potentialData = null; // null value is useful for telling if the user == null
   this.fetchUser = function(netid) {
     var user = null;
     var name = null;
@@ -76,8 +76,11 @@ var Loader = function() {
    * checklist. Ties Course objects to the DOM. */
   this.applyUser = function(user) {
     //TODO: Put user's name somewhere on site
-    //TODO: Change revision?
     //Apply schedule
+    if (this.potentialData !== null) {
+      //In case we were loading in a new user, we don't want to overwrite the suggested potential courses
+      checklist_view.updatePotentialCourses(this.potentialData);
+    }
     var user_semesters = user.current_schedule.semesters;
     for (var i = 0; i < user_semesters.length; i++) {
       var user_semester = user_semesters[i];
@@ -353,7 +356,7 @@ function getNewPageFunctions() {
     $("#confirmNew").on('click', function () {
         var name = $('#schedule_name').val();
         // TODO: Also do a check to make sure you cannot enter a schedule with the same name
-        if (name == "") {
+        if (name.trim() == "") {
             $("#new_schedule_warning").text("Please enter a name for this schedule.");
         }
         else {
@@ -537,13 +540,14 @@ function setupMagnificPopup() {
  * Sets up final touches on the website like applying the user data to the checklist.
  * It also sets up the event handlers and vector dropdown. */
 function finalizeWebsite() {
-  checklist_view.updatePotentialCourses(loader.potentialData);
   loader.applyUser(user); // must come AFTER setupMagnificPopup
 
   applyrun(); //This starts the dragging and dropping
   checklistDrag();
   setVectorDropDowns();
   setVectorInfo(loader.checklistVectorData);
+  //Save the schedule to save in loaded potential courses
+  user.save_schedule("false", getVectorInfo(), getPotentialCourseString());
 }
 
 //when page is finished loading, the main methods are called
