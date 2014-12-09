@@ -195,12 +195,10 @@ function applyrun() {
       //gets their locations based on id course_101
       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
       var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
-      console.log(dragSrc.id)
-      console.log(this.id)
-      var dragSemester = (dragSrc.id.length == 10) ? "9" : parseInt(dragSrc.id.substring(7,8))-1;
-      var dragIndex    = (dragSrc.id.length == 10) ? parseInt(dragSrc.id.substring(9))-1 : parseInt(dragSrc.id.substring(8))-1;
-      var thisSemester = (this.id.length == 10) ? "9" : parseInt(this.id.substring(7,8))-1;
-      var thisIndex    = (this.id.length == 10) ? parseInt(this.id.substring(9))-1 : parseInt(this.id.substring(8,9))-1;
+      var dragSemester = findSemester(dragSrc.id)
+      var dragIndex    = (dragSemester == "10") ? parseInt(dragSrc.id.substring(9))-1 : parseInt(dragSrc.id.substring(8))-1;
+      var thisSemester = findSemester(this.id)
+      var thisIndex    = (thisSemester == "10") ? parseInt(this.id.substring(9))-1 : parseInt(this.id.substring(8))-1;
 
       if (dragIsScheduleCourse && thisIsScheduleCourse) {
         $dragSrcNode.data("course",thisCourse);
@@ -304,6 +302,27 @@ function applyrun() {
 
 
 };
+
+/* Helper method to locate the semester of course
+   objects. Input string is of the format:
+   course id "course_(semester)(index)
+   example: "course_915" 
+   returns the semester integer*/ 
+
+function findSemester(input){
+  if (input.length < 10) { 
+    return parseInt(input.substring(7,8))-1;
+  } else if (input.length > 10) {
+    return parseInt(input.substring(7,9))-1;
+  } else {
+    var info = input.substring(7);
+    if (info.substring(0,1) == "9") {
+      return 8;
+    } else {
+      return 9;
+    }
+  }
+}
 
 function recreateExistingDivs() { 
   var nodes = $( "#resultspar" ).children();
