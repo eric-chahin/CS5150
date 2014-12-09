@@ -226,7 +226,8 @@ function getSplashPageHTML() {
     select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + " - " + (current_year-i+1) + "</option>";
   }
   select_html = "<div class='popup-select'><select id='splashPageSelect'>" + select_html + "</select></div>";
-
+  var radio_colleges = '<input type="radio" id="ENGR_radio" name="college" value="ENGR" checked>&nbsp;Engineering<br>\
+                        <input type="radio" id="A&S_radio"  name="college" value="A&S">&nbsp;Arts & Sciences';
   var splash_html = "<div id='splashPage'>                                      \
      <div class='popup-title'><img src='img/text_welcome.png'></div>                   \
   <p>Welcome to Checklist Interactive!\
@@ -247,6 +248,7 @@ function getSplashPageHTML() {
                     <label for="splash_check"></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accept\
                   </div>';
   splash_html += select_html;
+  splash_html += radio_colleges;
   splash_html += '<center><input type="image" src="img/splashpage/continue.png" name="confirmSplash" id="confirmSplash" />';
   splash_html += '<br/><div><p id="splash_warning" style="color: #d00a0a;"></p></div></center>';
   
@@ -255,8 +257,10 @@ function getSplashPageHTML() {
   return splash_html;
 }
 
-/* Calculates the appropriate checklist version given the start year. */
-function getVersion(enteringYear) {
+/* Calculates the appropriate checklist version given the start year. 
+ * college_str is ENGR or A&S depending on if the student is in 
+ * Engineering or Arts & Sciences. */
+function getVersion(enteringYear, college_str) {
   var rtn_version = -1;
   $.ajax({
     type:     "GET",
@@ -290,7 +294,7 @@ function getVersion(enteringYear) {
       rtn_version = closest_version;
     }
   });
-  return rtn_version;
+  return rtn_version + "_" + college_str;
 }
 
 function getSplashPageFunctions() {
@@ -302,8 +306,10 @@ function getSplashPageFunctions() {
     } else if (isNaN(enteringYear)) {
       $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
-      //TODO: Add A&S or ENGR to end of version
-      user = new User(users_name, netid, getVersion(enteringYear), null, null, null, enteringYear);
+      var college = document.getElementById("A&S_radio").checked ? "A&S" : "ENGR";
+      //TODO: change me
+      if (college === "A&S") alert("No schedule for A&S in data yet. Using Engineering schedule.");
+      user = new User(users_name, netid, getVersion(enteringYear,"ENGR"), null, null, null, enteringYear);
       //once user clicks confirm, we can put user in db
       $.ajax({
         type:  "POST",
@@ -446,7 +452,6 @@ function getVectorInfo() {
       var box = document.getElementById('checkbox_' + i);
       elems.push(box.checked);
     }
-    console.log(elems.join("#"));
     return elems.join("#");
 }
 

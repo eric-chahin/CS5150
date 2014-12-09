@@ -13,8 +13,8 @@
 #   Before listing checklist slots, start the version with "--" and a name for the version.
 #   
 #
-2012,$CSElective,3,4000,CS4999
-2012,$Technical,3,3000,
-2012,$Specialization,3,3000,CS*;LING4474;INFO3330;INFO4302;INFO4300;INFO5300
-2012,$MajorElective,3,1100,PE*;ROTC1*;ROTC2*
-2012,$AdvisorElec,1,1100,PE*;ROTC1*;ROTC2*
+2012_ENGR,$CSElective,3,4000,CS4999
+2012_ENGR,$Technical,3,3000,
+2012_ENGR,$Specialization,3,3000,CS*;LING4474;INFO3330;INFO4302;INFO4300;INFO5300
+2012_ENGR,$MajorElective,3,1100,PE*;ROTC1*;ROTC2*
+2012_ENGR,$AdvisorElec,1,1100,PE*;ROTC1*;ROTC2*

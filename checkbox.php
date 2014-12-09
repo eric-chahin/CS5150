@@ -24,8 +24,7 @@ if ($tutorial_db->connect_errno) {
 }
  
 $version = $_GET['version'];
-$version = $tutorial_db->real_escape_string($version);
-$query = 'SELECT * FROM checkboxes WHERE version ='.$version;
+$query = 'SELECT * FROM checkboxes WHERE version ="'.$version.'"';
 
 $result = $tutorial_db->query($query);
 $result_array = [];
