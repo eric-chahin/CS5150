@@ -195,8 +195,8 @@ function applyrun() {
       //gets their locations based on id course_101
       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
       var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
-      console.log(dragSrc.id)
-      console.log(this.id)
+
+
       var dragSemester = (dragSrc.id.length == 10) ? "9" : parseInt(dragSrc.id.substring(7,8))-1;
       var dragIndex    = (dragSrc.id.length == 10) ? parseInt(dragSrc.id.substring(9))-1 : parseInt(dragSrc.id.substring(8))-1;
       var thisSemester = (this.id.length == 10) ? "9" : parseInt(this.id.substring(7,8))-1;
