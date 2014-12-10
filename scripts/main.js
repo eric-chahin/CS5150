@@ -339,13 +339,25 @@ function getSplashPageFunctions() {
 }
 
 function getNewPageHTML() {
-    var new_html ='<div class="popup-content"><div class="popup-title">New Checklist</div>';
-    new_html += '<div class="popup-dropdown">Name This Checklist:<br />';
-    new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div>';
-    new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
-    new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
-    
-    return new_html;
+  var select_html = '<option selected disabled>Entering academic year</option>';
+  var current_year = new Date().getFullYear();
+  for (var i = 0; i < 6; i++) {
+    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + " - " + (current_year-i+1) + "</option>";
+  }
+  select_html = "<div class='popup-select'><select id='splashPageSelect'>" + select_html + "</select></div>";
+  var radio_colleges = '<input type="radio" id="ENGR_radio" name="college" value="ENGR" checked>&nbsp;Engineering<br>\
+                        <input type="radio" id="A&S_radio"  name="college" value="A&S">&nbsp;Arts & Sciences<br>';
+
+  var new_html ='<div class="popup-content"><div class="popup-title">New Checklist</div>';
+  new_html += '<div class="popup-dropdown">Name This Checklist:<br />';
+  new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div>';
+
+  new_html += select_html;
+  new_html += radio_colleges;
+  new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
+  new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
+  
+  return new_html;
 }
 
 function getNewPageFunctions() {
