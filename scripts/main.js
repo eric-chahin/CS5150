@@ -532,6 +532,23 @@ function setupMagnificPopup() {
   // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
 }
 
+
+//retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon)
+function getLDAP() {
+    var info = null;
+    $.ajax({
+           type: "GET",
+           url: "get-ldap.php",
+           async: false,
+           dataType: "json",
+           success: function(data) {
+                info = data;
+           }
+    });
+    return info.split(";");
+}
+
+
 /* Called upon after user is fetched or after confirm is clicked on splash page.
  * Sets up final touches on the website like applying the user data to the checklist.
  * It also sets up the event handlers and vector dropdown. */
@@ -556,9 +573,17 @@ $(document).ready(function(){
   FilterValue = Object.freeze({FORBIDDEN : 0, ALLOWED : 1, PERFECT : 2}); 
   WarningType = Object.freeze({SPECIFIC_CLASS : 0, COURSE_LEVEL : 1, FORBIDDEN : 2, CREDITS : 3, VECTOR : 4});
   //(course_id -> Course_information object)
-  netid = "abc123"; //TODO get netid from web auth login
+  
+  netid = "abc123";
   users_name = "need to get this somehow"
-  loader = new Loader(); //this is where we would pass the netid from web login
+                  
+  /* TODO: uncomment this block of code when copying to server
+  userInfo = getLdAP();
+  netid = userInfo[0];
+  users_name = userInfo[1];
+   */
+
+  loader = new Loader();
   COURSE_INFORMATION = {};
   loader.initializeCourseInfo();
   HEXAGON_COLORS = {}; // listing (String) -> color (String)
