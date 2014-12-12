@@ -344,9 +344,28 @@ function getNewPageHTML() {
     new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div></br></br>';
     new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
     new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
-    new_html += '<div id="revise-year-dropdown">Year:<br /><select id="revise_year"></select></div>';
-    new_html += '<div id="revise-version-dropdown">Version:<br /><select id="revise_version" /></select></div>';
-    new_html += '<div id="revise-college-dropdown">College:<br /><select id="revise_college" /></select></div>';
+    var current_year = new Date().getFullYear();
+    var year_html = '';
+    for (var i = 0; i < 6; i++) {
+        year_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + ' - ' + (current_year-i+1) + '</option>';
+    }
+    new_html += '<div id="revise-year-dropdown">Year:<br /><select id="revise_year">'+year_html+'</select></div>';
+    
+    var version_html = '';
+    var temp_version = '';
+    
+    for (var i = 0; i < 6; i++) {
+        temp_version = '<option value="'+(current_year-i)+'">' + (current_year-i) + '</option>';
+        //if (temp_version == ''+user.current_schedule) {
+            version_html += temp_version;
+        //}
+    }
+    new_html += '<div id="revise-version-dropdown">Version:<br /><select id="revise_version">'+version_html+'</select></div>';
+    
+    var college_html = '';
+    college_html += '<option value="ENGR">Engineering</option>';
+    college_html += '<option value="A&S">Arts & Sciences</option>';
+    new_html += '<div id="revise-college-dropdown">College:<br /><select id="revise_college">'+college_html+'</select></div>';
     
     return new_html;
 }
