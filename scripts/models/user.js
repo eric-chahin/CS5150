@@ -28,7 +28,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.load_schedule = function(schedule_id) {
       var s = null;
       var net_id = this.netid;
-      var version_number = this.user_version;
       $.ajax({
              type: "GET",
              url: "user.php",
@@ -41,11 +40,13 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
                 if (data != null) {
                     var schedule_name = data['schedule_name'];
                     var schedule_id = data['schedule_id'];
+                    var version_number = data['version'];
+                    var start_yr = data['start_year'];
                     var schedule = data['schedule'];
                     var courses_lst = schedule ? schedule.split(",") : [];
                     checklist = data['checklist_data'];
                     potential = data['potential_courses'];
-                    s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_year);
+                    s = new Schedule(schedule_name, version_number, schedule_id, courses_lst, start_yr);
                 }
              }
       });
@@ -66,6 +67,8 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       data:   {'netid': this.netid,
                'next_schedule_num': this.next_schedule_num,
                'current_schedule_id': this.current_schedule.id,
+               'version': this.current_schedule.checklist.version,
+               'start_year': this.current_schedule.startYear,
                'schedule_name': this.current_schedule.name,
                'schedules': this.current_schedule.toArray().toString(),
                'checklist_data': checklist_data,
@@ -102,12 +105,8 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   //Initializing fields
   this.full_name = name;
   this.netid = netid;
-  //Addition: user object contains version
-  //TODO: make version a function of start_year
   if (!vers)
     console.error("Version is null or undefined.");
-  this.user_version = vers;
-  this.start_year = start_year;
   this.schedules = schedules; //Should be an array of Schedule objects
   if (!this.schedules || this.schedules.length == 0) {
     //New user
