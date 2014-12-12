@@ -82,11 +82,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   /* Delete the schedule specified with the schedule_id. Updates
      database to reflect the change. */
   this.delete_schedule = function(schedule_id, isDelete){
-    if (schedule_id == this.current_schedule_id){
-      //TODO: stop the user from deleting the schedule they're currently on
-    }
-    this.schedules.splice(schedule_id);
-    this.next_schedule_num = parseInt(this.next_schedule_num) - 1;
+    //assume schedule_id != current_schedule_id
     $.ajax({
       type:  "POST",
       url: "user.php",
@@ -94,7 +90,6 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       dataType: "json",
       data:   {'netid': this.netid,
                'schedule_id': schedule_id,
-               'next_schedule_num' : this.next_schedule_num,
                'isDelete': isDelete},
       success: function(data){
         if (data == "error"){

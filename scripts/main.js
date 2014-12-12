@@ -457,6 +457,27 @@ function getLoadPageFunctions() {
       $.magnificPopup.close();
     }
     return false;
+  });
+
+  $("#deleteSchedule").on('click', function () {
+    var selection = document.getElementById("loadPageSelect");
+    var schedule_id = selection.options[selection.selectedIndex].value;
+    if (schedule_id === "Select the Checklist you wish to load:") {
+      //i.e. they didn't acutally select something from the dropdown
+      $(load_warning).text("Please select a saved schedule.");
+    }
+    else {
+      if (schedule_id == user.current_schedule.id){
+        $(load_warning).text("Cannot delete current schedule."); //TODO: change this message?
+      } else {
+        //TODO: confirm navigation
+        if (confirm("Are you sure you want to delete this schedule?") == true){
+          user.delete_schedule(schedule_id, "true");
+          $.magnificPopup.close();
+        } 
+      }
+    }
+    return false;
   });    
 }
 
