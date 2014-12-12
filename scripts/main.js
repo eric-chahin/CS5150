@@ -51,6 +51,8 @@ var Loader = function() {
             schedule_name = data['schedule_name'];
             var checklist = data['checklist_data'];
             var potential = data['potential_courses'];
+            version = data['version'];
+            start_year = data['start_year'];
             checklist_data = checklist ? checklist.split("#") : [];
             potential_data = potential ? potential.split("#") : [];
           }
@@ -262,8 +264,11 @@ function getSplashPageHTML() {
 
 /* Calculates the appropriate checklist version given the start year. 
  * college_str is ENGR or A&S depending on if the student is in 
- * Engineering or Arts & Sciences. */
-function getVersion(enteringYear, college_str) {
+ * Engineering or Arts & Sciences. 
+ * Pass in an empty version_lst and getVersion will populate it with all the 
+ * different versions */
+function getVersion(enteringYear, college_str, version_lst) {
+  if (!version_lst) version_lst = [];
   var rtn_version = -1;
   $.ajax({
     type:     "GET",
@@ -283,6 +288,8 @@ function getVersion(enteringYear, college_str) {
           curr_version = curr_version.substring(0,curr_version.indexOf('_'));
         }
         curr_version = parseInt(curr_version);
+        //Put into version_lst
+        if (version_lst.indexOf(curr_version) < 0) version_lst.push(curr_version);
         min_version = Math.min(curr_version,min_version);
         curr_diff = enteringYear - curr_version;
         if (curr_diff < 0) continue;
@@ -297,6 +304,7 @@ function getVersion(enteringYear, college_str) {
       rtn_version = closest_version;
     }
   });
+  version_lst.sort();
   return rtn_version + "_" + college_str;
 }
 
@@ -320,11 +328,10 @@ function getSplashPageFunctions() {
         async: true,
         dataType: "json",
         data:   {'netid': user.netid,
-        'full_name': user.full_name,
-        'next_schedule_num': user.next_schedule_num,
-        'version': user.user_version,
-        'current_schedule_id': user.current_schedule.id,
-        'start_year': user.start_year},
+          'full_name': user.full_name,
+          'next_schedule_num': user.next_schedule_num,
+          'current_schedule_id': user.current_schedule.id
+        },
         success: function(data){
           if (data == "error"){
           //TODO: couldn't connect to database on saving
@@ -339,57 +346,73 @@ function getSplashPageFunctions() {
 }
 
 function getNewPageHTML() {
-    var new_html ='<div class="popup-content"><div class="popup-title">New Checklist</div>';
-    new_html += '<div class="popup-dropdown">Name This Checklist:<br />';
-    new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div></br></br>';
-    new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
-    new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
-    var current_year = new Date().getFullYear();
-    var year_html = '';
-    for (var i = 0; i < 6; i++) {
-        year_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + ' - ' + (current_year-i+1) + '</option>';
-    }
-    new_html += '<div id="revise-year-dropdown">Year:<br /><select id="revise_year">'+year_html+'</select></div>';
-    
-    var version_html = '';
-    var temp_version = '';
-    
-    for (var i = 0; i < 6; i++) {
-        temp_version = '<option value="'+(current_year-i)+'">' + (current_year-i) + '</option>';
-        //if (temp_version == ''+user.current_schedule) {
-            version_html += temp_version;
-        //}
-    }
-    new_html += '<div id="revise-version-dropdown">Version:<br /><select id="revise_version">'+version_html+'</select></div>';
-    
-    var college_html = '';
-    college_html += '<option value="ENGR">Engineering</option>';
-    college_html += '<option value="A&S">Arts & Sciences</option>';
-    new_html += '<div id="revise-college-dropdown">College:<br /><select id="revise_college">'+college_html+'</select></div>';
-    
-    return new_html;
+  var new_html ='<div class="popup-content"><div class="popup-title">New Checklist</div>';
+  new_html += '<div class="popup-dropdown">Name This Checklist:<br />';
+  new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div></br></br>';
+  new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
+  new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
+  var current_year = new Date().getFullYear();
+  var year_html = '';
+  for (var i = 0; i < 6; i++) {
+      year_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + ' - ' + (current_year-i+1) + '</option>';
+  }
+  new_html += '<div id="revise-year-dropdown">Year:<br /><select id="revise_year">'+year_html+'</select></div>';
+  
+  var version_html = '';
+  var temp_version = '';
+  var version_lst = [];
+  getVersion(current_year,"",version_lst);
+  var version_html = '<option selected disabled>Checklist Version</option>';
+  for (var i = 0; i < version_lst.length; i++) {
+    version_html += '<option value="'+version_lst[i]+'">' + version_lst[i] + "</option>";
+  }
+
+  new_html += '<div id="revise-version-dropdown">Version:<br /><select id="revise_version">'+version_html+'</select></div>';
+  
+  var college_html = '';
+  college_html += '<option value="ENGR">Engineering</option>';
+  college_html += '<option value="A&S">Arts & Sciences</option>';
+  new_html += '<div id="revise-college-dropdown">College:<br /><select id="revise_college">'+college_html+'</select></div>';
+  
+  return new_html;
 }
 
 function getNewPageFunctions() {
-    $("#confirmNew").on('click', function () {
-        var name = $('#schedule_name').val();
-        // TODO: Also do a check to make sure you cannot enter a schedule with the same name
-        if (name.trim() == "") {
-            $("#new_schedule_warning").text("Please enter a name for this schedule.");
-        }
-        else {
-            vec_data = getVectorInfo();
-            user.save_schedule("false", vec_data, getPotentialCourseString());
-            checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
-            user.add_new_schedule(name, user.user_version, user.start_year); //TODO: get version
-            setVectorDropDowns();
-            loader.applyUser(user);
-            document.getElementById("sidebarTitle").innerHTML = name;
-            $.magnificPopup.close();
-        }
-    
-        return false;
-    });
+  $("#revise_year").val(user.current_schedule.startYear);
+  var curr_version = user.current_schedule.checklist.version;
+  if (curr_version.indexOf('_') >= 0) {
+    curr_version = curr_version.substring(0,curr_version.indexOf('_'));
+  }
+  $("#revise_version").val(curr_version);
+
+  $("#revise_year").change(function() {
+    var ver = getVersion($("#revise_year").val(),"");
+    $("#revise_version").val(ver.substring(0,ver.length-1));
+  });
+  $("#revise_version").change(function() {
+    alert("Before you change your checklist version, check with the undergraduate CS advisor to make sure "+
+      "that you are allowed to work off a different version.");
+  });
+  $("#confirmNew").on('click', function () {
+    var name = $('#schedule_name').val();
+    // TODO: Also do a check to make sure you cannot enter a schedule with the same name
+    if (name.trim() == "") {
+      $("#new_schedule_warning").text("Please enter a name for this schedule.");
+    } else {
+      vec_data = getVectorInfo();
+      user.save_schedule("false", vec_data, getPotentialCourseString());
+      checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
+      var new_version = $("#revise_version").val()+"_"+$("#revise_college").val();
+      if ($("#revise_college").val() === "A&S") alert("TODO: Put in A&S checklists");
+      user.add_new_schedule(name, new_version, parseInt($("#revise_year").val())); //ERC73 TODO: get version from form fields
+      setVectorDropDowns();
+      loader.applyUser(user);
+      document.getElementById("sidebarTitle").innerHTML = name;
+      $.magnificPopup.close();
+    }
+
+    return false;
+  });
 }
 
 function getLoadPageHTML() {
@@ -577,7 +600,8 @@ function setupMagnificPopup() {
 }
 
 
-//retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon)
+//retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  
+//The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon)
 function getLDAP() {
     var info = null;
     $.ajax({

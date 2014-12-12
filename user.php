@@ -39,12 +39,9 @@
         $full_name = $_POST['full_name'];
         $current_schedule_id = $_POST['current_schedule_id'];
         $next_schedule_num = $_POST['next_schedule_num'];
-        $schedule_name = $_POST['schedule_name'];
-        $version = $_POST['version'];
-        $start_year = $_POST['start_year'];
        
         mysql_query("START TRANSACTION");
-        $qry1= "INSERT INTO member(netid,name,version,start_year,current_schedule_id,next_schedule_num)VALUES('$netid','$full_name','$version','$start_year','$current_schedule_id','$next_schedule_num')"; 
+        $qry1= "INSERT INTO member(netid,name,current_schedule_id,next_schedule_num)VALUES('$netid','$full_name','$current_schedule_id','$next_schedule_num')"; 
         if ($tutorial_db->query($qry1)) {
             mysql_query("COMMIT");
             echo "ok";
@@ -75,6 +72,8 @@
         $netid = $_POST['netid'];
         $current_schedule_id = $_POST['current_schedule_id'];
         $next_schedule_num = $_POST['next_schedule_num'];
+        $version = $_POST['version'];
+        $start_year = $_POST['start_year'];
         $schedules = $_POST['schedules'];
         $schedule_name = $_POST['schedule_name'];
         $checklist_data = $_POST['checklist_data'];
@@ -86,7 +85,7 @@
         if ($new_flag) {
             mysql_query("START TRANSACTION");
             
-            $qry1 = "INSERT INTO schedule(netid,schedule_id,schedule_name,schedule,checklist_data,potential_courses)VALUES('$netid','$current_schedule_id','$schedule_name','$schedules','$checklist_data','$potential_courses')";
+            $qry1 = "INSERT INTO schedule(netid,schedule_id,version,start_year,schedule_name,schedule,checklist_data,potential_courses)VALUES('$netid','$current_schedule_id','$version','$start_year','$schedule_name','$schedules','$checklist_data','$potential_courses')";
             $qry2= "UPDATE member SET current_schedule_id='$current_schedule_id', next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
             
             if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {

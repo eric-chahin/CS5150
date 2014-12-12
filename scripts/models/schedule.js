@@ -8,7 +8,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   this.numSemesters = 10;
   this.vector_warnings = [false,false]; //Length of how many vectors we have.
   //TODO: fix this so it always grabs last two digits
-  var startYear = startYear % 100;
+  this.startYear = startYear;
 
   // The courses_I_want array does NOT correspond to the order that they show up on the page necessarily
   // It acts merely as a collection of wanted courses. Switching the ordering should not affect the view.
@@ -111,7 +111,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
       semesterNum+=1;
     }
 
-    name+= startYear + Math.floor(semesterNum/2);
+    name+= (this.startYear%100) + Math.floor(semesterNum/2);
     return name;
   }
 
