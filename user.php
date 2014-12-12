@@ -53,6 +53,26 @@
         }
         
     }
+    // Delete user state
+    else if (isset($_POST['isDelete'])){
+        $netid = $_POST['netid'];
+        $schedule_id = $_POST['schedule_id'];
+        $next_schedule_num = $_POST['next_schedule_num'];
+
+        mysql_query("START TRANSACTION");
+
+        $qry1= "DELETE * FROM schedule WHERE netid='$netid' AND schedule_id='$schedule_id'";
+        $qry2= "UPDATE member SET next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
+
+        if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {
+            mysql_query("COMMIT");
+            echo "ok";
+        } else {
+            //connection error
+            mysql_query("ROLLBACK");
+            echo "error";
+        }        
+    }
     // Save user state
     else if (isset($_POST['netid'])) {
         $netid = $_POST['netid'];
@@ -87,7 +107,6 @@
         }
         //Update schedule data and user data
         else {
-            //$qry = "UPDATE member, schedule SET member.current_schedule_id='$current_schedule_id', member.next_schedule_num='$next_schedule_num', member.schedules='$schedules', schedule.schedule_id='$current_schedule_id', schedule.schedule_name='$schedule_name', schedule.schedule='$schedules' WHERE member.netid= schedule.netid AND schedule.current_schedule_id='$current_schedule_id'";
             mysql_query("START TRANSACTION");
             
             $qry1="UPDATE member SET current_schedule_id='$current_schedule_id', next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
@@ -101,9 +120,7 @@
                 //connection error
                 mysql_query("ROLLBACK");
                 echo "error";
-            }
-
-            
+            }  
         }
     }
     //Get user or schedule state
@@ -149,8 +166,4 @@
             echo(json_encode($schedule_names));
         }
     }
-    
-
-    
-
 ?>

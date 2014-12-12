@@ -122,6 +122,17 @@ button:focus {
       float: left;
 }
 
+#deleteSchedule{
+    position: absolute;
+    right: 10px;
+    bottom: 4px;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+}
+#deleteSchedule:hover, #deleteSchedule:focus {
+    opacity: 1;
+    filter: alpha(opacity=100); }
+
 #sidebar{
   top: 120px;
   position: absolute;
@@ -844,7 +855,45 @@ clear:left;
     margin-bottom:22px;
 }
 
-.popup-dropdown{
+
+#popup-dropdown{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:25px;
+}
+
+#revise-year-dropdown, #revise-version-dropdown, #revise-college-dropdown {
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+}
+
+#revise-year-dropdown{
+    position:absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#revise-version-dropdown{
+    position:absolute;
+    top: 50px;
+    left: 10px;
+}
+
+#revise-college-dropdown{
+    position:absolute;
+    top: 90px;
+    left: 10px;
+}
+
+#revise-year-dropdown:hover, #revise-year-dropdown:focus,
+#revise-version-dropdown:hover, #revise-version-dropdown:focus, 
+#revise-college-dropdown:hover, #revise-college-dropdown:focus{
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.revise-college-dropdown{
     display: block;
     margin-left: auto;
     margin-right: auto;

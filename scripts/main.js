@@ -346,52 +346,51 @@ function getSplashPageFunctions() {
 }
 
 function getNewPageHTML() {
-  var select_html = '<option selected disabled>Entering academic year</option>';
-  var current_year = new Date().getFullYear();
-  for (var i = 0; i < 6; i++) {
-    select_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + " - " + (current_year-i+1) + "</option>";
-  }
-  select_html = "<div class='popup-select'><select id='newPageSelect_startyear'>" + select_html + "</select></div>";
-  
-  var version_lst = [];
-  getVersion(current_year,"",version_lst);
-  var version_select_html = '<option selected disabled>Checklist Version</option>';
-  for (var i = 0; i < version_lst.length; i++) {
-    version_select_html += '<option value="'+version_lst[i]+'">' + version_lst[i] + "</option>";
-  }
-  version_select_html = "<div class='popup-select'><select id='newPageSelect_version'>" + version_select_html + "</select></div>"
-  
-  var radio_colleges = '<input type="radio" id="ENGR_radio" name="college" value="ENGR" checked>&nbsp;Engineering<br>\
-                        <input type="radio" id="A&S_radio"  name="college" value="A&S">&nbsp;Arts & Sciences<br>';
-
   var new_html ='<div class="popup-content"><div class="popup-title">New Checklist</div>';
   new_html += '<div class="popup-dropdown">Name This Checklist:<br />';
-  new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div>';
-  new_html += '<p>Entering Academic Year</p>'
-  new_html += select_html;
-  new_html += '<p>Version</p>'
-  new_html += version_select_html;
-  new_html += radio_colleges;
+  new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div></br></br>';
   new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
   new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
+  var current_year = new Date().getFullYear();
+  var year_html = '';
+  for (var i = 0; i < 6; i++) {
+      year_html += '<option value="'+(current_year-i)+'">' + (current_year-i) + ' - ' + (current_year-i+1) + '</option>';
+  }
+  new_html += '<div id="revise-year-dropdown">Year:<br /><select id="revise_year">'+year_html+'</select></div>';
+  
+  var version_html = '';
+  var temp_version = '';
+  var version_lst = [];
+  getVersion(current_year,"",version_lst);
+  var version_html = '<option selected disabled>Checklist Version</option>';
+  for (var i = 0; i < version_lst.length; i++) {
+    version_html += '<option value="'+version_lst[i]+'">' + version_lst[i] + "</option>";
+  }
+
+  new_html += '<div id="revise-version-dropdown">Version:<br /><select id="revise_version">'+version_html+'</select></div>';
+  
+  var college_html = '';
+  college_html += '<option value="ENGR">Engineering</option>';
+  college_html += '<option value="A&S">Arts & Sciences</option>';
+  new_html += '<div id="revise-college-dropdown">College:<br /><select id="revise_college">'+college_html+'</select></div>';
   
   return new_html;
 }
 
 function getNewPageFunctions() {
-  $("#newPageSelect_startyear").val(user.current_schedule.startYear);
+  $("#revise_year").val(user.current_schedule.startYear);
   var curr_version = user.current_schedule.checklist.version;
   if (curr_version.indexOf('_') >= 0) {
     curr_version = curr_version.substring(0,curr_version.indexOf('_'));
   }
-  $("#newPageSelect_version").val(curr_version);
+  $("#revise_version").val(curr_version);
 
-  $("#newPageSelect_startyear").change(function() {
-    var ver = getVersion($("#newPageSelect_startyear").val(),"");
-    $("#newPageSelect_version").val(ver.substring(0,ver.length-1));
+  $("#revise_year").change(function() {
+    var ver = getVersion($("#revise_year").val(),"");
+    $("#revise_version").val(ver.substring(0,ver.length-1));
   });
-  $("#newPageSelect_version").change(function() {
-    alert("Before you change your checklist version, check with the undergraduate advisor to make sure "+
+  $("#revise_version").change(function() {
+    alert("Before you change your checklist version, check with the undergraduate CS advisor to make sure "+
       "that you are allowed to work off a different version.");
   });
   $("#confirmNew").on('click', function () {
@@ -403,8 +402,9 @@ function getNewPageFunctions() {
       vec_data = getVectorInfo();
       user.save_schedule("false", vec_data, getPotentialCourseString());
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
-      var new_version = $("#newPageSelect_version").val()+"_"+($("#ENGR_radio").is(':checked') ? "ENGR" : "A&S");
-      user.add_new_schedule(name, new_version, parseInt($("#newPageSelect_startyear").val())); //ERC73 TODO: get version from form fields
+      var new_version = $("#revise_version").val()+"_"+$("#revise_college").val();
+      if ($("#revise_college").val() === "A&S") alert("TODO: Put in A&S checklists");
+      user.add_new_schedule(name, new_version, parseInt($("#revise_year").val())); //ERC73 TODO: get version from form fields
       setVectorDropDowns();
       loader.applyUser(user);
       document.getElementById("sidebarTitle").innerHTML = name;
@@ -417,9 +417,10 @@ function getNewPageFunctions() {
 
 function getLoadPageHTML() {
   var load_html = '<div class="popup-content"><div class="popup-title">Load Checklist</div>';
-  load_html += '<div class="popup-dropdown"><select id="loadPageSelect"></select></div>';
+  load_html += '<div class="popup-dropdown"><select id="loadPageSelect"></select></div></br></br>';
   load_html += '<input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
   load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></div>';
+  load_html += '<a href="#" name="deleteSchedule" id="deleteSchedule">Delete Selected</a>';
   return load_html; 
 }
 
