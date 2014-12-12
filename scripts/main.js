@@ -375,6 +375,7 @@ function getLoadPageHTML() {
   load_html += '<div class="popup-dropdown"><select id="loadPageSelect"></select></div>';
   load_html += '<input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
   load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></div>';
+  load_html += '<a href="#" name="deleteSchedule" id="deleteSchedule">Delete Selected</a>';
   return load_html; 
 }
 
