@@ -344,6 +344,9 @@ function getNewPageHTML() {
     new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div>';
     new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
     new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
+    new_html += '<div id="revise-year-dropdown">Year:<br /><select id="revise_year"></select></div>';
+    new_html += '<div id="revise-version-dropdown">Version:<br /><select id="revise_version" /></select></div>';
+    new_html += '<div id="revise-college-dropdown">College:<br /><select id="revise_college" /></select></div>';
     
     return new_html;
 }
