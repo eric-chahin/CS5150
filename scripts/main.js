@@ -341,7 +341,7 @@ function getSplashPageFunctions() {
 function getNewPageHTML() {
     var new_html ='<div class="popup-content"><div class="popup-title">New Checklist</div>';
     new_html += '<div class="popup-dropdown">Name This Checklist:<br />';
-    new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div>';
+    new_html += '<input type ="text" name="schedule_name" id="schedule_name" /></div></br></br>';
     new_html += '<input type="image" src="img/splashpage/continue.png" name="confirmNew" id="confirmNew" />';
     new_html += '<br/><br/><div><p id="new_schedule_warning" style="color: #d00a0a;"></p></div></div>';
     new_html += '<div id="revise-year-dropdown">Year:<br /><select id="revise_year"></select></div>';
@@ -375,7 +375,7 @@ function getNewPageFunctions() {
 
 function getLoadPageHTML() {
   var load_html = '<div class="popup-content"><div class="popup-title">Load Checklist</div>';
-  load_html += '<div class="popup-dropdown"><select id="loadPageSelect"></select></div>';
+  load_html += '<div class="popup-dropdown"><select id="loadPageSelect"></select></div></br></br>';
   load_html += '<input type="image" src="img/splashpage/continue.png" name="loadSchedule" id="loadSchedule" />';
   load_html += '<br/><br/><div><p id="load_warning" style="color: #d00a0a;"></p></div></div>';
   load_html += '<a href="#" name="deleteSchedule" id="deleteSchedule">Delete Selected</a>';
