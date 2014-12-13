@@ -929,7 +929,6 @@ clear:left;
 
 #results div:hover{
   cursor: pointer;
-  background: transparent;
 }
 
 #results div:active{
@@ -956,10 +955,6 @@ clear:left;
   -moz-transform:rotate(45deg);
   -webkit-transform:rotate(45deg);
   transform:rotate(45deg);
-}
-
-#results div:hover div span{
-  display: block;
 }
 
 /* Custom scrollbar design */
