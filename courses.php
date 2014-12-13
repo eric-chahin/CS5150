@@ -30,8 +30,12 @@ if ($tutorial_db->connect_errno) {
     printf("Connect failed: %s\n", $tutorial_db->connect_error);
     exit();
 }
- 
-$query = 'SELECT * FROM courses';
+
+if (isset($_GET['listing'])) {
+  $query = 'SELECT * FROM courses WHERE course_listing = "'.$_GET['listing'].'"';
+} else {
+  $query = 'SELECT * FROM courses';
+}
 // Do Search
 $result = $tutorial_db->query($query);
 

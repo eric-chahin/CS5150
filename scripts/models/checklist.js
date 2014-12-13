@@ -120,7 +120,7 @@ var Checklist = function(version) {
   function create_tag_f(credits,course_num,forbidden_str) {
     return function(course_listing, warnings) {
       course_listing = course_listing.replace(" ","");
-      var course = COURSE_INFORMATION[course_listing];
+      var course = COURSE_INFORMATION.get(course_listing);
       if (!course) debugger;
       var c_str  = course["credits"];
       if (c_str.indexOf("-") !== -1) {
@@ -166,7 +166,7 @@ var Checklist = function(version) {
           //Special case: Freshman Writing Seminar
           //The tag is $FWS, and is accepted whenever a course title starts with "FWS"
           if (tag_allowed_lst === "$FWS") {
-            if (COURSE_INFORMATION[listing].title.substring(0,3) === "FWS") {
+            if (COURSE_INFORMATION.get(listing).title.substring(0,3) === "FWS") {
               return FilterValue.PERFECT;
             } else {
               warnings.push(WarningType.FORBIDDEN);

@@ -10,7 +10,7 @@ var ChecklistView = function() {
       //assign a course to the unassigned box
         $(".unassigned-classes").append("<div class='unassigned-classRow dragcolumnchecklist'><span class='data' data-name='" + listing  +
                     "' ><div class='course-name'>" + listing +
-                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                    "</div><div class='course-credit'>"+ COURSE_INFORMATION.get(listing)["credits"] +"</div>" +
                     "<div class='course-semester'>" + semester_name + "</div>" +
                     " </span></div>");
       } else {
@@ -23,7 +23,7 @@ var ChecklistView = function() {
                   this.innerHTML = "<div class='requirement'>"+ newCourse.getRequirementFilled() +
                     "</div><div class='warning-col'></div><div class='drag-course dragcolumnchecklist'><span class='data' data-name='" + listing  +
                     "' ><div class='course-name'>" + listing +
-                    "</div><div class='course-credit'>"+ COURSE_INFORMATION[listing]["credits"] +"</div>" +
+                    "</div><div class='course-credit'>"+ COURSE_INFORMATION.get(listing)["credits"] +"</div>" +
                     "<div class='course-semester'>" + semester_name + "</div>" +
                     " </span></div>";
                   return false; // Once the course is placed, then we should get out of the each loop.

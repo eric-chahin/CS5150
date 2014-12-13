@@ -120,21 +120,6 @@ var Loader = function() {
     return this.suggested_potential_courses;
   }
 
-  this.initializeCourseInfo = function() {
-    $.ajax({
-      type:     "GET",
-      url:      "courses.php",
-      dataType: "json",
-      async: false,
-      cache: false,
-      success: function(data){
-        for (var x = 0; x < data.length; x++) {
-          var entry = data[x];
-          COURSE_INFORMATION[entry["course_listing"]] = entry;
-        }
-      }
-    });
-  }
 
   this.initializeHexagonColors = function() {
     var listOfClasses = [];
@@ -176,6 +161,33 @@ var Loader = function() {
       if (passedColors.indexOf(listOfClasses[i][1]) >= 0)
         HEXAGON_COLORS[listOfClasses[i][0]] = listOfClasses[i][1];
     }
+  }
+}
+
+/* Class: CourseInformation stores all information about the courses at Cornell. */
+var CourseInformation = function() {
+  var dict = {};
+  this.get = function(key) {
+    if (!dict[key]) {
+      initializeCourseInfo(key);
+    }
+    return dict[key];
+  }
+  function initializeCourseInfo(listing) {
+    $.ajax({
+      type:     "GET",
+      url:      "courses.php",
+      dataType: "json",
+      data: { 'listing': listing },
+      async: false,
+      cache: false,
+      success: function(data){
+        for (var x = 0; x < data.length; x++) {
+          var entry = data[x];
+          dict[entry["course_listing"]] = entry;
+        }
+      }, error: function(data){ console.error(data);}
+    });
   }
 }
 
@@ -631,8 +643,7 @@ $(document).ready(function(){
    */
 
   loader = new Loader();
-  COURSE_INFORMATION = {};
-  loader.initializeCourseInfo();
+  COURSE_INFORMATION = new CourseInformation();
   HEXAGON_COLORS = {}; // listing (String) -> color (String)
   loader.initializeHexagonColors();
   //global vars

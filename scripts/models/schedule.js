@@ -285,7 +285,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
   /* Returns whether a crosslisted class is found in the schedule */
   this.crosslist_contains = function(listing) {
     listing = listing.replace(" ",""); // Removes spaces from input just in case
-    var crosslisted_classes = COURSE_INFORMATION[listing]["crosslists"].split(";");
+    var crosslisted_classes = COURSE_INFORMATION.get(listing)["crosslists"].split(";");
     for (var i = 0; i < crosslisted_classes.length; i++) {
       if (this.contains(crosslisted_classes[i])) {
         return true;
@@ -397,7 +397,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
           var semester_col = String.fromCharCode(column.charCodeAt(0)+3);
           for (var i = 0; i < checklist_rules[rule].slots && i < coursesForThisRule.length; i++) {
             dict[column + (excelNum+i)] = coursesForThisRule[i].listing // check with matlab! Shouldn't get 2!
-            dict[credits_col + (excelNum+i)] = COURSE_INFORMATION[coursesForThisRule[i].listing]["credits"];
+            dict[credits_col + (excelNum+i)] = COURSE_INFORMATION.get(coursesForThisRule[i].listing)["credits"];
             var semester_number = this.searchForSemester(coursesForThisRule[i].listing);
             dict[semester_col + (excelNum+i)] = this.convertSemesterName(semester_number);
           }

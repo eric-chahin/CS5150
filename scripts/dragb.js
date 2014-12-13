@@ -46,7 +46,7 @@ function applyrun() {
       var $thisNode = $("#" + this.id);
       //currently data-course is just the course name which is useless
       var thisCourse = $thisNode.data("course");
-      
+      replacePopupHTML("<p>Cannot connect to server to get course information.</p>"); // In case the connection drops
       if (thisCourse) {
         replacePopupHTML(thisCourse.prettyPrint());
       } else {
