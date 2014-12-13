@@ -4,7 +4,6 @@ function applyrun() {
   var dragSrc = null;
   var $dragSrcNode = null; //jQuery node
   var draggingColumn = null;
-  var ENABLE_GHOST_COL = false;
 
   /* Checks to see if element's class property has <name> in it. */
   Element.prototype.hasClassName = function(name) {
@@ -88,11 +87,6 @@ function applyrun() {
 
     // window.console && console.log(e, e.dataTransfer);
     window.foo = e;
-    if (ENABLE_GHOST_COL) {
-      draggingColumn = dragSrc.cloneNode(true);
-      draggingColumn.style.display = 'none';
-      document.body.appendChild(draggingColumn);
-    }
 
     dragSrc.style.opacity = '0.4';
 
@@ -142,13 +136,6 @@ function applyrun() {
   function handleDragOver(e) {
     if (e.preventDefault) {
       e.preventDefault(); // Allows us to drop.
-    }
-    if (ENABLE_GHOST_COL) {
-      var mousePos = mouseCoords(e);
-      draggingColumn.style.display = 'block';
-      draggingColumn.style.position =  'absolute';  
-      draggingColumn.style.top =  mousePos.y + 5 + 'px';
-      draggingColumn.style.left = mousePos.x + 5 + 'px';
     }
 
     e.dataTransfer.dropEffect = 'move';
@@ -251,10 +238,6 @@ function applyrun() {
 
     dragSrc.style.opacity = '1';
     dragSrc = null;
-
-    if (ENABLE_GHOST_COL) {
-      document.body.removeChild(draggingColumn);
-    }
 
     checklist_view.fillEmptyScheduleSpots();
     //handling the scrollbar buttons
