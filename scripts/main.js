@@ -493,7 +493,6 @@ function getLoadPageFunctions() {
       if (schedule_id == user.current_schedule.id){
         $(load_warning).text("Cannot delete current schedule."); //TODO: change this message?
       } else {
-        //TODO: confirm navigation
         if (confirm("Are you sure you want to delete this schedule?") == true){
           user.delete_schedule(schedule_id, "true");
           $.magnificPopup.close();
@@ -595,13 +594,11 @@ function setupMagnificPopup() {
       vec_data = getVectorInfo();
       user.save_schedule("false", vec_data, getPotentialCourseString());
   });
-  //makePopup("#save", 'Saved!', saveUserFunction, false, user); 
-  // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
 }
 
 
-//retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  
-//The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon)
+/* Retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  
+   The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon) */
 function getLDAP() {
     var info = null;
     $.ajax({

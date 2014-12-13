@@ -196,9 +196,9 @@ function applyrun() {
       var dragIsScheduleCourse = "course_" === dragSrc.id.substring(0,7);
       var thisIsScheduleCourse = "course_" === this.id.substring(0,7);
       var dragSemester = findSemester(dragSrc.id)
-      var dragIndex    = (dragSemester == "10") ? parseInt(dragSrc.id.substring(9))-1 : parseInt(dragSrc.id.substring(8))-1;
+      var dragIndex    = (dragSemester == 9) ? parseInt(dragSrc.id.substring(9))-1 : parseInt(dragSrc.id.substring(8))-1;
       var thisSemester = findSemester(this.id)
-      var thisIndex    = (thisSemester == "10") ? parseInt(this.id.substring(9))-1 : parseInt(this.id.substring(8))-1;
+      var thisIndex    = (thisSemester == 9) ? parseInt(this.id.substring(9))-1 : parseInt(this.id.substring(8))-1;
 
       if (dragIsScheduleCourse && thisIsScheduleCourse) {
         $dragSrcNode.data("course",thisCourse);
@@ -308,7 +308,6 @@ function applyrun() {
    course id "course_(semester)(index)
    example: "course_915" 
    returns the semester integer*/ 
-
 function findSemester(input){
   if (input.length < 10) { 
     return parseInt(input.substring(7,8))-1;
