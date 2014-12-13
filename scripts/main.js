@@ -492,6 +492,26 @@ function getLoadPageFunctions() {
       $.magnificPopup.close();
     }
     return false;
+  });
+
+  $("#deleteSchedule").on('click', function () {
+    var selection = document.getElementById("loadPageSelect");
+    var schedule_id = selection.options[selection.selectedIndex].value;
+    if (schedule_id === "Select the Checklist you wish to load:") {
+      //i.e. they didn't acutally select something from the dropdown
+      $(load_warning).text("Please select a saved schedule.");
+    }
+    else {
+      if (schedule_id == user.current_schedule.id){
+        $(load_warning).text("Cannot delete current schedule."); //TODO: change this message?
+      } else {
+        if (confirm("Are you sure you want to delete this schedule?") == true){
+          user.delete_schedule(schedule_id, "true");
+          $.magnificPopup.close();
+        } 
+      }
+    }
+    return false;
   });    
 }
 
@@ -586,13 +606,11 @@ function setupMagnificPopup() {
       vec_data = getVectorInfo();
       user.save_schedule("false", vec_data, getPotentialCourseString());
   });
-  //makePopup("#save", 'Saved!', saveUserFunction, false, user); 
-  // makePopup("#email",'Enter message to Nicole:<br /><textarea />', false, false, null) // TODO: create email button
 }
 
 
-//retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  
-//The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon)
+/* Retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  
+   The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon) */
 function getLDAP() {
     var info = null;
     $.ajax({

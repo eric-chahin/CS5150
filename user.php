@@ -57,19 +57,13 @@
     else if (isset($_POST['isDelete'])){
         $netid = $_POST['netid'];
         $schedule_id = $_POST['schedule_id'];
-        $next_schedule_num = $_POST['next_schedule_num'];
 
-        mysql_query("START TRANSACTION");
+        $qry1= "DELETE FROM schedule WHERE netid='$netid' AND schedule_id='$schedule_id'";
 
-        $qry1= "DELETE * FROM schedule WHERE netid='$netid' AND schedule_id='$schedule_id'";
-        $qry2= "UPDATE member SET next_schedule_num='$next_schedule_num' WHERE netid='$netid'";
-
-        if ($tutorial_db->query($qry1) and $tutorial_db->query($qry2)) {
-            mysql_query("COMMIT");
+        if ($tutorial_db->query($qry1)) {
             echo "ok";
         } else {
             //connection error
-            mysql_query("ROLLBACK");
             echo "error";
         }        
     }
