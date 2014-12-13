@@ -101,27 +101,7 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
       }
     });
   }
-
-  
-  //saves the vector (and tech writing / probability) info for this user
-    //to the schedule table so it can be retrieved on successive loads.
-    //checklist_data is an encoding of the data delimited by "#"
-  this.save_checklist_info = function(checklist_data) {
-      
-      
-  }
-    
-  
-    
-    
-  this.load_checklist_info = function (checklist_data) {
-      data_array = checklist_data.split("#");
-      for (var i=0; i<data_array.length; i++) {
-          console.log(data_array[i]);
-      }
-  }
-    
-    
+ 
   //Initializing fields
   this.full_name = name;
   this.netid = netid;
