@@ -115,10 +115,10 @@ $(document).ready(function() {
         enter(div_array[search_hover_index]);
       }
 
-      if (search_hover_index <= 4 ) {
+      if (search_hover_index <= 3 ) {
         // do nothing
         $("div#results").scrollTop(0);
-      } else if (search_hover_index > 4) {
+      } else if (search_hover_index > 3) {
         $("div#results").scrollTop(position_array[search_hover_index-3]);
       } else {
         $("div#results").scrollTop(position_array[search_hover_index]);
