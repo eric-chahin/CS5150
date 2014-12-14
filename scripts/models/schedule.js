@@ -100,7 +100,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
 
   /*Creates the string name for a semester number*/
   this.convertSemesterName = function(semesterNum){
-    if (semesterNum == 8) return "--";
+    if (semesterNum == 8) return "N/A";
     if (semesterNum == 9) return "AP";
 
     var name = "";
@@ -110,8 +110,10 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
       name = "SP";
       semesterNum+=1;
     }
+    var yr = this.startYear%100 + Math.floor(semesterNum/2);
+    yr = (yr+"").length == 1 ? "0"+yr : yr;
 
-    name+= (this.startYear%100) + Math.floor(semesterNum/2);
+    name+= yr;
     return name;
   }
 
