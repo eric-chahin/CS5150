@@ -65,6 +65,12 @@ var Loader = function() {
       var courses_lst = schedule ? schedule.split(",") : [];   
       var s = new Schedule(schedule_name, version, current_schedule_id, courses_lst, start_year);
       document.getElementById("sidebarTitle").innerHTML = schedule_name;
+      var pattern = /ENGR/;
+      if (pattern.test(s.checklist.version)) {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Engineering";
+      } else {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Arts and Sciences";
+      }
       scheds = [];
       scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
       user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
@@ -332,6 +338,11 @@ function getSplashPageFunctions() {
       var college = document.getElementById("A&S_radio").checked ? "A&S" : "ENGR";
       //TODO: the A&S checklist looks weird...fix its look
       user = new User(users_name, netid, getVersion(enteringYear,college), null, null, null, enteringYear);
+      if (college == "ENGR") {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Engineering";
+      } else {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Arts and Sciences";
+      }
       //once user clicks confirm, we can put user in db
       $.ajax({
         type:  "POST",
@@ -419,6 +430,11 @@ function getNewPageFunctions() {
       setVectorDropDowns();
       loader.applyUser(user);
       document.getElementById("sidebarTitle").innerHTML = name;
+      if ($("#revise_college").val() === "ENGR") {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Engineering";
+      } else {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Arts and Sciences";
+      }
       $.magnificPopup.close();
     }
 
@@ -488,6 +504,12 @@ function getLoadPageFunctions() {
       checklistDrag();
       setVectorInfo(checklist_data);
       document.getElementById("sidebarTitle").innerHTML = user.current_schedule.name;
+      var pattern = /ENGR/;
+      if (pattern.test(user.current_schedule.checklist.version)) {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Engineering";
+      } else {
+        document.getElementById("checklisttitle_sub").innerHTML = "College of Arts and Sciences";
+      }
       $.magnificPopup.close();
     }
     return false;

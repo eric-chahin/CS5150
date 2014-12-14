@@ -96,7 +96,8 @@
                         <div id ="content_container">
                             <div id="content">
                                 <div id= "tutorialchecklist"><img src = "img/instructions/tutorial_checklist.png"></div>
-                                <div class= "checklisttitle"><img src= "img/text_checklist_header.png"></div>
+                                <div class= "checklisttitle">COMPUTER SCIENCE CHECKLIST</div>
+                                <div id="checklisttitle_sub">College of Engineering</div>
                                 <div class="classleftrow"></div>
                                 <div class="classrightrow"></div>
                                 <div class ="classbottom">

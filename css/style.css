@@ -296,7 +296,25 @@ button:focus {
 .checklisttitle{
     width: 724px;
     margin: 20px;
+    margin-bottom:0px;
     text-align: center;
+    font-family: 'Caviar Dreams Light';
+    font-weight:normal;
+    color: #000000;
+    font-size: 32px;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+}
+
+#checklisttitle_sub{
+    width: 724px;
+    margin: 20px;
+    margin-top:-4px;
+    text-align: center;
+    font-family: 'Caviar Dreams Light';
+    font-weight:normal;
+    color: #000000;
+    font-size: 22px;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
 }
 
 .coursetitle_main{
