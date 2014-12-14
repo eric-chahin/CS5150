@@ -75,7 +75,7 @@
         $version = $_POST['version'];
         $start_year = $_POST['start_year'];
         $schedules = $_POST['schedules'];
-        $schedule_name = $_POST['schedule_name'];
+        $schedule_name = $tutorial_db->real_escape_string($_POST['schedule_name']);
         $checklist_data = $_POST['checklist_data'];
         $potential_courses = $_POST['potential_courses'];
         $isNew = $_POST['isNew'];
