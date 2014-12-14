@@ -31,7 +31,9 @@
         $sem_sub = "";
     }
 
-    echo ('<div class="semestertitle"><div class="semestertitle_main">'.$sem_title.'</div><div class="semestertitle_sub">'.$sem_sub.'</div></div>');
+    echo ('<div class="semestertitle"><div class="semestertitle_main">');
+    echo (sprintf('<div id="sem_title_year_%d">'.$sem_title.'</div>', $i));
+    echo('</div><div class="semestertitle_sub">'.$sem_sub.'</div></div>');
     echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,1));
     echo (sprintf('<div id="course_%d%d" class="hexagon dragcolumn"></div>',$i,2));
     echo (sprintf('<div id="course_%d%d" class="hexagonLeft dragcolumn"></div>',$i,3));
