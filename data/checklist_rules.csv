@@ -22,3 +22,23 @@
 2012_ENGR,Electives,I25,3,External Specialization,$Specialization
 2012_ENGR,Electives,I28,1,Major Approved Elec,$MajorElective
 2012_ENGR,Electives,I30,2,Advisor Approved Elec,$AdvisorElec
+2012_A&S,College Requirements,B10,2,Freshman Writing Seminar,$FWS
+2012_A&S,College Requirements,B12,5,Distribution Requirement,$DistReq
+2012_A&S,College Requirements,B17,3,Foreign Language,$ForeignLang
+2012_A&S,College Requirements,B20,2,Physical/Biological Sciences,$PBS
+2012_A&S,College Requirements,B22,1,Calculus I,MATH1910;MATH1110
+2012_A&S,College Requirements,B23,1,Calculus II,MATH1920;MATH1120;MATH1220
+2012_A&S,College Requirements,B24,1,Linear Algebra,MATH2940;MATH2210
+2012_A&S,College Requirements,B25,1,Intro Programming,CS1110;CS1112;CS1114;CS1115
+2012_A&S,College Requirements,B26,1,CS 2110,CS2110
+2012_A&S,CS Core,I10,1,CS 2800,CS2800
+2012_A&S,CS Core,I11,1,CS 3110,CS3110
+2012_A&S,CS Core,I12,1,CS 3410/CS 3420,CS3410;CS3420
+2012_A&S,CS Core,I13,1,CS 4410,CS4410
+2012_A&S,CS Core,I14,1,CS 4820,CS4820
+2012_A&S,Electives,I18,3,CS Electives,$CSElective
+2012_A&S,Electives,I21,1,CS Project,CS4121;CS4321;CS4411;CS4621;CS4701;CS4758;CS5150;CS5152;CS5412;CS5414;CS6670
+2012_A&S,Electives,I22,3,Technical Electives,$Technical
+2012_A&S,Electives,I25,3,External Specialization,$Specialization
+2012_A&S,Electives,I28,1,Major Approved Elec,$MajorElective
+2012_A&S,Electives,I30,2,Advisor Approved Elec,$AdvisorElec

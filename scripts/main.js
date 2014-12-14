@@ -330,9 +330,8 @@ function getSplashPageFunctions() {
       $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
       var college = document.getElementById("A&S_radio").checked ? "A&S" : "ENGR";
-      //TODO: change me
-      if (college === "A&S") alert("No schedule for A&S in data yet. Using Engineering schedule.");
-      user = new User(users_name, netid, getVersion(enteringYear,"ENGR"), null, null, null, enteringYear);
+      //TODO: the A&S checklist looks weird...fix its look
+      user = new User(users_name, netid, getVersion(enteringYear,college), null, null, null, enteringYear);
       //once user clicks confirm, we can put user in db
       $.ajax({
         type:  "POST",
