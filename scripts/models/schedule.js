@@ -308,7 +308,7 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
     return rtnStr;
   }
 
-  /*written by Ben
+  /*
    *  Returns array containing (semester it's being taken in,Course)
    *  return type is [(int,Course),...]
    *  semester = -1 if course is not yet on schedule (course i want to take)
@@ -328,30 +328,6 @@ var Schedule = function(schedule_name, version, id, courses_lst, startYear) {
       output[output.length]= [-1,this.courses_I_want[i]];
     }
     return output;
-  }
-
-  /*written by Ben
-   *  repopulates schedule from saved user schedule
-   *  takes array containing (semester it's being taken in, Course)
-   *   is [(int,Course),...]
-   *  semester = -1 if course is not yet on schedule (course i want to take)
-   *  input format is assumed to be same as output format of this.toArray */
-  this.fromArray = function(savedSchedule){
-    var countInArrays = new Array(this.numSemesters+1)
-    for (var k = 0; k < countInArrays.length; k++) {
-      countInArrays[k] = 0;
-    }
-    for (var i = 0; i < savedSchedule.length; i++) {
-      if (savedSchedule[i][0] == -1){
-        this.courses_I_want[countInArrays[this.numSemesters]] = savedSchedule[i][1];
-        countInArrays[this.numSemesters] = countInArrays[this.numSemesters] + 1;
-      }
-      else {
-        this.semesters[countInArrays[i]] = savedSchedule[i][1];
-        countInArrays[i] = countInArrays[i] + 1;
-      }
-    }
-    //add a function call to update the checklist
   }
 
   /* Returns JSON object of title of Rule -> Course array
