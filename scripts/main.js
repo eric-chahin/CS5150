@@ -402,10 +402,13 @@ function getNewPageHTML() {
 function getNewPageFunctions() {
   $("#revise_year").val(user.current_schedule.startYear);
   var curr_version = user.current_schedule.checklist.version;
+  var curr_college = "ENGR";
   if (curr_version.indexOf('_') >= 0) {
+    curr_college = curr_version.substring(curr_version.indexOf('_')+1);
     curr_version = curr_version.substring(0,curr_version.indexOf('_'));
   }
   $("#revise_version").val(curr_version);
+  $("#revise_college").val(curr_college);
 
   $("#revise_year").change(function() {
     var ver = getVersion($("#revise_year").val(),"");
