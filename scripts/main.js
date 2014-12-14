@@ -438,6 +438,7 @@ function getNewPageFunctions() {
       } else {
         document.getElementById("checklisttitle_sub").innerHTML = "College of Arts and Sciences";
       }
+      setSemesterYear(user.current_schedule.startYear);
       $.magnificPopup.close();
     }
 
@@ -513,6 +514,7 @@ function getLoadPageFunctions() {
       } else {
         document.getElementById("checklisttitle_sub").innerHTML = "College of Arts and Sciences";
       }
+      setSemesterYear(user.current_schedule.startYear);
       $.magnificPopup.close();
     }
     return false;
@@ -632,6 +634,14 @@ function setupMagnificPopup() {
   });
 }
 
+function setSemesterYear(startyear) {
+    var second_half = startyear.substring(2);
+    for (var i = 1; i <= 8; i++) {
+        var sem_index = "sem_title_year_"+i;
+        document.getElementById(sem_index).innerHTML = (i%2 == 0 ? "SPRING " : "FALL ") + (parseInt(second_half) + Math.floor(i/2));
+    }
+}
+
 
 /* Retreive information about the user.  Netid will be a CGI variable that we can retrieve, and we use it to obtain user's name using LDAP.  
    The data will be returned in the form <netid> ; <name> (i.e.e delimited by a semicolon) */
@@ -664,6 +674,7 @@ function finalizeWebsite() {
   checklistDrag();
   setVectorDropDowns();
   setVectorInfo(loader.checklistVectorData);
+  setSemesterYear(user.current_schedule.startYear);
   //Save the schedule to save in loaded potential courses
   user.save_schedule("false", getVectorInfo(), getPotentialCourseString());
 }
