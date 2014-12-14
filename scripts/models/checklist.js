@@ -201,7 +201,6 @@ var Checklist = function(version) {
 
   /* Loads the HTML for the checklist. Essential when creating a new Checklist object. */
   this.createChecklistHTML = function() {
-    var leftChecklistRows = 19;
     var count = 0;
     var header = "";
     var checklistclass = ".classleftrow";
@@ -211,12 +210,15 @@ var Checklist = function(version) {
       checkboxes_html +=  "<input type='checkbox' name='checkbox_"+check_i+"' id='checkbox_"+check_i+"' value='checkbox_"+check_i+"'> "+n+"<br>";
     }
 
+    var building_left = true;
     for (var rule in checklist_rules) {
       for (var i = 0; i < checklist_rules[rule].slots; i++) {
         
-       
-        if (count == leftChecklistRows) {
+        var switching_to_right = false;
+        if (header !== "" && header != checklist_rules[rule].header && building_left) {
            checklistclass = ".classrightrow";
+           building_left = false;
+           switching_to_right = true;
         }
         
         if (header != checklist_rules[rule].header) {
@@ -238,11 +240,11 @@ var Checklist = function(version) {
                  "  </div><div class='course-credit'></div>" +
                  "<div class='course-semester'></div> " +
                  " </div></div>");
-      if (count == leftChecklistRows) {
-         $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
-                                  "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+checkboxes_html+"</div>");      
-      }
-      count++;
+        if (switching_to_right) {
+           $(".classleftrow").append("<div class ='unassigned-box'><div class='classRow'>Unassigned Courses</div>" + 
+                                    "<div class ='unassigned-classes'></div></div><div class ='checkbox-requirements'>"+checkboxes_html+"</div>");      
+        }
+        count++;
       }
          
     }
