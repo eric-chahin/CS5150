@@ -1,0 +1,51 @@
+Cornell University Department of Computing and Information Science
+
+Non-exclusive reproduction, modification, and distribution license
+The following is an agreement between the individuals listed at the end of this 
+agreement, hereinafter referred to as the Authors, and the Cornell University 
+Department of Computing and Information Science, hereinafter referred to as the 
+Department of Computing and Information Science, concerning the Cornell University 
+Department of Computing and Information Science website and its source code 
+developed by the Authors as part of a CS 5150 project during Fall semester, 2014, 
+hereinafter referred to as the Work.
+
+Authors' Grant of Rights
+Subject to the terms and conditions of this license, the Authors grant to the 
+Department of Computing and Information Science for the duration of the copyright 
+of the Work the non-exclusive royalty-free world-wide right to reproduce, modify, 
+adapt, prepare derivative works, distribute, publish, transmit, perform and display 
+publicly the Work, or any portion of it, in any language and in any form in any medium, now known or 
+hereafter developed, including print, digital, hypertext, or any other medium.
+
+Under this non-exclusive royalty-free license, the Department of Computing and 
+Information Science is free to sell or give copies of the Work and any derivatives 
+made from the Work. The Department of Computing and Information Science can also 
+license others to use or modify the Work, all such sublicenses are limited to 
+non-commercial uses. The Work is a joint work of copyright and this non-exclusive 
+royalty-free license will be valid if signed by at least one member of the team.
+
+Authors’ Ownership of Copyright and Reservation of Rights
+The Authors will maintain copyright in the Work.  Should they wish to commercialize 
+the Work, they are free to do so. 
+The Department of Computing and Information Science will keep intact the copyright 
+notice for the work and, to the extent reasonably practicable, a credit identifying 
+the use of the Work in any adaptations.
+Copyright in any adaptations or improvements made to the Work by Cornell University 
+or any other future authors shall belong to Cornell University and may only be included 
+in the new versions made by the Authors with the Department of Computing and Information 
+Science’s permission.
+
+
+Authors' Warranties and Disclaimer
+Authors offer the work as-is and make no representations or warranties of any kind 
+concerning the work, express, implied, statutory or otherwise, including, without 
+limitation, warranties of title, merchantability, fitness for a particular purpose, 
+or the absence of latent or other defects, accuracy, or the presence of absence of 
+errors, whether or not discoverable.
+If the Work contains material for which you do not hold copyright, you represent 
+that you have obtained the unrestricted permission of the copyright owner to 
+grant the Department of Computing and Information Science the rights required by
+this license.
+Signed, 
+Aditi Aggrwal, Eric Chahin, Athena Cole, Ben Dreier, Alex Gatto, Victor Hom, Chris Merrill, Kristin Murray
+12/15/2014

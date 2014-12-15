@@ -15,3 +15,13 @@ Team members:
 * Victor Hom
 * Chris Merrill
 * Kristin Murray
+
+Feel free to submit pull requests or issues!
+
+Note: The license listed in license.txt applies for all original work in this 
+repository, excluding the sublicenses of the open source software used.
+
+This code may not be used or distributed without the permission of the owner,
+Cornell University Department of Computing and Information Science. Any future developers
+working on this code must forfeit the ownership of their contribution to 
+the owner of the project.
