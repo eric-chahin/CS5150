@@ -630,6 +630,7 @@ function setupMagnificPopup() {
       vec_data = getVectorInfo();
       user.save_schedule("false", vec_data, getPotentialCourseString());
   });
+  makePopup("#start_schedule_error","<h5 id='schedule_error_msg' style='display:none;color: #d00a0a'></h5>", function() {});
 }
 
 function setSemesterYear(startyear) {

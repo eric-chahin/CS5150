@@ -212,7 +212,11 @@ function applyrun() {
         } else {
           this.innerHTML = dragSrc.innerHTML;
           dragSrc.innerHTML = e.dataTransfer.getData('text/html');
-          alert(dragSrc.textContent + " or a crosslist is already in your schedule! :(");
+          //Error message for user
+          $("#start_schedule_error").click();
+          $("#schedule_error_msg").fadeIn(700);
+          $("#schedule_error_msg").text(dragSrc.textContent + " or a course crosslisted with it is already in your schedule.");
+
         }
       } else {
         //just swapping divs elsewhere, don't care
