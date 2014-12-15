@@ -59,7 +59,7 @@ if (strlen($search_string) >= 1 && $search_string !== ' ') {
 	}
 	$search_space_deleted = trim($search_space_deleted);
 
-	$query = 'SELECT * FROM courses WHERE course_listing REGEXP "^'.$search_space_deleted.'" LIMIT 15';
+	$query = 'SELECT * FROM courses WHERE course_listing REGEXP "^'.$search_space_deleted.'"';
 	$result = $tutorial_db->query($query);
 	while($results = $result->fetch_array()) {
 		$result_array[] = $results;
