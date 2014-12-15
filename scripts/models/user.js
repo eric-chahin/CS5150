@@ -5,8 +5,6 @@
 * @param version
 */
 
-//TODO: change constructor for User to include start_year
-//TODO: save this.numSemesters somewhere 
 var User = function(name, netid, vers, next_schedule_num, current_schedule, start_year) {
 
   this.add_new_schedule = function(schedule_name, version, start_year) {
