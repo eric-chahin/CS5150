@@ -148,7 +148,7 @@ var Loader = function() {
     var passedColors = [];
     for (var i = 0; i < colors.length; i++) {
       var color = colors[i];
-      var test_url = "/CS5150/img/hexagon_"+color+".png";
+      var test_url = "img/hexagon_"+color+".png";
       $.ajax({
         type: "GET",
         url:  test_url,

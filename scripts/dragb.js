@@ -92,11 +92,11 @@ function applyrun() {
 
     //changing the trashbin to being selected
     setTimeout(function(){
-      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_selected.png)");
-      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new_grayed.png)");
-      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load_grayed.png)");
-      $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_grayed.png)");
-      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print_grayed.png)");
+      $("#remove").css("background-image", "url(img/sidebar/icon_remove_selected.png)");
+      $("#new").css("background-image", "url(img/sidebar/icon_new_grayed.png)");
+      $("#load").css("background-image", "url(img/sidebar/icon_load_grayed.png)");
+      $("#save").css("background-image", "url(img/sidebar/icon_save_grayed.png)");
+      $("#print").css("background-image", "url(img/sidebar/icon_print_grayed.png)");
     }, 100);
       
     // Make the left schedule slider trigger an action
@@ -246,15 +246,15 @@ function applyrun() {
     checklist_view.fillEmptyScheduleSpots();
     //handling the scrollbar buttons
     setTimeout(function(){
-      $("#remove").css("background-image", "url(/CS5150/img/sidebar/icon_remove_grayed.png)");
-      $("#new").css("background-image", "url(/CS5150/img/sidebar/icon_new.png)");
-      $("#load").css("background-image", "url(/CS5150/img/sidebar/icon_load.png)");
+      $("#remove").css("background-image", "url(img/sidebar/icon_remove_grayed.png)");
+      $("#new").css("background-image", "url(img/sidebar/icon_new.png)");
+      $("#load").css("background-image", "url(img/sidebar/icon_load.png)");
       if (user.current_schedule._saved == true) {
-        $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save.png)");
+        $("#save").css("background-image", "url(img/sidebar/icon_save.png)");
       } else {
-        $("#save").css("background-image", "url(/CS5150/img/sidebar/icon_save_unsaved.png)");
+        $("#save").css("background-image", "url(img/sidebar/icon_save_unsaved.png)");
       }
-      $("#print").css("background-image", "url(/CS5150/img/sidebar/icon_print.png)");
+      $("#print").css("background-image", "url(img/sidebar/icon_print.png)");
     }, 100);
   }
 

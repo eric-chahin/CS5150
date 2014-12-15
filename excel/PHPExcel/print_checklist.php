@@ -46,7 +46,7 @@ require_once dirname(__FILE__) . '/Classes/PHPExcel/IOFactory.php';
 require_once('../PHPMailer/class.phpmailer.php');
 
 
-// add "?test" to the end of "CS5150/excel/PHPExcel/print_checklist.php" to utilize these vars
+// add "?test" to the end of "excel/PHPExcel/print_checklist.php" to utilize these vars
 $istest = false;
 if (isset($_GET['test'])) {
   $_POST['name'] = "Your Name";

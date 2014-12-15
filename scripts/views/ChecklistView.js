@@ -65,15 +65,15 @@ var ChecklistView = function() {
     var cols = document.querySelectorAll('.dragcolumn');
     [].forEach.call(cols, function (col) {
       if (col.innerHTML == "") {
-        $(col).css( "background-image", "url(/CS5150/img/hexagon_unfilled.png)");
+        $(col).css( "background-image", "url(img/hexagon_unfilled.png)");
       } else {
         var listing = col.innerText.replace(" ","");
         var color = HEXAGON_COLORS[listing];
         if (color) {
-          var color_url = "/CS5150/img/hexagon_"+color+".png";
+          var color_url = "img/hexagon_"+color+".png";
           $(col).css( "background-image", "url("+color_url+")");
         } else {
-          $(col).css( "background-image", "url(/CS5150/img/hexagon.png)");
+          $(col).css( "background-image", "url(img/hexagon.png)");
         }
       }
     }); 
