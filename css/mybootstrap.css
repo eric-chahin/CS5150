@@ -2289,17 +2289,17 @@ input[type="button"].btn-block {
 .glyphicon-chevron-left:before {
   content: "\e079";
   /*customize the arrow*/
-  color: #000;
-  font-size: 2.2em;
+  color: #005d74;
+  font-size: 2.5em;
   position: relative;
-  right: 20px;
+  right: 25px;
 }
 
 .glyphicon-chevron-right:before {
   content: "\e080";
   /*customize the arrow*/
-  color: #000;
-  font-size: 2.2em;
+  color: #005d74;
+  font-size: 2.5em;
   position: relative;
   right: 5px;
 }
@@ -5469,9 +5469,9 @@ button.close {
   font-size: 20px;
   color: #ffffff;
   text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  opacity: 0.8;
-  filter: alpha(opacity=80);
+  text-shadow: 1px 1px 0px rgba(0,0,0,1);
+  opacity: 0.9;
+  filter: alpha(opacity=90);
 }
 
 .carousel-control.left {
