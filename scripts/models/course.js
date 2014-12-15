@@ -59,10 +59,14 @@ var Course = function(listing, requirement_filled) {
   /* To use with popup. Returns HTML description of course from COURSE_INFORMATION. */
   this.prettyPrint = function() {
     var info = COURSE_INFORMATION.get(this.listing);
+    var libstuds_category = info.arts_tags !== "" ? "<b>LIBERAL STUDIES CATEGORY:</b> " + 
+      info.arts_tags + "<br>" : "";
     return "<b>LISTING:</b> " + this.listing + "<br>" + 
            "<b>TITLE:</b> " + info.title + "<br>" +
            "<b>USUALLY OFFERED:</b> " + info.seasons + "<br>" +
-           "<b>DESCRIPTION:</b> " + info.description;
+           libstuds_category +
+           "<b><h6>PREREQUISITES:</h6></b> " + info.prerequisites + "<br>" +
+           "<b><h6>DESCRIPTION:</h6></b> " + info.description;
   }
 
 };

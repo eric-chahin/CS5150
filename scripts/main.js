@@ -428,7 +428,7 @@ function getNewPageFunctions() {
       user.save_schedule("false", vec_data, getPotentialCourseString());
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
       var new_version = $("#revise_version").val()+"_"+$("#revise_college").val();
-      if ($("#revise_college").val() === "A&S") alert("TODO: Put in A&S checklists");
+      //if ($("#revise_college").val() === "A&S") alert("TODO: Put in A&S checklists"); //ERC73 TODO: is this line necessary anymore?
       user.add_new_schedule(name, new_version, parseInt($("#revise_year").val())); //ERC73 TODO: get version from form fields
       setVectorDropDowns();
       loader.applyUser(user);

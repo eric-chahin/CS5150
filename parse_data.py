@@ -3,6 +3,7 @@ from unidecode import unidecode
 import requests
 import pdb
 import traceback
+import sys
 
 COURSE_ROSTER_API_CLASSES = 'https://classes.cornell.edu/api/2.0/search/classes.xml?roster='
 COURSE_ROSTER_API_SUBJECT = 'https://classes.cornell.edu/api/2.0/config/subjects.xml?roster='
@@ -54,10 +55,10 @@ def getIndividualSubject(roster_semester,subject):
       print '-' * 50
 
 
-def main():
+def main(sem1, sem2):
   #Go through new and old
-  getCourseInformation('FA14') # goes through Fall   2014
-  getCourseInformation('SP15') # goes through Spring 2015
+  getCourseInformation(sem1) 
+  getCourseInformation(sem2) 
   course_lst = []
   for k in COURSE_DICT:
     course_lst.append(str(COURSE_DICT[k]) + '\n')
@@ -83,4 +84,27 @@ class Course(object):
   def __str__(self):
     return ";;;".join([self.course_listing,self.name,self.credits,self.offered,self.arts_tags,self.prerequisites,self.crosslisted_classes,self.description])
 
-main()
+if __name__ == '__main__':
+  warn = len(sys.argv) != 3
+  if not warn:
+    if sys.argv[1].find('FA') == -1 and sys.argv[1].find('SP') == -1:
+      warn = True
+    if sys.argv[2].find('FA') == -1 and sys.argv[2].find('SP') == -1:
+      warn = True
+    try:
+      int(sys.argv[1][2:])
+      int(sys.argv[2][2:])
+    except:
+      warn = True
+
+  if warn:
+    print "CHECKLIST INTERACTIVE ADMIN: "
+    print 'Please supply the correct arguments.'
+    print 'The arguments should be the current semester and the upcoming semester.'
+    print 'For example, if it is Fall 2014, run `python parse_data.py FA14 SP15`'
+    print 'This will take care of Fall 2014 and Spring 2015, which is the most current set of courses.'
+    print 'For a sanity check, make sure that "classes.cornell.edu/browse/roster/FA14" works in your web browser where'
+    print '   you should substitue "FA14" for the semesters you are trying to grab.'
+    raise Exception()
+
+  main(sys.argv[1], sys.argv[2])
