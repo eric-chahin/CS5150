@@ -253,9 +253,9 @@ function getSplashPageHTML() {
                         <input type="radio" id="A&S_radio"  name="college" value="A&S">&nbsp;Arts & Sciences';
   var splash_html = "<div id='splashPage'>                                      \
      <div class='popup-title'><img src='img/text_welcome.png'></div>                   \
-  <p>Welcome to Checklist Interactive!\
+  <p>Welcome to Checklist Interactive, "+users_name+"!<br>\
     This tool is intended for Cornell\
-    University Computer Science students in the College of Engineering to plan\
+    University Computer Science students to plan\
     out their four years at Cornell in a smart and efficient manner. We want\
     students to be able to take all of the courses that they want to, while\
     fulfilling all of the requirements that they need to graduate.</p>\
@@ -687,7 +687,7 @@ $(document).ready(function(){
   //(course_id -> Course_information object)
   
   netid = "abc123";
-  users_name = "need to get this somehow"
+  users_name = "John Doe";
                   
   /* TODO: uncomment this block of code when copying to server
   userInfo = getLdAP();
