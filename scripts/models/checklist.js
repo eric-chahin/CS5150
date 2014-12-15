@@ -77,6 +77,7 @@ var Checklist = function(version) {
 
   function get_checkboxes_from_server(ver) {
     var checkbox_array = [];
+    var vector_checkbox_array = [];
     if(ver !== ''){
       $.ajax({
         type:     "GET",
@@ -87,12 +88,16 @@ var Checklist = function(version) {
         cache: false,
         success: function(data){
           for (var x = 0; x < data.length; x++) {
-            checkbox_array.push(new Checkbox(data[x]['title'],data[x]['excel_cell']));
+            if (data[x]['title'].indexOf("VECTOR") >= 0) {
+              vector_checkbox_array.push(new Checkbox(data[x]['title'],data[x]['excel_cell']));
+            } else {
+              checkbox_array.push(new Checkbox(data[x]['title'],data[x]['excel_cell']));
+            }
           }
         }
       });
     }
-    return checkbox_array;
+    return [checkbox_array,vector_checkbox_array];
   }
 
   /* Given a course listing and forbidden list, return true if this course is
@@ -312,7 +317,10 @@ var Checklist = function(version) {
   get_tags_from_server(version);
   get_rules_from_server(version);
   get_vectors_from_server(version);
-  this.checkboxes = get_checkboxes_from_server(version); //Array of Checkboxes
+  var chkbox_array = get_checkboxes_from_server(version);
+  this.checkboxes = chkbox_array[0];
+  // Data structure that holds the excel cell location of the vector pulldown and checkboxes
+  this.vector_checkboxes = chkbox_array[1];
   checklist_rules = tmp_rules;
   vectors = vectorDict;
   //TEST

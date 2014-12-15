@@ -5,7 +5,7 @@ var Panel = function() {
   $("#print").click(
     function() {
       // Save checklist
-      user.save_schedule("false");
+      user.save_schedule("false", getVectorInfo(), getPotentialCourseString());
       if ($(".unassigned-classes > div").length > 0) {
         if (!confirm("There are still some unassigned courses on your checklist " + 
           "that won't be included in the download. Would you like to continue?")) {
@@ -17,6 +17,17 @@ var Panel = function() {
       var netid = user.netid;
       var version = user.current_schedule.checklist.version;
       var cellsToFill = {'B4':'Name: ' + name,'B5':'Email: ' + netid + '@cornell.edu'}; //Dictionary of cell name to value
+      //Initialize checkboxes and vector information
+      var checkboxes  = user.current_schedule.checklist.checkboxes;
+      for (var i = 0; i < checkboxes.length; i++) {
+        cellsToFill[checkboxes[i].excel_cell] = document.getElementById('checkbox_' + i).checked ? "YES" : "NO";
+      }
+      var vector_chks = user.current_schedule.checklist.vector_checkboxes;
+      for (var i = 0; i < vector_chks.length; i++) {
+        var cells = vector_chks[i].excel_cell.split(";");
+        cellsToFill[cells[0]] = $("#vector" + (i+1)).val();
+        cellsToFill[cells[1]] = document.getElementById("completedVec" + (i+1)).checked ? "YES" : "NO";
+      }
       user.current_schedule.getExcelLocations(cellsToFill);
       var html = getFormHtmlForPrinting(name, netid, version, cellsToFill);
       // Put html into div w. jquery
