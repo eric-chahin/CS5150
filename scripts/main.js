@@ -1,8 +1,5 @@
 /* Class: Loader is a singleton that contains methods to load the data into the website */
 
-//TODO: pass netid from weblogin into loader, must be used in Ajax call to user database
-//TODO: pass all LDAP information into loader
-//TODO: save this.numSemesters somewhere
 var Loader = function() {
   /* Retrieves User information.
      Returns: User object */
@@ -71,9 +68,7 @@ var Loader = function() {
       } else {
         document.getElementById("checklisttitle_sub").innerHTML = "College of Arts and Sciences";
       }
-      scheds = [];
-      scheds[scheds.length] = s; //TODO: schema for adding schedules to schedule list?
-      user = new User(name, netid, version, next_schedule_num, current_schedule_id, scheds, start_year);
+      user = new User(name, netid, version, next_schedule_num, s, start_year);
       this.checklistVectorData = checklist_data;
       this.potentialData = potential_data;
       return user;
@@ -336,7 +331,7 @@ function getSplashPageFunctions() {
       $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
       var college = document.getElementById("A&S_radio").checked ? "A&S" : "ENGR";
-      user = new User(users_name, netid, getVersion(enteringYear,college), null, null, null, enteringYear);
+      user = new User(users_name, netid, getVersion(enteringYear,college), null, null, enteringYear);
       if (college == "ENGR") {
         document.getElementById("checklisttitle_sub").innerHTML = "College of Engineering";
       } else {
@@ -422,7 +417,11 @@ function getNewPageFunctions() {
     // TODO: Also do a check to make sure you cannot enter a schedule with the same name
     if (name.trim() == "") {
       $("#new_schedule_warning").text("Please enter a name for this schedule.");
-    } else {
+    }
+    else if (name.length > 50) {
+      $("#new_schedule_warning").text("Schedule name cannot exceed 50 characters.");
+    }
+    else {
       vec_data = getVectorInfo();
       user.save_schedule("false", vec_data, getPotentialCourseString());
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
@@ -564,7 +563,9 @@ function getVectorInfo() {
     return elems.join("#");
 }
 
-
+/* Repopulates vector checkboxes / dropdowns based on the info last saved
+ * in the db for this data
+ */
 function setVectorInfo(checklist_data) {
     var vector1 = document.getElementById("vector1");
     var options1 = document.getElementById("vector1").options;
