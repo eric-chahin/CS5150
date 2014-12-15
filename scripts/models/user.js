@@ -7,13 +7,12 @@
 
 //TODO: change constructor for User to include start_year
 //TODO: save this.numSemesters somewhere 
-var User = function(name, netid, vers, next_schedule_num, current_schedule_id, schedules, start_year) {
+var User = function(name, netid, vers, next_schedule_num, current_schedule, start_year) {
 
   this.add_new_schedule = function(schedule_name, version, start_year) {
   	var new_schedule_id = this.netid + "_" + this.next_schedule_num;
   	this.next_schedule_num = parseInt(this.next_schedule_num) + 1;
   	this.current_schedule = new Schedule(schedule_name, version, new_schedule_id, [], start_year);
-  	this.schedules[this.schedules.length] = this.current_schedule;
       
     initialized_checklist_data = "Select Vector#Select Vector#false#false#false#false";
     this.save_schedule("true", initialized_checklist_data);
@@ -107,22 +106,15 @@ var User = function(name, netid, vers, next_schedule_num, current_schedule_id, s
   this.netid = netid;
   if (!vers)
     console.error("Version is null or undefined.");
-  this.schedules = schedules; //Should be an array of Schedule objects
-  if (!this.schedules || this.schedules.length == 0) {
+  if (!current_schedule || current_schedule.length == 0) {
     //New user
     this.next_schedule_num = 0;
-    this.schedules = [];
     this.current_schedule = null; //Of type Schedule object
     this.add_new_schedule("First Schedule", vers, start_year);
   } else {
     //Loading old user
     this.next_schedule_num = next_schedule_num;
-    this.current_schedule = null; //Of type Schedule object
-    for (var i = 0; i < schedules.length; i++) {
-      if (this.schedules[i].id == current_schedule_id) {
-        this.current_schedule = this.schedules[i];
-      }
-    }
+    this.current_schedule = current_schedule;
     if (!this.current_schedule) {
       console.log("The current schedule could not be found. Check user data integrity.");
     }
