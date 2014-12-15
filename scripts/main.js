@@ -336,7 +336,6 @@ function getSplashPageFunctions() {
       $("#splash_warning").text("Please, select your first academic year at Cornell.");
     } else {
       var college = document.getElementById("A&S_radio").checked ? "A&S" : "ENGR";
-      //TODO: the A&S checklist looks weird...fix its look
       user = new User(users_name, netid, getVersion(enteringYear,college), null, null, null, enteringYear);
       if (college == "ENGR") {
         document.getElementById("checklisttitle_sub").innerHTML = "College of Engineering";
@@ -428,8 +427,7 @@ function getNewPageFunctions() {
       user.save_schedule("false", vec_data, getPotentialCourseString());
       checklist_view.wipeViewsClean(user.current_schedule.numSemesters);
       var new_version = $("#revise_version").val()+"_"+$("#revise_college").val();
-      //if ($("#revise_college").val() === "A&S") alert("TODO: Put in A&S checklists"); //ERC73 TODO: is this line necessary anymore?
-      user.add_new_schedule(name, new_version, parseInt($("#revise_year").val())); //ERC73 TODO: get version from form fields
+      user.add_new_schedule(name, new_version, parseInt($("#revise_year").val()));
       setVectorDropDowns();
       loader.applyUser(user);
       document.getElementById("sidebarTitle").innerHTML = name;
@@ -635,6 +633,7 @@ function setupMagnificPopup() {
 }
 
 function setSemesterYear(startyear) {
+    startyear = "" + startyear;
     var second_half = startyear.substring(2);
     for (var i = 1; i <= 8; i++) {
         var sem_index = "sem_title_year_"+i;
