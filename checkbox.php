@@ -27,7 +27,6 @@ $version = $_GET['version'];
 $query = 'SELECT * FROM checkboxes WHERE version ="'.$version.'"';
 
 $result = $tutorial_db->query($query);
-$result_array = [];
 while($results = $result->fetch_array()) {
   $result_array[] = $results;
 }
