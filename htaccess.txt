@@ -1,0 +1,4 @@
+AuthName cornell
+AuthType all
+require valid-user
+DirectoryIndex index.php
