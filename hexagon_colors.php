@@ -27,7 +27,6 @@ $query = 'SELECT * FROM hexagon_colors';
 // Do Search
 $result = $tutorial_db->query($query);
 
-$result_array = [];
 while($results = $result->fetch_array()) {
   $result_array[] = $results;
 }
